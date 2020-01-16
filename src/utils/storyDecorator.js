@@ -4,8 +4,8 @@ import "@vonagevolta/test/dist/css/volta.css";
 
 export default function decorator(storyFn){
   return (
-    <div>
+    <React.Fragment>
       {storyFn()}
-    </div>
+    </React.Fragment>
   )
 }
