@@ -4,8 +4,8 @@ import voltaIcons from "@vonagevolta/test/dist/symbol/volta-icons.svg";
 import CompanyLogo from "components/SideNavigation/CompanyLogo";
 import Greetings from "components/SideNavigation/Greetings";
 import SingleMenu from "components/SideNavigation/SingleMenu";
-import NestedMenu from "components/SideNavigation/NestedMenu";
 import MenuSeparator from "components/SideNavigation/MenuSeparator";
+import BlasterMenu from "components/SideNavigation/BlasterMenu";
 
 function SideNavigation(props){
   return (
@@ -24,10 +24,7 @@ function SideNavigation(props){
 
         <div className="Vlt-sidenav__scroll">
           <ul className="Vlt-sidemenu">
-            <NestedMenu icon="Vlt-icon-rocket" label="Blaster">
-              <SingleMenu icon="Vlt-icon-download" label="Download Template"/>
-              <SingleMenu icon="Vlt-icon-upload" label="Upload Template"/>
-            </NestedMenu>
+            <BlasterMenu/>
             <MenuSeparator>Configurations</MenuSeparator>
             <SingleMenu icon="Vlt-icon-key" label="API Key"/>
             <SingleMenu icon="Vlt-icon-keypad" label="Application"/>
