@@ -24,6 +24,7 @@ function SideNavigation(props){
 
         <div className="Vlt-sidenav__scroll">
           <ul className="Vlt-sidemenu">
+            <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard"/>
             <BlasterMenu/>
             <MenuSeparator>Configurations</MenuSeparator>
             <SingleMenu icon="Vlt-icon-key" label="API Key"/>
