@@ -8,6 +8,8 @@ import MenuSeparator from "components/SideNavigation/MenuSeparator";
 import BlasterMenu from "components/SideNavigation/BlasterMenu";
 
 function SideNavigation(props){
+  const { menuActive } = props;
+
   return (
     <React.Fragment>
       <header className="Vlt-sidenav__mobile Vlt-sidenav__mobile--dark">
@@ -27,8 +29,8 @@ function SideNavigation(props){
             <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard"/>
             <BlasterMenu/>
             <MenuSeparator>Configurations</MenuSeparator>
-            <SingleMenu icon="Vlt-icon-key" label="API Key"/>
-            <SingleMenu icon="Vlt-icon-keypad" label="Application"/>
+            <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive.apiKey}/>
+            <SingleMenu icon="Vlt-icon-keypad" label="Application" active={menuActive.application}/>
             <SingleMenu icon="Vlt-icon-mind-map" label="Channel"/>
             <SingleMenu icon="Vlt-icon-stack" label="Template"/>
             <SingleMenu icon="Vlt-icon-gallery" label="Media"/>
@@ -39,6 +41,10 @@ function SideNavigation(props){
       </div>
     </React.Fragment>
   )
+}
+
+SideNavigation.defaultProps = {
+  menuActive: { apiKey: false }
 }
 
 export default SideNavigation;
