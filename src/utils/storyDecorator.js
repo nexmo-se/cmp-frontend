@@ -1,6 +1,6 @@
-import React from "react";
-
 import "@vonagevolta/test/dist/css/volta.css";
+
+import React from "react";
 
 export default function decorator(storyFn){
   return (
