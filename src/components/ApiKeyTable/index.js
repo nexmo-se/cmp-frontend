@@ -25,7 +25,7 @@ function ApiKeyTable(props){
       <TableBody>
         {data.map((apiKey) => {
           return(
-            <TableRow>
+            <TableRow key={apiKey.id}>
               <TableColumn>{apiKey.id}</TableColumn>
               <TableColumn>{apiKey.name}</TableColumn>
               <TableColumn>{apiKey.key}</TableColumn>

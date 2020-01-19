@@ -4,6 +4,7 @@ import voltaIcons from "@vonagevolta/test/dist/symbol/volta-icons.svg";
 import TextInput from "components/TextInput";
 import PasswordInput from "components/PasswordInput";
 import Dropdown from "components/Dropdown";
+import AddButton from "components/AddButton";
 
 function AddNewApiKey(props){
   return (
@@ -35,10 +36,7 @@ function AddNewApiKey(props){
           </div>
         </div>
         <div className="Vlt-right">
-          <button className="Vlt-btn Vlt-btn--primary Vlt-btn--app">
-            <svg><use xlinkHref={`${voltaIcons}#Vlt-icon-plus`}/></svg>
-            Add New
-          </button>
+          <AddButton>Add New Key</AddButton>
         </div>
       </div>
     </div>

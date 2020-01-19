@@ -33,7 +33,7 @@ function SideNavigation(props){
             <SingleMenu icon="Vlt-icon-mind-map" label="Channel"/>
             <SingleMenu icon="Vlt-icon-stack" label="Template"/>
             <SingleMenu icon="Vlt-icon-gallery" label="Media"/>
-            <SingleMenu icon="Vlt-icon-packet" label="Campaign"/>
+            <SingleMenu icon="Vlt-icon-packet" label="Campaign" active={menuActive.campaign}/>
           </ul>
         </div>
       </div>
@@ -42,7 +42,7 @@ function SideNavigation(props){
 }
 
 SideNavigation.defaultProps = {
-  menuActive: { apiKey: false }
+  menuActive: { apiKey: false, application: false, campaign: false }
 }
 
 export default SideNavigation;
