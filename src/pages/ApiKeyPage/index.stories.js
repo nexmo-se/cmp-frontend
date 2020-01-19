@@ -14,16 +14,5 @@ export default {
 }
 
 export const Default = () => <ApiKeyPage/>
-export const WithDummyData = () => {
-  return(
-    <PageContainer>
-      <SideNavigation menuActive={{ apiKey: true }}/>
-      <SectionContainer>
-        <ApiKeyDashboard dummy={true}/>
-      </SectionContainer>
-    </PageContainer>
-  )
-}
 
 Default.story = { name: "default" }
-WithDummyData.story = { name: "With Dummy Data" }

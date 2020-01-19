@@ -25,9 +25,13 @@ function CampaignPage(props){
           </div>
         </div>
 
-        <div className="Vlt-grid">
+        <div className="Vlt-grid">  
           <div className="Vlt-col">
-            <CampaignTable/>
+            <div className="Vlt-card">
+              <div className="Vlt-card__content">
+                <CampaignTable/>
+              </div>
+            </div>
           </div>
         </div>
 
