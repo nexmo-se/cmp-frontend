@@ -1,12 +1,11 @@
 import React from "react";
-import voltaIcons from "@vonagevolta/test/dist/symbol/volta-icons.svg";
 
 import TextInput from "components/TextInput";
 import PasswordInput from "components/PasswordInput";
 import Dropdown from "components/Dropdown";
 import AddButton from "components/AddButton";
 
-function AddNewApiKey(props){
+function AddNewApiKey(){
   return (
     <div className="Vlt-card Vlt-card--border">
       <div className="Vlt-card__content">

@@ -4,7 +4,6 @@ import PageContainer from "components/PageContainer";
 import SideNavigation from "components/SideNavigation";
 import SectionContainer from "components/SectionContainer";
 import AddButton from "components/AddButton";
-import Button from "components/Button";
 import CampaignTable from "components/CampaignTable";
 
 function CampaignPage(props){
@@ -14,7 +13,6 @@ function CampaignPage(props){
       <SectionContainer>
         <div className="Vlt-grid">
           <div className="Vlt-col Vlt-right">
-            <Button type="tertiary">Generate Campign Template</Button>
             <AddButton>Add New Campaign</AddButton>
           </div>
         </div>
@@ -34,7 +32,6 @@ function CampaignPage(props){
             </div>
           </div>
         </div>
-
       </SectionContainer>
     </PageContainer>
   );

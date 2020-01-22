@@ -8,6 +8,7 @@ import TableRow from "components/Table/TableRow";
 import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
+import RowMenu from "components/CampaignTable/RowMenu";
 
 function CampaignTableComponent(props){
   const { data } = props;
@@ -21,6 +22,7 @@ function CampaignTableComponent(props){
           <TableHeader>Start Date</TableHeader>
           <TableHeader>End Date</TableHeader>
           <TableHeader>Status</TableHeader>
+          <TableHeader></TableHeader>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -40,6 +42,9 @@ function CampaignTableComponent(props){
               <TableColumn>{endDate}</TableColumn>
               <TableColumn>
                 <div className={`Vlt-badge ${badgeBackground} Vlt-white`}>{campaign.status}</div>
+              </TableColumn>
+              <TableColumn>
+                <RowMenu/>
               </TableColumn>
             </TableRow>
           )
