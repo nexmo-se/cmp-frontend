@@ -12,7 +12,8 @@ class ApiKeyAPI{
 
   static listApiKey(dummy=false){
     const keys = [];
-    for(let a=0; a < faker.random.number(20) && dummy; a++) keys.push(ApiKeyAPI.generateDummy());
+    const randomNumber = faker.random.number(20);
+    for(let a=0; a < randomNumber && dummy; a++) keys.push(ApiKeyAPI.generateDummy());
     return keys;
   }
 }

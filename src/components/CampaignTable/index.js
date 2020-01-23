@@ -17,11 +17,10 @@ function CampaignTableComponent(props){
     <Table>
       <TableHead>
         <TableRow>
-          <TableHeader>ID</TableHeader>
+          <TableHeader></TableHeader>
           <TableHeader>NAME</TableHeader>
           <TableHeader>START DATE</TableHeader>
           <TableHeader>END DATE</TableHeader>
-          <TableHeader>STATUS</TableHeader>
           <TableHeader></TableHeader>
         </TableRow>
       </TableHead>
@@ -36,13 +35,12 @@ function CampaignTableComponent(props){
 
           return (
             <TableRow key={campaign.id}>
-              <TableColumn>{campaign.id}</TableColumn>
-              <TableColumn>{campaign.name}</TableColumn>
-              <TableColumn>{startDate}</TableColumn>
-              <TableColumn>{endDate}</TableColumn>
               <TableColumn>
                 <div className={`Vlt-badge ${badgeBackground} Vlt-white`}>{campaign.status}</div>
               </TableColumn>
+              <TableColumn>{campaign.name}</TableColumn>
+              <TableColumn>{startDate}</TableColumn>
+              <TableColumn>{endDate}</TableColumn>
               <TableColumn>
                 <RowMenu/>
               </TableColumn>
