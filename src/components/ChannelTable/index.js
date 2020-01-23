@@ -32,7 +32,6 @@ function ChannelTableComponent(props){
           if(channel.channel === "sms") badgeBackground = "Vlt-bg-orange"
           else if(channel.channel === "whatsapp") badgeBackground = "Vlt-bg-green";
 
-          console.log(channel);
           return (
             <TableRow key={channel.id}>
               <TableColumn>

@@ -1,12 +1,12 @@
 import faker from "faker";
-import ApiKey from "entities/apiKey";
-import Application from "entities/application";
+import ApplicationAPI from "api/application";
+import ApiKeyAPI from "api/apiKey";
 import Channel from "entities/channel";
 
 class ChannelAPI{
   static generateDummy(){
-    const key = new ApiKey(faker.random.uuid(), faker.random.word(), faker.random.alphaNumeric(8));
-    const application = new Application(faker.random.word(), key, faker.random.uuid());
+    const application = ApplicationAPI.generateDummy();
+    const key = ApiKeyAPI.generateDummy();
     const channel = new Channel(faker.random.word(), faker.random.arrayElement([ "sms", "whatsapp" ]), faker.random.word(), key, faker.random.number(100), application, false);
     return channel;
   }

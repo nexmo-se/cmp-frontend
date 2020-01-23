@@ -4,23 +4,23 @@ import PageContainer from "components/PageContainer";
 import SideNavigation from "components/SideNavigation";
 import SectionContainer from "components/SectionContainer";
 import AddButton from "components/AddButton";
-import ChannelTable from "components/ChannelTable";
+import TemplateTable from "components/TemplateTable";
 
-function ChannelPage(props){
+function TemplatePage(){
   return (
     <PageContainer>
-      <SideNavigation menuActive={{ channel: true }}/>
+      <SideNavigation menuActive={{ template: true }}/>
       <SectionContainer>
-        
+
         <div className="Vlt-grid">
           <div className="Vlt-col Vlt-right">
-            <AddButton>Add New Channel</AddButton>
+            <AddButton>Add New Template</AddButton>
           </div>
         </div>
 
         <div className="Vlt-grid">
           <div className="Vlt-col">
-            <h5>ALL CHANNELS</h5>
+            <h5>ALL TEMPLATES</h5>
           </div>
         </div>
 
@@ -28,14 +28,13 @@ function ChannelPage(props){
           <div className="Vlt-col">
             <div className="Vlt-card">
               <div className="Vlt-card__content">
-                <ChannelTable/>
+                <TemplateTable/>
               </div>
             </div>
           </div>
         </div>
-
       </SectionContainer>
     </PageContainer>
   )
 }
-export default ChannelPage;
+export default TemplatePage;
