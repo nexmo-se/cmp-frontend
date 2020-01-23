@@ -42,7 +42,13 @@ function SideNavigation(props){
 }
 
 SideNavigation.defaultProps = {
-  menuActive: { apiKey: false, application: false, campaign: false, dashboard: false }
+  menuActive: { 
+    apiKey: false, 
+    application: false, 
+    campaign: false, 
+    dashboard: false,
+    application: false
+  }
 }
 
 export default SideNavigation;

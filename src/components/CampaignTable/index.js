@@ -18,10 +18,10 @@ function CampaignTableComponent(props){
       <TableHead>
         <TableRow>
           <TableHeader>ID</TableHeader>
-          <TableHeader>Name</TableHeader>
-          <TableHeader>Start Date</TableHeader>
-          <TableHeader>End Date</TableHeader>
-          <TableHeader>Status</TableHeader>
+          <TableHeader>NAME</TableHeader>
+          <TableHeader>START DATE</TableHeader>
+          <TableHeader>END DATE</TableHeader>
+          <TableHeader>STATUS</TableHeader>
           <TableHeader></TableHeader>
         </TableRow>
       </TableHead>
