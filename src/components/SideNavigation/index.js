@@ -25,7 +25,7 @@ function SideNavigation(props){
 
         <div className="Vlt-sidenav__scroll">
           <ul className="Vlt-sidemenu">
-            <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard"/>
+            <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive.dashboard}/>
             <SingleMenu icon="Vlt-icon-files" label="Reports"/>
             <MenuSeparator>Configurations</MenuSeparator>
             <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive.apiKey}/>
@@ -42,7 +42,7 @@ function SideNavigation(props){
 }
 
 SideNavigation.defaultProps = {
-  menuActive: { apiKey: false, application: false, campaign: false }
+  menuActive: { apiKey: false, application: false, campaign: false, dashboard: false }
 }
 
 export default SideNavigation;
