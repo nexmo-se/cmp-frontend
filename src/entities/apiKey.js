@@ -31,5 +31,14 @@ class APIKey{
       signatureMethod: this.signatureMethod
     }
   }
+
+  static fromJSON(value){
+    if(value === null) return new APIKey();
+    const key = new APIKey();
+    key.id = value.id;
+    key.name = value.name;
+    key.apiKey = value.apiKey;
+    return key;
+  }
 }
 export default APIKey;

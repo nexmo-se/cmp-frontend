@@ -17,5 +17,15 @@ class Channel{
     this.smsUseSignature = smsUseSignature;
     this.application = application;
   }
+
+  static fromJSON(value){
+    const ch = new Channel();
+    ch.id = value.id;
+    ch.name = value.name;
+    ch.channel = value.channel;
+    ch.senderId = value.senderId;
+    ch.tps = value.tps;
+    return ch;
+  }
 }
 export default Channel;

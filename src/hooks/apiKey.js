@@ -23,28 +23,9 @@ function useAPIKey(token){
     
     const responseData = await response.json();
     const newData = responseData.map((data) => {
-      const applications = data.cmpApplications.map((value) => {
-        const app = new Application();
-        app.id = value.id;
-        app.name = value.name;
-        app.applicationId = value.applicationId;
-        return app;
-      })
-
-      const channels = data.cmpChannels.map((value) => {
-        const ch = new Channel();
-        ch.id = value.id;
-        ch.name = value.name;
-        ch.channel = value.channel;
-        ch.senderId = value.senderId;
-        ch.tps = value.tps;
-        return ch;
-      })
-
-      const key = new APIKey();
-      key.id = data.id;
-      key.name = data.name;
-      key.apiKey = data.apiKey;
+      const applications = data.cmpApplications.map((value) => Application.fromJSON(value));
+      const channels = data.cmpChannels.map((value) => Channel.fromJSON(value));
+      const key = APIKey.fromJSON(data);
       key.cmpApplications = applications;
       key.cmpChannels = channels;
       return key;
