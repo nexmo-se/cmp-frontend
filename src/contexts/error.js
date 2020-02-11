@@ -1,6 +1,8 @@
 import React from "react";
 
-export const ErrorContext = React.createContext();
+import CriticalCallouts from "components/Callouts/Critical";
+
+export const ErrorContext = React.createContext({ throwError: () => {} });
 export default function ErrorProvider({ children }){
   const [ error, setError ] = React.useState(null);
 
@@ -8,20 +10,19 @@ export default function ErrorProvider({ children }){
     setError(err);
   }
 
-  function clearError(err){
+  function clearError(){
     setError(null);
   }
 
+  React.useEffect(() => {
+    if(error) window.Volta.flash.show("critical", 5000);
+  }, [ error ])
+
   return (
     <ErrorContext.Provider value={{ throwError, clearError }}>
-      {error?(
-        <div className="Vlt-callout Vlt-callout--critical">
-          <i></i>
-          <div className="Vlt-callout__content">
-            <p>{error.message}</p>
-          </div>
-        </div>
-      ): null}
+      <CriticalCallouts id="critical">
+        {error? error.message: ""}
+      </CriticalCallouts>
       {children}
     </ErrorContext.Provider>
   )
