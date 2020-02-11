@@ -5,10 +5,10 @@ import APIKey from "entities/apiKey";
 import Application from "entities/application";
 import Channel from "entities/channel";
 
-function useAPIKey(token, refreshToken){
+function useAPIKey(token){
   const [ data, setData ] = React.useState([]);
 
-  async function fetchData(){
+  async function list(){
     const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys`
     const response = await fetch(url, {
       method: "GET",
@@ -52,10 +52,6 @@ function useAPIKey(token, refreshToken){
     setData(newData);
   }
 
-  React.useEffect(() => {
-    fetchData();
-  }, [ refreshToken ]);
-
-  return data;
+  return { data, list };
 }
 export default useAPIKey;

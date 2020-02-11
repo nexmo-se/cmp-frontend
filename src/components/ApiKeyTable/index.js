@@ -14,9 +14,13 @@ import DetailColumn from "components/Table/DetailColumn";
 
 function APIKeyTable({ refreshToken }){
   const { token } = React.useContext(UserContext);
-  const data = useAPIKey(token, refreshToken);
+  const apiKey = useAPIKey(token);
 
-  if(data.length <= 0) return <Empty/>
+  React.useEffect(() => {
+    apiKey.list();
+  }, [ refreshToken ])
+
+  if(apiKey.data.length <= 0) return <Empty/>
   return (
     <Table>
       <TableHead>
@@ -31,7 +35,7 @@ function APIKeyTable({ refreshToken }){
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map((apiKey) => {
+        {apiKey.data.map((apiKey) => {
           return(
             <TableRow key={apiKey.id}>
               <TableColumn>{apiKey.id}</TableColumn>
