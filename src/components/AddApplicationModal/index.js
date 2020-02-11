@@ -28,6 +28,11 @@ function AddApplicationModal({ visible, setVisible, onAdded }){
   const mKey = useAPIKey(token);
   const mApplication = useApplication(token);
 
+  function handleCancel(e){
+    e.preventDefault();
+    setVisible(false);
+  }
+
   function extractPrivateKey(){
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -89,7 +94,7 @@ function AddApplicationModal({ visible, setVisible, onAdded }){
         </form>
       </ModalContent>
       <ModalFooter>
-        <Button type="tertiary" disabled={isAdding}>Cancel</Button>
+        <Button type="tertiary" disabled={isAdding} onClick={handleCancel}>Cancel</Button>
         <Button type="primary" onClick={handleAddNew} disabled={isAdding}>
           {isAdding?(
             <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
