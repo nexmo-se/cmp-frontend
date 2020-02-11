@@ -1,5 +1,5 @@
 import faker from "faker";
-import ApiKey from "entities/apiKey";
+import APIKey from "entities/apiKey";
 import Application from "entities/application";
 
 class ApplicationAPI{

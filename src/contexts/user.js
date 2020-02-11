@@ -4,7 +4,7 @@ import CustomError from "entities/error";
 
 export const UserContext = React.createContext();
 export default function UserProvider({ children }){
-  const [ token, setToken ] = React.useState(null);
+  const [ token, setToken ] = React.useState(localStorage.getItem("token"));
 
   async function login(l){
     const url = `${process.env.REACT_APP_BASE_API_URL}/auth/login`;
@@ -17,6 +17,7 @@ export default function UserProvider({ children }){
     if(response.status !== 200) throw new CustomError("login/err", `Error status: ${response.status}`);
 
     const { token } = await response.json();
+    localStorage.setItem("token", token);
     setToken(token);
   }
 

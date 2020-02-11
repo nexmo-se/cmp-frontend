@@ -1,18 +1,14 @@
 import React from "react";
 import storyDecorator from "utils/storyDecorator";
 
-import ApiKeyPage from "pages/ApiKeyPage";
-import PageContainer from "components/PageContainer";
-import SideNavigation from "components/SideNavigation";
-import SectionContainer from "components/SectionContainer";
-import ApiKeyDashboard from "components/ApiKeyDashboard";
+import APIKeyPage from "pages/APIKeyPage";
 
 export default {
-  title: "pages/ApiKeyPage",
-  component: ApiKeyPage,
+  title: "pages/APIKeyPage",
+  component: APIKeyPage,
   decorators: [ storyDecorator ]
 }
 
-export const Default = () => <ApiKeyPage/>
+export const Default = () => <APIKeyPage/>
 
 Default.story = { name: "default" }

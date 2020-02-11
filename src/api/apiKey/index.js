@@ -1,9 +1,9 @@
 import faker from "faker";
-import ApiKey from "entities/apiKey";
+import APIKey from "entities/apiKey";
 
 class ApiKeyAPI{
   static  generateDummy(){
-    const key = new ApiKey(faker.random.uuid(), faker.random.word(), faker.random.alphaNumeric(8));
+    const key = new APIKey(faker.random.uuid(), faker.random.word(), faker.random.alphaNumeric(8));
     key.cmpApplications = new Array(faker.random.number(5));
     key.cmpChannels = new Array(faker.random.number(5));
     key.users = new Array(faker.random.number(5));

@@ -3,12 +3,16 @@ import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 
 import Button from "components/Button";
 
-function AddButton(props){
-  const { children } = props;
-  
+function AddButton({ children, onClick, disabled, isAdding }){
   return (
-    <Button type="primary">
-      <svg><use xlinkHref={`${voltaIcons}#Vlt-icon-plus`}/></svg>
+    <Button type="primary" onClick={onClick} disabled={disabled}>
+      {isAdding?(
+        <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
+      ):(
+        <svg>
+          <use xlinkHref={`${voltaIcons}#Vlt-icon-plus`} />
+        </svg>
+      )}
       {children}
     </Button>
   )

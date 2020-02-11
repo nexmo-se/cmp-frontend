@@ -5,6 +5,7 @@ import UserProvider from "contexts/user";
 
 import LoginPage from "pages/LoginPage";
 import DashboardPage from "pages/DashboardPage";
+import APIKeyPage from "pages/APIKeyPage";
 
 function App(){
   return (
@@ -13,6 +14,7 @@ function App(){
         <Switch>
           <Route path="/" component={LoginPage} exact />
           <Route path="/dashboard" component={DashboardPage} exact />
+          <Route path="/apikeys" component={APIKeyPage} exact />
         </Switch>
       </BrowserRouter>
     </UserProvider>

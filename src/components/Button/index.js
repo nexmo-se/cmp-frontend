@@ -1,12 +1,12 @@
 import React from "react";
 
-function Button(props){
-  const { children, type } = props;
-
-  const handleClick = () => props.onClick();
-
+function Button({ children, type, onClick, disabled }){
   return (
-    <button className={`Vlt-btn Vlt-btn--${type} Vlt-btn--app`} onClick={handleClick}>
+    <button 
+      className={`Vlt-btn Vlt-btn--${type} Vlt-btn--app`} 
+      onClick={onClick} 
+      disabled={disabled}
+    >
       {children}
     </button>
   )

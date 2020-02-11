@@ -3,7 +3,7 @@ import React from "react";
 import ApiKeyTable from "components/ApiKeyTable";
 import AddNewApiKey from "components/AddNewApiKey";
 
-function ApiKeyDashboard(props){
+function ApiKeyDashboard(){
   return (
     <React.Fragment>
       <div className="Vlt-grid Vlt-margin--A-top3">
