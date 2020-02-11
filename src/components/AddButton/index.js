@@ -1,5 +1,5 @@
 import React from "react";
-import voltaIcons from "@vonagevolta/test/dist/symbol/volta-icons.svg";
+import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 
 import Button from "components/Button";
 

@@ -1,4 +1,4 @@
-import "@vonagevolta/test/dist/css/volta.css";
+import "@vonagevolta/volta2/dist/css/volta.css";
 
 import React from "react";
 

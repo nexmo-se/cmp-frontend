@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import voltaIcons from "@vonagevolta/test/dist/symbol/volta-icons.svg";
+import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 
 import GenerateCampaignTemplateModal from "components/GenerateCampaignTemplateModal";
 import { Menu, MenuItem } from "@material-ui/core";

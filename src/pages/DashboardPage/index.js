@@ -7,8 +7,7 @@ import DeliveryStatsCard from "components/DeliveryStatsCard";
 import DeliveredCampaignChart from "components/DeliveredCampaignChart";
 import AverageDeliveryTimeCard from "components/AverageDeliveryTimeCard";
 
-function DashboardPage(props){
-
+function DashboardPage(){
   return (
     <PageContainer>
       <SideNavigation menuActive={{ dashboard: true }}/>

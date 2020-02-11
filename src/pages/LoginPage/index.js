@@ -5,13 +5,10 @@ import LoginContainer from "pages/LoginPage/LoginContainer";
 import FormContainer from "pages/LoginPage/FormContainer";
 
 function LoginPage(props){
-
-  const handleLoginClick = (username, password) => props.onLoginClick(username, password);
-
   return(
     <LoginContainer>
       <FormContainer>
-        <LoginForm onLoginClick={handleLoginClick}/>
+        <LoginForm />
       </FormContainer>
     </LoginContainer>
   )
