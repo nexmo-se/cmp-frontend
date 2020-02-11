@@ -1,7 +1,6 @@
 import React from "react";
 
-function Modal(props){
-  const { visible, children } = props;
+function Modal({ visible, children }){
   return (
     <div className={`Vlt-modal ${visible? "Vlt-modal_visible": ""}`}>
       <div className="Vlt-modal__panel">

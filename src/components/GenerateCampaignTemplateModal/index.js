@@ -3,9 +3,9 @@ import TemplateAPI from "api/template";
 import CampaignAPI from "api/campaign";
 
 import Modal from "components/Modal";
-import ModalHeader from "components/ModalHeader";
-import ModalContent from "components/ModalContent";
-import ModalFooter from "components/ModalFooter";
+import ModalHeader from "components/Modal/ModalHeader";
+import ModalContent from "components/Modal/ModalContent";
+import ModalFooter from "components/Modal/ModalFooter";
 import Button from "components/Button";
 import Dropdown from "components/Dropdown";
 

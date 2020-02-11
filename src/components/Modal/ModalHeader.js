@@ -1,7 +1,6 @@
 import React from "react";
 
-function ModalHeader(props){
-  const { children } = props;
+function ModalHeader({ children }){
   return (
     <div className="Vlt-modal__header">
       {children}

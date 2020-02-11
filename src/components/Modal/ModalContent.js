@@ -1,8 +1,6 @@
 import React from "react";
 
-function ModalContent(props){
-  const { children } = props;
-
+function ModalContent({ children }){
   return (
     <div className="Vlt-modal__content">
       {children}
