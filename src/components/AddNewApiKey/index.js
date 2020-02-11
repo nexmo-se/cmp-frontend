@@ -10,7 +10,7 @@ import PasswordInput from "components/PasswordInput";
 import Dropdown from "components/Dropdown";
 import AddButton from "components/AddButton";
 
-function AddNewApiKey(){
+function AddNewAPIKey({ onAdded }){
   const [ isAdding, setIsAdding ] = React.useState(false);
   const [ name, setName ] = React.useState("");
   const [ apiKey, setAPIKey ] = React.useState("");
@@ -54,6 +54,7 @@ function AddNewApiKey(){
     setSignatureSecret("");
     setSignatureMethod("md5hash");
     clearError();
+    onAdded();
   }
 
   return (
@@ -101,4 +102,4 @@ function AddNewApiKey(){
     </form>
   );
 }
-export default AddNewApiKey;
+export default AddNewAPIKey;

@@ -7,7 +7,8 @@ class Channel{
   // smsUseSignature: boolean
   // application: Application
 
-  constructor(name, channel, senderId, apiKey, tps=100, application=null, smsUseSignature=false){
+  constructor(name, channel, senderId, apiKey, id=null, tps=100, application=null, smsUseSignature=false){
+    this.id = id;
     this.name = name;
     this.channel = channel;
     this.senderId = senderId;

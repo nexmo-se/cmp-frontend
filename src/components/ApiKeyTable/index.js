@@ -1,7 +1,9 @@
-import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 import React from "react";
-import ApiKeyAPI from "api/apiKey";
 
+import useAPIKey from "hooks/apiKey";
+import { UserContext } from "contexts/user";
+
+import Empty from "components/Empty";
 import Table from "components/Table";
 import TableHead from "components/Table/TableHead";
 import TableRow from "components/Table/TableRow";
@@ -10,9 +12,11 @@ import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import DetailColumn from "components/Table/DetailColumn";
 
-function ApiKeyTableComponent(props){
-  const { data } = props;
+function APIKeyTable({ refreshToken }){
+  const { token } = React.useContext(UserContext);
+  const data = useAPIKey(token, refreshToken);
 
+  if(data.length <= 0) return <Empty/>
   return (
     <Table>
       <TableHead>
@@ -44,20 +48,4 @@ function ApiKeyTableComponent(props){
     </Table>
   );
 }
-
-function ApiKeyTable(){
-  const [ data, setData ] = React.useState([]);
-
-  const listApiKey = async () => {
-    const keys = ApiKeyAPI.listApiKey(process.env.REACT_APP_DUMMY_DATA);
-    setData(keys);
-  }
-
-  React.useState(() => {
-    listApiKey();
-  }, [])
-
-  return <ApiKeyTableComponent data={data}/>
-}
-
-export default ApiKeyTable;
+export default APIKeyTable;

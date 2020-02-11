@@ -5,7 +5,7 @@ import ErrorProvider from "contexts/error";
 import PageContainer from "components/PageContainer";
 import SideNavigation from "components/SideNavigation";
 import SectionContainer from "components/SectionContainer";
-import ApiKeyDashboard from "components/ApiKeyDashboard";
+import APIKeyDashboard from "components/APIKeyDashboard";
 
 function APIKeyPage(){
   return (
@@ -13,7 +13,7 @@ function APIKeyPage(){
       <SideNavigation menuActive={{ apiKey: true }}/>
       <SectionContainer>
         <ErrorProvider>
-          <ApiKeyDashboard/>
+          <APIKeyDashboard/>
         </ErrorProvider>
       </SectionContainer>
     </PageContainer>

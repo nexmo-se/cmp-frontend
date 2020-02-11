@@ -1,9 +1,16 @@
 import React from "react";
+import uuid from "uuid/v4";
 
-import ApiKeyTable from "components/ApiKeyTable";
-import AddNewApiKey from "components/AddNewApiKey";
+import APIKeyTable from "components/APIKeyTable";
+import AddNewAPIKey from "components/AddNewAPIKey";
 
-function ApiKeyDashboard(){
+function APIKeyDashboard(){
+  const [ refreshToken, setRefreshToken ] = React.useState();
+
+  function handleAdded(){
+    setRefreshToken(uuid());
+  }
+
   return (
     <React.Fragment>
       <div className="Vlt-grid Vlt-margin--A-top3">
@@ -14,7 +21,7 @@ function ApiKeyDashboard(){
 
       <div className="Vlt-grid">
         <div className="Vlt-col">
-          <AddNewApiKey/>
+          <AddNewAPIKey onAdded={handleAdded}/>
         </div>
       </div>
 
@@ -26,10 +33,10 @@ function ApiKeyDashboard(){
 
       <div className="Vlt-grid">
         <div className="Vlt-col">
-          <ApiKeyTable/>
+          <APIKeyTable refreshToken={refreshToken}/>
         </div>
       </div>
     </React.Fragment>
   );
 }
-export default ApiKeyDashboard;
+export default APIKeyDashboard;
