@@ -67,39 +67,37 @@ function AddApplicationModal({ visible, setVisible, onAdded }){
   }, []);
 
   return (
-    <React.Fragment>
-      <Modal visible={visible}>
-        <ModalHeader setVisible={setVisible}>
-          <h4>Add New Application</h4>
-        </ModalHeader>
-        <ModalContent>
-          <form>
-            <TextInput label="Name" value={name} setValue={setName} />
-            <TextInput label="Application ID" value={applicationId} setValue={setApplicationId} />
-            <FileInput label="Private Key" setFile={setPrivateKey} />
-            <Dropdown label="API Key" value={apiKey} setValue={setAPIKey}>
-              <option>--- Please Select ---</option>
-              {mKey.data.map((apiKey) => {
-                return (
-                  <option value={apiKey.id} key={apiKey.id}>
-                    {apiKey.name} ({apiKey.key})
-                  </option>
-                )
-              })}
-            </Dropdown>
-          </form>
-        </ModalContent>
-        <ModalFooter>
-          <Button type="tertiary" disabled={isAdding}>Cancel</Button>
-          <Button type="primary" onClick={handleAddNew} disabled={isAdding}>
-            {isAdding?(
-              <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
-            ): null}
-            Add New
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </React.Fragment>
+    <Modal visible={visible}>
+      <ModalHeader setVisible={setVisible}>
+        <h4>Add New Application</h4>
+      </ModalHeader>
+      <ModalContent>
+        <form>
+          <TextInput label="Name" value={name} setValue={setName} />
+          <TextInput label="Application ID" value={applicationId} setValue={setApplicationId} />
+          <FileInput label="Private Key" setFile={setPrivateKey} />
+          <Dropdown label="API Key" value={apiKey} setValue={setAPIKey}>
+            <option>--- Please Select ---</option>
+            {mKey.data.map((apiKey) => {
+              return (
+                <option value={apiKey.id} key={apiKey.id}>
+                  {apiKey.name} ({apiKey.key})
+                </option>
+              )
+            })}
+          </Dropdown>
+        </form>
+      </ModalContent>
+      <ModalFooter>
+        <Button type="tertiary" disabled={isAdding}>Cancel</Button>
+        <Button type="primary" onClick={handleAddNew} disabled={isAdding}>
+          {isAdding?(
+            <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
+          ): null}
+          Add New
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 export default AddApplicationModal;
