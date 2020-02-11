@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Container = styled.section`
+const Content = styled.section`
   max-width: 1200px;
   padding: 32px 32px 60px;
   width: 100%;
@@ -13,11 +13,19 @@ const Container = styled.section`
   }
 `
 
-function SectionContainer(props){
-  const { children } = props;
+const Container = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+function SectionContainer({ children }){
   return (
     <Container>
-      {children}
+      <Content>
+        {children}
+      </Content>
     </Container>
   )
 }
