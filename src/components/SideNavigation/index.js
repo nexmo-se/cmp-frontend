@@ -25,14 +25,14 @@ function SideNavigation(props){
 
         <div className="Vlt-sidenav__scroll">
           <ul className="Vlt-sidemenu">
-            <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive.dashboard}/>
-            <SingleMenu icon="Vlt-icon-files" label="Reports"/>
+            <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive.dashboard} to="/dashboard" />
+            <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" />
             <MenuSeparator>Configurations</MenuSeparator>
             <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive.apiKey} to="/apikeys"/>
-            <SingleMenu icon="Vlt-icon-keypad" label="Application" active={menuActive.application} />
-            <SingleMenu icon="Vlt-icon-mind-map" label="Channel" active={menuActive.channel} />
-            <SingleMenu icon="Vlt-icon-stack" label="Template" active={menuActive.template} />
-            <SingleMenu icon="Vlt-icon-packet" label="Campaign" active={menuActive.campaign} />
+            <SingleMenu icon="Vlt-icon-keypad" label="Application" active={menuActive.application} to="/applications" />
+            <SingleMenu icon="Vlt-icon-mind-map" label="Channel" active={menuActive.channel} to="/channels" />
+            <SingleMenu icon="Vlt-icon-stack" label="Template" active={menuActive.template} to="/templates" />
+            <SingleMenu icon="Vlt-icon-packet" label="Campaign" active={menuActive.campaign} to="/campaigns" />
           </ul>
         </div>
       </div>

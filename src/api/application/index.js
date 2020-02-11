@@ -4,7 +4,7 @@ import Application from "entities/application";
 
 class ApplicationAPI{
   static generateDummy(){
-    const key = new ApiKey(faker.random.uuid(), faker.random.word(), faker.random.alphaNumeric(8));
+    const key = new APIKey(faker.random.uuid(), faker.random.word(), faker.random.alphaNumeric(8));
     const application = new Application(faker.random.word(), key, faker.random.uuid());
     application.cmpChannels = new Array(faker.random.number(5));
     application.users = new Array(faker.random.number(5));
