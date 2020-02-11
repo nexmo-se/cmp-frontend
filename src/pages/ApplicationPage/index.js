@@ -25,11 +25,7 @@ function ApplicationPage(props){
 
         <div className="Vlt-grid">
           <div className="Vlt-col">
-            <div className="Vlt-card">
-              <div className="Vlt-card__content">
-                <ApplicationTable/>
-              </div>
-            </div>
+            <ApplicationTable/>
           </div>
         </div>
       </SectionContainer>

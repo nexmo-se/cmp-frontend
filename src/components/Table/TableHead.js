@@ -1,8 +1,4 @@
-import React from "react";
+import styled from "styled-components";
 
-function TableHead(props){
-  const { children } = props;
-  
-  return <thead>{children}</thead>
-}
+const TableHead = styled.thead``;
 export default TableHead;

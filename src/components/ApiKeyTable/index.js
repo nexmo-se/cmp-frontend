@@ -1,3 +1,4 @@
+import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 import React from "react";
 import ApiKeyAPI from "api/apiKey";
 
@@ -7,6 +8,7 @@ import TableRow from "components/Table/TableRow";
 import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
+import DetailColumn from "components/Table/DetailColumn";
 
 function ApiKeyTableComponent(props){
   const { data } = props;
@@ -21,6 +23,7 @@ function ApiKeyTableComponent(props){
           <TableHeader># APPS</TableHeader>
           <TableHeader># CHANNELS</TableHeader>
           <TableHeader># USERS</TableHeader>
+          <TableHeader />
         </TableRow>
       </TableHead>
       <TableBody>
@@ -33,6 +36,7 @@ function ApiKeyTableComponent(props){
               <TableColumn className="Vlt-right">{apiKey.cmpApplications.length}</TableColumn>
               <TableColumn className="Vlt-right">{apiKey.cmpChannels.length}</TableColumn>
               <TableColumn className="Vlt-right">{apiKey.users.length}</TableColumn>
+              <DetailColumn />
             </TableRow>
           )
         })}

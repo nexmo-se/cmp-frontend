@@ -26,11 +26,7 @@ function ChannelPage(props){
 
         <div className="Vlt-grid">
           <div className="Vlt-col">
-            <div className="Vlt-card">
-              <div className="Vlt-card__content">
-                <ChannelTable/>
-              </div>
-            </div>
+            <ChannelTable/>
           </div>
         </div>
 

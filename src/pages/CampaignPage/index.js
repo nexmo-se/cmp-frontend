@@ -6,7 +6,7 @@ import SectionContainer from "components/SectionContainer";
 import AddButton from "components/AddButton";
 import CampaignTable from "components/CampaignTable";
 
-function CampaignPage(props){
+function CampaignPage(){
   return (
     <PageContainer>
       <SideNavigation menuActive={{ campaign: true }}/>
@@ -25,11 +25,7 @@ function CampaignPage(props){
 
         <div className="Vlt-grid">  
           <div className="Vlt-col">
-            <div className="Vlt-card">
-              <div className="Vlt-card__content">
-                <CampaignTable/>
-              </div>
-            </div>
+            <CampaignTable/>
           </div>
         </div>
       </SectionContainer>

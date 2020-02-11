@@ -1,4 +1,7 @@
 import React from "react";
+
+import { Link } from "@material-ui/core";
+
 import ChannelAPI from "api/channel";
 
 import Table from "components/Table";
@@ -7,8 +10,7 @@ import TableRow from "components/Table/TableRow";
 import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
-import RowMenu from "components/ChannelTable/RowMenu";
-import { Link } from "@material-ui/core";
+import DetailColumn from "components/Table/DetailColumn";
 
 function ChannelTableComponent(props){
   const { data } = props;
@@ -42,9 +44,7 @@ function ChannelTableComponent(props){
               <TableColumn>{channel.tps}</TableColumn>
               <TableColumn><Link href="#">{channel.application.name}</Link></TableColumn>
               <TableColumn><Link href="#">{channel.apiKey.key}</Link></TableColumn>
-              <TableColumn>
-                <RowMenu/>
-              </TableColumn>
+              <DetailColumn />
             </TableRow>
           )
         })}

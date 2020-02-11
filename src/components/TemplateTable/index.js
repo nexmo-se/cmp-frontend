@@ -7,7 +7,7 @@ import TableRow from "components/Table/TableRow";
 import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
-import RowMenu from "components/TemplateTable/RowMenu";
+import DetailColumn from "components/Table/DetailColumn";
 import { Link } from "@material-ui/core";
 
 function TemplateTableComponent(props){
@@ -38,9 +38,7 @@ function TemplateTableComponent(props){
               <TableColumn>{template.name}</TableColumn>
               <TableColumn><Link href="#">{template.channel.name}</Link></TableColumn>
               <TableColumn><Link href="#">{template.channel.apiKey.key}</Link></TableColumn>
-              <TableColumn>
-                <RowMenu/>
-              </TableColumn>
+              <DetailColumn />
             </TableRow>
           )
         })}

@@ -7,7 +7,7 @@ import TableRow from "components/Table/TableRow";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import TableHeader from "components/Table/TableHeader";
-import RowMenu from "components/ApplicationTable/RowMenu";
+import DetailColumn from "components/Table/DetailColumn";
 
 function ApplicationTableComponent(props){
   const { data } = props;
@@ -31,9 +31,7 @@ function ApplicationTableComponent(props){
               <TableColumn>{application.name}</TableColumn>
               <TableColumn>{application.apiKey.key}</TableColumn>
               <TableColumn className="Vlt-center">{application.cmpChannels.length}</TableColumn>
-              <TableColumn>
-                <RowMenu/>
-              </TableColumn>
+              <DetailColumn />
             </TableRow>
           )
         })}

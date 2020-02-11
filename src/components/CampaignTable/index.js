@@ -8,7 +8,7 @@ import TableRow from "components/Table/TableRow";
 import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
-import RowMenu from "components/CampaignTable/RowMenu";
+import DetailColumn from "components/Table/DetailColumn";
 
 function CampaignTableComponent(props){
   const { data } = props;
@@ -41,9 +41,7 @@ function CampaignTableComponent(props){
               <TableColumn>{campaign.name}</TableColumn>
               <TableColumn>{startDate}</TableColumn>
               <TableColumn>{endDate}</TableColumn>
-              <TableColumn>
-                <RowMenu/>
-              </TableColumn>
+              <DetailColumn />
             </TableRow>
           )
         })}

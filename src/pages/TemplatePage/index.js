@@ -26,11 +26,7 @@ function TemplatePage(){
 
         <div className="Vlt-grid">
           <div className="Vlt-col">
-            <div className="Vlt-card">
-              <div className="Vlt-card__content">
-                <TemplateTable/>
-              </div>
-            </div>
+            <TemplateTable/>
           </div>
         </div>
       </SectionContainer>

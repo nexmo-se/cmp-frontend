@@ -26,11 +26,7 @@ function ApiKeyDashboard(){
 
       <div className="Vlt-grid">
         <div className="Vlt-col">
-          <div className="Vlt-card">
-            <div className="Vlt-card__content">
-              <ApiKeyTable/>
-            </div>
-          </div>
+          <ApiKeyTable/>
         </div>
       </div>
     </React.Fragment>
