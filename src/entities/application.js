@@ -15,6 +15,15 @@ class Application{
     this.users = users;
   }
 
+  toJSON(){
+    return {
+      name: this.name,
+      cmpApiKeyId: this.apiKey.id,
+      applicationId: this.applicationId,
+      privateKey: this.privateKey
+    }
+  }
+
   static fromJSON(value){
     const app = new Application();
     app.id = value.id;

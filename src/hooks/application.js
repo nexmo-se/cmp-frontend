@@ -33,6 +33,23 @@ function useApplication(token){
     setData(newData);
   }
 
-  return { data, list }
+  async function create(application){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/applications`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(application.toJSON())
+    });
+    console.log(JSON.stringify(application.toJSON()));
+
+    if(response.status !== 200){
+      throw new CustomError("applications/api-error", `Error calling the server: ${response.status}`);
+    }
+  }
+
+  return { data, list, create }
 }
 export default useApplication;
