@@ -1,5 +1,8 @@
 import React from "react";
-import TemplateAPI from "api/template";
+import { Link } from "@material-ui/core";
+
+import useTemplate from "hooks/template";
+import { UserContext } from "contexts/user";
 
 import Table from "components/Table";
 import TableHead from "components/Table/TableHead";
@@ -8,11 +11,17 @@ import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import DetailColumn from "components/Table/DetailColumn";
-import { Link } from "@material-ui/core";
+import Empty from "components/Empty";
 
-function TemplateTableComponent(props){
-  const { data } = props;
+function TemplateTable({ refreshToken }){
+  const { token } = React.useContext(UserContext);
+  const mTemplate = useTemplate(token);
 
+  React.useEffect(() => {
+    mTemplate.list();
+  }, [ refreshToken ])
+
+  if(mTemplate.data.length <= 0) return <Empty/>
   return (
     <Table>
       <TableHead>
@@ -25,7 +34,7 @@ function TemplateTableComponent(props){
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map((template) => {
+        {mTemplate.data.map((template) => {
           let badgeBackground = "Vlt-bg-green";
           if(template.channel.channel === "sms") badgeBackground = "Vlt-bg-orange"
           else if(template.channel.channel === "whatsapp") badgeBackground = "Vlt-bg-green";
@@ -36,8 +45,16 @@ function TemplateTableComponent(props){
                 <div className={`Vlt-badge ${badgeBackground} Vlt-white`}>{template.channel.channel}</div>
               </TableColumn>
               <TableColumn>{template.name}</TableColumn>
-              <TableColumn><Link href="#">{template.channel.name}</Link></TableColumn>
-              <TableColumn><Link href="#">{template.channel.apiKey.key}</Link></TableColumn>
+              <TableColumn>
+                <Link href="#">
+                  {template.channel.name}
+                </Link>
+              </TableColumn>
+              <TableColumn>
+                <Link href="#">
+                  {template.channel.apiKey.name}
+                </Link>
+              </TableColumn>
               <DetailColumn />
             </TableRow>
           )
@@ -46,19 +63,4 @@ function TemplateTableComponent(props){
     </Table>
   );
 }
-
-function TemplateTable(props){
-  const [ data, setData ] = React.useState([]);
-
-  const listTemplate = async () => {
-    const templates = await TemplateAPI.listTemplate(process.env.REACT_APP_DUMMY_DATA);
-    setData(templates);
-  }
-
-  React.useEffect(() => {
-    listTemplate();
-  }, [])
-
-  return <TemplateTableComponent data={data}/>
-}
-export default TemplateTable;
+export default TemplateTable
