@@ -1,8 +1,8 @@
 import React from "react";
-
 import { Link } from "@material-ui/core";
 
-import ChannelAPI from "api/channel";
+import useChannel from "hooks/channel";
+import { UserContext } from "contexts/user";
 
 import Table from "components/Table";
 import TableHead from "components/Table/TableHead";
@@ -11,10 +11,17 @@ import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import DetailColumn from "components/Table/DetailColumn";
+import Empty from "components/Empty";
 
-function ChannelTableComponent(props){
-  const { data } = props;
+function ChannelTable({ refreshToken }){
+  const { token } = React.useContext(UserContext);
+  const mChannel = useChannel(token);
 
+  React.useEffect(() => {
+    mChannel.list();
+  }, [ refreshToken ])
+
+  if(mChannel.data.length <= 0) return <Empty />
   return (
     <Table>
       <TableHead>
@@ -29,7 +36,7 @@ function ChannelTableComponent(props){
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map((channel) => {
+        {mChannel.data.map((channel) => {
           let badgeBackground = "Vlt-bg-green";
           if(channel.channel === "sms") badgeBackground = "Vlt-bg-orange"
           else if(channel.channel === "whatsapp") badgeBackground = "Vlt-bg-green";
@@ -51,20 +58,5 @@ function ChannelTableComponent(props){
       </TableBody>
     </Table>
   );
-}
-
-function ChannelTable(props){
-  const [ data, setData ] = React.useState([]);
-
-  const listChannel = async () => {
-    const channels = await ChannelAPI.listChannel(process.env.REACT_APP_DUMMY_DATA);
-    setData(channels);
-  }
-
-  React.useEffect(() => {
-    listChannel();
-  }, [])
-
-  return <ChannelTableComponent data={data}/>
 }
 export default ChannelTable;

@@ -16,6 +16,7 @@ import Button from "components/Button";
 import TextInput from "components/TextInput";
 import Dropdown from "components/Dropdown";
 import FileInput from "components/FileInput";
+import APIKeyDropdown from "components/APIKeyDropdown";
 
 function AddApplicationModal({ visible, setVisible, onAdded }){
   const [ name, setName ] = React.useState("");
@@ -81,16 +82,7 @@ function AddApplicationModal({ visible, setVisible, onAdded }){
           <TextInput label="Name" value={name} setValue={setName} />
           <TextInput label="Application ID" value={applicationId} setValue={setApplicationId} />
           <FileInput label="Private Key" setFile={setPrivateKey} />
-          <Dropdown label="API Key" value={apiKey} setValue={setAPIKey}>
-            <option>--- Please Select ---</option>
-            {mKey.data.map((apiKey) => {
-              return (
-                <option value={apiKey.id} key={apiKey.id}>
-                  {apiKey.name} ({apiKey.key})
-                </option>
-              )
-            })}
-          </Dropdown>
+          <APIKeyDropdown label="API Key" value={apiKey} setValue={setAPIKey} />
         </form>
       </ModalContent>
       <ModalFooter>

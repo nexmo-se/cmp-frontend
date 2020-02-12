@@ -18,13 +18,26 @@ class Channel{
     this.application = application;
   }
 
+  toJSON(){
+    return {
+      name: this.name,
+      channel: this.channel,
+      senderId: this.senderId,
+      tps: this.tps,
+      smsUseSignature: this.smsUseSignature,
+      cmpApiKeyId: this.apiKey.id,
+      cmpApplicationId: this.application? this.application.id: undefined
+    }
+  }
+
   static fromJSON(value){
     const ch = new Channel();
     ch.id = value.id;
     ch.name = value.name;
     ch.channel = value.channel;
     ch.senderId = value.senderId;
-    ch.tps = value.tps;
+    ch.tps = parseInt(value.tps);
+    ch.smsUseSignature = value.smsUseSignature;
     return ch;
   }
 }

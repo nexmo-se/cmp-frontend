@@ -1,6 +1,6 @@
 import React from "react";
 
-function Dropdown({ label, hint, value, setValue, children }){
+function Dropdown({ label, hint, value, setValue, children, disabled=false }){
   function handleChange(e){
     setValue(e.target.value);
   } 
@@ -11,7 +11,7 @@ function Dropdown({ label, hint, value, setValue, children }){
         {label}
       </label>
       <div className="Vlt-native-dropdown">
-        <select value={value} onChange={handleChange}>
+        <select value={value} onChange={handleChange} disabled={disabled}>
           {children}
         </select>
       </div>
