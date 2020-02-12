@@ -14,7 +14,6 @@ import ModalHeader from "components/Modal/ModalHeader";
 import ModalFooter from "components/Modal/ModalFooter";
 import Button from "components/Button";
 import TextInput from "components/TextInput";
-import Dropdown from "components/Dropdown";
 import FileInput from "components/FileInput";
 import APIKeyDropdown from "components/APIKeyDropdown";
 
