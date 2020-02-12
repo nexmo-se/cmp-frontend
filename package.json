@@ -4,20 +4,20 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.8.3",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@vonagevolta/volta2": "^0.0.9",
-    "chart.js": "^2.9.3",
-    "faker": "^4.1.0",
-    "moment": "^2.24.0",
-    "react": "^16.12.0",
-    "react-chartjs-2": "^2.8.0",
-    "react-dom": "^16.12.0",
-    "react-router-dom": "^5.1.2",
+    "@testing-library/jest-dom": "4.2.4",
+    "@testing-library/react": "9.3.2",
+    "@testing-library/user-event": "7.1.2",
+    "@vonagevolta/volta2": "^0.0.10",
+    "chart.js": "2.9.3",
+    "faker": "4.1.0",
+    "moment": "2.24.0",
+    "react": "16.12.0",
+    "react-chartjs-2": "2.8.0",
+    "react-dom": "16.12.0",
+    "react-router-dom": "5.1.2",
     "react-scripts": "3.3.0",
-    "styled-components": "^5.0.0",
-    "uuid": "^3.4.0"
+    "styled-components": "5.0.0",
+    "uuid": "3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,12 +43,12 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@storybook/addon-actions": "^5.3.4",
-    "@storybook/addon-knobs": "^5.3.4",
-    "@storybook/addon-links": "^5.3.4",
-    "@storybook/addons": "^5.3.4",
-    "@storybook/react": "^5.3.4",
-    "babel-loader": "^8.0.6"
+    "@babel/core": "7.8.3",
+    "@storybook/addon-actions": "5.3.4",
+    "@storybook/addon-knobs": "5.3.4",
+    "@storybook/addon-links": "5.3.4",
+    "@storybook/addons": "5.3.4",
+    "@storybook/react": "5.3.4",
+    "babel-loader": "8.0.6"
   }
 }
