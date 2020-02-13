@@ -33,7 +33,7 @@ class APIKey{
   }
 
   static fromJSON(value){
-    if(value === null) return new APIKey();
+    if(value === null) return null;
     const key = new APIKey();
     key.id = value.id;
     key.name = value.name;

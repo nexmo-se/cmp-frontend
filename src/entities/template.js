@@ -19,6 +19,17 @@ class Template{
     this.mediaType = mediaType;
   }
 
+  toJSON(){
+    return {
+      name: this.name,
+      cmpChannelId: this.channel.id,
+      whatsappTemplateNamespace: this.whatsappTemplateNamespace,
+      whatsappTemplateName: this.whatsappTemplateName,
+      mediaType: this.mediaType,
+      body: this.body
+    }
+  }
+
   static fromJSON(value){
     const t = new Template();
     t.id = value.id;

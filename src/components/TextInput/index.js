@@ -1,6 +1,6 @@
 import React from "react";
 
-function TextInput({ label, hint, value, setValue }){
+function TextInput({ label, hint, value, setValue, disabled=false }){
   function handleChange(e){
     setValue(e.target.value);
   }
@@ -11,7 +11,12 @@ function TextInput({ label, hint, value, setValue }){
         {label}
       </label>
       <div className="Vlt-input">
-        <input type="text" value={value} onChange={handleChange} />
+        <input 
+          type="text" 
+          value={value} 
+          onChange={handleChange} 
+          disabled={disabled} 
+        />
       </div>
       <small className="Vlt-form__element__hint">
         {hint}

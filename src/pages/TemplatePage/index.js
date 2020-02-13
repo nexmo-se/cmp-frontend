@@ -1,4 +1,5 @@
 import React from "react";
+import uuid from "uuid/v4";
 
 import PageContainer from "components/PageContainer";
 import SideNavigation from "components/SideNavigation";
@@ -13,6 +14,10 @@ function TemplatePage(){
 
   function handleToggleModal(){
     setVisible(true);
+  }
+
+  function handleAdded(){
+    setRefreshToken(uuid());
   }
 
   return (
@@ -40,7 +45,11 @@ function TemplatePage(){
           </div>
         </SectionContainer>
       </PageContainer>
-      <AddTemplateModal visible={visible} setVisible={setVisible} />
+      <AddTemplateModal 
+        visible={visible} 
+        setVisible={setVisible} 
+        onAdded={handleAdded} 
+      />
     </React.Fragment>
   )
 }

@@ -1,3 +1,6 @@
+import Application from "entities/application";
+import APIKey from "entities/apiKey";
+
 class Channel{
   // name: String
   // channel: String
@@ -30,6 +33,12 @@ class Channel{
     }
   }
 
+  static fromID(id){
+    const ch = new Channel();
+    ch.id = id;
+    return ch;
+  }
+
   static fromJSON(value){
     const ch = new Channel();
     ch.id = value.id;
@@ -38,6 +47,15 @@ class Channel{
     ch.senderId = value.senderId;
     ch.tps = parseInt(value.tps);
     ch.smsUseSignature = value.smsUseSignature;
+
+    if(value.cmpApplication){
+      ch.application = Application.fromJSON(value.cmpApplication)
+    }
+
+    if(value.cmpApiKey){
+      ch.apiKey = APIKey.fromJSON(value.cmpApiKey);
+    }
+
     return ch;
   }
 }
