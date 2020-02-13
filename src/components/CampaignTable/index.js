@@ -10,8 +10,9 @@ import TableRow from "components/Table/TableRow";
 import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
-import DetailColumn from "components/Table/DetailColumn";
+import DetailColumn from "components/CampaignTable/DetailColumn";
 import Empty from "components/Empty";
+import GenerateCSVModal from "components/GenerateCSVModal";
 
 function CampaignTable({ refreshToken }){
   const { token } = React.useContext(UserContext);
@@ -50,7 +51,7 @@ function CampaignTable({ refreshToken }){
               <TableColumn>{campaign.name}</TableColumn>
               <TableColumn>{startDate}</TableColumn>
               <TableColumn>{endDate}</TableColumn>
-              <DetailColumn />
+              <DetailColumn campaign={campaign} />
             </TableRow>
           )
         })}
