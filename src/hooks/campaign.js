@@ -10,7 +10,6 @@ function useCampaign(token){
     const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns`;
     const responseData = await FetchAPI.get(url, token);
     const newData = responseData.map((data) => Campaign.fromJSON(data))
-    console.log(newData);
     setData(newData);
   }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import Campaign from "entities/campaign";
 import useCampaign from "hooks/campaign";
@@ -41,10 +42,13 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
       e.preventDefault();
       setIsAdding(true);
 
+      const startDate = `${fromDate} ${fromTime}`;
+      const endDate = `${toDate} ${toTime}`;
+
       const campaign = new Campaign();
       campaign.name = name;
-      campaign.campaignStartDate = `${fromDate} ${fromTime}`;
-      campaign.campaignEndDate = `${toDate} ${toTime}`;
+      campaign.campaignStartDate = new moment(startDate, "dd/MM/yyyy hh:mm").toISOString();
+      campaign.campaignEndDate = new moment(endDate, "dd/MM/yyyy hh:mm").toISOString();
       mCampaign.create(campaign);
 
       dispatch({ type: "CLEAR_INPUT" });
