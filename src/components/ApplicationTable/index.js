@@ -14,13 +14,13 @@ import Empty from "components/Empty";
 
 function ApplicationTable({ refreshToken }){
   const { token } = React.useContext(UserContext);
-  const application = useApplication(token);
+  const mApplication = useApplication(token);
 
   React.useEffect(() => {
-    application.list();
+    mApplication.list();
   }, [ refreshToken ])
       
-  if(application.data.length <= 0) return <Empty />
+  if(mApplication.data.length <= 0) return <Empty />
   return (
     <Table>
       <TableHead>
@@ -33,7 +33,7 @@ function ApplicationTable({ refreshToken }){
         </TableRow>
       </TableHead>
       <TableBody>
-        {application.data.map((application) => {
+        {mApplication.data.map((application) => {
           return (
             <TableRow key={application.id}>
               <TableColumn>{application.applicationId}</TableColumn>
