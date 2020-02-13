@@ -20,5 +20,13 @@ class Campaign{
     this.statusTime = statusTime;
     this.cmpCampaignStatusAudits = cmpCampaignStatusAudits;
   }
+
+  toJSON(){
+    return {
+      name: this.name,
+      campaignStartDate: this.campaignStartDate,
+      campaignEndDate: this.campaignEndDate
+    }
+  }
 }
 export default Campaign;
