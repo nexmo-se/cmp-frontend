@@ -70,7 +70,7 @@ function AddTemplateModal({ visible, setVisible, onAdded }){
       const t = new Template();
       t.name = name;
       t.channel = Channel.fromID(channel);
-      t.body = (currentChannel === "sms")? body: null;
+      t.body = (currentChannel === "sms")? body: undefined;
       t.whatsappTemplateName = (currentChannel === "whatsapp")? whatsappTemplateName: undefined;
       t.whatsappTemplateNamespace = (currentChannel === "whatsapp")? whatsappTemplateNamespace: undefined;
       
