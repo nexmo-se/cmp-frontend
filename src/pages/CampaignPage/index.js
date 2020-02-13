@@ -39,7 +39,7 @@ function CampaignPage(){
 
           <div className="Vlt-grid">  
             <div className="Vlt-col">
-              <CampaignTable/>
+              <CampaignTable refreshToken={refreshToken}/>
             </div>
           </div>
         </SectionContainer>

@@ -36,8 +36,9 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
     setVisible(false);
   }
 
-  function handleAddNew(){
+  function handleAddNew(e){
     try{
+      e.preventDefault();
       setIsAdding(true);
 
       const campaign = new Campaign();

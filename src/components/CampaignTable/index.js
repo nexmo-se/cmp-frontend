@@ -1,6 +1,8 @@
 import React from "react";
 import moment from "moment";
-import CampaignAPI from "api/campaign";
+
+import useCampaign from "hooks/campaign";
+import { UserContext } from "contexts/user";
 
 import Table from "components/Table";
 import TableHead from "components/Table/TableHead";
@@ -9,10 +11,17 @@ import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import DetailColumn from "components/Table/DetailColumn";
+import Empty from "components/Empty";
 
-function CampaignTableComponent(props){
-  const { data } = props;
+function CampaignTable({ refreshToken }){
+  const { token } = React.useContext(UserContext);
+  const mCampaign = useCampaign(token);
 
+  React.useEffect(() => {
+    mCampaign.list();
+  }, [ refreshToken ])
+
+  if(mCampaign.data.length <= 0) return <Empty/>
   return (
     <Table>
       <TableHead>
@@ -25,7 +34,7 @@ function CampaignTableComponent(props){
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map((campaign) => {
+        {mCampaign.data.map((campaign) => {
           const startDate = new moment(campaign.campaignStartDate).format("DD MMMM YYYY");
           const endDate = new moment(campaign.campaignEndDate).format("DD MMMM YYYY");
           
@@ -48,21 +57,6 @@ function CampaignTableComponent(props){
       </TableBody>
     </Table>
   )
-}
-
-function CampaignTable(props){
-  const [ data, setData ] = React.useState([]);
-
-  const listCampaign = async () => {
-    const campaigns = await CampaignAPI.listCampaign(process.env.REACT_APP_DUMMY_DATA);
-    setData(campaigns);
-  }
-
-  React.useEffect(() => {
-    listCampaign();
-  }, []);
-
-  return <CampaignTableComponent data={data}/>
 }
 
 export default CampaignTable;

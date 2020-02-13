@@ -9,13 +9,14 @@ class Campaign{
   // statusTime: String
   // cmpCampaignStatusAudits: Array
 
-  constructor(id=null, name=null, campaignStartDate=null, campaignEndDate=null, actualStartDate=null, actualEndDate=null, status="draft", statusTime=null, cmpCampaignStatusAudits=[]){
+  constructor(id=null, name=null, campaignStartDate=null, campaignEndDate=null, actualStartDate=null, actualEndDate=null, actualDuration=null, status="draft", statusTime=null, cmpCampaignStatusAudits=[]){
     this.id = id;
     this.name = name;
     this.campaignStartDate = campaignStartDate;
     this.campaignEndDate = campaignEndDate;
     this.actualStartDate = actualStartDate;
     this.actualEndDate = actualEndDate;
+    this.actualDuration = actualDuration;
     this.status = status;
     this.statusTime = statusTime;
     this.cmpCampaignStatusAudits = cmpCampaignStatusAudits;
@@ -27,6 +28,20 @@ class Campaign{
       campaignStartDate: this.campaignStartDate,
       campaignEndDate: this.campaignEndDate
     }
+  }
+
+  static fromJSON(value){
+    const campaign = new Campaign();
+    campaign.id = value.id;
+    campaign.name = value.name;
+    campaign.campaignStartDate = value.campaignStartDate;
+    campaign.campaignEndDate = value.campaignEndDate;
+    campaign.actualStartDate = value.actualEndDate;
+    campaign.actualEndDate = value.actualEndDate;
+    campaign.actualDuration = value.actualDuration;
+    campaign.status = value.status;
+    campaign.statusTime = value.statusTime;
+    return campaign;
   }
 }
 export default Campaign;
