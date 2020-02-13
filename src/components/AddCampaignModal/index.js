@@ -37,7 +37,7 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
     setVisible(false);
   }
 
-  function handleAddNew(e){
+  async function handleAddNew(e){
     try{
       e.preventDefault();
       setIsAdding(true);
@@ -49,7 +49,7 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
       campaign.name = name;
       campaign.campaignStartDate = new moment(startDate, "dd/MM/yyyy hh:mm").toISOString();
       campaign.campaignEndDate = new moment(endDate, "dd/MM/yyyy hh:mm").toISOString();
-      mCampaign.create(campaign);
+      await mCampaign.create(campaign);
 
       dispatch({ type: "CLEAR_INPUT" });
       if(onAdded) onAdded();
