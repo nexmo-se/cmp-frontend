@@ -15,12 +15,12 @@ function GenerateCSVModal({ visible, setVisible, style={}, initCampaign, initTem
   const [ template, setTemplate ] = React.useState(initTemplate);
 
   function handleGenerateDownload(){
-    console.log(campaign, template);
     const csvContent = CSVAPI.generateBlaster();
     const link = document.createElement("a");
     link.setAttribute("href", encodeURI(csvContent));
     link.setAttribute("download", `${campaign}#${template}.csv`);
     link.click();
+    setVisible(false);
   }
 
   return (
