@@ -2,15 +2,17 @@ import React from "react";
 
 import useTemplate from "hooks/template";
 import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
 
 import Dropdown from "components/Dropdown";
 
 function TemplateDropdown({ label, value, setValue, disabled }){
   const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
   const mTemplate = useTemplate(token);
 
   React.useEffect(() => {
-    mTemplate.list();
+    mTemplate.list().catch((err) => throwError(err));
   }, [])
 
   return (

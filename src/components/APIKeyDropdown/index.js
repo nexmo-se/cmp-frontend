@@ -2,15 +2,17 @@ import React from "react";
 
 import useAPIKey from "hooks/apiKey";
 import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
 
 import Dropdown from "components/Dropdown";
 
 function APIKeyDropdown({ label, value, setValue }){
   const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
   const mKey = useAPIKey(token);
 
   React.useEffect(() => {
-    mKey.list();
+    mKey.list().catch((err) => throwError(err));
   }, [])
 
   return (

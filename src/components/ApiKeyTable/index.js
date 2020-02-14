@@ -2,6 +2,7 @@ import React from "react";
 
 import useAPIKey from "hooks/apiKey";
 import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
 
 import Empty from "components/Empty";
 import Table from "components/Table";
@@ -14,10 +15,11 @@ import DetailColumn from "components/Table/DetailColumn";
 
 function APIKeyTable({ refreshToken }){
   const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
   const apiKey = useAPIKey(token);
 
   React.useEffect(() => {
-    apiKey.list();
+    apiKey.list().catch((err) => throwError(err));
   }, [ refreshToken ])
 
   if(apiKey.data.length <= 0) return <Empty/>

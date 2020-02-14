@@ -3,8 +3,8 @@ import React from "react";
 import Application from "entities/application";
 import APIKey from "entities/apiKey";
 
-import useAPIKey from "hooks/apiKey";
 import useApplication from "hooks/application";
+
 import { UserContext } from "contexts/user";
 import { ErrorContext } from "contexts/error";
 
@@ -25,7 +25,6 @@ function AddApplicationModal({ visible, setVisible, onAdded }){
   const [ isAdding, setIsAdding ] = React.useState(false);
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
-  const mKey = useAPIKey(token);
   const mApplication = useApplication(token);
 
   function handleCancel(e){
@@ -66,10 +65,6 @@ function AddApplicationModal({ visible, setVisible, onAdded }){
       setIsAdding(false);
     }
   }
-
-  React.useEffect(() => {
-    mKey.list();
-  }, []);
 
   return (
     <Modal visible={visible}>

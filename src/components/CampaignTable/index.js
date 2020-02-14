@@ -3,6 +3,7 @@ import moment from "moment";
 
 import useCampaign from "hooks/campaign";
 import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
 
 import Table from "components/Table";
 import TableHead from "components/Table/TableHead";
@@ -12,14 +13,14 @@ import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import DetailColumn from "components/CampaignTable/DetailColumn";
 import Empty from "components/Empty";
-import GenerateCSVModal from "components/GenerateCSVModal";
 
 function CampaignTable({ refreshToken }){
   const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
   const mCampaign = useCampaign(token);
-
+  
   React.useEffect(() => {
-    mCampaign.list();
+    mCampaign.list().catch((err) => throwError(err));
   }, [ refreshToken ])
 
   if(mCampaign.data.length <= 0) return <Empty/>

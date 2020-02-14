@@ -2,6 +2,7 @@ import React from "react";
 
 import useApplication from "hooks/application";
 import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
 
 import Table from "components/Table";
 import TableHead from "components/Table/TableHead";
@@ -14,10 +15,11 @@ import Empty from "components/Empty";
 
 function ApplicationTable({ refreshToken }){
   const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
   const mApplication = useApplication(token);
 
   React.useEffect(() => {
-    mApplication.list();
+    mApplication.list().catch((err) => throwError(err));
   }, [ refreshToken ])
       
   if(mApplication.data.length <= 0) return <Empty />

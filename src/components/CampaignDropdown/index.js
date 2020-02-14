@@ -2,15 +2,17 @@ import React from "react";
 
 import useCampaign from "hooks/campaign";
 import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
 
 import Dropdown from "components/Dropdown";
 
 function CampaignDropdown({ label, value, setValue, disabled }){
   const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
   const mCampaign = useCampaign(token);
 
   React.useEffect(() => {
-    mCampaign.list();
+    mCampaign.list().catch((err) => throwError(err));
   }, [])
 
   return (

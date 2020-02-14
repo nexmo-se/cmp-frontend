@@ -2,7 +2,9 @@ import React from "react";
 import { Link } from "@material-ui/core";
 
 import useChannel from "hooks/channel";
+
 import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
 
 import Table from "components/Table";
 import TableHead from "components/Table/TableHead";
@@ -15,10 +17,11 @@ import Empty from "components/Empty";
 
 function ChannelTable({ refreshToken }){
   const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
   const mChannel = useChannel(token);
 
   React.useEffect(() => {
-    mChannel.list();
+    mChannel.list().catch((err) => throwError(err));
   }, [ refreshToken ])
 
   if(mChannel.data.length <= 0) return <Empty />

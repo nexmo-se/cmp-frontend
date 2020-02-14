@@ -2,15 +2,17 @@ import React from "react";
 
 import useApplication from "hooks/application";
 import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
 
 import Dropdown from "components/Dropdown";
 
 function ApplicationDropdown({ label, value, setValue, disabled }){
   const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
   const mApplication = useApplication(token);
 
   React.useEffect(() => {
-    mApplication.list();
+    mApplication.list().catch((err) => throwError(err));
   }, [])
 
   return (
