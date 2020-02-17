@@ -30,6 +30,10 @@ class Campaign{
     }
   }
 
+  static fromID(id){
+    return new Campaign(id);
+  }
+
   static fromJSON(value){
     const campaign = new Campaign();
     campaign.id = value.id;

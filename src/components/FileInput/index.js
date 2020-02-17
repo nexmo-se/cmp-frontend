@@ -33,7 +33,12 @@ function FileInput({ label, setFile=() => {} }){
             <input type="text" value={fileName} onClick={handleClick} disabled />
           </div>
           <div className="Vlt-composite__append">
-            <button type="button" className="Vlt-btn" onClick={handleClick}>
+            <button 
+              type="button" 
+              className="Vlt-btn" 
+              onClick={handleClick}
+              style={{ height: "100%" }}
+            >
               Browse
             </button>
           </div>

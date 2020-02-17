@@ -30,6 +30,11 @@ class Template{
     }
   }
 
+  static fromID(id){
+    const template = new Template(id);
+    return template;
+  }
+
   static fromJSON(value){
     const t = new Template();
     t.id = value.id;

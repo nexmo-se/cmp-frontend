@@ -20,6 +20,12 @@ function useCampaign(token){
 
   async function retrieve(){}
 
-  return { data, list, create, retrieve };
+  async function updateStatus(campaign, status){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}/status`
+    const body = { status }
+    await FetchAPI.put(url, token, JSON.stringify(body));
+  }
+
+  return { data, list, create, retrieve, updateStatus };
 }
 export default useCampaign;
