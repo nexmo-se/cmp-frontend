@@ -14,7 +14,7 @@ import TableBody from "components/Table/TableBody";
 import DetailColumn from "components/CampaignTable/DetailColumn";
 import Empty from "components/Empty";
 
-function CampaignTable({ refreshToken }){
+function CampaignTable({ refreshToken, setRefreshToken }){
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mCampaign = useCampaign(token);
@@ -52,7 +52,7 @@ function CampaignTable({ refreshToken }){
               <TableColumn>{campaign.name}</TableColumn>
               <TableColumn>{startDate}</TableColumn>
               <TableColumn>{endDate}</TableColumn>
-              <DetailColumn campaign={campaign} />
+              <DetailColumn campaign={campaign} setRefreshToken={setRefreshToken} />
             </TableRow>
           )
         })}

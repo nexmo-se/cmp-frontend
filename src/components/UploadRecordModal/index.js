@@ -15,7 +15,7 @@ import ModalFooter from "components/Modal/ModalFooter";
 import Button from "components/Button";
 import FileInput from "components/FileInput";
 
-function UploadRecordModal({ visible, setVisible }){
+function UploadRecordModal({ visible, setVisible, onUploaded }){
   const [ file, setFile ] = React.useState(null);
   const [ isUploading, setIsUploading ] = React.useState(false);
   const { throwError } = React.useContext(ErrorContext);
@@ -34,6 +34,7 @@ function UploadRecordModal({ visible, setVisible }){
       const [{ campaign }] = records;
       await mRecord.createBatch(records);
       await mCampaign.updateStatus(campaign, "pending");
+      if(onUploaded) onUploaded();
     }catch(err){
       throwError(err);
     }finally{

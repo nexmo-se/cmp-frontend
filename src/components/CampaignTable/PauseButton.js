@@ -1,4 +1,5 @@
 import React from "react";
+import uuid from "uuid/v4";
 
 import useCampaign from "hooks/campaign";
 import { ErrorContext } from "contexts/error";
@@ -6,7 +7,7 @@ import { UserContext } from "contexts/user";
 
 import ButtonIcon from "components/ButtonIcon";
 
-function PauseButton({ campaign }){
+function PauseButton({ campaign, setRefreshToken }){
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mCampaign = useCampaign(token);
@@ -16,6 +17,8 @@ function PauseButton({ campaign }){
       await mCampaign.updateStatus(campaign, "paused");
     }catch(err){
       throwError(err);
+    }finally{
+      setRefreshToken(uuid());
     }
   }
 

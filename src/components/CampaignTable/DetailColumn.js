@@ -7,17 +7,17 @@ import StartButton from "components/CampaignTable/StartButton";
 import RestartButton from "components/CampaignTable/RestartButton";
 import PauseButton from "components/CampaignTable/PauseButton";
 
-function DetailColumn({ campaign }){
+function DetailColumn({ campaign, setRefreshToken }){
   return (
     <TableColumn className="Vlt-table__cell--nowrap">
       <ButtonIcon icon="Vlt-icon-gear"/>
       <DownloadButton campaign={campaign}/>
       {campaign.status === "completed"?(
-        <RestartButton />
+        <RestartButton setRefreshToken={setRefreshToken} />
       ): campaign.status === "draft"?(
-        <StartButton />
+        <StartButton setRefreshToken={setRefreshToken} />
       ): campaign.status === "pending"?(
-        <PauseButton campaign={campaign}/>
+        <PauseButton campaign={campaign} setRefreshToken={setRefreshToken} />
       ): null}
       <ButtonIcon type="destructive" icon="Vlt-icon-bin" />
     </TableColumn>
