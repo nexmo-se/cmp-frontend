@@ -11,6 +11,7 @@ import ApplicationPage from "pages/ApplicationPage";
 import ChannelPage from "pages/ChannelPage";
 import TemplatePage from "pages/TemplatePage";
 import CampaignPage from "pages/CampaignPage";
+import QuickWizardPage from "pages/QuickWizardPage";
 
 function App(){
   return (
@@ -25,6 +26,7 @@ function App(){
             <Route path="/campaigns" component={CampaignPage} exact />
             <Route path="/channels" component={ChannelPage} exact />
             <Route path="/templates" component={TemplatePage} exact />
+            <Route path="/quickwizard" component={QuickWizardPage} exact />
           </Switch>
         </BrowserRouter>
       </ErrorProvider>

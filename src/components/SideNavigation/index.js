@@ -27,7 +27,7 @@ function SideNavigation(props){
           <ul className="Vlt-sidemenu">
             <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive.dashboard} to="/dashboard" />
             <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" />
-            <SingleMenu icon="Vlt-icon-rocket" label="Quick Wizard" to="/quickwizard" />
+            <SingleMenu icon="Vlt-icon-rocket" label="Quick Wizard" to="/quickwizard" active={menuActive.quickWizard} />
             <MenuSeparator>Configurations</MenuSeparator>
             <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive.apiKey} to="/apikeys"/>
             <SingleMenu icon="Vlt-icon-keypad" label="Application" active={menuActive.application} to="/applications" />
@@ -48,7 +48,8 @@ SideNavigation.defaultProps = {
     campaign: false, 
     dashboard: false,
     channel: false,
-    template: false
+    template: false,
+    quickWizard: false
   }
 }
 

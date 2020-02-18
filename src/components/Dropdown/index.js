@@ -1,6 +1,15 @@
 import React from "react";
 
-function Dropdown({ label, hint, value, setValue, children, disabled=false }){
+function Dropdown({ 
+  label, 
+  hint, 
+  value, 
+  setValue, 
+  children, 
+  containerStyle={ width: "100%" }, 
+  selectStyle={ width: "100%" },
+  disabled=false 
+}){
   function handleChange(e){
     setValue(e.target.value);
   } 
@@ -10,8 +19,13 @@ function Dropdown({ label, hint, value, setValue, children, disabled=false }){
       <label className="Vlt-label">
         {label}
       </label>
-      <div className="Vlt-native-dropdown">
-        <select value={value} onChange={handleChange} disabled={disabled}>
+      <div style={containerStyle} className="Vlt-native-dropdown">
+        <select 
+          style={selectStyle} 
+          value={value} 
+          onChange={handleChange} 
+          disabled={disabled}
+        >
           {children}
         </select>
       </div>

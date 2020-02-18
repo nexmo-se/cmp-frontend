@@ -23,6 +23,11 @@ function useAPIKey(token){
     setData(newData);
   }
 
-  return { data, list };
+  async function create(apiKey){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys`;
+    await FetchAPI.post(url, token, JSON.stringify(apiKey.toJSON()));
+  }
+
+  return { data, list, create };
 }
 export default useAPIKey;

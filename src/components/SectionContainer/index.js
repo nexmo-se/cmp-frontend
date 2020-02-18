@@ -7,6 +7,8 @@ const Content = styled.section`
   width: 100%;
   height: 100vh;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 
   @media only screen and (max-width: 575px){
     padding-top: 60px;
