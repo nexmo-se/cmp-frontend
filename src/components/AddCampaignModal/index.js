@@ -13,6 +13,8 @@ import ModalContent from "components/Modal/ModalContent";
 import ModalFooter from "components/Modal/ModalFooter";
 import TextInput from "components/TextInput";
 import Button from "components/Button";
+import Switch from "components/Switch";
+import TimezoneDropdown from "components/TimezoneDropdown";
 
 function AddCampaignModal({ visible, setVisible, onAdded }){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
@@ -115,6 +117,34 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
                 value={toTime}
                 setValue={handleToTimeChange}
               />
+            </div>
+          </div>
+
+          <div className="Vlt-text-separator">
+            <span>Daily Campaign Configuration</span>
+          </div>
+
+          <div className="Vlt-grid VLt-grid--narrow">
+            <div className="Vlt-col Vlt-col--A">
+              <TextInput 
+                label="Start Time"
+                hint="Time format: hh:mm"
+              />
+            </div>
+            <div className="Vlt-col Vlt-col--A">
+              <TextInput 
+                label="End Time"
+                hint="Time format: hh:mm"
+              />
+            </div>
+          </div>
+
+          <div className="Vlt-grid Vlt-grid--narrow">
+            <div className="Vlt-col Volt-col--A">
+              <Switch label="Active on Weekend" />
+            </div>
+            <div className="Vlt-col Vlt-col--A">
+              <TimezoneDropdown label="Timezone"/>
             </div>
           </div>
 

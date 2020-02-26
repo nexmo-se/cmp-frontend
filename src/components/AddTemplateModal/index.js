@@ -116,7 +116,7 @@ function AddTemplateModal({ visible, setVisible, onAdded }){
             label="Body" 
             value={body} 
             setValue={handleBodyChange} 
-            disabled={currentChannel !== "sms"}
+            disabled={currentChannel !== "sms" && currentChannel !== "whatsapp"}
           />
         </ModalContent>
         <ModalFooter>
