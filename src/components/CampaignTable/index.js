@@ -37,8 +37,8 @@ function CampaignTable({ refreshToken, setRefreshToken }){
       </TableHead>
       <TableBody>
         {mCampaign.data.map((campaign) => {
-          const startDate = new moment(campaign.campaignStartDate).format("DD MMMM YYYY");
-          const endDate = new moment(campaign.campaignEndDate).format("DD MMMM YYYY");
+          const startDate = new moment(campaign.campaignStartDate).local().format("DD MMMM YYYY");
+          const endDate = new moment(campaign.campaignEndDate).local().format("DD MMMM YYYY");
           
           let badgeBackground = "Vlt-bg-grey";
           if(campaign.status === "pending" || campaign.status === "paused") badgeBackground = "Vlt-bg-yellow";

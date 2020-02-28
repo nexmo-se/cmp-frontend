@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import moment from "moment-timezone";
 
 import Campaign from "entities/campaign";
 import useCampaign from "hooks/campaign";
@@ -27,7 +27,11 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
     fromDate,
     fromTime,
     toDate,
-    toTime
+    toTime,
+    activeStartTime,
+    activeEndTime,
+    activeOnWeekends,
+    timezone
   } = state;
   
 
@@ -49,8 +53,14 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
 
       const campaign = new Campaign();
       campaign.name = name;
-      campaign.campaignStartDate = new moment(startDate, "dd/MM/yyyy hh:mm").toISOString();
-      campaign.campaignEndDate = new moment(endDate, "dd/MM/yyyy hh:mm").toISOString();
+      campaign.campaignStartDate = new moment.tz(startDate, "dd/MM/yyyy HH:mm", timezone).toISOString(true);
+      campaign.campaignEndDate = new moment.tz(endDate, "dd/MM/yyyy HH:mm", timezone).toISOString(true);
+      campaign.activeStartHour = new moment(activeStartTime, "HH:mm").format("HH");
+      campaign.activeStartMinute = new moment(activeStartTime, "HH:mm").format("mm");
+      campaign.activeEndHour = new moment(activeEndTime, "HH:mm").format("HH");
+      campaign.activeEndMinute = new moment(activeEndTime, "HH:mm").format("mm");
+      campaign.activeOnWeekends = activeOnWeekends;
+      campaign.timezone = timezone;
       await mCampaign.create(campaign);
 
       dispatch({ type: "CLEAR_INPUT" });
@@ -72,6 +82,14 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
   function handleToDateChange(value){ handleValueChange("toDate", value) }
 
   function handleToTimeChange(value){ handleValueChange("toTime", value) }
+  
+  function handleActiveStartTimeChange(value){ handleValueChange("activeStartTime", value) }
+
+  function handleActiveEndTimeChange(value){ handleValueChange("activeEndTime", value) }
+
+  function handleActiveOnWeekendsChange(value){ handleValueChange("activeOnWeekends", value) }
+
+  function handleTimezoneChange(value){ handleValueChange("timezone", value) }
 
   return (
     <form>
@@ -94,7 +112,7 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
             <div className="Vlt-col Vlt-col--A">
               <TextInput 
                 label="From Time" 
-                hint="Time format: hh:mm" 
+                hint="24hrs time format: hh:mm" 
                 value={fromTime}
                 setValue={handleFromTimeChange}
               />
@@ -113,7 +131,7 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
             <div className="Vlt-col Vlt-col--A">
               <TextInput 
                 label="To Time" 
-                hint="Time format: hh:mm" 
+                hint="24hrs time format: hh:mm" 
                 value={toTime}
                 setValue={handleToTimeChange}
               />
@@ -129,22 +147,34 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
               <TextInput 
                 label="Start Time"
                 hint="Time format: hh:mm"
+                value={activeStartTime}
+                setValue={handleActiveStartTimeChange}
               />
             </div>
             <div className="Vlt-col Vlt-col--A">
               <TextInput 
                 label="End Time"
-                hint="Time format: hh:mm"
+                hint="24hrs time format: hh:mm"
+                value={activeEndTime}
+                setValue={handleActiveEndTimeChange}
               />
             </div>
           </div>
 
           <div className="Vlt-grid Vlt-grid--narrow">
             <div className="Vlt-col Volt-col--A">
-              <Switch label="Active on Weekend" />
+              <Switch 
+                label="Active on Weekends"
+                value={activeOnWeekends}
+                setValue={handleActiveOnWeekendsChange}
+              />
             </div>
             <div className="Vlt-col Vlt-col--A">
-              <TimezoneDropdown label="Timezone"/>
+              <TimezoneDropdown 
+                label="Timezone"
+                value={timezone}
+                setValue={handleTimezoneChange}
+              />
             </div>
           </div>
 

@@ -1,3 +1,4 @@
+import moment from "moment-timezone";
 class Campaign{
   // id: String
   // name: String
@@ -9,7 +10,24 @@ class Campaign{
   // statusTime: String
   // cmpCampaignStatusAudits: Array
 
-  constructor(id=null, name=null, campaignStartDate=null, campaignEndDate=null, actualStartDate=null, actualEndDate=null, actualDuration=null, status="draft", statusTime=null, cmpCampaignStatusAudits=[]){
+  constructor(
+    id, 
+    name, 
+    campaignStartDate,
+    campaignEndDate, 
+    actualStartDate, 
+    actualEndDate, 
+    actualDuration, 
+    status="draft", 
+    statusTime, 
+    activeStartHour,
+    activeStartMinute,
+    activeEndHour,
+    activeEndMinute,
+    activeOnWeekends,
+    timezone,
+    cmpCampaignStatusAudits=[]
+  ){
     this.id = id;
     this.name = name;
     this.campaignStartDate = campaignStartDate;
@@ -19,6 +37,12 @@ class Campaign{
     this.actualDuration = actualDuration;
     this.status = status;
     this.statusTime = statusTime;
+    this.activeStartHour = activeStartHour;
+    this.activeStartMinute = activeStartMinute;
+    this.activeEndHour = activeEndHour;
+    this.activeEndMinute = activeEndMinute;
+    this.activeOnWeekends = activeOnWeekends;
+    this.timezone = timezone;
     this.cmpCampaignStatusAudits = cmpCampaignStatusAudits;
   }
 
@@ -26,7 +50,13 @@ class Campaign{
     return {
       name: this.name,
       campaignStartDate: this.campaignStartDate,
-      campaignEndDate: this.campaignEndDate
+      campaignEndDate: this.campaignEndDate,
+      activeStartHour: parseInt(this.activeStartHour),
+      activeStartMinute: parseInt(this.activeStartMinute),
+      activeEndHour: parseInt(this.activeEndHour),
+      activeEndMinute: parseInt(this.activeEndMinute),
+      activeOnWeekends: this.activeOnWeekends,
+      timezone: this.timezone
     }
   }
 
@@ -45,6 +75,12 @@ class Campaign{
     campaign.actualDuration = value.actualDuration;
     campaign.status = value.status;
     campaign.statusTime = value.statusTime;
+    campaign.activeStartHour = value.activeStartHour;
+    campaign.activeStartMinute = value.activeStartMinute;
+    campaign.activeEndHour = value.activeEndHour;
+    campaign.activeEndMinute = value.activeEndMinute;
+    campaign.activeOnWeekends = value.activeOnWeekends;
+    campaign.timezone = value.timezone;
     return campaign;
   }
 }

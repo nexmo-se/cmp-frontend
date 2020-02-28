@@ -1,9 +1,15 @@
+import moment from "moment-timezone";
+
 export const initialState = {
   name: "",
   fromDate: "",
   fromTime: "",
   toDate: "",
-  toTime: ""
+  toTime: "",
+  activeStartTime: "",
+  activeEndTime: "",
+  activeOnWeekends: false, 
+  timezone: moment.tz.guess()
 }
 
 export default function reducer(state, action){
