@@ -91,13 +91,6 @@ function AddChannelModal({ visible, setVisible, onAdded }){
                 <option value="whatsapp">WhatsApp</option>
               </Dropdown>
             </div>
-            <div className="Vlt-col Vlt-col--A">
-              <Switch 
-                label="SMS Signature" 
-                value={state.smsUseSignature} 
-                setValue={handleSMSSignatureChange}
-                disabled={state.channel === "whatsapp"}/>
-            </div>
           </div>
 
           <div className="Vlt-grid Vlt-grid--narrow">
