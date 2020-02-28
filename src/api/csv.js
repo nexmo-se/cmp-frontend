@@ -1,11 +1,15 @@
 import Papa from "papaparse";
 
 class CSVAPI{
-  static generateBlaster(){
+  static generateBlaster(parameters=[]){
+    const parameterSamples = parameters.map((parameter) => {
+      const number = parameter.match(/\d+/g);
+      return `parameter ${number}`;
+    })
+
     const content = [
-      [ "recipient", "startTime", "duration (hours)", "activeOnWeekends", "timezone" ],
-      [ "6585773051", "08:00", 10, "yes", "Asia/Singapore", "VONAGE", "12345" ],
-      [ "6585773061", "08:00", 10, "no", "Asia/Singapore", "VONAGE", "67890" ],
+      [ "recipient", ...parameters ],
+      [ "6588888888", ...parameterSamples ],
       [ "Do not remove example above. Fill your content right below this row. Please do not rename the file name as well." ]
     ]
     const strContent = content.map((e) => e.join(",")).join("\n");

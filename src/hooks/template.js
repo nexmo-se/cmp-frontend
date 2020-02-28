@@ -26,6 +26,13 @@ function useTemplate(token){
     await FetchAPI.post(url, token, JSON.stringify(template.toJSON()));
   }
 
-  return { data, list, create } 
+  async function retrieve(template){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/templates/${template.id}`;
+    const responseData = await FetchAPI.get(url, token);
+    if(responseData) return Template.fromJSON(responseData);
+    else return null;
+  }
+
+  return { data, list, create, retrieve } 
 }
 export default useTemplate;

@@ -1,6 +1,10 @@
 import React from "react";
 
+import Template from "entities/template";
 import CSVAPI from "api/csv";
+import useTemplate from "hooks/template"
+import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
 
 import Modal from "components/Modal";
 import ModalHeader from "components/Modal/ModalHeader";
@@ -16,15 +20,30 @@ function GenerateCSVModal({
   initCampaign,
   style={} 
 }){
-  const [ template, setTemplate ] = React.useState(null);
+  const [ templateId, setTemplateId ] = React.useState(null);
+  const [ isAdding, setIsAdding ] = React.useState(false);
+  const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
+  const mTemplate = useTemplate(token);
 
-  function handleGenerateDownload(){
-    const csvContent = CSVAPI.generateBlaster();
-    const link = document.createElement("a");
-    link.setAttribute("href", encodeURI(csvContent));
-    link.setAttribute("download", `${initCampaign}#${template}.csv`);
-    link.click();
-    setVisible(false);
+  async function handleGenerateDownload(e){
+    try{
+      e.preventDefault();
+      setIsAdding(true);
+      const template = Template.fromID(templateId);
+      const foundTemplate = await mTemplate.retrieve(template);
+      const parameters = foundTemplate.body.match(/{{\d+}}/g);
+      const csvContent = CSVAPI.generateBlaster(parameters);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodeURI(csvContent));
+      link.setAttribute("download", `${initCampaign}#${template}.csv`);
+      link.click();
+    }catch(err){
+      throwError(err);
+    }finally{
+      setIsAdding(false);
+      setVisible(false);
+    }
   }
 
   function handleCancel(){
@@ -33,27 +52,43 @@ function GenerateCSVModal({
 
   return (
     <Modal visible={visible} style={style} size="small">
-      <ModalHeader setVisible={setVisible}>
-        <h4>Generate CSV</h4>
-      </ModalHeader>
-      <ModalContent>
-        <CampaignDropdown 
-          value={initCampaign} 
-          label="Selected Campaign"
-          disabled
-        />
-        <TemplateDropdown 
-          value={template} 
-          setValue={setTemplate} 
-          label="Select Template"
-        />
-      </ModalContent>
-      <ModalFooter>
-        <Button type="tertiary" onClick={handleCancel}>Cancel</Button>
-        <Button type="primary" onClick={handleGenerateDownload}>
-          Generate & Download
-        </Button>
-      </ModalFooter>
+      <form>
+        <ModalHeader setVisible={setVisible}>
+          <h4>Generate CSV</h4>
+        </ModalHeader>
+        <ModalContent>
+          <CampaignDropdown 
+            value={initCampaign} 
+            label="Selected Campaign"
+            disabled
+          />
+          <TemplateDropdown 
+            value={templateId} 
+            setValue={setTemplateId} 
+            label="Select Template"
+          />
+        </ModalContent>
+        <ModalFooter>
+          <Button 
+            type="tertiary" 
+            onClick={handleCancel}
+            disabled={isAdding}
+          >
+            Cancel
+          </Button>
+          <Button 
+            buttonType="submit"
+            type="primary" 
+            onClick={handleGenerateDownload}
+            disabled={isAdding}
+          >
+            {isAdding?(
+              <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
+            ): null}
+            Generate & Download
+          </Button>
+        </ModalFooter>
+      </form>
     </Modal>
   )
 }
