@@ -2114,10 +2114,10 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@vonagevolta/volta2@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@vonagevolta/volta2/-/volta2-0.0.10.tgz#ed4e8466635cc2141d9bda5550a55e4a0411ca9a"
-  integrity sha512-buPQPb+oTYNQepsJ/HCIr7EldnfQZ7yzrLJxsqEH0wFyaKA6qf0atRJ23qxdhe8m/JTaoYRUYQMQUH2l0/GuzA==
+"@vonagevolta/volta2@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@vonagevolta/volta2/-/volta2-0.0.18.tgz#b967e4cc37442abd22fcbb27a6d12cc68ea7adc4"
+  integrity sha512-1n6kWiXGTmqVJl7bImQHdQwREf9aSW2PnzAS2gVQI8qCpztUUfY5CgzpOfklzB9ja+X4gAWspPUG0Pgt81HpQg==
   dependencies:
     marked "^0.7.0"
     marked-sanitizer-github "^1.0.0"

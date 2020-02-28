@@ -52,7 +52,7 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
   async function handleAddNew(){
     try{
       setIsAdding(true);
-      const key = new APIKey(null, name, apiKey, apiSecret, signatureSecret, signatureMethod);
+      const key = new APIKey(null, name, apiKey, apiSecret);
       await mAPI.create(key);
       dispatch({ type: "CLEAR_INPUT" })
       if(onAdded) onAdded();
@@ -89,11 +89,13 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
           label="Signature Secret" 
           value={signatureSecret}
           setValue={handleSignatureSecretChange}
+          disabled
         />
         <SignatureMethodDropdown 
           label="Signature Method" 
           value={signatureMethod} 
           setValue={handleSignatureMethodChange}
+          disabled
         />
       </ModalContent>
       <ModalFooter>

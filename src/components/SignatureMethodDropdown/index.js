@@ -2,9 +2,14 @@ import React from "react";
 
 import Dropdown from "components/Dropdown";
 
-function SignatureMethodDropdown({ label, value, setValue }){
+function SignatureMethodDropdown({ label, value, setValue, disabled }){
   return (
-    <Dropdown label={label} value={value} setValue={setValue}>
+    <Dropdown 
+      label={label} 
+      value={value} 
+      setValue={setValue}
+      disabled={disabled}
+    >
       <option value="md5hash">MD5 HASH signature</option>
       <option value="md5">MD5 HMAC signature</option>
       <option value="sha1">SHA1 HMAC signature</option>

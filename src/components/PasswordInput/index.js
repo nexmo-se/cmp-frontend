@@ -1,6 +1,6 @@
 import React from "react";
 
-function PasswordInput({ label, hint, value, setValue }){
+function PasswordInput({ label, hint, value, setValue, disabled }){
   function handleChange(e){
     setValue(e.target.value);
   }
@@ -11,7 +11,12 @@ function PasswordInput({ label, hint, value, setValue }){
         {label}
       </label>
       <div className="Vlt-input">
-        <input type="password" value={value} onChange={handleChange}/>
+        <input 
+          type="password" 
+          value={value} 
+          onChange={handleChange} 
+          disabled={disabled} 
+        />
       </div>
       <small className="Vlt-form__element__hint">
         {hint}
