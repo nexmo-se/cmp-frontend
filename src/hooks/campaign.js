@@ -18,7 +18,12 @@ function useCampaign(token){
     await FetchAPI.post(url, token, JSON.stringify(campaign.toJSON()));
   }
 
-  async function retrieve(){}
+  async function retrieve(campaign){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}`;
+    const responseData = await FetchAPI.get(url, token);
+    if(responseData) return Campaign.fromJSON(responseData);
+    else return null;
+  }
 
   async function updateStatus(campaign, status){
     const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}/status`

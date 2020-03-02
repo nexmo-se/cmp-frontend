@@ -1,8 +1,9 @@
 import React from "react";
+import clsx from "clsx";
 
-function ModalContent({ children }){
+function ModalContent({ children, className=[] }){
   return (
-    <div className="Vlt-modal__content">
+    <div className={clsx("Vlt-modal__content", ...className)}>
       {children}
     </div>
   )

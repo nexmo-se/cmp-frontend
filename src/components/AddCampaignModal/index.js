@@ -16,8 +16,8 @@ import Button from "components/Button";
 import Switch from "components/Switch";
 import TimezoneDropdown from "components/TimezoneDropdown";
 
-function AddCampaignModal({ visible, setVisible, onAdded }){
-  const [ state, dispatch ] = React.useReducer(reducer, initialState);
+function AddCampaignModal({ initState, visible, setVisible, onAdded }){
+  const [ state, dispatch ] = React.useReducer(reducer, initialState)
   const [ isAdding, setIsAdding ] = React.useState(false);
   const { throwError } = React.useContext(ErrorContext);
   const { token } = React.useContext(UserContext);
@@ -33,7 +33,6 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
     activeOnWeekends,
     timezone
   } = state;
-  
 
   function handleValueChange(valueName, value){
     dispatch({ type: "CHANGE_VALUE", valueName, value });
@@ -53,8 +52,8 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
 
       const campaign = new Campaign();
       campaign.name = name;
-      campaign.campaignStartDate = new moment.tz(startDate, "dd/MM/yyyy HH:mm", timezone).toISOString(true);
-      campaign.campaignEndDate = new moment.tz(endDate, "dd/MM/yyyy HH:mm", timezone).toISOString(true);
+      campaign.campaignStartDate = new moment.tz(startDate, "DD/MM/YYYY HH:mm", timezone).toISOString(true);
+      campaign.campaignEndDate = new moment.tz(endDate, "DD/MM/YYYY HH:mm", timezone).toISOString(true);
       campaign.activeStartHour = new moment(activeStartTime, "HH:mm").format("HH");
       campaign.activeStartMinute = new moment(activeStartTime, "HH:mm").format("mm");
       campaign.activeEndHour = new moment(activeEndTime, "HH:mm").format("HH");
@@ -91,9 +90,15 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
 
   function handleTimezoneChange(value){ handleValueChange("timezone", value) }
 
+  React.useEffect(() => {
+    if(initState){
+      dispatch({ type: "SET_INITIAL", value: initState })
+    }
+  }, [ initState ]);
+
   return (
-    <form>
-      <Modal visible={visible}>
+    <Modal visible={visible}>
+      <form>
         <ModalHeader setVisible={setVisible}>
           <h4>Add New Campaign</h4>
         </ModalHeader>
@@ -104,7 +109,7 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
             <div className="Vlt-col Vlt-col--A">
               <TextInput 
                 label="From Date" 
-                hint="Date format: dd/mm/yyyy" 
+                hint="Date format: DD/MM/YYYY" 
                 value={fromDate}
                 setValue={handleFromDateChange}
               />
@@ -123,7 +128,7 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
             <div className="Vlt-col Vlt-col--A">
               <TextInput 
                 label="To Date" 
-                hint="Date format: dd/mm/yyyy" 
+                hint="Date format: DD/MM/YYYY" 
                 value={toDate}
                 setValue={handleToDateChange}
               />
@@ -193,8 +198,8 @@ function AddCampaignModal({ visible, setVisible, onAdded }){
             Add New
           </Button>
         </ModalFooter>
-      </Modal>
-    </form>
+      </form>
+    </Modal>
   )
 }
 export default AddCampaignModal;

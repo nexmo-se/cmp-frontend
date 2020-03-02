@@ -18,6 +18,8 @@ export default function reducer(state, action){
       return Object.assign({}, state, { [action.valueName]: action.value });
     case "CLEAR_INPUT":
       return initialState;
+    case "SET_INITIAL":
+      return Object.assign({}, action.value);
     default:
       throw new Error("Ops! something went wrong");
   }

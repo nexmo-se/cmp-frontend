@@ -1,33 +1,32 @@
 import React from "react";
 import uuid from "uuid/v4";
 
+import { UserContext } from "contexts/user";
+import { ErrorContext } from "contexts/error";
+import useCampaign from "hooks/campaign";
+
 import ButtonIcon from "components/ButtonIcon";
-import UploadRecordModal from "components/UploadRecordModal";
 
-function RestartButton({ setRefreshToken }){
-  const [ visible, setVisible ] = React.useState(false);
+function RestartButton({ campaign, setRefreshToken }){
+  const { token } = React.useContext(UserContext);
+  const { throwError } = React.useContext(ErrorContext);
+  const mCampaign = useCampaign(token);
 
-  function handleClick(){
-    setVisible((prevVisible) => !prevVisible);
-  }
-
-  function handleUploaded(){
-    setRefreshToken(uuid());
+  async function handleClick(){
+    try{
+      await mCampaign.updateStatus(campaign, "pending");
+    }catch(err){
+      throwError(err);
+    }finally{
+      setRefreshToken(uuid());
+    }
   }
 
   return (
-    <React.Fragment>
-      <ButtonIcon 
-        icon="Vlt-icon-reload" 
-        onClick={handleClick}
-        style={{ marginRight: 4 }}
-      />
-      <UploadRecordModal 
-        visible={visible} 
-        setVisible={setVisible} 
-        onUploaded={handleUploaded}
-      />
-    </React.Fragment>
+    <ButtonIcon 
+      icon="Vlt-icon-reload" 
+      onClick={handleClick}      
+    />
   )
 }
 export default RestartButton;
