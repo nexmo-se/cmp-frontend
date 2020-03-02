@@ -1,7 +1,7 @@
 import React from "react";
 import TextInput from "components/TextInput";
 
-function NumberInput({ label, value, setValue }){
+function NumberInput({ label, value, setValue, disabled }){
   function handleSetValue(value){
     if(!isNaN(value)) setValue(value);
   }
@@ -10,7 +10,9 @@ function NumberInput({ label, value, setValue }){
     <TextInput 
       label={label}
       value={value}
-      setValue={handleSetValue}/>
+      setValue={handleSetValue}
+      disabled={disabled}
+    />
   )
 }
 export default NumberInput;

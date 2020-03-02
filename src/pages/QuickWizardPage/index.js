@@ -13,10 +13,12 @@ import CreateApplicationStep from "pages/QuickWizardPage/CreateApplicationStep";
 import CreateChannelStep from "pages/QuickWizardPage/CreateChannelStep";
 import CreateTemplateStep from "pages/QuickWizardPage/CreateTemplateStep";
 import CreateCampaignStep from "pages/QuickWizardPage/CreateCampaignStep";
+import ChannelSelectionStep from "pages/QuickWizardPage/ChannelSelectionStep";
 
 function QuickWizardPage(){
   const [ campaign, setCampaign ] = React.useState(null);
   const [ campaignRefreshToken, setCampaignRefreshToken ] = React.useState(null);
+  const [ selectedChannel, setSelectedChannel ] = React.useState("sms");
 
   function handleCampaignAdded(){
     setCampaignRefreshToken(uuid());
@@ -32,10 +34,26 @@ function QuickWizardPage(){
           </div>
           <div className="Vlt-card__content">
             <CreateAPIKeyStep number={1} />
-            <CreateApplicationStep number={2} />
-            <CreateChannelStep number={3} />
-            <CreateTemplateStep number={4} />
-            <CreateCampaignStep number={5} onAdded={handleCampaignAdded}/>
+            <ChannelSelectionStep 
+              number={2} 
+              value={selectedChannel}
+              setValue={setSelectedChannel}
+            />
+            {selectedChannel === "social-channel"?(
+              <React.Fragment>
+                <CreateApplicationStep number={3} />
+                <CreateChannelStep number={4} disableSMS/>
+                <CreateTemplateStep number={5} />
+                <CreateCampaignStep number={6} onAdded={handleCampaignAdded}/>
+              </React.Fragment>
+            ): (
+              <React.Fragment>
+                <CreateChannelStep number={3} />
+                <CreateTemplateStep number={4} />
+                <CreateCampaignStep number={5} onAdded={handleCampaignAdded}/>
+              </React.Fragment>
+            )}
+            
             <div className="Vlt-text-separator">
               <span>Running your campaign</span>
             </div>

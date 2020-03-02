@@ -19,9 +19,8 @@ import Dropdown from "components/Dropdown";
 import NumberInput from "components/NumberInput";
 import APIKeyDropdown from "components/APIKeyDropdown";
 import ApplicationDropdown from "components/ApplicationDropdown";
-import Switch from "components/Switch"
 
-function AddChannelModal({ visible, setVisible, onAdded }){
+function AddChannelModal({ disableSMS=false, visible, setVisible, onAdded }){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const [ isAdding, setIsAdding ] = React.useState(false);
   const { throwError } = React.useContext(ErrorContext);
@@ -43,8 +42,6 @@ function AddChannelModal({ visible, setVisible, onAdded }){
   }
 
   function handleNameChange(value){ handleValueChange("name", value) }
-
-  function handleSMSSignatureChange(value){ handleValueChange("smsUseSignature", value) }
 
   function handleSenderIdChange(value){ handleValueChange("senderId", value) }
 
@@ -75,6 +72,11 @@ function AddChannelModal({ visible, setVisible, onAdded }){
     }
   }
 
+  React.useEffect(() => {
+    if(disableSMS) dispatch({ type: "SELECT_WHATSAPP" })
+    else dispatch({ type: "SELECT_SMS" })
+  }, [ disableSMS ])
+
   return (
     <form>
       <Modal visible={visible}>
@@ -87,7 +89,8 @@ function AddChannelModal({ visible, setVisible, onAdded }){
           <div className="Vlt-grid Vlt-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
               <Dropdown label="Channel" value={state.channel} setValue={handleChannelChange}>
-                <option value="sms">SMS</option>
+                <option>--- Please select ---</option>
+                <option value="sms" disabled={disableSMS}>SMS</option>
                 <option value="whatsapp">WhatsApp</option>
               </Dropdown>
             </div>
@@ -95,16 +98,31 @@ function AddChannelModal({ visible, setVisible, onAdded }){
 
           <div className="Vlt-grid Vlt-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
-              <TextInput label="Sender ID" value={state.senderId} setValue={handleSenderIdChange} />
+              <TextInput 
+                label="Sender ID" 
+                value={state.senderId} 
+                setValue={handleSenderIdChange} 
+                disabled={!state.channel}
+              />
             </div>
             <div className="Vlt-col Vlt-col--A">
-              <NumberInput label="TPS" value={state.tps} setValue={handleTPSChange}/>
+              <NumberInput 
+                label="TPS" 
+                value={state.tps} 
+                setValue={handleTPSChange}
+                disabled={!state.channel}
+              />
             </div>
           </div>
 
           <div className="Vlt-grid Vlt-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
-              <APIKeyDropdown label="API Key" value={state.apiKey} setValue={handleAPIKeyChange} />
+              <APIKeyDropdown 
+                label="API Key" 
+                value={state.apiKey} 
+                setValue={handleAPIKeyChange} 
+                disabled={!state.channel}
+              />
             </div>
             <div className="Vlt-col Vlt-col--A">
               <ApplicationDropdown 

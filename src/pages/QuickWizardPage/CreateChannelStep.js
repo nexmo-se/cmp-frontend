@@ -6,7 +6,7 @@ import { ErrorContext } from "contexts/error";
 import AddChannelModal from "components/AddChannelModal";
 import Step from "pages/QuickWizardPage/Step";
 
-function CreateChannelStep({ number }){
+function CreateChannelStep({ disableSMS=false, number }){
   const [ visible, setVisible ] = React.useState(false);
   const { throwSuccess } = React.useContext(ErrorContext);
 
@@ -30,6 +30,7 @@ function CreateChannelStep({ number }){
         visible={visible}
         setVisible={setVisible}
         onAdded={handleAdded}
+        disableSMS={disableSMS}
       />
     </React.Fragment>
   )
