@@ -44,5 +44,9 @@ class FetchAPI{
   static async put(url, token, body){
     return FetchAPI.otherThanGet("PUT", url, token, body, "application/json");
   }
+
+  static async remove(url, token){
+    return FetchAPI.otherThanGet("DELETE", url, token);
+  }
 }
 export default FetchAPI;

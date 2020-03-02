@@ -31,6 +31,11 @@ function useCampaign(token){
     await FetchAPI.put(url, token, JSON.stringify(body));
   }
 
-  return { data, list, create, retrieve, updateStatus };
+  async function remove(campaign){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}`;
+    await FetchAPI.remove(url, token);
+  }
+
+  return { data, list, create, retrieve, updateStatus, remove };
 }
 export default useCampaign;

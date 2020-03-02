@@ -8,6 +8,7 @@ import RestartButton from "components/CampaignTable/RestartButton";
 import PauseButton from "components/CampaignTable/PauseButton";
 import UploadButton from "components/CampaignTable/UploadButton";
 import DuplicateButton from "components/CampaignTable/DuplicateButton";
+import DeleteButton from "components/CampaignTable/DeleteButton";
 
 function DetailColumn({ campaign, setRefreshToken }){
   return (
@@ -23,7 +24,7 @@ function DetailColumn({ campaign, setRefreshToken }){
       ): campaign.status === "pending"?(
         <PauseButton campaign={campaign} setRefreshToken={setRefreshToken} />
       ): null}
-      <ButtonIcon type="destructive" icon="Vlt-icon-bin" />
+      <DeleteButton campaign={campaign} setRefreshToken={setRefreshToken} />
     </TableColumn>
   )
 }
