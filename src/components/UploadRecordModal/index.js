@@ -1,9 +1,6 @@
 import React from "react";
 
-import Record from "entities/record";
-
 import useRecord from "hooks/record";
-import useCampaign from "hooks/campaign";
 
 import { ErrorContext } from "contexts/error";
 import { UserContext } from "contexts/user";
@@ -18,10 +15,9 @@ import FileInput from "components/FileInput";
 function UploadRecordModal({ visible, setVisible, onUploaded }){
   const [ file, setFile ] = React.useState(null);
   const [ isUploading, setIsUploading ] = React.useState(false);
-  const { throwError } = React.useContext(ErrorContext);
+  const { throwError, throwSuccess } = React.useContext(ErrorContext);
   const { token } = React.useContext(UserContext);
   const mRecord = useRecord(token);
-  const mCampaign = useCampaign(token);
   
   function handleCancel(){
     setVisible(false);
@@ -30,10 +26,8 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
   async function handleUpload(){
     try{
       setIsUploading(true);
-      const records = await Record.fromCSV(file);
-      const [{ campaign }] = records;
-      await mRecord.createBatch(records);
-      await mCampaign.updateStatus(campaign, "pending");
+      await mRecord.uploadCSV(file);
+      throwSuccess("File uploaded!");
       if(onUploaded) onUploaded();
     }catch(err){
       throwError(err);
@@ -51,12 +45,15 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
       </ModalHeader>
       <ModalContent>
         <FileInput label="CSV Template" setFile={setFile}/>
-        <p style={{ whiteSpace: "pre-wrap" }}>
-          <b>Note: </b>Please note that the campaign will be automatically run.
-        </p>
       </ModalContent>
       <ModalFooter>
-        <Button type="tertiary" onClick={handleCancel}>Cancel</Button>
+        <Button 
+          type="tertiary" 
+          onClick={handleCancel}
+          disabled={isUploading}
+        >
+          Cancel
+        </Button>
         <Button 
           type="primary" 
           onClick={handleUpload}

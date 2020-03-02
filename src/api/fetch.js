@@ -8,13 +8,16 @@ class FetchAPI{
       return response.json();
   }
 
-  static async otherThanGet(method, url, token, body){
+  static async otherThanGet(method, url, token, body, contentType){
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": contentType      
+    }
+    Object.keys(headers).forEach(key => headers[key] === undefined && delete headers[key]);
+
     const response = await fetch(url, {
       method: method.toUpperCase(),
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
+      headers,
       body
     })
     return FetchAPI.processResponse(response);
@@ -31,11 +34,15 @@ class FetchAPI{
   }
 
   static async post(url, token, body){
-    return FetchAPI.otherThanGet("POST", url, token, body);
+    return FetchAPI.otherThanGet("POST", url, token, body, "application/json");
+  }
+
+  static async postFile(url, token, formData){
+    return FetchAPI.otherThanGet("POST", url, token, formData, undefined);
   }
 
   static async put(url, token, body){
-    return FetchAPI.otherThanGet("PUT", url, token, body);
+    return FetchAPI.otherThanGet("PUT", url, token, body, "application/json");
   }
 }
 export default FetchAPI;

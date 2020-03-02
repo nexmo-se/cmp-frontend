@@ -36,7 +36,7 @@ function GenerateCSVModal({
       const csvContent = CSVAPI.generateBlaster(parameters);
       const link = document.createElement("a");
       link.setAttribute("href", encodeURI(csvContent));
-      link.setAttribute("download", `${initCampaign}#${template}.csv`);
+      link.setAttribute("download", `${initCampaign}#${templateId}.csv`);
       link.click();
     }catch(err){
       throwError(err);
