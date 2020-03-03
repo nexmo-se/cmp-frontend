@@ -38,7 +38,10 @@ function APIKeyPage(){
           </div>
           <div className="Vlt-grid">
             <div className="Vlt-col">
-              <APIKeyTable refreshToken={refreshToken} />
+              <APIKeyTable 
+                refreshToken={refreshToken} 
+                setRefreshToken={setRefreshToken}
+              />
             </div>
           </div>
         </SectionContainer>

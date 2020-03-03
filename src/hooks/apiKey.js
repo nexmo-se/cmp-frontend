@@ -27,7 +27,13 @@ function useAPIKey(token){
     const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys`;
     await FetchAPI.post(url, token, JSON.stringify(apiKey.toJSON()));
   }
+  
+  async function remove(apiKey){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys/${apiKey.id}`;
+    await FetchAPI.remove(url, token);
+  }
 
-  return { data, list, create };
+
+  return { data, list, create, remove };
 }
 export default useAPIKey;

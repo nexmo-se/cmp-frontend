@@ -11,9 +11,9 @@ import TableRow from "components/Table/TableRow";
 import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
-import DetailColumn from "components/Table/DetailColumn";
+import DetailColumn from "components/APIKeyTable/DetailColumn";
 
-function APIKeyTable({ refreshToken }){
+function APIKeyTable({ refreshToken, setRefreshToken }){
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const apiKey = useAPIKey(token);
@@ -46,7 +46,7 @@ function APIKeyTable({ refreshToken }){
               <TableColumn className="Vlt-right">{apiKey.cmpApplications.length}</TableColumn>
               <TableColumn className="Vlt-right">{apiKey.cmpChannels.length}</TableColumn>
               <TableColumn className="Vlt-right">{apiKey.users.length}</TableColumn>
-              <DetailColumn />
+              <DetailColumn apiKey={apiKey} setRefreshToken={setRefreshToken} />
             </TableRow>
           )
         })}
