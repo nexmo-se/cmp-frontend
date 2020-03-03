@@ -26,9 +26,7 @@ class APIKey{
     return {
       name: this.name,
       apiKey: this.apiKey,
-      apiSecret: this.apiSecret,
-      signatureSecret: this.signatureSecret,
-      signatureMethod: this.signatureMethod
+      apiSecret: this.apiSecret
     }
   }
 
