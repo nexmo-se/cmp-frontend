@@ -12,10 +12,10 @@ import TableRow from "components/Table/TableRow";
 import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
-import DetailColumn from "components/Table/DetailColumn";
+import DetailColumn from "components/ChannelTable/DetailColumn";
 import Empty from "components/Empty";
 
-function ChannelTable({ refreshToken }){
+function ChannelTable({ refreshToken, setRefreshToken }){
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mChannel = useChannel(token);
@@ -54,7 +54,7 @@ function ChannelTable({ refreshToken }){
               <TableColumn>{channel.tps}</TableColumn>
               <TableColumn><Link href="#">{channel.application.name}</Link></TableColumn>
               <TableColumn><Link href="#">{channel.apiKey.key}</Link></TableColumn>
-              <DetailColumn />
+              <DetailColumn channel={channel} setRefreshToken={setRefreshToken} />
             </TableRow>
           )
         })}

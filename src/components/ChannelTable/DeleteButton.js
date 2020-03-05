@@ -1,23 +1,23 @@
 import React from "react";
 import uuid from "uuid/v4";
 
-import useApplication from "hooks/application";
+import useChannel from "hooks/channel";
 import { ErrorContext } from "contexts/error";
 import { UserContext } from "contexts/user";
 
 import LoadingModal from "components/LoadingModal";
 import ButtonIcon from "components/ButtonIcon";
 
-function DeleteButton({ application, setRefreshToken }){
+function DeleteButton({ channel, setRefreshToken }){
   const [ isDeleting, setIsDeleting ] = React.useState(false);
   const { throwError } = React.useContext(ErrorContext);
   const { token } = React.useContext(UserContext);
-  const mApplication = useApplication(token);
+  const mChannel = useChannel(token);
 
   async function handleClick(){
     try{
       setIsDeleting(true);
-      await mApplication.remove(application);
+      await mChannel.remove(channel);
       setRefreshToken(uuid());
     }catch(err){
       throwError(err);
@@ -33,7 +33,7 @@ function DeleteButton({ application, setRefreshToken }){
         type="destructive"
         onClick={handleClick}
       />
-      <LoadingModal label="Deleting Application" visible={isDeleting} />
+      <LoadingModal label="Deleting Channel" visible={isDeleting} />
     </React.Fragment>
   )
 }

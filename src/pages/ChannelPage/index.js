@@ -40,7 +40,7 @@ function ChannelPage(){
 
           <div className="Vlt-grid">
             <div className="Vlt-col">
-              <ChannelTable refreshToken={refreshToken}/>
+              <ChannelTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
             </div>
           </div>
 

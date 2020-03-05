@@ -35,6 +35,11 @@ function useChannel(token){
     else return null;
   }
 
-  return { data, list, create, retrieve };
+  async function remove(channel){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/channels/${channel.id}`;
+    await FetchAPI.remove(url, token);
+  }
+
+  return { data, list, create, retrieve, remove };
 }
 export default useChannel;
