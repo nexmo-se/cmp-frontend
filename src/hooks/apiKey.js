@@ -33,7 +33,6 @@ function useAPIKey(token){
     await FetchAPI.remove(url, token);
   }
 
-
   return { data, list, create, remove };
 }
 export default useAPIKey;

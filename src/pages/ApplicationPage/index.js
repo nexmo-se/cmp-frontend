@@ -40,7 +40,7 @@ function ApplicationPage(){
 
           <div className="Vlt-grid">
             <div className="Vlt-col">
-              <ApplicationTable refreshToken={refreshToken}/>
+              <ApplicationTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
             </div>
           </div>
         </SectionContainer>

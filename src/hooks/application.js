@@ -28,6 +28,11 @@ function useApplication(token){
     await FetchAPI.post(url, token, JSON.stringify(application.toJSON()));
   }
 
-  return { data, list, create }
+  async function remove(application){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/applications/${application.id}`;
+    await FetchAPI.remove(url, token);
+  }
+
+  return { data, list, create, remove }
 }
 export default useApplication;

@@ -10,10 +10,10 @@ import TableRow from "components/Table/TableRow";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import TableHeader from "components/Table/TableHeader";
-import DetailColumn from "components/Table/DetailColumn";
+import DetailColumn from "components/ApplicationTable/DetailColumn";
 import Empty from "components/Empty";
 
-function ApplicationTable({ refreshToken }){
+function ApplicationTable({ refreshToken, setRefreshToken }){
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mApplication = useApplication(token);
@@ -42,7 +42,7 @@ function ApplicationTable({ refreshToken }){
               <TableColumn>{application.name}</TableColumn>
               <TableColumn>{application.apiKey.name}</TableColumn>
               <TableColumn className="Vlt-center">{application.cmpChannels.length}</TableColumn>
-              <DetailColumn />
+              <DetailColumn application={application} setRefreshToken={setRefreshToken}/>
             </TableRow>
           )
         })}
