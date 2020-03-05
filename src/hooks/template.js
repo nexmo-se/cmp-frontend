@@ -33,6 +33,11 @@ function useTemplate(token){
     else return null;
   }
 
-  return { data, list, create, retrieve } 
+  async function remove(template){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/templates/${template.id}`;
+    await FetchAPI.remove(url, token);
+  }
+
+  return { data, list, create, retrieve, remove } 
 }
 export default useTemplate;

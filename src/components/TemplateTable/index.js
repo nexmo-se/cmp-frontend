@@ -12,10 +12,10 @@ import TableRow from "components/Table/TableRow";
 import TableHeader from "components/Table/TableHeader";
 import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
-import DetailColumn from "components/Table/DetailColumn";
+import DetailColumn from "components/TemplateTable/DetailColumn";
 import Empty from "components/Empty";
 
-function TemplateTable({ refreshToken }){
+function TemplateTable({ refreshToken, setRefreshToken }){
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mTemplate = useTemplate(token);
@@ -58,7 +58,7 @@ function TemplateTable({ refreshToken }){
                   {template.channel.apiKey.name}
                 </Link>
               </TableColumn>
-              <DetailColumn />
+              <DetailColumn template={template} setRefreshToken={setRefreshToken} />
             </TableRow>
           )
         })}

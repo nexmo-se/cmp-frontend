@@ -40,7 +40,7 @@ function TemplatePage(){
 
           <div className="Vlt-grid">
             <div className="Vlt-col">
-              <TemplateTable refreshToken={refreshToken} />
+              <TemplateTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
             </div>
           </div>
         </SectionContainer>
