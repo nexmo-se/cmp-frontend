@@ -6,10 +6,11 @@ import useCampaign from "hooks/campaign";
 import { UserContext } from "contexts/user";
 
 import CampaignDetailCard from "components/CampaignDetailCard";
+import DeliveredCampaignChart from "components/DeliveredCampaignChart";
+import CampaignAuditLogCard from "components/CampaignAuditLogCard";
 
 import Header from "pages/CampaignDetailPage/Header";
 import SummaryStats from "pages/CampaignDetailPage/SummaryStats";
-import AuditLogsTable from "pages/CampaignDetailPage/AuditLogsTable";
 
 function CampaignDetailPage(){
   const [ campaign, setCampaign ] = React.useState();
@@ -34,16 +35,10 @@ function CampaignDetailPage(){
       <div className="Vlt-grid">
         <div className="Vlt-col">
           <CampaignDetailCard campaign={campaign} />
+          <CampaignAuditLogCard campaign={campaign} />
         </div>
         <div className="Vlt-col Vlt-col--2of3">
-          <div className="Vlt-card">
-            <div className="Vlt-card__header">
-              <h4>Audit Logs</h4>
-            </div>
-            <div className="Vlt-card__content">
-              <AuditLogsTable campaign={campaign} />
-            </div>
-          </div>
+          <DeliveredCampaignChart campaign={campaign}/>
         </div>
       </div>
     </React.Fragment>
