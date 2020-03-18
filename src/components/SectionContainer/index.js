@@ -1,34 +1,24 @@
 import React from "react";
-import styled from "styled-components";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/styles";
 
-const Content = styled.section`
-  max-width: 1200px;
-  padding: 32px 32px 60px;
-  width: 100%;
-  height: 100vh;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-
-  @media only screen and (max-width: 575px){
-    padding-top: 60px;
-  }
-`
-
-const Container = styled.section`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
+const useStyles = makeStyles(() => ({
+  main: {
+    flex: 1, 
+    height: "100vh",
+    overflowY: "auto",
+    padding: "24px 32px"
+  },
+  mainLight: { background: "#f3f3f5" }
+}))
 
 function SectionContainer({ children }){
+  const mStyles = useStyles();
+
   return (
-    <Container>
-      <Content>
-        {children}
-      </Content>
-    </Container>
+    <main className={clsx(mStyles.main, mStyles.mainLight)}>
+      {children}
+    </main>
   )
 }
 export default SectionContainer;

@@ -23,29 +23,24 @@ function APIKeyPage(){
 
   return (
     <React.Fragment>
-      <PageContainer>
-        <SideNavigation menuActive={{ apiKey: true }}/>
-        <SectionContainer>
-          <div className="Vlt-grid">
-            <div className="Vlt-col Vlt-right">
-              <AddButton onClick={handleToggleModal}>Add New API Key</AddButton>
-            </div>
-          </div>
-          <div className="Vlt-grid">
-            <div className="Vlt-col">
-              <h5>ALL API KEYS</h5>
-            </div>
-          </div>
-          <div className="Vlt-grid">
-            <div className="Vlt-col">
-              <APIKeyTable 
-                refreshToken={refreshToken} 
-                setRefreshToken={setRefreshToken}
-              />
-            </div>
-          </div>
-        </SectionContainer>
-      </PageContainer>
+      <div className="Vlt-grid">
+        <div className="Vlt-col Vlt-right">
+          <AddButton onClick={handleToggleModal}>Add New API Key</AddButton>
+        </div>
+      </div>
+      <div className="Vlt-grid">
+        <div className="Vlt-col">
+          <h5>ALL API KEYS</h5>
+        </div>
+      </div>
+      <div className="Vlt-grid">
+        <div className="Vlt-col">
+          <APIKeyTable 
+            refreshToken={refreshToken} 
+            setRefreshToken={setRefreshToken}
+          />
+        </div>
+      </div>
       <AddAPIKeyModal 
         visible={modalVisible}
         setVisible={setModalVisible}

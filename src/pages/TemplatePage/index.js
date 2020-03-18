@@ -22,29 +22,23 @@ function TemplatePage(){
 
   return (
     <React.Fragment>
-      <PageContainer>
-        <SideNavigation menuActive={{ template: true }}/>
-        <SectionContainer>
+      <div className="Vlt-grid">
+        <div className="Vlt-col Vlt-right">
+          <AddButton onClick={handleToggleModal}>Add New Template</AddButton>
+        </div>
+      </div>
 
-          <div className="Vlt-grid">
-            <div className="Vlt-col Vlt-right">
-              <AddButton onClick={handleToggleModal}>Add New Template</AddButton>
-            </div>
-          </div>
+      <div className="Vlt-grid">
+        <div className="Vlt-col">
+          <h5>ALL TEMPLATES</h5>
+        </div>
+      </div>
 
-          <div className="Vlt-grid">
-            <div className="Vlt-col">
-              <h5>ALL TEMPLATES</h5>
-            </div>
-          </div>
-
-          <div className="Vlt-grid">
-            <div className="Vlt-col">
-              <TemplateTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
-            </div>
-          </div>
-        </SectionContainer>
-      </PageContainer>
+      <div className="Vlt-grid">
+        <div className="Vlt-col">
+          <TemplateTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
+        </div>
+      </div>
       <AddTemplateModal 
         visible={visible} 
         setVisible={setVisible} 

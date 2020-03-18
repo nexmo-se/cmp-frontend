@@ -12,6 +12,7 @@ import SectionContainer from "components/SectionContainer";
 import Header from "pages/CampaignDetailPage/Header";
 import SummaryStats from "pages/CampaignDetailPage/SummaryStats";
 import AuditLogsTable from "pages/CampaignDetailPage/AuditLogsTable";
+import CampaignDetailCard from "pages/CampaignDetailPage/CampaignDetailCard";
 
 function CampaignDetailPage(){
   const [ campaign, setCampaign ] = React.useState();
@@ -28,29 +29,27 @@ function CampaignDetailPage(){
     fetchData();
   }, [ campaignId ])
 
+  if(!campaign) return null;
   return (
-    <PageContainer>
-      <SideNavigation menuActive={{ campaign: true }} />
-      {(!campaign)? null:(
-        <SectionContainer>
-          <Header campaign={campaign} />
-          <SummaryStats campaign={campaign} />
-          <div className="Vlt-grid">
-            <div className="Vlt-col">
-              <div className="Vlt-card">
-                <div className="Vlt-card__header">
-                  <h4>Audit Logs</h4>
-                </div>
-                <div className="Vlt-card__content">
-                  <AuditLogsTable campaign={campaign} />
-                </div>
-              </div>
+    <React.Fragment>
+      <Header campaign={campaign} />
+      <SummaryStats campaign={campaign} />
+      <div className="Vlt-grid">
+        <div className="Vlt-col">
+          <CampaignDetailCard campaign={campaign} />
+        </div>
+        <div className="Vlt-col">
+          <div className="Vlt-card">
+            <div className="Vlt-card__header">
+              <h4>Audit Logs</h4>
             </div>
-            <div className="Vlt-col" />
+            <div className="Vlt-card__content">
+              <AuditLogsTable campaign={campaign} />
+            </div>
           </div>
-        </SectionContainer>
-      )}
-    </PageContainer>
+        </div>
+      </div>
+    </React.Fragment>
   )
 }
 export default CampaignDetailPage;

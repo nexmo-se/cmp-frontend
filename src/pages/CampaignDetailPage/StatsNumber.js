@@ -18,6 +18,6 @@ function StatsNumber({ left, right }){
     }
   }, [ right ])
 
-  return `${leftString}/${rightString}`
+  return `${leftString} / ${rightString}`
 }
 export default StatsNumber;

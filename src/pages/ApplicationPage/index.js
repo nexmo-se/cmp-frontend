@@ -23,28 +23,23 @@ function ApplicationPage(){
 
   return (
     <React.Fragment>
-      <PageContainer>
-        <SideNavigation menuActive={{ application: true }}/>
-        <SectionContainer>
-          <div className="Vlt-grid">
-            <div className="Vlt-col Vlt-right">
-              <AddButton onClick={handleToggleModal}>Add New Application</AddButton>
-            </div>
-          </div>
+      <div className="Vlt-grid">
+        <div className="Vlt-col Vlt-right">
+          <AddButton onClick={handleToggleModal}>Add New Application</AddButton>
+        </div>
+      </div>
 
-          <div className="Vlt-grid">
-            <div className="Vlt-col">
-              <h5>ALL APPLICATIONS</h5>
-            </div>
-          </div>
+      <div className="Vlt-grid">
+        <div className="Vlt-col">
+          <h5>ALL APPLICATIONS</h5>
+        </div>
+      </div>
 
-          <div className="Vlt-grid">
-            <div className="Vlt-col">
-              <ApplicationTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
-            </div>
-          </div>
-        </SectionContainer>
-      </PageContainer>
+      <div className="Vlt-grid">
+        <div className="Vlt-col">
+          <ApplicationTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
+        </div>
+      </div>
       <AddApplicationModal 
         visible={modalVisible} 
         setVisible={setModalVisible} 

@@ -22,30 +22,23 @@ function ChannelPage(){
 
   return (
     <React.Fragment>
-      <PageContainer>
-        <SideNavigation menuActive={{ channel: true }}/>
-        <SectionContainer>
-          
-          <div className="Vlt-grid">
-            <div className="Vlt-col Vlt-right">
-              <AddButton onClick={handleToggleModal}>Add New Channel</AddButton>
-            </div>
-          </div>
+      <div className="Vlt-grid">
+        <div className="Vlt-col Vlt-right">
+          <AddButton onClick={handleToggleModal}>Add New Channel</AddButton>
+        </div>
+      </div>
 
-          <div className="Vlt-grid">
-            <div className="Vlt-col">
-              <h5>ALL CHANNELS</h5>
-            </div>
-          </div>
+      <div className="Vlt-grid">
+        <div className="Vlt-col">
+          <h5>ALL CHANNELS</h5>
+        </div>
+      </div>
 
-          <div className="Vlt-grid">
-            <div className="Vlt-col">
-              <ChannelTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
-            </div>
-          </div>
-
-        </SectionContainer>
-      </PageContainer>
+      <div className="Vlt-grid">
+        <div className="Vlt-col">
+          <ChannelTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
+        </div>
+      </div>
       <AddChannelModal visible={visible} setVisible={setVisible} onAdded={handleAdded} />
     </React.Fragment>
   )
