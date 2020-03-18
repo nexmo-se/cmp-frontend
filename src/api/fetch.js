@@ -5,10 +5,17 @@ class FetchAPI{
       if(response.status !== 200){
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }
-      return response.json();
+      
+      try{
+        const jsonResponse = await response.json();
+        return jsonResponse
+      }catch(err){
+        return null;
+      }
   }
 
   static async otherThanGet(method, url, token, body, contentType){
+    console.log(`Processing ${method.toUpperCase()} ${url}`);
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": contentType      
@@ -24,6 +31,7 @@ class FetchAPI{
   }
 
   static async get(url, token){
+    console.log(`Processing GET ${url}`);
     const response = await fetch(url, {
       method: "GET",
       headers: {

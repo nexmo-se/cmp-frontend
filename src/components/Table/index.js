@@ -4,7 +4,7 @@ function Table(props){
   const { children } = props;
   
   return (
-    <div className="Vlt-table Vlt-table--data Vlt-table--data--dark">
+    <div className="Vlt-table">
       <table>
         {children}
       </table>

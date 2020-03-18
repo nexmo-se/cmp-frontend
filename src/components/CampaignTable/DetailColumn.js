@@ -1,7 +1,7 @@
 import React from "react";
 
 import TableColumn from "components/Table/TableColumn";
-import ButtonIcon from "components/ButtonIcon";
+import DetailButton from "components/CampaignTable/DetailButton";
 import DownloadButton from "components/CampaignTable/DownloadButton";
 import StartButton from "components/CampaignTable/StartButton";
 import RestartButton from "components/CampaignTable/RestartButton";
@@ -13,7 +13,7 @@ import DeleteButton from "components/CampaignTable/DeleteButton";
 function DetailColumn({ campaign, setRefreshToken }){
   return (
     <TableColumn className="Vlt-table__cell--nowrap">
-      <ButtonIcon icon="Vlt-icon-gear"/>
+      <DetailButton campaign={campaign} />
       <DuplicateButton campaign={campaign} setRefreshToken={setRefreshToken}/>
       <DownloadButton campaign={campaign}/>
       <UploadButton />

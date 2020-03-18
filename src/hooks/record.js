@@ -1,8 +1,13 @@
+import React from "react";
+
 import FetchAPI from "api/fetch";
+
 import Campaign from "entities/campaign";
 import Template from "entities/template";
+import Record from "entities/record";
 
 function useRecord(token){
+  const [ data, setData ] = React.useState([]);
 
   async function uploadCSV(file){
     const [ filename ] = file.name.match(/([a-z|0-9|-])+#([a-z|0-9|-])+/g);
@@ -15,6 +20,13 @@ function useRecord(token){
     await FetchAPI.postFile(url, token, formData);
   }
 
-  return { uploadCSV }
+  async function retrieveFromCampaign(campaign, limit=25){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/records?cmpCampaignId=${campaign.id}&limit=${limit}`;
+    const responseData = await FetchAPI.get(url, token);
+    const newData = responseData.map((data) => Record.fromJSON(data));
+    setData(newData);
+  }
+
+  return { data, uploadCSV, retrieveFromCampaign }
 }
 export default useRecord;

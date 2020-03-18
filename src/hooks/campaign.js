@@ -1,7 +1,8 @@
 import React from "react";
 
-import Campaign from "entities/campaign";
 import FetchAPI from "api/fetch";
+import Campaign from "entities/campaign";
+import Report from "entities/report";
 
 function useCampaign(token){
   const [ data, setData ] = React.useState([]);
@@ -36,6 +37,27 @@ function useCampaign(token){
     await FetchAPI.remove(url, token);
   }
 
-  return { data, list, create, retrieve, updateStatus, remove };
+  async function summaryReport(campaign){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/reports/json`;
+    const payload = {
+      type: "campaign_summary",
+      content: {
+        cmpCampaignId: campaign.id
+      }
+    };
+    const responseData = await FetchAPI.post(url, token, JSON.stringify(payload));
+    if(responseData) return Report.fromJSON(responseData);
+    else return null;
+  }
+
+  return {
+    data, 
+    list, 
+    create, 
+    retrieve, 
+    updateStatus, 
+    remove ,
+    summaryReport
+  };
 }
 export default useCampaign;

@@ -9,6 +9,7 @@ export default function ErrorProvider({ children }){
   const [ success, setSuccess ] = React.useState(null);
 
   function throwError(err){
+    console.log(err.stack);
     setError(err);
   }
 

@@ -65,12 +65,12 @@ class Campaign{
   }
 
   static fromJSON(value){
-    const campaign = new Campaign();
+    const campaign = new Campaign(); 
     campaign.id = value.id;
     campaign.name = value.name;
     campaign.campaignStartDate = value.campaignStartDate;
     campaign.campaignEndDate = value.campaignEndDate;
-    campaign.actualStartDate = value.actualEndDate;
+    campaign.actualStartDate = value.actualStartDate;
     campaign.actualEndDate = value.actualEndDate;
     campaign.actualDuration = value.actualDuration;
     campaign.status = value.status;
@@ -81,6 +81,7 @@ class Campaign{
     campaign.activeEndMinute = value.activeEndMinute;
     campaign.activeOnWeekends = value.activeOnWeekends;
     campaign.timezone = value.timezone;
+    campaign.cmpCampaignStatusAudits = value.cmpCampaignStatusAudits;
     return campaign;
   }
 }

@@ -44,8 +44,11 @@ class Template{
     t.whatsappTemplateNamespace = value.whatsappTemplateNamespace;
     t.mediaType = value.mediaType;
 
-    t.channel = new Channel();
-    t.channel.id = value.cmpChannelId;
+    if(value.cmpChannel) t.channel = Channel.fromJSON(value.cmpChannel);
+    else if(value.cmpChannelId){
+      t.channel = new Channel();
+      t.channel.id = value.cmpChannelId
+    }
     return t;
   }
 }

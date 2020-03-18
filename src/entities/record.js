@@ -39,6 +39,15 @@ class Record{
     }
   }
 
+  static async fromJSON(value){
+    const record = new Record();
+    record.id = value.id;
+    record.recipient = value.recipient;
+    record.campaign = Campaign.fromJSON(value.cmpCampaign);
+    record.template = Template.fromJSON(value.cmpTemplate);
+    record.cmpRecordMessages = value.cmpRecordMessages;
+  }
+
   static async fromCSV(file){
     const { data } = await CSVAPI.parse(file);
     const [ campaignId, endingFileName ] = file.name.split("#");
