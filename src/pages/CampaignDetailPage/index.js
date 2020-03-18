@@ -5,14 +5,11 @@ import Campaign from "entities/campaign";
 import useCampaign from "hooks/campaign";
 import { UserContext } from "contexts/user";
 
-import PageContainer from "components/PageContainer";
-import SideNavigation from "components/SideNavigation";
-import SectionContainer from "components/SectionContainer";
+import CampaignDetailCard from "components/CampaignDetailCard";
 
 import Header from "pages/CampaignDetailPage/Header";
 import SummaryStats from "pages/CampaignDetailPage/SummaryStats";
 import AuditLogsTable from "pages/CampaignDetailPage/AuditLogsTable";
-import CampaignDetailCard from "pages/CampaignDetailPage/CampaignDetailCard";
 
 function CampaignDetailPage(){
   const [ campaign, setCampaign ] = React.useState();

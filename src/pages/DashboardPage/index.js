@@ -1,8 +1,5 @@
 import React from "react";
 
-import PageContainer from "components/PageContainer";
-import SideNavigation from "components/SideNavigation";
-import SectionContainer from "components/SectionContainer";
 import DeliveryStatsCard from "components/DeliveryStatsCard";
 import DeliveredCampaignChart from "components/DeliveredCampaignChart";
 import AverageDeliveryTimeCard from "components/AverageDeliveryTimeCard";

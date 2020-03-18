@@ -1,10 +1,7 @@
 import React from "react";
 import uuid from "uuid/v4";
 
-import PageContainer from "components/PageContainer";
-import SideNavigation from "components/SideNavigation";
 import AddButton from "components/AddButton";
-import SectionContainer from "components/SectionContainer";
 import ApplicationTable from "components/ApplicationTable";
 import AddApplicationModal from "components/AddApplicationModal";
 

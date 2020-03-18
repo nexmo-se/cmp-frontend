@@ -1,9 +1,6 @@
 import React from "react";
 import uuid from "uuid/v4";
 
-import PageContainer from "components/PageContainer";
-import SideNavigation from "components/SideNavigation";
-import SectionContainer from "components/SectionContainer";
 import AddButton from "components/AddButton";
 import TemplateTable from "components/TemplateTable";
 import AddTemplateModal from "components/AddTemplateModal";
