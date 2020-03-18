@@ -38,7 +38,7 @@ function CampaignDetailPage(){
           <CampaignAuditLogCard campaign={campaign} />
         </div>
         <div className="Vlt-col Vlt-col--2of3">
-          <DeliveredCampaignChart campaign={campaign}/>
+          <DeliveredCampaignChart campaign={campaign} height={100} />
         </div>
       </div>
     </React.Fragment>
