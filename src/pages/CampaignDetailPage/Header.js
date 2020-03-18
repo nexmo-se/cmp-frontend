@@ -4,8 +4,9 @@ import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
 
 import ButtonIcon from "components/ButtonIcon";
+import ExportCampaignDetailReportButton from "components/ExportCampaignDetailReportButton";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   subheader: { marginBottom: 0 },
   headerLabel: { 
     paddingTop: 0,
@@ -40,6 +41,9 @@ function Header({ campaign }){
           <p className={classes.subheader}>CAMPAIGN</p>
           <h2 className={classes.headerLabel}>{campaign.name}</h2>
         </div>
+      </div>
+      <div className={clsx("Vlt-col", "Vlt-right")}>
+        <ExportCampaignDetailReportButton campaign={campaign} />
       </div>
     </div>
   )
