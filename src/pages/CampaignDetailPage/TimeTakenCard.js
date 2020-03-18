@@ -30,15 +30,27 @@ const useStyles = makeStyles(() => ({
 }))
 
 function TimeTakeCard({ campaign }){
-  const [ difference, setDifference ] = React.useState("-");
+  const [ duration, setDuration ] = React.useState("-");
+  const [ durationString, setDurationString ] = React.useState("");
   const classes = useStyles();
 
   React.useEffect(() => {
-    if(campaign && campaign.actualEndDate){
-      const startDate = new moment(campaign.actualStartDate);
-      const endDate = new moment(campaign.actualEndDate);
-      setDifference(endDate.diff(startDate, "minute", true));
+    let duration = campaign?.actualDuration / 60;
+    let durationString = "minutes";
+    if(duration > 60){
+      duration = duration / 60;
+      durationString = "hours";
+      if(duration > 24){
+        duration = duration / 24;
+        durationString = "days";
+        if(duration > 7 ){
+          duration = duration / 7;
+          durationString = "weeks";
+        }
+      }
     }
+    setDuration(duration.toFixed(2));
+    setDurationString(durationString);
   }, [ campaign ])
 
   return (
@@ -55,7 +67,7 @@ function TimeTakeCard({ campaign }){
         <VoltaIcon className={clsx("Vlt-white", classes.largeIcon)} icon="Vlt-icon-clock" />
         <div className={classes.dataContainer}>
           <p className={clsx("Vlt-white", classes.noMarginPadding)}>TIME TAKEN</p>
-          <h4 className={clsx("Vlt-white", classes.noMarginPadding)}>{difference} minutes</h4>
+        <h4 className={clsx("Vlt-white", classes.noMarginPadding)}>{duration} {durationString}</h4>
         </div>
       </div>
     </div>
