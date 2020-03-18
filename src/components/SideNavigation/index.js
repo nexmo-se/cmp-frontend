@@ -1,13 +1,26 @@
 import React from "react";
 import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
+import { useLocation } from "react-router-dom";
 
 import CompanyLogo from "components/SideNavigation/CompanyLogo";
 import Greetings from "components/SideNavigation/Greetings";
 import SingleMenu from "components/SideNavigation/SingleMenu";
 import MenuSeparator from "components/SideNavigation/MenuSeparator";
 
-function SideNavigation(props){
-  const { menuActive } = props;
+function SideNavigation(){
+  const [ menuActive, setMenuActive ] = React.useState(null);
+  const mLocation = useLocation();
+
+  React.useEffect(() => {
+    if(mLocation.pathname.includes("/dashboard")) setMenuActive("dashboard");
+    else if(mLocation.pathname.includes("/reports")) setMenuActive("reports");
+    else if(mLocation.pathname.includes("/quickwizard")) setMenuActive("quickwizard");
+    else if(mLocation.pathname.includes("/apikeys")) setMenuActive("apikeys");
+    else if(mLocation.pathname.includes("/applications")) setMenuActive("applications");
+    else if(mLocation.pathname.includes("/channels")) setMenuActive("channels");
+    else if(mLocation.pathname.includes("/templates")) setMenuActive("templates")
+    else if(mLocation.pathname.includes("/campaigns")) setMenuActive("campaigns");
+  }, [ mLocation ])
 
   return (
     <React.Fragment>
@@ -25,15 +38,15 @@ function SideNavigation(props){
 
         <div className="Vlt-sidenav__scroll">
           <ul className="Vlt-sidemenu">
-            <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive.dashboard} to="/dashboard" />
-            <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" />
-            <SingleMenu icon="Vlt-icon-rocket" label="Quick Wizard" to="/quickwizard" active={menuActive.quickWizard} />
+            <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive === "dashboard"} to="/dashboard" />
+            <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" active={menuActive === "reports"} />
+            <SingleMenu icon="Vlt-icon-rocket" label="Quick Wizard" to="/quickwizard" active={menuActive === "quickwizard"} />
             <MenuSeparator>Configurations</MenuSeparator>
-            <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive.apiKey} to="/apikeys"/>
-            <SingleMenu icon="Vlt-icon-keypad" label="Application" active={menuActive.application} to="/applications" />
-            <SingleMenu icon="Vlt-icon-mind-map" label="Channel" active={menuActive.channel} to="/channels" />
-            <SingleMenu icon="Vlt-icon-stack" label="Template" active={menuActive.template} to="/templates" />
-            <SingleMenu icon="Vlt-icon-packet" label="Campaign" active={menuActive.campaign} to="/campaigns" />
+            <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive === "apikeys"} to="/apikeys"/>
+            <SingleMenu icon="Vlt-icon-keypad" label="Application" active={menuActive === "applications"} to="/applications" />
+            <SingleMenu icon="Vlt-icon-mind-map" label="Channel" active={menuActive === "channels"} to="/channels" />
+            <SingleMenu icon="Vlt-icon-stack" label="Template" active={menuActive === "templates"} to="/templates" />
+            <SingleMenu icon="Vlt-icon-packet" label="Campaign" active={menuActive === "campaigns"} to="/campaigns" />
           </ul>
         </div>
       </div>
