@@ -35,7 +35,7 @@ function CampaignDetailPage(){
         <div className="Vlt-col">
           <CampaignDetailCard campaign={campaign} />
         </div>
-        <div className="Vlt-col">
+        <div className="Vlt-col Vlt-col--2of3">
           <div className="Vlt-card">
             <div className="Vlt-card__header">
               <h4>Audit Logs</h4>
