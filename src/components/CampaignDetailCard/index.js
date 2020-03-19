@@ -24,7 +24,6 @@ function CampaignDetailCard({ campaign }){
     setLastStatusUpdate(lastStatusUpdate);
   }, [ campaign ]);
 
-  console.log(report?.totalRecord);
   return (
     <div className="Vlt-card">
       <div className="Vlt-card__header">
@@ -32,7 +31,7 @@ function CampaignDetailCard({ campaign }){
       </div>
       <div className="Vlt-card__content">
         <Row label="Status">
-          <StatusText status="Completed" />
+          <StatusText status={campaign?.status} />
         </Row>
         <Row label="Last Status Update">{lastStatusUpdate}</Row>
         <Row label="Start Date">{new moment(campaign?.campaignStartDate).format("DD MMMM YYYY")}</Row>

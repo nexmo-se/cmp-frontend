@@ -35,17 +35,21 @@ function TimeTakeCard({ campaign }){
   const classes = useStyles();
 
   React.useEffect(() => {
-    let duration = campaign?.actualDuration / 60;
-    let durationString = "minutes";
+    let duration = campaign?.actualDuration;
+    let durationString = "seconds";
     if(duration > 60){
       duration = duration / 60;
-      durationString = "hours";
-      if(duration > 24){
-        duration = duration / 24;
-        durationString = "days";
-        if(duration > 7 ){
-          duration = duration / 7;
-          durationString = "weeks";
+      durationString = "minutes";
+      if(duration > 60){
+        duration = duration / 60;
+        durationString = "hours";
+        if(duration > 24){
+          duration = duration / 24;
+          durationString = "days";
+          if(duration > 7 ){
+            duration = duration / 7;
+            durationString = "weeks";
+          }
         }
       }
     }
