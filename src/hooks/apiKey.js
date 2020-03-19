@@ -23,6 +23,13 @@ function useAPIKey(token){
     setData(newData);
   }
 
+  async function retrieve(apiKey){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys/${apiKey.id}`;
+    const responseData = await FetchAPI.get(url, token);
+    if(responseData) return APIKey.fromJSON(responseData);
+    else return null;
+  }
+
   async function create(apiKey){
     const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys`;
     await FetchAPI.post(url, token, JSON.stringify(apiKey.toJSON()));
@@ -33,6 +40,6 @@ function useAPIKey(token){
     await FetchAPI.remove(url, token);
   }
 
-  return { data, list, create, remove };
+  return { data, list, create, remove, retrieve };
 }
 export default useAPIKey;

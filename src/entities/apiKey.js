@@ -1,22 +1,25 @@
-class APIKey{
-  // id: String
-  // name: String
-  // apiKey: String
-  // signatureSecret: String
-  // signatureMethod: String
-  // cmpApplications: Array of Application
-  // cmpChannels = Array of Channel
-  // users = Array of User
+import Channel from "entities/channel";
+import Application from "entities/application";
 
-  constructor(id, name, apiKey, apiSecret, signatureSecret, signatureMethod, cmpApplications=[], cmpChannels=[], users=[]){
+class APIKey{
+  // id:string|void;
+  // name:string|void;
+  // apiKey:string|void
+  // signatureSecret:string|void;
+  // signatureMethod:string|void;
+  // applications:Array<Application>|void;
+  // channels:Array<Channel>|void;
+  // users:Array<User>|void;
+
+  constructor(id, name, apiKey, apiSecret, signatureSecret, signatureMethod, applications=[], channels=[], users=[]){
     this.id = id;
     this.name = name;
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
     this.signatureSecret = signatureSecret;
     this.signatureMethod = signatureMethod;
-    this.cmpApplications = cmpApplications;
-    this.cmpChannels = cmpChannels;
+    this.applications = applications;
+    this.channels = channels;
     this.users = users;
   }
 
@@ -36,7 +39,20 @@ class APIKey{
     key.id = value.id;
     key.name = value.name;
     key.apiKey = value.apiKey;
+
+    if(value.cmpApplications){
+      key.applications = value.cmpApplications.map((application) => Application.fromJSON(application));
+    }
+
+    if(value.cmpChannels){
+      key.channels = value.cmpChannels.map((channel) => Channel.fromJSON(channel));
+    }
     return key;
+  }
+
+  static fromID(value){
+    const apiKey = new APIKey(value);
+    return apiKey;
   }
 }
 export default APIKey;

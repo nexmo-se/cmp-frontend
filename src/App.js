@@ -11,12 +11,13 @@ import SectionContainer from "components/SectionContainer";
 import LoginPage from "pages/LoginPage";
 import DashboardPage from "pages/DashboardPage";
 import APIKeyPage from "pages/APIKeyPage";
+import APIKeyDetailPage from "pages/APIKeyDetailPage";
 import ApplicationPage from "pages/ApplicationPage";
 import ChannelPage from "pages/ChannelPage";
 import TemplatePage from "pages/TemplatePage";
 import CampaignPage from "pages/CampaignPage";
-import QuickWizardPage from "pages/QuickWizardPage";
 import CampaignDetailPage from "pages/CampaignDetailPage";
+import QuickWizardPage from "pages/QuickWizardPage";
 
 function App(){
   return (
@@ -30,6 +31,7 @@ function App(){
                 <Route path="/" component={LoginPage} exact />
                 <Route path="/dashboard" component={DashboardPage} exact />
                 <Route path="/apikeys" component={APIKeyPage} exact />
+                <Route path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
                 <Route path="/applications" component={ApplicationPage} exact />
                 <Route path="/campaigns" component={CampaignPage} exact />
                 <Route path="/campaigns/:campaignId" component={CampaignDetailPage} exact />

@@ -7,7 +7,7 @@ import DeleteButton from "components/APIKeyTable/DeleteButton";
 function DetailColumn({ apiKey, setRefreshToken }){
   return (
     <TableColumn className="Vlt-table__cell--nowrap">
-      <DetailButton />
+      <DetailButton apiKey={apiKey} />
       <DeleteButton apiKey={apiKey} setRefreshToken={setRefreshToken} />
     </TableColumn>
   )
