@@ -1,31 +1,29 @@
 import React from "react";
-import styled from "styled-components";
+import { makeStyles } from "@material-ui/styles";
 
-function DeliveryStatsCard(props){
-  const { channel, now, then } = props;
-  const Title = styled.h1`
-    margin-bottom: 0;
-  `
+const useStyles = makeStyles(() => ({
+  title: { marginBottom: 0 },
+  smallTitle: { fontSize: "50%" }
+}))
 
-  const SmallTitle = styled.small`
-    font-size: 50%
-  `
+function DeliveryStatsCard({ channel, now, then }){
+  const mStyles = useStyles();
 
   return (
-    <div className="Vlt-card">
-      <div className="Vlt-card__content">
-        <p><b>{channel.toUpperCase()} DELIVERY RATE</b></p>
-        <div className="Vlt-grid">
-          <div className="Vlt-col" style={{ alignSelf: "center" }}>
-            <Title>
-              <b>{now}%</b> &nbsp;
-              <SmallTitle><b className="Vlt-green">+{now - then}%</b></SmallTitle>
-            </Title>
-            <p className="Vlt-grey">Compared to {then}% last month</p>
-          </div>
+    <React.Fragment>
+      <p><b>{channel.toUpperCase()} DELIVERY RATE</b></p>
+      <div className="Vlt-grid">
+        <div className="Vlt-col" style={{ alignSelf: "center" }}>
+          <h1 className={mStyles.title}>
+            <b>{now}%</b> &nbsp;
+            <small className={mStyles.smallTitle}>
+              <b className="Vlt-green">+{now - then}%</b>
+            </small>
+          </h1>
+          <p className="Vlt-grey">Compared to {then}% last month</p>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   )
 }
 export default DeliveryStatsCard;

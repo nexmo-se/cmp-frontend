@@ -16,7 +16,7 @@ function AverageDeliveryTimeCard(props){
   `
 
   return (
-    <div className="Vlt-card">
+    <div className="Vlt-card Vlt-card--border">
       <div className="Vlt-card__content">
         <p><b>AVERAGE DELIVERY TIME</b></p>
         <Tabs>

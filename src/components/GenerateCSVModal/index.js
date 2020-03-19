@@ -33,7 +33,7 @@ function GenerateCSVModal({
       const template = Template.fromID(templateId);
       const foundTemplate = await mTemplate.retrieve(template);
       const parameters = foundTemplate.body.match(/{{\d+}}/g);
-      const csvContent = CSVAPI.generateBlaster(parameters);
+      const csvContent = CSVAPI.generateBlaster(parameters, 5);
       const link = document.createElement("a");
       link.setAttribute("href", encodeURI(csvContent));
       link.setAttribute("download", `${initCampaign}#${templateId}.csv`);

@@ -33,7 +33,7 @@ const data = {
 };
 
 
-function DeliveredCampaignChart({ height, campaign, overall=false }){
+function DeliveredCampaignChart({ height, campaign, className, overall=false }){
   const [ isFetching, setIsFetching ] = React.useState(true);
   const [ data, setData ] = React.useState({});
   const mStyles = useStyles();
@@ -71,7 +71,7 @@ function DeliveredCampaignChart({ height, campaign, overall=false }){
   }, [ data ])
 
   return (
-    <div className="Vlt-card">
+    <div className={clsx("Vlt-card", className)}>
       <div className="Vlt-card__header">
         <div className={clsx("Vlt-grid", mStyles.headerContainer)}>
           <div className="Vlt-col">
