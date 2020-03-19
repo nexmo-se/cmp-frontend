@@ -2,13 +2,13 @@ import Application from "entities/application";
 import APIKey from "entities/apiKey";
 
 class Channel{
-  // name: String
-  // channel: String
-  // senderId: String
-  // apiKey: ApiKey
-  // tps: int
-  // smsUseSignature: boolean
-  // application: Application
+  // name:string|void
+  // channel:string|void
+  // senderId:string|void
+  // tps:number|void
+  // smsUseSignature:boolean|void
+  // application:Application|void
+  // apiKey:APIKey|void
 
   constructor(name, channel, senderId, apiKey, id=null, tps=100, application=null, smsUseSignature=false){
     this.id = id;
@@ -28,8 +28,8 @@ class Channel{
       senderId: this.senderId,
       tps: this.tps,
       smsUseSignature: this.smsUseSignature,
-      cmpApiKeyId: this.apiKey.id,
-      cmpApplicationId: this.application? this.application.id: undefined
+      cmpApiKeyId: this.apiKey?.id || undefined,
+      cmpApplicationId: this.application?.id || undefined
     }
   }
 

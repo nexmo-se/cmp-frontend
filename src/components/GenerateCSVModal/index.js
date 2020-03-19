@@ -78,7 +78,7 @@ function GenerateCSVModal({
           </Button>
           <Button 
             buttonType="submit"
-            type="primary" 
+            type="secondary" 
             onClick={handleGenerateDownload}
             disabled={isAdding}
           >

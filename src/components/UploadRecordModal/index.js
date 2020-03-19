@@ -55,7 +55,7 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
           Cancel
         </Button>
         <Button 
-          type="primary" 
+          type="secondary" 
           onClick={handleUpload}
           disabled={isUploading}
         >

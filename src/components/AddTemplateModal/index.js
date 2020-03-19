@@ -123,7 +123,7 @@ function AddTemplateModal({ visible, setVisible, onAdded }){
           <Button type="tertiary" onClick={handleCancel} disabled={isAdding}>Cancel</Button>
           <Button 
             buttonType="submit" 
-            type="primary" 
+            type="secondary" 
             disabled={isAdding} 
             onClick={handleAddNew}
           >

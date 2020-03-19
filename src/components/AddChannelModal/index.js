@@ -137,7 +137,7 @@ function AddChannelModal({ disableSMS=false, visible, setVisible, onAdded }){
         <ModalFooter>
           <Button type="tertiary" onClick={handleCancel} disabled={isAdding}>Cancel</Button>
           <Button 
-            type="primary" 
+            type="secondary" 
             buttonType="submit"
             onClick={handleAddNew}
             disabled={isAdding}

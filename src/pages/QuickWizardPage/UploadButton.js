@@ -19,7 +19,7 @@ function UploadButton(){
   return (
     <React.Fragment>
       <Button 
-        type="primary" 
+        type="secondary" 
         style={{ width: "100%" }}
         onClick={handleClick}
       >

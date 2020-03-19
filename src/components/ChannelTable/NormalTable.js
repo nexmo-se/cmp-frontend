@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "@material-ui/core";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/styles"
 
 import Table from "components/Table";
 import TableHead from "components/Table/TableHead";
@@ -10,36 +11,72 @@ import TableBody from "components/Table/TableBody";
 
 import DetailColumn from "./DetailColumn";
 
+const useStyles = makeStyles((theme) => ({
+  headerCell: { borderBottom: "none !important" },
+  table: { 
+    borderCollapse: "separate",
+    borderSpacing: "0px 8px"
+  },
+  tableRow: { 
+    backgroundColor: "#fff",
+    padding: 24,
+    cursor: "pointer",
+    "& td": {
+      border: "1px solid #e1e2e6",
+      borderStyle: "solid none"
+    },
+    "& td:first-child": {
+      borderTopLeftRadius: 8,
+      borderBottomLeftRadius: 8,
+      borderLeft: "1px solid #e1e2e6"
+    },
+    "& td:last-child": {
+      borderTopRightRadius: 8,
+      borderBottomRightRadius: 8,
+      borderRight: "1px solid #e1e2e6"
+    }
+  }
+}))
+
 function NormalTable({ channels, setRefreshToken }){
+  const mStyles = useStyles();
+
   return (
-    <Table>
+    <Table classes={{
+      root: "Vlt-table--nohighlight",
+      table: mStyles.table
+    }}>
       <TableHead>
-        <TableRow>
-          <TableHeader></TableHeader>
-          <TableHeader>NAME</TableHeader>
-          <TableHeader>SENDER ID</TableHeader>
-          <TableHeader>TPS</TableHeader>
-          <TableHeader>APPLICATION</TableHeader>
-          <TableHeader>API KEY</TableHeader>
-          <TableHeader></TableHeader>
+        <TableRow className={mStyles.rowHeader}>
+          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")} />
+          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>NAME</TableHeader>
+          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>SENDER ID</TableHeader>
+          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>TPS</TableHeader>
+          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>APPLICATION</TableHeader>
+          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>API KEY</TableHeader>
+          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")} />
         </TableRow>
       </TableHead>
       <TableBody>
-        {channels.map((channel) => {
-          let badgeBackground = "Vlt-bg-green";
-          if(channel.channel === "sms") badgeBackground = "Vlt-bg-orange"
-          else if(channel.channel === "whatsapp") badgeBackground = "Vlt-bg-green";
-
-          return (
-            <TableRow key={channel.id}>
+        {channels.map((channel, index) => {
+          return(
+            <TableRow 
+              className={clsx(mStyles.tableRow)}
+              key={channel.id}
+            >
               <TableColumn>
-                <div className={`Vlt-badge ${badgeBackground} Vlt-white`}>{channel.channel}</div>
+                <div className="Vlt-number Vlt-number--dialer" data-index={index + 1} />
               </TableColumn>
-              <TableColumn>{channel.name}</TableColumn>
+              <TableColumn>
+                <p>
+                  <b>{channel.name}</b>
+                </p>
+                <p className="Vlt-grey">{channel.id}</p>
+              </TableColumn>
               <TableColumn>{channel.senderId}</TableColumn>
-              <TableColumn>{channel.tps}</TableColumn>
-              <TableColumn><Link href="#">{channel.application.name}</Link></TableColumn>
-              <TableColumn><Link href="#">{channel.apiKey.key}</Link></TableColumn>
+              <TableColumn className="Vlt-right">{channel.tps}</TableColumn>
+              <TableColumn>{channel.application?.name}</TableColumn>
+              <TableColumn>{channel.apiKey?.key}</TableColumn>
               <DetailColumn channel={channel} setRefreshToken={setRefreshToken} />
             </TableRow>
           )

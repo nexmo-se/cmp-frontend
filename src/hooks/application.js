@@ -1,9 +1,6 @@
 import React from "react";
 
 import FetchAPI from "api/fetch";
-
-import APIKey from "entities/apiKey";
-import Channel from "entities/channel";
 import Application from "entities/application";
 
 function useApplication(token){
@@ -13,11 +10,7 @@ function useApplication(token){
     const url = `${process.env.REACT_APP_BASE_API_URL}/applications`;
     const responseData = await FetchAPI.get(url, token);
     const newData = responseData.map((data) => {
-      const channels = data.cmpChannels.map((value) => Channel.fromJSON(value));
-      const key = APIKey.fromJSON(data.cmpApiKey);
       const application = Application.fromJSON(data);
-      application.cmpChannels = channels;
-      application.apiKey = key;
       return application;
     });
     setData(newData);

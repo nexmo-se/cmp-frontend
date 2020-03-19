@@ -1,10 +1,7 @@
 import React from "react";
 
 import FetchAPI from "api/fetch";
-
 import APIKey from "entities/apiKey";
-import Application from "entities/application";
-import Channel from "entities/channel";
 
 function useAPIKey(token){
   const [ data, setData ] = React.useState([]);

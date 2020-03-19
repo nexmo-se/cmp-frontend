@@ -1,4 +1,5 @@
 import Channel from "entities/channel";
+import APIKey from "entities/apiKey";
 
 class Application{
   // name:string|void
@@ -7,6 +8,7 @@ class Application{
   // id:string|void;
   // privateKey:string|void;
   // channels:Array<Channel>|void;
+  // apiKey:APIKey|void;
 
   constructor(name, apiKey, applicationId, id=null, privateKey=null, channels=[], users=[]){
     this.name = name;
@@ -35,6 +37,10 @@ class Application{
 
     if(value.cmpChannels){
       app.channels = value.cmpChannels.map((channel) => Channel.fromJSON(channel));
+    }
+
+    if(value.cmpApiKey){
+      app.apiKey = APIKey.fromJSON(value.cmpApiKey);
     }
 
     return app;

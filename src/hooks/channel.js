@@ -1,9 +1,6 @@
 import React from "react";
 
 import FetchAPI from "api/fetch";
-
-import Application from "entities/application";
-import APIKey from "entities/apiKey";
 import Channel from "entities/channel";
 
 function useChannel(token){

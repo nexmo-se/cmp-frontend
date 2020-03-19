@@ -187,7 +187,7 @@ function AddCampaignModal({ initState, visible, setVisible, onAdded }){
         <ModalFooter>
           <Button type="tertiary" disabled={isAdding} onClick={handleCancel}>Cancel</Button>
           <Button 
-            type="primary" 
+            type="secondary" 
             buttonType="submit"
             onClick={handleAddNew}
             disabled={isAdding}

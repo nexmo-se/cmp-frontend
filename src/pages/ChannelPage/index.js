@@ -1,42 +1,25 @@
 import React from "react";
-import uuid from "uuid/v4";
 
-import AddButton from "components/AddButton";
 import ChannelTable from "components/ChannelTable";
-import AddChannelModal from "components/AddChannelModal";
+import ChannelInformationCard from "components/ChannelInformationCard";
+
+import Header from "./Header";
 
 function ChannelPage(){
-  const [ visible, setVisible ] = React.useState(false);
   const [ refreshToken, setRefreshToken ] = React.useState(null);
-
-  function handleToggleModal(){
-    setVisible(true)
-  }
-
-  function handleAdded(){
-    setRefreshToken(uuid());
-  }
 
   return (
     <React.Fragment>
-      <div className="Vlt-grid">
-        <div className="Vlt-col Vlt-right">
-          <AddButton onClick={handleToggleModal}>Add New Channel</AddButton>
-        </div>
-      </div>
-
-      <div className="Vlt-grid">
-        <div className="Vlt-col">
-          <h5>ALL CHANNELS</h5>
-        </div>
-      </div>
-
+      <Header setRefreshToken={setRefreshToken} />
+      <hr />
       <div className="Vlt-grid">
         <div className="Vlt-col">
           <ChannelTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
         </div>
+        <div className="Vlt-col Vlt-col--1of4">
+          <ChannelInformationCard />
+        </div>
       </div>
-      <AddChannelModal visible={visible} setVisible={setVisible} onAdded={handleAdded} />
     </React.Fragment>
   )
 }
