@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import ApplicationTable from "components/ApplicationTable";
 
-function ApplicationListCard(){
+function ApplicationListCard({ applications }){
   const mHistory = useHistory();
 
   function handleSeeAllClick(e){
@@ -21,7 +21,7 @@ function ApplicationListCard(){
           <a className="Vlt-text-link" href="#" onClick={handleSeeAllClick}>See All</a> 
         </div>
         <div className="Vlt-card__content">
-          <ApplicationTable compact />
+          <ApplicationTable applications={applications} preload compact />
         </div>
       </div>
     </div>

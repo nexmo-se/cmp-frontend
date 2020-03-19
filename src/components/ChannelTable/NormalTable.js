@@ -52,7 +52,7 @@ function NormalTable({ channels, setRefreshToken, limit=10 }){
           <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>NAME</TableHeader>
           <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>SENDER ID</TableHeader>
           <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>TPS</TableHeader>
-          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>APPLICATION</TableHeader>
+          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>APPlication</TableHeader>
           <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>API KEY</TableHeader>
           <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")} />
         </TableRow>
@@ -75,7 +75,7 @@ function NormalTable({ channels, setRefreshToken, limit=10 }){
                     <span className={channelColor}>{channel.channel}</span>
                   </b>
                 </p>
-                <p className="Vlt-grey">{channel.id}</p>
+                <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 150 }}>{channel.id}</p>
               </TableColumn>
               <TableColumn>{channel.senderId}</TableColumn>
               <TableColumn className="Vlt-right">{channel.tps}</TableColumn>

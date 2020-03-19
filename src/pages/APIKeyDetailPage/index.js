@@ -46,8 +46,8 @@ function APIKeyDetailPage(){
         <div className="Vlt-col Vlt-col--2of3">
           <SummaryCard apiKey={apiKey} />
           <div className="Vlt-grid">
-            <ApplicationListCard />
-            <ChannelListCard />
+            <ApplicationListCard applications={apiKey.applications} />
+            <ChannelListCard channels={apiKey.channels} />
           </div>
         </div>
         <div className="Vlt-col">

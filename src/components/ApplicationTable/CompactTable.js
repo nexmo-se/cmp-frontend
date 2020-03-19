@@ -24,7 +24,7 @@ function CompactTable({ applications, limit=5 }){
           <p className={mStyles.name}>
             <b>{application.name}</b>
           </p>
-          <small className="Vlt-grey">{application.id}</small>
+          <small className="Vlt-grey Vlt-truncate" style={{ maxWidth: 200 }}>{application.id}</small>
         </div>
       </div>
     )
