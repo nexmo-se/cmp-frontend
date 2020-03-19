@@ -69,7 +69,7 @@ function NormalTable({ apiKeys, setRefreshToken }){
                 <p>
                   <b>{apiKey.name} ({apiKey.key})</b>
                 </p>
-                <p className="Vlt-grey">{apiKey.id}</p>
+                <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 300 }}>{apiKey.id}</p>
               </TableColumn>
               <TableColumn className="Vlt-right">{apiKey.applications.length}</TableColumn>
               <TableColumn className="Vlt-right">{apiKey.channels.length}</TableColumn>

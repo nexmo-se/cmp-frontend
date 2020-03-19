@@ -12,12 +12,7 @@ function useTemplate(token){
   async function list(){
     const url = `${process.env.REACT_APP_BASE_API_URL}/templates`;
     const responseData = await FetchAPI.get(url, token);
-    const newData = [];
-    for(const data of responseData){
-      let t = Template.fromJSON(data);
-      t.channel = await mChannel.retrieve(t.channel);
-      newData.push(t);
-    }
+    const newData = responseData.map((data) => Template.fromJSON(data));
     setData(newData);
   }
 

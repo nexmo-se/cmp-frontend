@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function NormalTable({ channels, setRefreshToken, limit=10 }){
+function NormalTable({ templates, setRefreshToken, limit=10 }){
   const mStyles = useStyles();
 
   return (
@@ -50,38 +50,30 @@ function NormalTable({ channels, setRefreshToken, limit=10 }){
         <TableRow className={mStyles.rowHeader}>
           <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")} />
           <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>NAME</TableHeader>
-          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>SENDER ID</TableHeader>
-          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>TPS</TableHeader>
-          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>APP</TableHeader>
+          <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>CHANNEL</TableHeader>
           <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")}>API KEY</TableHeader>
           <TableHeader className={clsx(mStyles.headerCell, "Vlt-grey")} />
         </TableRow>
       </TableHead>
       <TableBody>
-        {channels.slice(0, limit + 1).map((channel, index) => {
-          const channelColor = (channel.channel === "sms")? "Vlt-orange": "Vlt-green";
+        {templates.slice(0, limit + 1).map((template, index) => {
           return(
             <TableRow 
               className={clsx(mStyles.tableRow)}
-              key={channel.id}
+              key={template.id}
             >
               <TableColumn>
                 <div className="Vlt-number Vlt-number--dialer" data-index={index + 1} />
               </TableColumn>
               <TableColumn>
                 <p>
-                  <b>
-                    {channel.name} &nbsp;|&nbsp;
-                    <span className={channelColor}>{channel.channel}</span>
-                  </b>
+                  <b>{template.name}</b>
                 </p>
-                <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 150 }}>{channel.id}</p>
+                <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 250 }}>{template.id}</p>
               </TableColumn>
-              <TableColumn>{channel.senderId}</TableColumn>
-              <TableColumn className="Vlt-right">{channel.tps}</TableColumn>
-              <TableColumn>{channel.application?.name}</TableColumn>
-              <TableColumn>{channel.apiKey?.key}</TableColumn>
-              <DetailColumn channel={channel} setRefreshToken={setRefreshToken} />
+              <TableColumn>{template.channel.name}</TableColumn>
+              <TableColumn>{template?.channel.apiKey?.key}</TableColumn>
+              <DetailColumn template={template} setRefreshToken={setRefreshToken} />
             </TableRow>
           )
         })}

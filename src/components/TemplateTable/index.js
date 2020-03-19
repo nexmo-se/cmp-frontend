@@ -1,69 +1,35 @@
 import React from "react";
-import { Link } from "@material-ui/core";
 
 import useTemplate from "hooks/template";
+import useError from "hooks/error";
+import useUser from "hooks/user";
 
-import { UserContext } from "contexts/user";
-import { ErrorContext } from "contexts/error";
-
-import Table from "components/Table";
-import TableHead from "components/Table/TableHead";
-import TableRow from "components/Table/TableRow";
-import TableHeader from "components/Table/TableHeader";
-import TableColumn from "components/Table/TableColumn";
-import TableBody from "components/Table/TableBody";
-import DetailColumn from "components/TemplateTable/DetailColumn";
 import Empty from "components/Empty";
+import FullPageSpinner from "components/FullPageSpinner";
+import NormalTable from "./NormalTable";
 
 function TemplateTable({ refreshToken, setRefreshToken }){
-  const { token } = React.useContext(UserContext);
-  const { throwError } = React.useContext(ErrorContext);
-  const mTemplate = useTemplate(token);
+  const [ isFetching, setIsFetching ] = React.useState(true);
+  const mUser = useUser();
+  const mError = useError();
+  const mTemplate = useTemplate(mUser.token);
 
+  async function fetchData(){
+    try{
+      setIsFetching(true);
+      await mTemplate.list()
+    }catch(err){
+      mError.throwError(err);
+    }finally{
+      setIsFetching(false);
+    }
+  }
   React.useEffect(() => {
-    mTemplate.list().catch((err) => throwError(err));
+    fetchData();
   }, [ refreshToken ])
 
-  if(mTemplate.data.length <= 0) return <Empty/>
-  return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableHeader></TableHeader>
-          <TableHeader>NAME</TableHeader>
-          <TableHeader>CHANNEL</TableHeader>
-          <TableHeader>API KEY</TableHeader>
-          <TableHeader></TableHeader>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {mTemplate.data.map((template) => {
-          let badgeBackground = "Vlt-bg-green";
-          if(template.channel.channel === "sms") badgeBackground = "Vlt-bg-orange"
-          else if(template.channel.channel === "whatsapp") badgeBackground = "Vlt-bg-green";
-
-          return (
-            <TableRow key={template.id}>
-              <TableColumn>
-                <div className={`Vlt-badge ${badgeBackground} Vlt-white`}>{template.channel.channel}</div>
-              </TableColumn>
-              <TableColumn>{template.name}</TableColumn>
-              <TableColumn>
-                <Link href="#">
-                  {template.channel.name}
-                </Link>
-              </TableColumn>
-              <TableColumn>
-                <Link href="#">
-                  {template.channel.apiKey.name}
-                </Link>
-              </TableColumn>
-              <DetailColumn template={template} setRefreshToken={setRefreshToken} />
-            </TableRow>
-          )
-        })}
-      </TableBody>
-    </Table>
-  );
+  if(isFetching) return <FullPageSpinner />
+  else if(mTemplate.data?.length <= 0) return <Empty />;
+  else return <NormalTable templates={mTemplate.data} setRefreshToken={setRefreshToken} />
 }
-export default TemplateTable
+export default TemplateTable;

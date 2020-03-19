@@ -1,46 +1,25 @@
 import React from "react";
 import uuid from "uuid/v4";
 
-import AddButton from "components/AddButton";
 import TemplateTable from "components/TemplateTable";
-import AddTemplateModal from "components/AddTemplateModal";
+import TemplateInformationCard from "components/TemplateInformationCard";
+import Header from "./Header";
 
 function TemplatePage(){
   const [ refreshToken, setRefreshToken ] = React.useState(null);
-  const [ visible, setVisible ] = React.useState(false);
-
-  function handleToggleModal(){
-    setVisible(true);
-  }
-
-  function handleAdded(){
-    setRefreshToken(uuid());
-  }
 
   return (
     <React.Fragment>
-      <div className="Vlt-grid">
-        <div className="Vlt-col Vlt-right">
-          <AddButton onClick={handleToggleModal}>Add New Template</AddButton>
-        </div>
-      </div>
-
-      <div className="Vlt-grid">
-        <div className="Vlt-col">
-          <h5>ALL TEMPLATES</h5>
-        </div>
-      </div>
-
+      <Header setRefreshToken={setRefreshToken} />
+      <hr />
       <div className="Vlt-grid">
         <div className="Vlt-col">
           <TemplateTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
         </div>
+        <div className="Vlt-col Vlt-col--1of3">
+          <TemplateInformationCard />
+        </div>
       </div>
-      <AddTemplateModal 
-        visible={visible} 
-        setVisible={setVisible} 
-        onAdded={handleAdded} 
-      />
     </React.Fragment>
   )
 }
