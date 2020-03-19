@@ -7,9 +7,9 @@ class Report{
 
   static fromJSON(value){
     const report = new Report();
-    report.delivered = value.summary.delivered || undefined;
-    report.rejected = value.summary.rejected || undefined;
-    report.totalRecord = value.summary.total || undefined;
+    report.delivered = value.summary.delivered || 0;
+    report.rejected = value.summary.rejected || 0;
+    report.totalRecord = value.summary.total || 0;
     return report;
   }
 }

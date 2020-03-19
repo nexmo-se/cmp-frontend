@@ -20,7 +20,7 @@ function DashboardPage(){
 
           <div className="Vlt-grid">
             <div className="Vlt-col">
-              <DeliveredCampaignChart height={70}/>
+              <DeliveredCampaignChart height={70} overall />
             </div>
           </div>
 

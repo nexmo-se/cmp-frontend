@@ -2,7 +2,7 @@ import React from "react";
 
 import FilterButton from "./FilterButton";
 
-function DateFilter(){
+function DateFilter({ onChange }){
   const [ selected, setSelected ] = React.useState("day");
   
   function handleDayClick(){ setSelected("day") }
@@ -10,6 +10,10 @@ function DateFilter(){
   function handleWeekClick(){ setSelected("week") }
 
   function handleMonthClick(){ setSelected("month") }
+
+  React.useState(() => {
+    if(onChange) onChange(selected);
+  }, [ selected ])
 
   return (
     <div className="Vlt-col Vlt-right">

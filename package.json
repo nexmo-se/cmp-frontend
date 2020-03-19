@@ -12,6 +12,7 @@
     "chart.js": "2.9.3",
     "faker": "4.1.0",
     "moment": "2.24.0",
+    "moment-range": "^4.0.2",
     "moment-timezone": "^0.5.28",
     "papaparse": "^5.1.1",
     "react": "16.12.0",
