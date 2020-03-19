@@ -1,6 +1,6 @@
 import React from "react";
 
-function InformationCard(){
+function APIKeyInformationCard(){
   return (
     <div className="Vlt-card--gradient-wrapper Vlt-gradient--blue-to-pink">
       <div className="Vlt-card Vlt-card--border">
@@ -25,4 +25,4 @@ function InformationCard(){
     </div>
   )
 }
-export default InformationCard;
+export default APIKeyInformationCard;

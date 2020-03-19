@@ -6,8 +6,10 @@ import useUser from "hooks/user";
 import useError from "hooks/error";
 import useAPIKey from "hooks/apiKey";
 
+import APIKeyInformationCard from "components/APIKeyInformationCard";
+import FullPageSpinner from "components/FullPageSpinner";
+
 import Header from "./Header";
-import InformationCard from "./InformationCard";
 import SummaryCard from "./SummaryCard";
 import ApplicationListCard from "./ApplicationListCard";
 import ChannelListCard from "./ChannelListCard";
@@ -36,7 +38,7 @@ function APIKeyDetailPage(){
     fetchData();
   }, [ apiKeyId ])
 
-  if(isFetching) return null;
+  if(isFetching) return <FullPageSpinner />
   return (
     <React.Fragment>
       <Header apiKey={apiKey} />
@@ -49,7 +51,7 @@ function APIKeyDetailPage(){
           </div>
         </div>
         <div className="Vlt-col">
-          <InformationCard />
+          <APIKeyInformationCard />
         </div>
       </div>
     </React.Fragment>

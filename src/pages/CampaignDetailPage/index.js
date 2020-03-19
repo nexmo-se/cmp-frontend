@@ -8,6 +8,7 @@ import { UserContext } from "contexts/user";
 import CampaignDetailCard from "components/CampaignDetailCard";
 import DeliveredCampaignChart from "components/DeliveredCampaignChart";
 import CampaignAuditLogCard from "components/CampaignAuditLogCard";
+import FullPageSpinner from "components/FullPageSpinner";
 
 import Header from "pages/CampaignDetailPage/Header";
 import SummaryStats from "pages/CampaignDetailPage/SummaryStats";
@@ -27,7 +28,7 @@ function CampaignDetailPage(){
     fetchData();
   }, [ campaignId ])
 
-  if(!campaign) return null;
+  if(!campaign) return <FullPageSpinner />;
   return (
     <React.Fragment>
       <Header campaign={campaign} />

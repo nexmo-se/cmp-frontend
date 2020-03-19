@@ -1,11 +1,11 @@
 import React from "react";
+import clsx from "clsx";
 
-function Table(props){
-  const { children } = props;
+function Table({ children, classes={} }){
   
   return (
-    <div className="Vlt-table">
-      <table>
+    <div className={clsx("Vlt-table", classes.root)}>
+      <table className={classes.table}>
         {children}
       </table>
     </div>
