@@ -107,7 +107,7 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
           Cancel
         </Button>
         <Button 
-          type="primary"
+          type="secondary"
           disabled={isAdding}
           onClick={handleAddNew}
         >

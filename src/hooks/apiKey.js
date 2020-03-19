@@ -13,11 +13,11 @@ function useAPIKey(token){
     const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys`;
     const responseData = await FetchAPI.get(url, token);
     const newData = responseData.map((data) => {
-      const applications = data.cmpApplications.map((value) => Application.fromJSON(value));
-      const channels = data.cmpChannels.map((value) => Channel.fromJSON(value));
+      // const applications = data.cmpApplications.map((value) => Application.fromJSON(value));
+      // const channels = data.cmpChannels.map((value) => Channel.fromJSON(value));
       const key = APIKey.fromJSON(data);
-      key.cmpApplications = applications;
-      key.cmpChannels = channels;
+      // key.cmpApplications = applications;
+      // key.cmpChannels = channels;
       return key;
     })
     setData(newData);

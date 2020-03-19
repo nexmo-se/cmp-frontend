@@ -5,7 +5,7 @@ import Button from "components/Button";
 
 function AddButton({ children, onClick, disabled, isAdding }){
   return (
-    <Button type="primary" onClick={onClick} disabled={disabled}>
+    <Button type="secondary" onClick={onClick} disabled={disabled}>
       {isAdding?(
         <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
       ):(

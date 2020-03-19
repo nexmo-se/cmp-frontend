@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   headerCell: { borderBottom: "none !important" },
   table: { 
     borderCollapse: "separate",
+    borderSpacing: "0px 8px"
   },
   tableRow: { 
     backgroundColor: "#fff",
@@ -70,8 +71,8 @@ function NormalTable({ apiKeys, setRefreshToken }){
                 </p>
                 <p className="Vlt-grey">{apiKey.id}</p>
               </TableColumn>
-              <TableColumn className="Vlt-right">{apiKey.cmpApplications.length}</TableColumn>
-              <TableColumn className="Vlt-right">{apiKey.cmpChannels.length}</TableColumn>
+              <TableColumn className="Vlt-right">{apiKey.applications.length}</TableColumn>
+              <TableColumn className="Vlt-right">{apiKey.channels.length}</TableColumn>
               <DetailColumn apiKey={apiKey} setRefreshToken={setRefreshToken} />
             </TableRow>
           )

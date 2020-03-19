@@ -13,11 +13,7 @@ function useChannel(token){
     const url = `${process.env.REACT_APP_BASE_API_URL}/channels`;
     const responseData = await FetchAPI.get(url, token);
     const newData = responseData.map((data) => {
-      const application = (data.cmpApplication)? Application.fromJSON(data.cmpApplication): new Application();
-      const apiKey = (data.cmpApiKey)? APIKey.fromJSON(data.cmpApiKey): new APIKey();
       const channel = Channel.fromJSON(data);
-      channel.application = application;
-      channel.apiKey = apiKey;
       return channel;
     });
     setData(newData);

@@ -81,7 +81,7 @@ function AddApplicationModal({ visible, setVisible, onAdded }){
       </ModalContent>
       <ModalFooter>
         <Button type="tertiary" disabled={isAdding} onClick={handleCancel}>Cancel</Button>
-        <Button type="primary" onClick={handleAddNew} disabled={isAdding}>
+        <Button type="secondary" onClick={handleAddNew} disabled={isAdding}>
           {isAdding?(
             <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
           ): null}

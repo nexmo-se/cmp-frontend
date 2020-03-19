@@ -1,17 +1,20 @@
-class Application{
-  // name: String
-  // apiKey: ApiKey
-  // applicationId: String
-  // id: String
-  // privateKey: String
+import Channel from "entities/channel";
 
-  constructor(name, apiKey, applicationId, id=null, privateKey=null, cmpChannels=[], users=[]){
+class Application{
+  // name:string|void
+  // apiKey:ApiKey|void
+  // applicationId:string|void;
+  // id:string|void;
+  // privateKey:string|void;
+  // channels:Array<Channel>|void;
+
+  constructor(name, apiKey, applicationId, id=null, privateKey=null, channels=[], users=[]){
     this.name = name;
     this.apiKey = apiKey;
     this.applicationId = applicationId;
     this.id = id;
     this.privateKey = privateKey;
-    this.cmpChannels = cmpChannels;
+    this.channels = channels;
     this.users = users;
   }
 
@@ -29,6 +32,11 @@ class Application{
     app.id = value.id;
     app.name = value.name;
     app.applicationId = value.applicationId;
+
+    if(value.cmpChannels){
+      app.channels = value.cmpChannels.map((channel) => Channel.fromJSON(channel));
+    }
+
     return app;
   }
 }
