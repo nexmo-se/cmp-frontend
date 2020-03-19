@@ -36,7 +36,7 @@ function Header({ setRefreshToken }){
           mStyles.flexCenter
         )}
       >
-        <h1 className={mStyles.title}>API KEY</h1>
+        <h1 className={mStyles.title}>API Key</h1>
       </div>
       <div className="Vlt-col Vlt-right">
         <AddButton onClick={handleToggleModal}>Add New API Key</AddButton>

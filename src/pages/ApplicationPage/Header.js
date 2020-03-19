@@ -36,7 +36,7 @@ function Header({ setRefreshToken }){
           mStyles.flexCenter
         )}
       >
-        <h1 className={mStyles.title}>APPLICATION</h1>
+        <h1 className={mStyles.title}>Applications</h1>
       </div>
       <div className="Vlt-col Vlt-right">
         <AddButton onClick={handleToggleModal}>Add New Application</AddButton>

@@ -1,15 +1,34 @@
 import React from "react";
+import clsx from "clsx";
 import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 import { useLocation } from "react-router-dom";
+import { makeStyles } from "@material-ui/styles";
+
+import useUser from "hooks/user";
 
 import CompanyLogo from "components/SideNavigation/CompanyLogo";
 import Greetings from "components/SideNavigation/Greetings";
 import SingleMenu from "components/SideNavigation/SingleMenu";
 import MenuSeparator from "components/SideNavigation/MenuSeparator";
 
+const useStyles = makeStyles(() => ({
+  root: {
+    borderTopRightRadius: 16,
+    borderBottomRightRadius: 16
+  }
+}))
+
 function SideNavigation(){
   const [ menuActive, setMenuActive ] = React.useState(null);
+  const [ render, setRender ] = React.useState(false);
   const mLocation = useLocation();
+  const mStyles = useStyles();
+  const mUser = useUser();
+
+  React.useEffect(() => {
+    if(mUser.token) setRender(true);
+    else setRender(false);
+  }, [ mUser.token ])
 
   React.useEffect(() => {
     if(mLocation.pathname.includes("/dashboard")) setMenuActive("dashboard");
@@ -22,6 +41,7 @@ function SideNavigation(){
     else if(mLocation.pathname.includes("/campaigns")) setMenuActive("campaigns");
   }, [ mLocation ])
 
+  if(!render) return null;
   return (
     <React.Fragment>
       <header className="Vlt-sidenav__mobile Vlt-sidenav__mobile--dark">
@@ -32,7 +52,14 @@ function SideNavigation(){
         </button>
       </header>
 
-      <div id="Vlt-sidenav" className="Vlt-sidenav Vlt-sidenav--dark">
+      <div 
+        id="Vlt-sidenav" 
+        className={clsx(
+          "Vlt-sidenav",
+          "Vlt-sidenav--dark",
+          mStyles.root
+        )}
+      >
         <CompanyLogo/>
         <Greetings/>
 

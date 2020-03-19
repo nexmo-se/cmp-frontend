@@ -1,17 +1,19 @@
 import React from "react";
-import styled from "styled-components";
+import { makeStyles } from "@material-ui/styles";
 
-const Container = styled.main`
-  display: flex;
-`
+const useStyles = makeStyles(() => ({
+  root: {
+    display: "flex",
+    backgroundColor: "#f3f3f5"
+  }
+}))
 
-function PageContainer(props){
-  const { children } = props;
-
+function PageContainer({ children }){
+  const mStyles = useStyles();
   return (
-    <Container>
+    <main className={mStyles.root}>
       {children}
-    </Container>  
+    </main>
   )
 }
 export default PageContainer;

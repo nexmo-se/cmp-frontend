@@ -55,7 +55,7 @@ function LoginForm(){
         />
         <button 
           type="submit" 
-          className="Vlt-btn Vlt-btn--primary Vlt-btn--app" 
+          className="Vlt-btn Vlt-btn--secondary Vlt-btn--app" 
           onClick={handleLoginClick}
           disabled={isLoggingOn}
         >
