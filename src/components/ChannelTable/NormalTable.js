@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-function NormalTable({ channels, setRefreshToken }){
+function NormalTable({ channels, setRefreshToken, limit=10 }){
   const mStyles = useStyles();
 
   return (
@@ -58,7 +58,8 @@ function NormalTable({ channels, setRefreshToken }){
         </TableRow>
       </TableHead>
       <TableBody>
-        {channels.map((channel, index) => {
+        {channels.slice(0, limit + 1).map((channel, index) => {
+          const channelColor = (channel.channel === "sms")? "Vlt-orange": "Vlt-green";
           return(
             <TableRow 
               className={clsx(mStyles.tableRow)}
@@ -69,7 +70,10 @@ function NormalTable({ channels, setRefreshToken }){
               </TableColumn>
               <TableColumn>
                 <p>
-                  <b>{channel.name}</b>
+                  <b>
+                    {channel.name} &nbsp;|&nbsp;
+                    <span className={channelColor}>{channel.channel}</span>
+                  </b>
                 </p>
                 <p className="Vlt-grey">{channel.id}</p>
               </TableColumn>
