@@ -88,13 +88,13 @@ function useCampaign(token){
     const rejectedLineData = new LineData(
       "Rejected",
       "#e84545",
-      reportData.map((report) => report.rejected)
+      reportData.map((report) => report?.rejected || 0)
     );
 
     const deliveredLineData = new LineData(
       "Delivered",
       "#06ba77",
-      reportData.map((report) => report.delivered)
+      reportData.map((report) => report?.delivered || 0)
     )
 
     const chartData = new ChartData(labels, [

@@ -3,7 +3,11 @@ class Report{
   // rejected:number|void;
   // totalRecord:number|void;
 
-  constructor(){}
+  constructor(delivered=0, rejected=0, totalRecord=0){
+    this.delivered = delivered;
+    this.rejected = rejected;
+    this.totalRecord = totalRecord;
+  }
 
   static fromJSON(value){
     const report = new Report();
