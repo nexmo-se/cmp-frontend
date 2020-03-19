@@ -1,22 +1,36 @@
 import React from "react";
 
 import useAPIKey from "hooks/apiKey";
-import { UserContext } from "contexts/user";
-import { ErrorContext } from "contexts/error";
+import useError from "hooks/error";
+import useUser from "hooks/user";
 
+import FullPageSpinner from "components/FullPageSpinner";
 import Empty from "components/Empty";
 import NormalTable from "./NormalTable";
 
 function APIKeyTable({ refreshToken, setRefreshToken, compact=false }){
-  const { token } = React.useContext(UserContext);
-  const { throwError } = React.useContext(ErrorContext);
-  const mAPIKey = useAPIKey(token);
+  const [ isFetching, setIsFetching ] = React.useState(true);
+  const mUser = useUser();
+  const mError = useError();
+  const mAPIKey = useAPIKey(mUser.token);
+
+  async function fetchData(){
+    try{
+      setIsFetching(true);
+      await mAPIKey.list();
+    }catch(err){
+      mError.throwError(err);
+    }finally{
+      setIsFetching(false);
+    }
+  }
 
   React.useEffect(() => {
-    mAPIKey.list().catch((err) => throwError(err));
+    fetchData();
   }, [ refreshToken ])
 
-  if(mAPIKey.data.length <= 0) return <Empty/>
+  if(isFetching) return <FullPageSpinner />
+  else if(mAPIKey.data.length <= 0) return <Empty/>
   else if(compact) return null;
   else if(!compact) return <NormalTable apiKeys={mAPIKey.data} setRefreshToken={setRefreshToken} />
 }
