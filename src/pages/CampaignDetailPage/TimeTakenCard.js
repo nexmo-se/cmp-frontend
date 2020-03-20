@@ -53,7 +53,7 @@ function TimeTakeCard({ campaign }){
         }
       }
     }
-    setDuration(duration.toFixed(2));
+    setDuration(duration?.toFixed(2));
     setDurationString(durationString);
   }, [ campaign ])
 

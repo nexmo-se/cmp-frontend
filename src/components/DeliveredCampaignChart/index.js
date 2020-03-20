@@ -52,8 +52,8 @@ function DeliveredCampaignChart({ height, campaign, className, overall=false }){
   async function fetchData(){
     try{
       setIsFetching(true);
-      const chartData = (overall)?await mCampaign.overallLineChart("day")
-                                 :await mCampaign.lineChart(campaign, "day");
+      const chartData = (overall)?await mCampaign.overallLineChart("week")
+                                 :await mCampaign.lineChart(campaign, "week");
       setData(chartData.toJSON());
     }catch(err){
       mError.throwError(err);

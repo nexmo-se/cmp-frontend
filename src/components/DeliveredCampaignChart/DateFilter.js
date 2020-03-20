@@ -3,7 +3,7 @@ import React from "react";
 import FilterButton from "./FilterButton";
 
 function DateFilter({ onChange }){
-  const [ selected, setSelected ] = React.useState("day");
+  const [ selected, setSelected ] = React.useState("week");
   
   function handleDayClick(){ setSelected("day") }
 
