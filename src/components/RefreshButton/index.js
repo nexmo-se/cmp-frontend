@@ -5,7 +5,7 @@ function RefreshButton({ onClick, buttonType="button" }){
   return (
     <button 
       type={buttonType}
-      className={`Vlt-btn Vlt-btn--tertiary`}
+      className={`Vlt-btn Vlt-btn--tertiary Vlt-btn--app`}
       onClick={onClick}
     >
       <svg>

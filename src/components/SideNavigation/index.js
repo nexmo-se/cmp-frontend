@@ -2,7 +2,6 @@ import React from "react";
 import clsx from "clsx";
 import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 import { useLocation } from "react-router-dom";
-import { makeStyles } from "@material-ui/styles";
 
 import useUser from "hooks/user";
 
@@ -11,18 +10,11 @@ import Greetings from "components/SideNavigation/Greetings";
 import SingleMenu from "components/SideNavigation/SingleMenu";
 import MenuSeparator from "components/SideNavigation/MenuSeparator";
 
-const useStyles = makeStyles(() => ({
-  root: {
-    borderTopRightRadius: 16,
-    borderBottomRightRadius: 16
-  }
-}))
 
 function SideNavigation(){
   const [ menuActive, setMenuActive ] = React.useState(null);
   const [ render, setRender ] = React.useState(false);
   const mLocation = useLocation();
-  const mStyles = useStyles();
   const mUser = useUser();
 
   React.useEffect(() => {
@@ -57,7 +49,7 @@ function SideNavigation(){
         className={clsx(
           "Vlt-sidenav",
           "Vlt-sidenav--dark",
-          mStyles.root
+          "Vlt-sidenav--rounded"
         )}
       >
         <CompanyLogo/>
