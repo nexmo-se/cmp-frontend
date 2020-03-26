@@ -8,7 +8,7 @@ import Empty from "components/Empty";
 import FullPageSpinner from "components/FullPageSpinner";
 import NormalTable from "./NormalTable";
 
-function TemplateTable({ refreshToken, setRefreshToken }){
+function CampaignTable({ refreshToken, setRefreshToken }){
   const [ isFetching, setIsFetching ] = React.useState(true);
   const mUser = useUser();
   const mError = useError();
@@ -32,4 +32,4 @@ function TemplateTable({ refreshToken, setRefreshToken }){
   else if(mCampaign.data?.length <= 0) return <Empty />;
   else return <NormalTable campaigns={mCampaign.data} setRefreshToken={setRefreshToken} />
 }
-export default TemplateTable;
+export default CampaignTable;

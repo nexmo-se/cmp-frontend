@@ -21,7 +21,7 @@ function DetailColumn({ campaign, setRefreshToken }){
         <RestartButton campaign={campaign} setRefreshToken={setRefreshToken} />
       ): campaign.status === "draft" || campaign.status === "paused"?(
         <StartButton campaign={campaign} setRefreshToken={setRefreshToken}  />
-      ): campaign.status === "started"?(
+      ): campaign.status === "started" || campaign.status === "pending"?(
         <PauseButton campaign={campaign} setRefreshToken={setRefreshToken} />
       ): null}
       <DeleteButton campaign={campaign} setRefreshToken={setRefreshToken} />

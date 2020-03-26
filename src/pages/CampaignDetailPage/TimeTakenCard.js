@@ -35,7 +35,7 @@ function TimeTakeCard({ campaign }){
   const classes = useStyles();
 
   React.useEffect(() => {
-    let duration = (campaign?.actualDuration / 60);
+    let duration = (campaign?.actualDuration / 1000);
     let durationString = "seconds";
     if(duration > 60){
       duration = duration / 60;
