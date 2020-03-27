@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 
 import APIKey from "entities/apiKey";
 import useUser from "hooks/user";
@@ -17,6 +18,7 @@ import ChannelListCard from "./ChannelListCard";
 function APIKeyDetailPage(){
   const [ apiKey, setAPIKey ] = React.useState();
   const [ isFetching, setIsFetching ] = React.useState(true);
+  const [ refreshToken, setRefreshToken ] = React.useState(uuid());
   const { apiKeyId } = useParams();
   const mUser = useUser();
   const mError = useError();
@@ -36,12 +38,12 @@ function APIKeyDetailPage(){
 
   React.useEffect(() => {
     fetchData();
-  }, [ apiKeyId ])
+  }, [ apiKeyId, refreshToken ])
 
   if(isFetching) return <FullPageSpinner />
   return (
     <React.Fragment>
-      <Header apiKey={apiKey} />
+      <Header apiKey={apiKey} setRefreshToken={setRefreshToken} />
       <div className="Vlt-grid">
         <div className="Vlt-col Vlt-col--2of3">
           <SummaryCard apiKey={apiKey} />

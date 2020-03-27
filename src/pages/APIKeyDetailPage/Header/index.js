@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
 
 import ButtonIcon from "components/ButtonIcon";
-import Button from "components/Button";
+import EditButton from "./EditButton";
 
 const useStyles = makeStyles(() => ({
   subheader: { marginBottom: 0 },
@@ -23,10 +23,16 @@ const useStyles = makeStyles(() => ({
     justifyContent: "flex-start",
     marginBottom: 24
   },
+  rightContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginBottom: 24
+  }
 }))
 
-function Header({ apiKey }){
-  const classes = useStyles();
+function Header({ apiKey, setRefreshToken }){
+  const mStyles = useStyles();
   const history = useHistory();
 
   function handleBackClick(){
@@ -35,15 +41,15 @@ function Header({ apiKey }){
 
   return (
     <div className="Vlt-grid">
-      <div className={clsx("Vlt-col", classes.headerContainer)}>
+      <div className={clsx("Vlt-col", mStyles.headerContainer)}>
         <ButtonIcon icon="Vlt-icon-arrow-left" onClick={handleBackClick} />
-        <div className={classes.header}>
-          <p className={classes.subheader}>API KEY</p>
-          <h2 className={classes.headerLabel}>{apiKey?.name}</h2>
+        <div className={mStyles.header}>
+          <p className={mStyles.subheader}>API KEY</p>
+          <h2 className={mStyles.headerLabel}>{apiKey?.name}</h2>
         </div>
       </div>
-      <div className="Vlt-col Vlt-right">
-        <Button type="tertiary">Edit</Button>
+      <div className={clsx("Vlt-col", mStyles.rightContainer)}>
+        <EditButton apiKey={apiKey} setRefreshToken={setRefreshToken} />
       </div>
     </div>
   )
