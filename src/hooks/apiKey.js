@@ -10,11 +10,7 @@ function useAPIKey(token){
     const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys`;
     const responseData = await FetchAPI.get(url, token);
     const newData = responseData.map((data) => {
-      // const applications = data.cmpApplications.map((value) => Application.fromJSON(value));
-      // const channels = data.cmpChannels.map((value) => Channel.fromJSON(value));
       const key = APIKey.fromJSON(data);
-      // key.cmpApplications = applications;
-      // key.cmpChannels = channels;
       return key;
     })
     setData(newData);
@@ -31,12 +27,24 @@ function useAPIKey(token){
     const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys`;
     await FetchAPI.post(url, token, JSON.stringify(apiKey.toJSON()));
   }
+
+  async function update(apiKey){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys/${apiKey.id}`;
+    await FetchAPI.put(url, token, JSON.stringify(apiKey.toJSON()));
+  }
   
   async function remove(apiKey){
     const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys/${apiKey.id}`;
     await FetchAPI.remove(url, token);
   }
 
-  return { data, list, create, remove, retrieve };
+  return { 
+    data, 
+    list, 
+    create, 
+    remove, 
+    retrieve, 
+    update 
+  };
 }
 export default useAPIKey;

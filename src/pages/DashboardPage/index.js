@@ -18,11 +18,11 @@ function DashboardPage(){
     <React.Fragment>
       <div className="Vlt-grid">
         <div className="Vlt-col Vlt-col--2of3">
-          <DeliveryRateCard />
+          {/* <DeliveryRateCard /> */}
 
           <div className="Vlt-grid">
             <div className="Vlt-col">
-              <DeliveredCampaignChart className="Vlt-card--border" height={70} overall />
+              {/* <DeliveredCampaignChart className="Vlt-card--border" height={70} overall /> */}
             </div>
           </div>
 
@@ -33,7 +33,7 @@ function DashboardPage(){
           </div>
         </div>
         <div className="Vlt-col Vlt-col--1of3">
-          <AverageDeliveryTimeCard />
+          {/* <AverageDeliveryTimeCard /> */}
         </div>
       </div>
     </React.Fragment>

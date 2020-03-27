@@ -1,4 +1,6 @@
 import React from "react";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/styles";
 
 import NumberIndicator from "components/NumberIndicator";
 import Table from "components/Table";
@@ -11,14 +13,19 @@ import TableBodyRow from "components/Table/TableBodyRow";
 
 import DetailColumn from "./DetailColumn";
 
+const useStyles = makeStyles(() => ({
+  nameWidth: { maxWidth: 200 }
+}))
+
 function NormalTable({ apiKeys, setRefreshToken }){
+  const mStyles = useStyles();
 
   return (
     <Table>
       <TableHead>
         <TableRow>
           <TableHeader />
-          <TableHeader>NAME</TableHeader>
+          <TableHeader className={mStyles.nameWidth}>NAME</TableHeader>
           <TableHeader>APPS</TableHeader>
           <TableHeader>CHANNELS</TableHeader>
           <TableHeader />
@@ -31,11 +38,11 @@ function NormalTable({ apiKeys, setRefreshToken }){
               <TableColumn>
                 <NumberIndicator number={index + 1} />
               </TableColumn>
-              <TableColumn>
-                <p>
+              <TableColumn className={mStyles.nameWidth}>
+                <p className="Vlt-truncate">
                   <b>{apiKey.name} ({apiKey.key})</b>
                 </p>
-                <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 300 }}>{apiKey.id}</p>
+                <p className="Vlt-grey Vlt-truncate">{apiKey.id}</p>
               </TableColumn>
               <TableColumn className="Vlt-right">{apiKey.applications.length}</TableColumn>
               <TableColumn className="Vlt-right">{apiKey.channels.length}</TableColumn>

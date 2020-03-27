@@ -38,7 +38,7 @@ function CampaignDetailCard({ campaign }){
         <Row label="Start Time">{new moment(campaign?.campaignStartDate).format("hh:mm")}</Row>
         <Row label="End Date">{new moment(campaign?.campaignEndDate).format("DD MMMM YYYY")}</Row>
         <Row label="End Time">{new moment(campaign?.campaignEndDate).format("hh:mm")}</Row>
-        <Row label="Total Recipients">{report?.totalRecord.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Row>
+        <Row label="Total Messages">{report?.totalRecord.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Row>
       </div>
     </div>
   )

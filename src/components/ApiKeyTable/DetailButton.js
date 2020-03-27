@@ -10,10 +10,7 @@ function DetailButton({ apiKey }){
     mHistory.push(`/apikeys/${apiKey.id}`);
   }
   return (
-    <ButtonIcon 
-      icon="Vlt-icon-gear"
-      onClick={handleClick}
-    />
+    <ButtonIcon icon="Vlt-icon-gear" onClick={handleClick} />
   )
 }
 export default DetailButton;

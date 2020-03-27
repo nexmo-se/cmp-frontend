@@ -1,16 +1,27 @@
-import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 import React from "react";
+import clsx from "clsx";
 
-function ButtonIcon({ onClick, icon, type="tertiary", style={} }){
+import VoltaIcon from "components/VoltaIcon";
+
+function ButtonIcon({ 
+  onClick, 
+  icon, 
+  type="tertiary", 
+  style={}, 
+  className 
+}){
   return (
     <button 
-      className={`Vlt-btn Vlt-btn--${type} Vlt-btn--icon`}
+      className={clsx(
+        "Vlt-btn",
+        `Vlt-btn--${type}`,
+        "Vlt-btn--icon",
+        className
+      )}
       onClick={onClick}
       style={style}
     >
-      <svg>
-        <use xlinkHref={`${voltaIcons}#${icon}`} />
-      </svg>
+      <VoltaIcon icon={icon} />
     </button>
   )
 }

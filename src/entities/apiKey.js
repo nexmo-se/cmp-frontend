@@ -26,11 +26,13 @@ class APIKey{
   get key(){ return this.apiKey }
 
   toJSON(){
-    return {
+    const jsonData = {
+      id: this.id,
       name: this.name,
       apiKey: this.apiKey,
       apiSecret: this.apiSecret
     }
+    return JSON.parse(JSON.stringify(jsonData));
   }
 
   static fromJSON(value){

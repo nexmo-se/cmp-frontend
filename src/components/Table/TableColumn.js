@@ -1,7 +1,6 @@
 import React from "react";
 
-function TableColumn(props){
-  const { children, className } = props;
+function TableColumn({ children, className }){
   return <td className={className}>{children}</td>
 }
 export default TableColumn;
