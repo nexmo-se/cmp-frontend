@@ -32,10 +32,10 @@ export default function ErrorProvider({ children }){
   return (
     <ErrorContext.Provider value={{ throwError, clearError, throwSuccess }}>
       <CriticalCallouts id="critical">
-        {error? error.message: ""}
+        {error?.message}
       </CriticalCallouts>
       <SuccessCallouts id="success">
-        {success? success.message: ""}
+        {success}
       </SuccessCallouts>
 
       {children}
