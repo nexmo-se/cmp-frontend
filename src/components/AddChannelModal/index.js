@@ -13,6 +13,8 @@ import Modal from "components/Modal";
 import ModalContent from "components/Modal/ModalContent";
 import ModalHeader from "components/Modal/ModalHeader";
 import ModalFooter from "components/Modal/ModalFooter";
+
+import LoadingButton from "components/LoadingButton";
 import Button from "components/Button";
 import TextInput from "components/TextInput";
 import Dropdown from "components/Dropdown";
@@ -136,17 +138,9 @@ function AddChannelModal({ disableSMS=false, visible, setVisible, onAdded }){
         </ModalContent>
         <ModalFooter>
           <Button type="tertiary" onClick={handleCancel} disabled={isAdding}>Cancel</Button>
-          <Button 
-            type="secondary" 
-            buttonType="submit"
-            onClick={handleAddNew}
-            disabled={isAdding}
-          >
-            {isAdding?(
-              <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
-            ): null}
+          <LoadingButton loading={isAdding} onClick={handleAddNew} buttonType="submit">
             Add New
-          </Button>
+          </LoadingButton>
         </ModalFooter>
       </Modal>
     </form>

@@ -11,6 +11,7 @@ import Button from "components/Button";
 import TextInput from "components/TextInput";
 import PasswordInput from "components/PasswordInput";
 import SignatureMethodDropdown from "components/SignatureMethodDropdown";
+import LoadingButton from "components/LoadingButton";
 
 import Modal from "components/Modal";
 import ModalHeader from "components/Modal/ModalHeader";
@@ -106,16 +107,9 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
         >
           Cancel
         </Button>
-        <Button 
-          type="secondary"
-          disabled={isAdding}
-          onClick={handleAddNew}
-        >
-          {isAdding?(
-            <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
-          ): null}
+        <LoadingButton loading={isAdding} onClick={handleAddNew}>
           Add New
-        </Button>
+        </LoadingButton>
       </ModalFooter>
     </Modal>
   )

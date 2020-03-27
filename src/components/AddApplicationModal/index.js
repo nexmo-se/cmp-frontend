@@ -12,6 +12,8 @@ import Modal from "components/Modal";
 import ModalContent from "components/Modal/ModalContent";
 import ModalHeader from "components/Modal/ModalHeader";
 import ModalFooter from "components/Modal/ModalFooter";
+
+import LoadingButton from "components/LoadingButton";
 import Button from "components/Button";
 import TextInput from "components/TextInput";
 import FileInput from "components/FileInput";
@@ -81,12 +83,9 @@ function AddApplicationModal({ visible, setVisible, onAdded }){
       </ModalContent>
       <ModalFooter>
         <Button type="tertiary" disabled={isAdding} onClick={handleCancel}>Cancel</Button>
-        <Button type="secondary" onClick={handleAddNew} disabled={isAdding}>
-          {isAdding?(
-            <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
-          ): null}
+        <LoadingButton loading={isAdding} onClick={handleAddNew}>
           Add New
-        </Button>
+        </LoadingButton>
       </ModalFooter>
     </Modal>
   )

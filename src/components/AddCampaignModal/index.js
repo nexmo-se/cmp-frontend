@@ -11,6 +11,8 @@ import Modal from "components/Modal";
 import ModalHeader from "components/Modal/ModalHeader";
 import ModalContent from "components/Modal/ModalContent";
 import ModalFooter from "components/Modal/ModalFooter";
+
+import LoadingButton from "components/LoadingButton";
 import TextInput from "components/TextInput";
 import Button from "components/Button";
 import Switch from "components/Switch";
@@ -186,17 +188,9 @@ function AddCampaignModal({ initState, visible, setVisible, onAdded }){
         </ModalContent>
         <ModalFooter>
           <Button type="tertiary" disabled={isAdding} onClick={handleCancel}>Cancel</Button>
-          <Button 
-            type="secondary" 
-            buttonType="submit"
-            onClick={handleAddNew}
-            disabled={isAdding}
-          >
-            {isAdding?(
-              <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
-            ): null}
+          <LoadingButton loading={isAdding} onClick={handleAddNew}>
             Add New
-          </Button>
+          </LoadingButton>
         </ModalFooter>
       </form>
     </Modal>

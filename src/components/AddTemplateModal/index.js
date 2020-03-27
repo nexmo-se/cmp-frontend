@@ -14,6 +14,8 @@ import Modal from "components/Modal";
 import ModalHeader from "components/Modal/ModalHeader";
 import ModalContent from "components/Modal/ModalContent";
 import ModalFooter from "components/Modal/ModalFooter";
+
+import LoadingButton from "components/LoadingButton";
 import Button from "components/Button";
 import TextInput from "components/TextInput";
 import TextArea from "components/TextArea";
@@ -121,17 +123,9 @@ function AddTemplateModal({ visible, setVisible, onAdded }){
         </ModalContent>
         <ModalFooter>
           <Button type="tertiary" onClick={handleCancel} disabled={isAdding}>Cancel</Button>
-          <Button 
-            buttonType="submit" 
-            type="secondary" 
-            disabled={isAdding} 
-            onClick={handleAddNew}
-          >
-            {isAdding?(
-              <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
-            ): null}
+          <LoadingButton loading={isAdding} onClick={handleAddNew} buttonType="submit">
             Add New
-          </Button>
+          </LoadingButton>
         </ModalFooter>
       </Modal>
     </form>
