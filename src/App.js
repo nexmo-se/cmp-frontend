@@ -1,8 +1,10 @@
 import React from "react";
+import MomentUtils from "@date-io/moment";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import UserProvider from "contexts/user";
 import ErrorProvider from "contexts/error";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 import SideNavigation from "components/SideNavigation";
 import PageContainer from "components/PageContainer";
@@ -21,29 +23,31 @@ import QuickWizardPage from "pages/QuickWizardPage";
 
 function App(){
   return (
-    <UserProvider>
-      <ErrorProvider>
-        <BrowserRouter>
-          <PageContainer>
-            <SideNavigation />
-            <SectionContainer>
-              <Switch>
-                <Route path="/" component={LoginPage} exact />
-                <Route path="/dashboard" component={DashboardPage} exact />
-                <Route path="/apikeys" component={APIKeyPage} exact />
-                <Route path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
-                <Route path="/applications" component={ApplicationPage} exact />
-                <Route path="/campaigns" component={CampaignPage} exact />
-                <Route path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
-                <Route path="/channels" component={ChannelPage} exact />
-                <Route path="/templates" component={TemplatePage} exact />
-                <Route path="/quickwizard" component={QuickWizardPage} exact />
-              </Switch>
-            </SectionContainer>
-          </PageContainer>
-        </BrowserRouter>
-      </ErrorProvider>
-    </UserProvider>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <UserProvider>
+        <ErrorProvider>
+          <BrowserRouter>
+            <PageContainer>
+              <SideNavigation />
+              <SectionContainer>
+                <Switch>
+                  <Route path="/" component={LoginPage} exact />
+                  <Route path="/dashboard" component={DashboardPage} exact />
+                  <Route path="/apikeys" component={APIKeyPage} exact />
+                  <Route path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
+                  <Route path="/applications" component={ApplicationPage} exact />
+                  <Route path="/campaigns" component={CampaignPage} exact />
+                  <Route path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
+                  <Route path="/channels" component={ChannelPage} exact />
+                  <Route path="/templates" component={TemplatePage} exact />
+                  <Route path="/quickwizard" component={QuickWizardPage} exact />
+                </Switch>
+              </SectionContainer>
+            </PageContainer>
+          </BrowserRouter>
+        </ErrorProvider>
+      </UserProvider>
+    </MuiPickersUtilsProvider>
   )
 }
 export default App;

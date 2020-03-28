@@ -1,6 +1,14 @@
 import React from "react";
 
-function TextInput({ label, hint, value, setValue, disabled=false }){
+function TextInput({ 
+  label, 
+  hint, 
+  value, 
+  setValue, 
+  onFocus,
+  onClick,
+  disabled=false 
+}){
   function handleChange(e){
     setValue(e.target.value);
   }
@@ -15,6 +23,8 @@ function TextInput({ label, hint, value, setValue, disabled=false }){
           type="text" 
           value={value} 
           onChange={handleChange} 
+          onFocus={onFocus}
+          onClick={onClick}
           disabled={disabled} 
         />
       </div>

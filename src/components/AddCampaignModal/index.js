@@ -17,6 +17,8 @@ import TextInput from "components/TextInput";
 import Button from "components/Button";
 import Switch from "components/Switch";
 import TimezoneDropdown from "components/TimezoneDropdown";
+import TimePicker from "components/TimePicker";
+import DatePicker from "components/DatePicker";
 
 function AddCampaignModal({ initState, visible, setVisible, onAdded }){
   const [ state, dispatch ] = React.useReducer(reducer, initialState)
@@ -49,17 +51,17 @@ function AddCampaignModal({ initState, visible, setVisible, onAdded }){
       e.preventDefault();
       setIsAdding(true);
 
-      const startDate = `${fromDate} ${fromTime}`;
-      const endDate = `${toDate} ${toTime}`;
+      const startDate = `${fromDate.format("DD/MM/YYYY")} ${fromTime.format("HH:mm")}`;
+      const endDate = `${toDate.format("DD/MM/YYYY")} ${toTime.format("HH:mm")}`;
 
       const campaign = new Campaign();
       campaign.name = name;
       campaign.campaignStartDate = new moment.tz(startDate, "DD/MM/YYYY HH:mm", timezone).toISOString(true);
       campaign.campaignEndDate = new moment.tz(endDate, "DD/MM/YYYY HH:mm", timezone).toISOString(true);
-      campaign.activeStartHour = new moment(activeStartTime, "HH:mm").format("HH");
-      campaign.activeStartMinute = new moment(activeStartTime, "HH:mm").format("mm");
-      campaign.activeEndHour = new moment(activeEndTime, "HH:mm").format("HH");
-      campaign.activeEndMinute = new moment(activeEndTime, "HH:mm").format("mm");
+      campaign.activeStartHour = new moment(activeStartTime).format("HH");
+      campaign.activeStartMinute = new moment(activeStartTime).format("mm");
+      campaign.activeEndHour = new moment(activeEndTime).format("HH");
+      campaign.activeEndMinute = new moment(activeEndTime).format("mm");
       campaign.activeOnWeekends = activeOnWeekends;
       campaign.timezone = timezone;
       await mCampaign.create(campaign);
@@ -109,17 +111,17 @@ function AddCampaignModal({ initState, visible, setVisible, onAdded }){
 
           <div className="Vlt-grid Vlt-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
-              <TextInput 
-                label="From Date" 
-                hint="Date format: DD/MM/YYYY" 
+              <DatePicker 
+                label="From Date"
+                hint="Date format: DD/MM/YYYY"
                 value={fromDate}
                 setValue={handleFromDateChange}
               />
             </div>
             <div className="Vlt-col Vlt-col--A">
-              <TextInput 
-                label="From Time" 
-                hint="24hrs time format: hh:mm" 
+              <TimePicker 
+                label="From Time"
+                hint="24hrs time format: HH:mm"
                 value={fromTime}
                 setValue={handleFromTimeChange}
               />
@@ -128,7 +130,7 @@ function AddCampaignModal({ initState, visible, setVisible, onAdded }){
 
           <div className="Vlt-grid Vlt-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
-              <TextInput 
+              <DatePicker 
                 label="To Date" 
                 hint="Date format: DD/MM/YYYY" 
                 value={toDate}
@@ -136,9 +138,9 @@ function AddCampaignModal({ initState, visible, setVisible, onAdded }){
               />
             </div>
             <div className="Vlt-col Vlt-col--A">
-              <TextInput 
+              <TimePicker 
                 label="To Time" 
-                hint="24hrs time format: hh:mm" 
+                hint="24hrs time format: HH:mm" 
                 value={toTime}
                 setValue={handleToTimeChange}
               />
@@ -151,17 +153,17 @@ function AddCampaignModal({ initState, visible, setVisible, onAdded }){
 
           <div className="Vlt-grid VLt-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
-              <TextInput 
+              <TimePicker 
                 label="Start Time"
-                hint="Time format: hh:mm"
+                hint="Time format: HH:mm"
                 value={activeStartTime}
                 setValue={handleActiveStartTimeChange}
               />
             </div>
             <div className="Vlt-col Vlt-col--A">
-              <TextInput 
+              <TimePicker 
                 label="End Time"
-                hint="24hrs time format: hh:mm"
+                hint="24hrs time format: HH:mm"
                 value={activeEndTime}
                 setValue={handleActiveEndTimeChange}
               />

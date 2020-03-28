@@ -1,10 +1,25 @@
 import React from "react";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/styles";
 
-function Modal({ visible, children, style={}, size="large" }){
+const useStyles = makeStyles(() => ({
+  reducedZIndex: {
+    zIndex: 99
+  }
+}))
+
+function Modal({ visible, children, className, size="large" }){
+  const mStyles = useStyles();
+
   return (
     <div 
-      className={`Vlt-modal ${visible? "Vlt-modal_visible": ""} Vlt-modal Vlt-modal--${size}`}
-      style={style}
+      className={clsx(
+        "Vlt-modal",
+        (visible)? "Vlt-modal_visible": "",
+        `Vlt-modal--${size}`,
+        mStyles.reducedZIndex,
+        className
+      )}
     >
       <div className="Vlt-modal__panel">
         {children}

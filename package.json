@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@date-io/moment": "1.x",
     "@material-ui/core": "^4.8.3",
+    "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.9.0",
     "@material-ui/system": "^4.9.6",
     "@testing-library/jest-dom": "4.2.4",
@@ -12,7 +14,7 @@
     "@vonagevolta/volta2": "^0.0.29",
     "chart.js": "2.9.3",
     "faker": "4.1.0",
-    "moment": "2.24.0",
+    "moment": "^2.24.0",
     "moment-range": "^4.0.2",
     "moment-timezone": "^0.5.28",
     "papaparse": "^5.1.1",

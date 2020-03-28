@@ -2,12 +2,12 @@ import moment from "moment-timezone";
 
 export const initialState = {
   name: "",
-  fromDate: "",
-  fromTime: "",
-  toDate: "",
-  toTime: "",
-  activeStartTime: "",
-  activeEndTime: "",
+  fromDate: new moment(),
+  fromTime: new moment().startOf("day").add(8, "hours"),
+  toDate: new moment(),
+  toTime: new moment().startOf("day").add(18, "hours"),
+  activeStartTime: new moment().startOf("day").add(8, "hours"),
+  activeEndTime: new moment().startOf("day").add(18, "hours"),
   activeOnWeekends: false, 
   timezone: moment.tz.guess()
 }
