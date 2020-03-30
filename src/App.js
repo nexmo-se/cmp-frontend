@@ -16,10 +16,13 @@ import APIKeyPage from "pages/APIKeyPage";
 import APIKeyDetailPage from "pages/APIKeyDetailPage";
 import ApplicationPage from "pages/ApplicationPage";
 import ChannelPage from "pages/ChannelPage";
+import QuickWizardPage from "pages/QuickWizardPage";
+
 import TemplatePage from "pages/TemplatePage";
+import TemplateDetailPage from "pages/TemplateDetailPage";
+
 import CampaignPage from "pages/CampaignPage";
 import CampaignDetailPage from "pages/CampaignDetailPage";
-import QuickWizardPage from "pages/QuickWizardPage";
 
 function App(){
   return (
@@ -40,6 +43,7 @@ function App(){
                   <Route path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
                   <Route path="/channels" component={ChannelPage} exact />
                   <Route path="/templates" component={TemplatePage} exact />
+                  <Route path="/templates/:templateId" component={TemplateDetailPage} />
                   <Route path="/quickwizard" component={QuickWizardPage} exact />
                 </Switch>
               </SectionContainer>

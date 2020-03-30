@@ -2,7 +2,11 @@ import CustomError from "entities/error";
 
 class FetchAPI{
   static async processResponse(response){
-      if(response.status !== 200){
+      if(response.status >= 400 && response.status <= 499){
+        const errorResponse = await response.json();
+        console.log(errorResponse);
+        throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
+      }else if(response.status !== 200){
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }
       

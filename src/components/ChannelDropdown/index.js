@@ -16,7 +16,12 @@ function ChannelDropdown({ refreshToken, label, value, setValue, disabled }){
   }, [ refreshToken ])
 
   return(
-    <Dropdown label={label} value={value} setValue={setValue} disabled={disabled}>
+    <Dropdown 
+      label={label} 
+      value={value} 
+      setValue={setValue} 
+      disabled={disabled}
+    >
       <option>--- Please Select ---</option>
       {mChannel.data.map((channel) => {
         return (

@@ -9,8 +9,9 @@ import useAPIKey from "hooks/apiKey";
 
 import APIKeyInformationCard from "components/APIKeyInformationCard";
 import FullPageSpinner from "components/FullPageSpinner";
+import PageHeader from "components/PageHeader";
 
-import Header from "./Header";
+import EditButton from "./EditButton";
 import SummaryCard from "./SummaryCard";
 import ApplicationListCard from "./ApplicationListCard";
 import ChannelListCard from "./ChannelListCard";
@@ -43,7 +44,13 @@ function APIKeyDetailPage(){
   if(isFetching) return <FullPageSpinner />
   return (
     <React.Fragment>
-      <Header apiKey={apiKey} setRefreshToken={setRefreshToken} />
+      <PageHeader 
+        title="API KEY"
+        name={apiKey?.name}
+        rightComponent={(
+          <EditButton apiKey={apiKey} setRefreshToken={setRefreshToken} />
+        )}
+      />
       <div className="Vlt-grid">
         <div className="Vlt-col Vlt-col--2of3">
           <SummaryCard apiKey={apiKey} />

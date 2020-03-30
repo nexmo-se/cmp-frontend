@@ -20,7 +20,8 @@ class Template{
   }
 
   toJSON(){
-    return {
+    const jsonData = {
+      id: this.id,
       name: this.name,
       cmpChannelId: this.channel.id,
       whatsappTemplateNamespace: this.whatsappTemplateNamespace,
@@ -28,6 +29,16 @@ class Template{
       mediaType: this.mediaType,
       body: this.body
     }
+    return JSON.parse(JSON.stringify(jsonData));
+  }
+
+  toUpdateJSON(){
+    const jsonData = {
+      name: this.name,
+      mediaType: this.mediaType,
+      body: this.body
+    }
+    return JSON.parse(JSON.stringify(jsonData));
   }
 
   static fromID(id){
@@ -48,7 +59,7 @@ class Template{
     else if(value.cmpChannelId){
       t.channel = new Channel();
       t.channel.id = value.cmpChannelId
-    }
+    }else if(value.channel) t.channel = value.channel;
     return t;
   }
 }

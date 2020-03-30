@@ -22,7 +22,8 @@ class Channel{
   }
 
   toJSON(){
-    return {
+    const jsonData = {
+      id: this.id,
       name: this.name,
       channel: this.channel,
       senderId: this.senderId,
@@ -31,6 +32,7 @@ class Channel{
       cmpApiKeyId: this.apiKey?.id || undefined,
       cmpApplicationId: this.application?.id || undefined
     }
+    return JSON.parse(JSON.stringify(jsonData));
   }
 
   static fromID(id){
