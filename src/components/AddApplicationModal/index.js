@@ -19,11 +19,17 @@ import TextInput from "components/TextInput";
 import FileInput from "components/FileInput";
 import APIKeyDropdown from "components/APIKeyDropdown";
 
-function AddApplicationModal({ refreshToken, visible, setVisible, onAdded }){
+function AddApplicationModal({ 
+  refreshToken, 
+  visible, 
+  setVisible, 
+  onAdded,
+  apiKey:initAPIKey="",
+}){
   const [ name, setName ] = React.useState("");
   const [ applicationId, setApplicationId ] = React.useState("");
   const [ privateKey, setPrivateKey ] = React.useState(null);
-  const [ apiKey, setAPIKey ] = React.useState("");
+  const [ apiKey, setAPIKey ] = React.useState(initAPIKey.id);
   const [ isAdding, setIsAdding ] = React.useState(false);
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);

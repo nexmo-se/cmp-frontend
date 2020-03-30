@@ -53,7 +53,7 @@ function APIKeyDetailPage(){
       />
       <div className="Vlt-grid">
         <div className="Vlt-col Vlt-col--2of3">
-          <SummaryCard apiKey={apiKey} />
+          <SummaryCard apiKey={apiKey} setRefreshToken={setRefreshToken} />
           <div className="Vlt-grid">
             <ApplicationListCard applications={apiKey.applications} />
             <ChannelListCard channels={apiKey.channels} />

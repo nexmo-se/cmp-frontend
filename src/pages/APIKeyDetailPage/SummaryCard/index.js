@@ -12,16 +12,24 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function SummaryCard({ apiKey }){
+function SummaryCard({ apiKey, setRefreshToken }){
   const mStyles = useStyles();
   return (
     <div className="Vlt-card Vlt-card--border">
       <div className="Vlt-grid">
         <div className={clsx("Vlt-col", "Vlt-center", mStyles.borderRight)}>
-          <ApplicationSummary applications={apiKey?.applications} />
+          <ApplicationSummary 
+            apiKey={apiKey} 
+            applications={apiKey?.applications} 
+            setRefreshToken={setRefreshToken}
+          />
         </div>
         <div className="Vlt-col Vlt-center">
-          <ChannelSummary channels={apiKey?.channels} />
+          <ChannelSummary 
+            apiKey={apiKey}
+            channels={apiKey?.channels} 
+            setRefreshToken={setRefreshToken}
+          />
         </div>
       </div>
     </div>

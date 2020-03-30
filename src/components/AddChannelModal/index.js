@@ -27,7 +27,8 @@ function AddChannelModal({
   visible, 
   setVisible, 
   onAdded,
-  refreshToken
+  refreshToken,
+  apiKey:initAPIKey=""
 }){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const [ isAdding, setIsAdding ] = React.useState(false);
@@ -84,6 +85,10 @@ function AddChannelModal({
     if(disableSMS) dispatch({ type: "SELECT_WHATSAPP" })
     else dispatch({ type: "SELECT_SMS" })
   }, [ disableSMS ])
+
+  React.useEffect(() => {
+    handleValueChange("apiKey", initAPIKey.id)
+  }, [ initAPIKey ])
 
   return (
     <form>
