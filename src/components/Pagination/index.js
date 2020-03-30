@@ -14,15 +14,15 @@ function Pagination({ totalData, limit, onChange }){
     setCurrentPage((prevCurrentPage) => {
       if(prevCurrentPage + 1 <= totalPage){
         return prevCurrentPage + 1;
-      }
+      }else return prevCurrentPage;
     });
   }
 
   function handlePrevClick(){
     setCurrentPage((prevCurrentPage) => {
-      if(prevCurrentPage - 1 >= 0){
+      if(prevCurrentPage - 1 > 0){
         return prevCurrentPage - 1;
-      }
+      }else return prevCurrentPage;
     })
   }
 
