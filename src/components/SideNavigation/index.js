@@ -57,8 +57,8 @@ function SideNavigation(){
 
         <div className="Vlt-sidenav__scroll">
           <ul className="Vlt-sidemenu">
-            <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive === "dashboard"} to="/dashboard" />
-            <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" active={menuActive === "reports"} />
+            {/* <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive === "dashboard"} to="/dashboard" /> */}
+            {/* <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" active={menuActive === "reports"} /> */}
             <SingleMenu icon="Vlt-icon-rocket" label="Quick Wizard" to="/quickwizard" active={menuActive === "quickwizard"} />
             <MenuSeparator>Configurations</MenuSeparator>
             <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive === "apikeys"} to="/apikeys"/>
