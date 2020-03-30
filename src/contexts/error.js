@@ -35,7 +35,7 @@ export default function ErrorProvider({ children }){
         {error?.message}
       </CriticalCallouts>
       <SuccessCallouts id="success">
-        {success}
+        {success?.message}
       </SuccessCallouts>
 
       {children}

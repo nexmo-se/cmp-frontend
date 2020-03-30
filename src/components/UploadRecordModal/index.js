@@ -1,5 +1,6 @@
 import React from "react";
 
+import SuccessMessage from "entities/success";
 import useRecord from "hooks/record";
 
 import { ErrorContext } from "contexts/error";
@@ -27,7 +28,7 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
     try{
       setIsUploading(true);
       await mRecord.uploadCSV(file);
-      throwSuccess("File uploaded!");
+      throwSuccess(new SuccessMessage("File Uploaded!"));
       if(onUploaded) onUploaded();
     }catch(err){
       throwError(err);
