@@ -3,7 +3,7 @@ import React from "react";
 import Button from "components/Button";
 import GenerateCSVModal from "components/GenerateCSVModal";
 
-function DownloadButton({ campaign }){
+function DownloadButton({ refreshToken, campaign }){
   const [ visible, setVisible ] = React.useState(false);
   
   function handleClick(){
@@ -23,6 +23,7 @@ function DownloadButton({ campaign }){
         visible={visible}
         setVisible={setVisible}
         initCampaign={campaign}
+        refreshToken={refreshToken}
       />
     </React.Fragment>
   )

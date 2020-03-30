@@ -1,18 +1,24 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
+import useUser from "hooks/user";
+import useCampaign from "hooks/campaign";
+
 import Button from "components/Button";
 import UploadRecordModal from "components/UploadRecordModal";
 
 function UploadButton(){
   const [ visible, setVisible ] = React.useState(false);
   const mHistory = useHistory();
+  const mUser = useUser();
+  const mCampaign = useCampaign(mUser.token);
 
   function handleClick(){
     setVisible(true);
   }
 
-  function handleUploaded(){
+  async function handleUploaded(campaign){
+    await mCampaign.updateStatus(campaign, "pending");
     mHistory.push("/campaigns");
   }
 

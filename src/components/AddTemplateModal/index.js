@@ -21,7 +21,7 @@ import TextInput from "components/TextInput";
 import TextArea from "components/TextArea";
 import ChannelDropdown from "components/ChannelDropdown";
 
-function AddTemplateModal({ visible, setVisible, onAdded }){
+function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const [ isAdding, setIsAdding ] = React.useState(false);
   const [ currentChannel, setCurrentChannel ] = React.useState(null);
@@ -95,7 +95,12 @@ function AddTemplateModal({ visible, setVisible, onAdded }){
         </ModalHeader>
         <ModalContent>
           <TextInput label="Name" value={name} setValue={handleNameChange}/>
-          <ChannelDropdown label="Channel" value={channel} setValue={handleChannelChange} />
+          <ChannelDropdown 
+            label="Channel" 
+            value={channel} 
+            setValue={handleChannelChange} 
+            refreshToken={refreshToken}
+          />
           <div className="Vlt-grid Vlt-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
               <TextInput 

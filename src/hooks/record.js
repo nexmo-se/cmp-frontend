@@ -18,6 +18,7 @@ function useRecord(token){
     const formData = new FormData();
     formData.append("file", file);
     await FetchAPI.postFile(url, token, formData);
+    return { campaign, template }
   }
 
   async function retrieveFromCampaign(campaign, limit=25){

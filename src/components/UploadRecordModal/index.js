@@ -27,9 +27,9 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
   async function handleUpload(){
     try{
       setIsUploading(true);
-      await mRecord.uploadCSV(file);
+      const { campaign, template } = await mRecord.uploadCSV(file);
       throwSuccess(new SuccessMessage("File Uploaded!"));
-      if(onUploaded) onUploaded();
+      if(onUploaded) onUploaded(campaign, template);
     }catch(err){
       throwError(err);
     }finally{

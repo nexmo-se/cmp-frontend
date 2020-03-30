@@ -25,11 +25,31 @@ const useStyles = makeStyles(() => ({
 function QuickWizardPage(){
   const [ campaign, setCampaign ] = React.useState(null);
   const [ campaignRefreshToken, setCampaignRefreshToken ] = React.useState(null);
+  const [ channelRefreshToken, setChannelRefreshToken ] = React.useState(null);
+  const [ templateRefreshToken, setTemplateRefreshToken ] = React.useState(null);
+  const [ applicationRefreshToken, setApplicationRefreshToken ] = React.useState(null);
   const [ selectedChannel, setSelectedChannel ] = React.useState("sms");
   const mStyles = useStyles();
 
-  function handleCampaignAdded(){
+  function handleCampaignCreated(){
     setCampaignRefreshToken(uuid());
+  }
+
+  function handleAPIKeyCreated(){
+    setChannelRefreshToken(uuid());
+    setApplicationRefreshToken(uuid());
+  }
+
+  function handleChannelCreated(){
+    setTemplateRefreshToken(uuid());
+  }
+
+  function handleTemplateCreated(){
+    setCampaignRefreshToken(uuid());
+  }
+
+  function handleApplicationCreated(){
+    setChannelRefreshToken(uuid());
   }
 
   return (
@@ -39,7 +59,7 @@ function QuickWizardPage(){
           <h2>Quick Wizard</h2>
         </div>
         <div className="Vlt-card__content">
-          <CreateAPIKeyStep number={1} />
+          <CreateAPIKeyStep number={1} onCreated={handleAPIKeyCreated} />
           <ChannelSelectionStep 
             number={2} 
             value={selectedChannel}
@@ -47,16 +67,37 @@ function QuickWizardPage(){
           />
           {selectedChannel === "social-channel"?(
             <React.Fragment>
-              <CreateApplicationStep number={3} />
-              <CreateChannelStep number={4} disableSMS/>
-              <CreateTemplateStep number={5} />
-              <CreateCampaignStep number={6} onAdded={handleCampaignAdded}/>
+              <CreateApplicationStep 
+                number={3} 
+                onCreated={handleApplicationCreated}
+                refreshToken={applicationRefreshToken} 
+              />
+              <CreateChannelStep 
+                number={4} 
+                refreshToken={channelRefreshToken} 
+                onCreated={handleChannelCreated}
+                disableSMS
+              />
+              <CreateTemplateStep 
+                number={5} 
+                refreshToken={templateRefreshToken}
+                onCreated={handleTemplateCreated}
+              />
+              <CreateCampaignStep number={6} onAdded={handleCampaignCreated} />
             </React.Fragment>
           ): (
             <React.Fragment>
-              <CreateChannelStep number={3} />
-              <CreateTemplateStep number={4} />
-              <CreateCampaignStep number={5} onAdded={handleCampaignAdded}/>
+              <CreateChannelStep 
+                number={3} 
+                refreshToken={channelRefreshToken} 
+                onCreated={handleChannelCreated}
+              />
+              <CreateTemplateStep 
+                number={4} 
+                refreshToken={templateRefreshToken} 
+                onCreated={handleTemplateCreated}
+              />
+              <CreateCampaignStep number={5} onCreated={handleCampaignCreated} />
             </React.Fragment>
           )}
           
@@ -71,7 +112,7 @@ function QuickWizardPage(){
           />
           <div className="Vlt-grid Vlr-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
-              <DownloadButton campaign={campaign}/>
+              <DownloadButton campaign={campaign} refreshToken={campaignRefreshToken} />
             </div>
             <div className="Vlt-col Vlt-col--A">
               <UploadButton />

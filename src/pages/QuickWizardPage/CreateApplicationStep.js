@@ -6,12 +6,13 @@ import { ErrorContext } from "contexts/error";
 import AddApplicationModal from "components/AddApplicationModal";
 import Step from "pages/QuickWizardPage/Step";
 
-function CreateApplicationStep({ number }){
+function CreateApplicationStep({ refreshToken, number, onCreated }){
   const [ visible, setVisible ] = React.useState(false);
   const { throwSuccess } = React.useContext(ErrorContext);
 
   function handleAdded(){
     throwSuccess(new SuccessMessage("Application has been added"));
+    if(onCreated) onCreated();
   }
 
   function handleClick(){
@@ -30,6 +31,7 @@ function CreateApplicationStep({ number }){
         visible={visible}
         setVisible={setVisible}
         onAdded={handleAdded}
+        refreshToken={refreshToken}
       />
     </React.Fragment>
   )

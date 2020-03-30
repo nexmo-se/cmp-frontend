@@ -6,7 +6,7 @@ import { ErrorContext } from "contexts/error";
 import AddAPIKeyModal from "components/AddAPIKeyModal";
 import Step from "pages/QuickWizardPage/Step";
 
-function CreateAPIKeyStep({ number }){
+function CreateAPIKeyStep({ number, onCreated }){
   const [ visible, setVisible ] = React.useState(false);
   const { throwSuccess } = React.useContext(ErrorContext);
 
@@ -16,6 +16,7 @@ function CreateAPIKeyStep({ number }){
 
   function handleAdded(){
     throwSuccess(new SuccessMessage("API Key has been added"));
+    if(onCreated) onCreated();
   }
 
   return (

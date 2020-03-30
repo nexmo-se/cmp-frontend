@@ -4,9 +4,14 @@ import SuccessMessage from "entities/success";
 import { ErrorContext } from "contexts/error";
 
 import AddChannelModal from "components/AddChannelModal";
-import Step from "pages/QuickWizardPage/Step";
+import Step from "./Step";
 
-function CreateChannelStep({ disableSMS=false, number }){
+function CreateChannelStep({ 
+  refreshToken, 
+  number,
+  onCreated,
+  disableSMS=false
+}){
   const [ visible, setVisible ] = React.useState(false);
   const { throwSuccess } = React.useContext(ErrorContext);
 
@@ -16,6 +21,7 @@ function CreateChannelStep({ disableSMS=false, number }){
 
   function handleAdded(){
     throwSuccess(new SuccessMessage("Channel has been added"));
+    if(onCreated) onCreated();
   }
 
   return (
@@ -31,6 +37,7 @@ function CreateChannelStep({ disableSMS=false, number }){
         setVisible={setVisible}
         onAdded={handleAdded}
         disableSMS={disableSMS}
+        refreshToken={refreshToken}
       />
     </React.Fragment>
   )

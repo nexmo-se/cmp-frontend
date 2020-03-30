@@ -6,14 +6,14 @@ import { ErrorContext } from "contexts/error";
 
 import Dropdown from "components/Dropdown";
 
-function TemplateDropdown({ label, value, setValue, disabled }){
+function TemplateDropdown({ refreshToken, label, value, setValue, disabled }){
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mTemplate = useTemplate(token);
 
   React.useEffect(() => {
     mTemplate.list().catch((err) => throwError(err));
-  }, [])
+  }, [ refreshToken ])
 
   return (
     <Dropdown label={label} value={value} setValue={setValue} disabled={disabled}>

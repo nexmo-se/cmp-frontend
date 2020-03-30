@@ -6,7 +6,7 @@ import { ErrorContext } from "contexts/error";
 import AddCampaignModal from "components/AddCampaignModal";
 import Step from "pages/QuickWizardPage/Step";
 
-function CreateCampaignStep({ number, onAdded }){
+function CreateCampaignStep({ number, onCreated }){
   const [ visible, setVisible ] = React.useState(false);
   const { throwSuccess } = React.useContext(ErrorContext);
 
@@ -16,7 +16,7 @@ function CreateCampaignStep({ number, onAdded }){
 
   function handleAdded(){
     throwSuccess(new SuccessMessage("Campaign has been added"));
-    if(onAdded) onAdded();
+    if(onCreated) onCreated();
   }
 
   return (

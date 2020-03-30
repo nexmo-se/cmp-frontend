@@ -3,10 +3,10 @@ import React from "react";
 import SuccessMessage from "entities/success";
 import { ErrorContext } from "contexts/error";
 
-import Step from "pages/QuickWizardPage/Step";
 import AddTemplateModal from "components/AddTemplateModal";
+import Step from "./Step";
 
-function CreateTemplateStep({ number }){
+function CreateTemplateStep({ number, refreshToken, onCreated }){
   const [ visible, setVisible ] = React.useState(false);
   const { throwSuccess } = React.useContext(ErrorContext);
 
@@ -16,6 +16,7 @@ function CreateTemplateStep({ number }){
 
   function handleAdded(){
     throwSuccess(new SuccessMessage("Template has been added"));
+    if(onCreated) onCreated()
   }
 
   return (
@@ -30,6 +31,7 @@ function CreateTemplateStep({ number }){
         visible={visible}
         setVisible={setVisible}
         onAdded={handleAdded}
+        refreshToken={refreshToken}
       />
     </React.Fragment>
   )

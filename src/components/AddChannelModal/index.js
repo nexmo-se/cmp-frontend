@@ -22,7 +22,13 @@ import NumberInput from "components/NumberInput";
 import APIKeyDropdown from "components/APIKeyDropdown";
 import ApplicationDropdown from "components/ApplicationDropdown";
 
-function AddChannelModal({ disableSMS=false, visible, setVisible, onAdded }){
+function AddChannelModal({ 
+  disableSMS=false, 
+  visible, 
+  setVisible, 
+  onAdded,
+  refreshToken
+}){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const [ isAdding, setIsAdding ] = React.useState(false);
   const { throwError } = React.useContext(ErrorContext);
@@ -124,6 +130,7 @@ function AddChannelModal({ disableSMS=false, visible, setVisible, onAdded }){
                 value={state.apiKey} 
                 setValue={handleAPIKeyChange} 
                 disabled={!state.channel}
+                refreshToken={refreshToken}
               />
             </div>
             <div className="Vlt-col Vlt-col--A">
@@ -132,6 +139,7 @@ function AddChannelModal({ disableSMS=false, visible, setVisible, onAdded }){
                 value={state.application} 
                 setValue={handleApplicationChange} 
                 disabled={state.channel !== "whatsapp"}
+                refreshToken={refreshToken}
               />
             </div>
           </div>

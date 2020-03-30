@@ -18,6 +18,7 @@ function GenerateCSVModal({
   visible, 
   setVisible, 
   initCampaign,
+  refreshToken,
   style={} 
 }){
   const [ templateId, setTemplateId ] = React.useState(null);
@@ -60,12 +61,14 @@ function GenerateCSVModal({
           <CampaignDropdown 
             value={initCampaign} 
             label="Selected Campaign"
+            refreshToken={refreshToken}
             disabled
           />
           <TemplateDropdown 
             value={templateId} 
             setValue={setTemplateId} 
             label="Select Template"
+            refreshToken={refreshToken}
           />
         </ModalContent>
         <ModalFooter>
