@@ -1,45 +1,71 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { v4 as uuid } from "uuid";
 
 import Campaign from "entities/campaign";
+
+import useUser from "hooks/user";
 import useCampaign from "hooks/campaign";
-import { UserContext } from "contexts/user";
+import useError from "hooks/error";
 
 import CampaignDetailCard from "components/CampaignDetailCard";
-import DeliveredCampaignChart from "components/DeliveredCampaignChart";
 import CampaignAuditLogCard from "components/CampaignAuditLogCard";
 import FullPageSpinner from "components/FullPageSpinner";
+import PageHeader from "components/PageHeader";
+import Button from "components/Button";
+import ExportCampaignDetailReportButton from "components/ExportCampaignDetailReportButton";
 
-import Header from "pages/CampaignDetailPage/Header";
-import SummaryStats from "pages/CampaignDetailPage/SummaryStats";
+import SummaryStats from "./SummaryStats";
 
 function CampaignDetailPage(){
+  const [ refreshToken, setRefreshToken ] = React.useState(uuid());
+  const [ isLoading, setIsLoading ] = React.useState(true);
   const [ campaign, setCampaign ] = React.useState();
   const { campaignId } = useParams();
-  const { token } = React.useContext(UserContext);
-  const mCampaign = useCampaign(token);
+  const mUser = useUser();
+  const mError = useError();
+  const mCampaign = useCampaign(mUser.token);
 
   async function fetchData(){
-    const c = await mCampaign.retrieve(Campaign.fromID(campaignId));
-    setCampaign(c);
+    try{
+      setIsLoading(true);
+      const c = await mCampaign.retrieve(Campaign.fromID(campaignId));
+      setCampaign(c);
+    }catch(err){
+      mError.throwError(err);
+    }finally{
+      setIsLoading(false);
+    }
+  }
+
+  function handleRefresh(){
+    setRefreshToken(uuid());
   }
 
   React.useEffect(() => {
     fetchData();
-  }, [ campaignId ])
+  }, [ campaignId, refreshToken ])
 
-  if(!campaign) return <FullPageSpinner />;
+  if(isLoading) return <FullPageSpinner />;
   return (
     <React.Fragment>
-      <Header campaign={campaign} />
+      <PageHeader 
+        title="CAMPAIGN"
+        name={campaign?.name}
+        rightComponent={(
+          <React.Fragment>
+            <Button type="tertiary" onClick={handleRefresh}>Refresh</Button>
+            <ExportCampaignDetailReportButton campaign={campaign} />
+          </React.Fragment>
+        )}
+      />
       <SummaryStats campaign={campaign} />
       <div className="Vlt-grid">
         <div className="Vlt-col">
           <CampaignDetailCard campaign={campaign} />
-          <CampaignAuditLogCard campaign={campaign} />
         </div>
-        <div className="Vlt-col Vlt-col--2of3">
-          <DeliveredCampaignChart campaign={campaign} height={100} />
+        <div className="Vlt-col">
+          <CampaignAuditLogCard campaign={campaign} />
         </div>
       </div>
     </React.Fragment>
