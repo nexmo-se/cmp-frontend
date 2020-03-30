@@ -6,6 +6,7 @@ import VoltaIcon from "components/VoltaIcon";
 function ButtonIcon({ 
   onClick, 
   icon, 
+  disabled,
   type="tertiary", 
   style={}, 
   className 
@@ -20,6 +21,7 @@ function ButtonIcon({
       )}
       onClick={onClick}
       style={style}
+      disabled={disabled}
     >
       <VoltaIcon icon={icon} />
     </button>

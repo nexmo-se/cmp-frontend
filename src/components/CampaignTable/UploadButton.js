@@ -3,7 +3,7 @@ import React from "react";
 import ButtonIcon from "components/ButtonIcon";
 import UploadRecordModal from "components/UploadRecordModal";
 
-function UploadButton(){
+function UploadButton({ disabled }){
   const [ visible, setVisible ] = React.useState(false);
 
   function handleClick(){
@@ -16,6 +16,7 @@ function UploadButton(){
         icon="Vlt-icon-upload" 
         onClick={handleClick}
         style={{ marginRight: 4 }}
+        disabled={disabled}
       />
       <UploadRecordModal 
         visible={visible} 
