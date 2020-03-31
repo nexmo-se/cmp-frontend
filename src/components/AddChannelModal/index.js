@@ -66,7 +66,7 @@ function AddChannelModal({
     try{
       const ch = Channel.fromJSON(state);
       ch.apiKey = new APIKey(state.apiKey);
-      if(state.channel === "whatsapp"){
+      if(state.channel !== "sms"){
         ch.application = new Application();
         ch.application.id = state.application;
       }
@@ -105,6 +105,7 @@ function AddChannelModal({
                 <option>--- Please select ---</option>
                 <option value="sms" disabled={disableSMS}>SMS</option>
                 <option value="whatsapp">WhatsApp</option>
+                <option value="viber">Viber</option>
               </Dropdown>
             </div>
           </div>
@@ -143,7 +144,7 @@ function AddChannelModal({
                 label="Application" 
                 value={state.application} 
                 setValue={handleApplicationChange} 
-                disabled={state.channel !== "whatsapp"}
+                disabled={state.channel === "sms"}
                 refreshToken={refreshToken}
               />
             </div>

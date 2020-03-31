@@ -37,8 +37,10 @@ function NormalTable({ channels, setRefreshToken, limit=10 }){
         </TableHead>
         <TableBody>
           {channels.slice((currentPage - 1) * limit, currentPage * limit).map((channel, index) => {
-            const channelColor = (channel.channel === "sms")? "Vlt-orange": "Vlt-green";
             const number = ((currentPage - 1) * limit) + index + 1;
+            const channelColor = (channel.channel === "sms")? "Vlt-orange": 
+                                 (channel.channel === "whatsapp")? "Vlt-green":
+                                 (channel.channel === "viber")? "Vlt-purple": "Vlt-green";
             return(
               <TableBodyRow key={channel.id}>
                 <TableColumn>

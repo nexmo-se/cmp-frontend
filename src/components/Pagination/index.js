@@ -44,6 +44,7 @@ function Pagination({ totalData, limit, onChange }){
           const number = index + 1;
           return (
             <Number 
+              key={index}
               number={number}
               selected={currentPage === number}
               onClick={() => handleGoTo(number)}

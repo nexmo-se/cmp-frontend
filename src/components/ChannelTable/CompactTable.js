@@ -17,7 +17,9 @@ const useStyles = makeStyles(() => ({
 function CompactTable({ channels, limit=5 }){
   const mStyles = useStyles();
   return channels.slice(0, limit + 1).map((channel, index) => {
-    const channelColor = (channel.channel === "sms")? "Vlt-orange": "Vlt-green"
+    const channelColor = (channel.channel === "sms")? "Vlt-orange": 
+                         (channel.channel === "whatsapp")? "Vlt-green":
+                         (channel.channel === "viber")? "Vlt-purple": "Vlt-green";
     return (
       <div key={channel.id} className={mStyles.container}>
         <div className="Vlt-number Vlt-number--dialer" data-index={index + 1} />

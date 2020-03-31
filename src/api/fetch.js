@@ -6,6 +6,10 @@ class FetchAPI{
         const errorResponse = await response.json();
         console.log(errorResponse);
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
+      }else if(response.status >= 500 && response.status <= 599){
+        const errorResponse = await response.json();
+        console.log(errorResponse);
+        throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }else if(response.status !== 200){
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }

@@ -72,7 +72,7 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
       const t = new Template();
       t.name = name;
       t.channel = Channel.fromID(channel);
-      t.body = (currentChannel === "sms")? body: undefined;
+      t.body = body;
       t.whatsappTemplateName = (currentChannel === "whatsapp")? whatsappTemplateName: undefined;
       t.whatsappTemplateNamespace = (currentChannel === "whatsapp")? whatsappTemplateNamespace: undefined;
       
@@ -123,7 +123,6 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
             label="Body" 
             value={body} 
             setValue={handleBodyChange} 
-            disabled={currentChannel !== "sms" && currentChannel !== "whatsapp"}
           />
         </ModalContent>
         <ModalFooter>

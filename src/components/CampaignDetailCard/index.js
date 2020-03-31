@@ -35,9 +35,9 @@ function CampaignDetailCard({ campaign }){
         </Row>
         <Row label="Last Status Update">{lastStatusUpdate}</Row>
         <Row label="Start Date">{new moment(campaign?.campaignStartDate).format("DD MMMM YYYY")}</Row>
-        <Row label="Start Time">{new moment(campaign?.campaignStartDate).format("hh:mm")}</Row>
+        <Row label="Start Time">{new moment(campaign?.campaignStartDate).format("HH:mm")}</Row>
         <Row label="End Date">{new moment(campaign?.campaignEndDate).format("DD MMMM YYYY")}</Row>
-        <Row label="End Time">{new moment(campaign?.campaignEndDate).format("hh:mm")}</Row>
+        <Row label="End Time">{new moment(campaign?.campaignEndDate).format("HH:mm")}</Row>
         <Row label="Total Messages">{report?.totalRecord.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Row>
       </div>
     </div>
