@@ -34,7 +34,7 @@ function LoginForm(){
   }
 
   React.useEffect(() => {
-    if(token) history.replace("/dashboard");
+    if(token) history.replace("/quickwizard");
   }, [ token ])
 
   return (

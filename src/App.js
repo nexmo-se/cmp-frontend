@@ -9,6 +9,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import SideNavigation from "components/SideNavigation";
 import PageContainer from "components/PageContainer";
 import SectionContainer from "components/SectionContainer";
+import PrivateRoute from "components/PrivateRoute";
 
 import LoginPage from "pages/LoginPage";
 import DashboardPage from "pages/DashboardPage";
@@ -35,16 +36,16 @@ function App(){
               <SectionContainer>
                 <Switch>
                   <Route path="/" component={LoginPage} exact />
-                  <Route path="/dashboard" component={DashboardPage} exact />
-                  <Route path="/apikeys" component={APIKeyPage} exact />
-                  <Route path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
-                  <Route path="/applications" component={ApplicationPage} exact />
-                  <Route path="/campaigns" component={CampaignPage} exact />
-                  <Route path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
-                  <Route path="/channels" component={ChannelPage} exact />
-                  <Route path="/templates" component={TemplatePage} exact />
-                  <Route path="/templates/:templateId" component={TemplateDetailPage} />
-                  <Route path="/quickwizard" component={QuickWizardPage} exact />
+                  <PrivateRoute path="/dashboard" component={DashboardPage} exact />
+                  <PrivateRoute path="/apikeys" component={APIKeyPage} exact />
+                  <PrivateRoute path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
+                  <PrivateRoute path="/applications" component={ApplicationPage} exact />
+                  <PrivateRoute path="/campaigns" component={CampaignPage} exact />
+                  <PrivateRoute path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
+                  <PrivateRoute path="/channels" component={ChannelPage} exact />
+                  <PrivateRoute path="/templates" component={TemplatePage} exact />
+                  <PrivateRoute path="/templates/:templateId" component={TemplateDetailPage} />
+                  <PrivateRoute path="/quickwizard" component={QuickWizardPage} exact />
                 </Switch>
               </SectionContainer>
             </PageContainer>
