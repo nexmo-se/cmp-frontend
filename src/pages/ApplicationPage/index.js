@@ -12,7 +12,7 @@ function ApplicationPage(){
       <Header setRefreshToken={setRefreshToken} />
       <hr />
       <div className="Vlt-grid">
-        <div className="Vlt-col">
+        <div className="Vlt-col Vlt-col--2of3">
           <ApplicationTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
         </div>
         <div className="Vlt-col Vlt-col--1of3">

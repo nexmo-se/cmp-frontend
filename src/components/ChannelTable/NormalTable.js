@@ -1,4 +1,5 @@
 import React from "react";
+import { makeStyles } from "@material-ui/styles";
 
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
@@ -12,8 +13,13 @@ import TableBodyRow from "components/Table/TableBodyRow";
 
 import DetailColumn from "./DetailColumn";
 
+const useStyles = makeStyles(() => ({
+  appWidth: { maxWidth: 100 }
+}))
+
 function NormalTable({ channels, setRefreshToken, limit=10 }){
   const [ currentPage, setCurrentPage ] = React.useState(1);
+  const mStyles = useStyles();
 
   return (
     <React.Fragment>
@@ -24,7 +30,7 @@ function NormalTable({ channels, setRefreshToken, limit=10 }){
             <TableHeader>NAME</TableHeader>
             <TableHeader>SENDER ID</TableHeader>
             <TableHeader>TPS</TableHeader>
-            <TableHeader>APP</TableHeader>
+            <TableHeader className={mStyles.appWidth}>APP</TableHeader>
             <TableHeader>API KEY</TableHeader>
             <TableHeader />
           </TableRow>
@@ -49,7 +55,7 @@ function NormalTable({ channels, setRefreshToken, limit=10 }){
                 </TableColumn>
                 <TableColumn>{channel.senderId}</TableColumn>
                 <TableColumn className="Vlt-right">{channel.tps}</TableColumn>
-                <TableColumn>{channel.application?.name}</TableColumn>
+                <TableColumn className={mStyles.appWidth}>{channel.application?.name}</TableColumn>
                 <TableColumn>{channel.apiKey?.key}</TableColumn>
                 <DetailColumn channel={channel} setRefreshToken={setRefreshToken} />
               </TableBodyRow>

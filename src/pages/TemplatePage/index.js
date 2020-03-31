@@ -13,7 +13,7 @@ function TemplatePage(){
       <Header setRefreshToken={setRefreshToken} />
       <hr />
       <div className="Vlt-grid">
-        <div className="Vlt-col">
+        <div className="Vlt-col Vlt-col--2of3">
           <TemplateTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
         </div>
         <div className="Vlt-col Vlt-col--1of3">

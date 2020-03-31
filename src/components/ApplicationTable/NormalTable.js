@@ -1,4 +1,5 @@
 import React from "react";
+import { makeStyles } from "@material-ui/styles";
 
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
@@ -12,8 +13,13 @@ import TableBodyRow from "components/Table/TableBodyRow";
 
 import DetailColumn from "./DetailColumn";
 
+const useStyles = makeStyles(() => ({
+  nameWidth: { maxWidth: 250 }
+}))
+
 function NormalTable({ applications, setRefreshToken, limit=10 }){
   const [ currentPage, setCurrentPage ] = React.useState(1);
+  const mStyles = useStyles();
 
   return (
     <React.Fragment>
@@ -21,7 +27,7 @@ function NormalTable({ applications, setRefreshToken, limit=10 }){
         <TableHead>
           <TableRow>
             <TableHeader/>
-            <TableHeader>NAME</TableHeader>
+            <TableHeader className={mStyles.nameWidth}>NAME</TableHeader>
             <TableHeader>API KEYS</TableHeader>
             <TableHeader>CHANNELS</TableHeader>
             <TableHeader />
@@ -35,11 +41,11 @@ function NormalTable({ applications, setRefreshToken, limit=10 }){
                 <TableColumn>
                   <NumberIndicator number={number} />
                 </TableColumn>
-                <TableColumn>
+                <TableColumn className={mStyles.nameWidth}>
                   <p>
                     <b>{application.name}</b>
                   </p>
-                  <p className="Vlt-grey">{application.id}</p>
+                  <p className="Vlt-grey Vlt-truncate">{application.id}</p>
                 </TableColumn>
                 <TableColumn>{application.apiKey.name}</TableColumn>
                 <TableColumn className="Vlt-right">{application.channels.length}</TableColumn>

@@ -19,7 +19,7 @@ function APIKeyPage(){
             setRefreshToken={setRefreshToken}
           />
         </div>
-        <div className="Vlt-col">
+        <div className="Vlt-col Vlt-col--1of3">
           <APIKeyInformationCard />
         </div>
       </div>

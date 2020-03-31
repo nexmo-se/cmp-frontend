@@ -16,9 +16,6 @@ function ChannelPage(){
         <div className="Vlt-col">
           <ChannelTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
         </div>
-        <div className="Vlt-col Vlt-col--1of4">
-          <ChannelInformationCard />
-        </div>
       </div>
     </React.Fragment>
   )
