@@ -2,8 +2,7 @@ import React from "react";
 
 import Number from "./Number";
 
-function Pagination({ totalData, limit, onChange }){
-  const [ currentPage, setCurrentPage ] = React.useState(1);
+function Pagination({ totalData, limit, currentPage, setCurrentPage }){
   const [ totalPage, setTotalPage ] = React.useState(null);
 
   function handleGoTo(number){
@@ -29,10 +28,6 @@ function Pagination({ totalData, limit, onChange }){
   React.useEffect(() => {
     setTotalPage(Math.ceil(totalData / limit));
   }, [ totalData ]);
-
-  React.useEffect(() => {
-    if(onChange) onChange(currentPage);
-  }, [ currentPage ])
 
   return (
     <div className="Vlt-table__pagination">

@@ -60,7 +60,8 @@ function NormalTable({ templates, setRefreshToken, limit=10 }){
       <Pagination 
         totalData={templates.length}
         limit={limit}
-        onChange={setCurrentPage}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
       />
     </React.Fragment>
   )

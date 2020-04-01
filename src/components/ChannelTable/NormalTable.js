@@ -68,7 +68,8 @@ function NormalTable({ channels, setRefreshToken, limit=10 }){
       <Pagination 
         totalData={channels.length}
         limit={limit}
-        onChange={setCurrentPage}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
       />
     </React.Fragment>
   )

@@ -59,7 +59,8 @@ function NormalTable({ apiKeys, setRefreshToken, limit=10 }){
       <Pagination 
         totalData={apiKeys.length}
         limit={limit}
-        onChange={setCurrentPage}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
       />
     </React.Fragment>
   )

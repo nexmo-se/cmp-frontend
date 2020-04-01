@@ -10,7 +10,7 @@ function CampaignPage(){
     <React.Fragment>
       <Header setRefreshToken={setRefreshToken} />
       <hr />
-      <div className="Vlt-grid">  
+      <div className="Vlt-grid">
         <div className="Vlt-col">
           <CampaignTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
         </div>
