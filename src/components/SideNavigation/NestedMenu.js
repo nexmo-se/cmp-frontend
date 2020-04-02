@@ -1,16 +1,28 @@
 import React from "react";
-import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
+import clsx from "clsx";
+import VoltaIcon from "components/VoltaIcon";
 
-function NestedMenu(props){
-  const { icon, label, children } = props;
-  const [ expand, setExpand ] = React.useState(false);
+function NestedMenu({ icon, label, children, active }){
+  const [ expand, setExpand ] = React.useState(active);
   
-  const handleMenuClick = () => setExpand((prevExpand) => !prevExpand);
+  function handleMenuClick(){
+    setExpand((prevExpand) => !prevExpand);
+  }
+
+  React.useEffect(() => {
+    if(active !== expand) setExpand(active);
+  }, [ active ]);
 
   return (
-    <li onClick={handleMenuClick}>
-      <div className={`Vlt-sidemenu__trigger ${expand? "Vlt-sidemenu__trigger_active": ""}`}>
-        <svg><use xlinkHref={`${voltaIcons}#${icon}`}/></svg>
+    <li>
+      <div 
+        className={clsx(
+          "Vlt-sidemenu__trigger",
+          expand? "Vlt-sidemenu__trigger_active": ""
+        )}
+        onClick={handleMenuClick}
+      >
+        <VoltaIcon icon={icon} />
         <span className="Vlt-sidemenu__label">{label}</span>
       </div>
       <ul>{children}</ul>

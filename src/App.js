@@ -43,7 +43,8 @@ function App(){
                   <PrivateRoute path="/campaigns" component={CampaignPage} exact />
                   <PrivateRoute path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
                   <PrivateRoute path="/channels" component={ChannelPage} exact />
-                  <PrivateRoute path="/templates" component={TemplatePage} exact />
+                  <PrivateRoute path="/templates/overview" component={TemplatePage} exact />
+                  <PrivateRoute path="/templates/add_new" component={TemplatePage} exact />
                   <PrivateRoute path="/templates/:templateId" component={TemplateDetailPage} />
                   <PrivateRoute path="/quickwizard" component={QuickWizardPage} exact />
                 </Switch>

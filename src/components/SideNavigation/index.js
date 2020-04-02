@@ -1,18 +1,20 @@
 import React from "react";
 import clsx from "clsx";
-import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
-import { useLocation } from "react-router-dom";
 
 import useUser from "hooks/user";
+import { useLocation } from "react-router-dom";
 
-import CompanyLogo from "components/SideNavigation/CompanyLogo";
-import Greetings from "components/SideNavigation/Greetings";
-import SingleMenu from "components/SideNavigation/SingleMenu";
-import MenuSeparator from "components/SideNavigation/MenuSeparator";
+import VoltaIcon from "components/VoltaIcon";
+
+import NestedMenu from "./NestedMenu";
+import CompanyLogo from "./CompanyLogo";
+import Greetings from "./Greetings";
+import SingleMenu from "./SingleMenu";
+import MenuSeparator from "./MenuSeparator";
 
 
 function SideNavigation(){
-  const [ menuActive, setMenuActive ] = React.useState(null);
+  const [ menuActive, setMenuActive ] = React.useState("");
   const [ render, setRender ] = React.useState(false);
   const mLocation = useLocation();
   const mUser = useUser();
@@ -23,14 +25,8 @@ function SideNavigation(){
   }, [ mUser.token ])
 
   React.useEffect(() => {
-    if(mLocation.pathname.includes("/dashboard")) setMenuActive("dashboard");
-    else if(mLocation.pathname.includes("/reports")) setMenuActive("reports");
-    else if(mLocation.pathname.includes("/quickwizard")) setMenuActive("quickwizard");
-    else if(mLocation.pathname.includes("/apikeys")) setMenuActive("apikeys");
-    else if(mLocation.pathname.includes("/applications")) setMenuActive("applications");
-    else if(mLocation.pathname.includes("/channels")) setMenuActive("channels");
-    else if(mLocation.pathname.includes("/templates")) setMenuActive("templates")
-    else if(mLocation.pathname.includes("/campaigns")) setMenuActive("campaigns");
+    const menuActive = mLocation.pathname.substring(1);
+    setMenuActive(menuActive);
   }, [ mLocation ])
 
   if(!render) return null;
@@ -38,9 +34,7 @@ function SideNavigation(){
     <React.Fragment>
       <header className="Vlt-sidenav__mobile Vlt-sidenav__mobile--dark">
         <button id="Vlt-sidenav-mobile-trigger">
-          <svg className="Vlt-sidenav__collapse__close">
-            <use xlinkHref={`${voltaIcons}#Vlt-icon-menu`}/>
-          </svg>
+          <VoltaIcon icon="Vlt-icon-menu" />
         </button>
       </header>
 
@@ -64,7 +58,10 @@ function SideNavigation(){
             <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive === "apikeys"} to="/apikeys"/>
             <SingleMenu icon="Vlt-icon-keypad" label="Application" active={menuActive === "applications"} to="/applications" />
             <SingleMenu icon="Vlt-icon-mind-map" label="Channel" active={menuActive === "channels"} to="/channels" />
-            <SingleMenu icon="Vlt-icon-stack" label="Template" active={menuActive === "templates"} to="/templates" />
+            <NestedMenu icon="Vlt-icon-stack" label="Template" active={menuActive.includes("templates")}>
+              <SingleMenu label="Overview" active={menuActive === "templates/overview"} to="/templates/overview" />
+              <SingleMenu label="Add New" active={menuActive === "templates/add_new"} to="/templates/add_new" />
+            </NestedMenu>
             <SingleMenu icon="Vlt-icon-packet" label="Campaign" active={menuActive === "campaigns"} to="/campaigns" />
           </ul>
         </div>
