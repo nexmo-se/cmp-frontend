@@ -5,6 +5,7 @@ import Template from "entities/template";
 
 import useChannel from "hooks/channel";
 import useTemplate from "hooks/template";
+import useError from "hooks/error";
 
 import reducer, { initialState } from "components/AddTemplateModal/reducer";
 import { UserContext } from "contexts/user";
@@ -15,11 +16,14 @@ import ModalHeader from "components/Modal/ModalHeader";
 import ModalContent from "components/Modal/ModalContent";
 import ModalFooter from "components/Modal/ModalFooter";
 
-import LoadingButton from "components/LoadingButton";
 import Button from "components/Button";
+import LoadingButton from "components/LoadingButton";
 import TextInput from "components/TextInput";
-import TextArea from "components/TextArea";
 import ChannelDropdown from "components/ChannelDropdown";
+
+import TemplateType from "./TemplateType";
+import ViberTemplateInput from "./ViberTemplateInput";
+import TextTemplateInput from "./TextTemplateInput";
 
 function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
@@ -28,43 +32,47 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
   const {
     name,
     channel,
-    whatsappTemplateNamespace,
-    whatsappTemplateName,
-    body
+    mediaType,
+    content, 
+    loadingChannel
   } = state;
 
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mChannel = useChannel(token);
   const mTemplate = useTemplate(token);
+  const mError = useError();
 
   function handleCancel(){
     setVisible(false);
   }
 
-  function handleChangeValue(valueName, value){
-    dispatch({ type: "CHANGE_VALUE", valueName, value });
+  function handleNameChange(value){ 
+    dispatch({ type: "CHANGE_NAME", value });  
   }
 
-  function handleNameChange(value){ handleChangeValue("name", value) }
+  function handleMediaTypeChange(value){
+    dispatch({ type: "CHANGE_MEDIA_TYPE", value });
+  }
+
+  function handleContentChange(value){
+    dispatch({ type: "CHANGE_CONTENT", value });
+  }
 
   async function handleChannelChange(value){ 
-    handleChangeValue("channel", value)
-    setCurrentChannel(null);
-    const searchChannel = Channel.fromID(value);
-    const channel = await mChannel.retrieve(searchChannel);    
-    setCurrentChannel(channel.channel);
+    try{
+      dispatch({ type: "CHANGE_CHANNEL", value });
+      dispatch({ type: "LOADING_CHANNEL" });
+      setCurrentChannel(null);
+      const searchChannel = Channel.fromID(value);
+      const channel = await mChannel.retrieve(searchChannel);    
+      setCurrentChannel(channel.channel);
+    }catch(err){
+      mError.throwError(err);
+    }finally{
+      dispatch({ type: "LOADED_CHANNEL" })
+    }
   }
-
-  function handleWATemplateNamespaceChange(value){
-    handleChangeValue("whatsappTemplateNamespace", value);
-  }
-
-  function handleWATemplateNameChange(value){
-    handleChangeValue("whatsappTemplateName", value);
-  }
-
-  function handleBodyChange(value){ handleChangeValue("body", value) }
 
   async function handleAddNew(){
     try{
@@ -72,9 +80,6 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
       const t = new Template();
       t.name = name;
       t.channel = Channel.fromID(channel);
-      t.body = body;
-      t.whatsappTemplateName = (currentChannel === "whatsapp")? whatsappTemplateName: undefined;
-      t.whatsappTemplateNamespace = (currentChannel === "whatsapp")? whatsappTemplateNamespace: undefined;
       
       await mTemplate.create(t);
       dispatch({ type: "CLEAR_INPUT" });
@@ -101,29 +106,15 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
             setValue={handleChannelChange} 
             refreshToken={refreshToken}
           />
-          <div className="Vlt-grid Vlt-grid--narrow">
-            <div className="Vlt-col Vlt-col--A">
-              <TextInput 
-                label="WhatsApp Template Namespace" 
-                value={whatsappTemplateNamespace}
-                setValue={handleWATemplateNamespaceChange}
-                disabled={currentChannel !== "whatsapp"}
-              />
-            </div>
-            <div className="Vlt-col Vlt-col--A">
-              <TextInput 
-                label="WhatsApp Template Name" 
-                value={whatsappTemplateName}
-                setValue={handleWATemplateNameChange}
-                disabled={currentChannel !== "whatsapp"}
-              />
-            </div>
-          </div>
-          <TextArea 
-            label="Body" 
-            value={body} 
-            setValue={handleBodyChange} 
+          <TemplateType 
+            channel={currentChannel} 
+            loading={loadingChannel}
+            onChange={handleMediaTypeChange} 
           />
+          {
+            (mediaType === "text")? <TextTemplateInput onChange={handleContentChange} />: 
+            (mediaType === "viber_template")? <ViberTemplateInput onChange={handleContentChange} />: null
+          }
         </ModalContent>
         <ModalFooter>
           <Button type="tertiary" onClick={handleCancel} disabled={isAdding}>Cancel</Button>

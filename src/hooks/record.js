@@ -21,13 +21,6 @@ function useRecord(token){
     return { campaign, template }
   }
 
-  async function retrieveFromCampaign(campaign, limit=25){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/records?cmpCampaignId=${campaign.id}&limit=${limit}`;
-    const responseData = await FetchAPI.get(url, token);
-    const newData = responseData.map((data) => Record.fromJSON(data));
-    setData(newData);
-  }
-
-  return { data, uploadCSV, retrieveFromCampaign }
+  return { data, uploadCSV }
 }
 export default useRecord;

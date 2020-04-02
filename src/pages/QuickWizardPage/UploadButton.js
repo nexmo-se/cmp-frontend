@@ -1,4 +1,6 @@
 import React from "react";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
 
 import useUser from "hooks/user";
@@ -7,8 +9,15 @@ import useCampaign from "hooks/campaign";
 import Button from "components/Button";
 import UploadRecordModal from "components/UploadRecordModal";
 
+const useStyles = makeStyles(() => ({
+  fullWidth: {
+    width: "100%"
+  }
+}))
+
 function UploadButton(){
   const [ visible, setVisible ] = React.useState(false);
+  const mStyles = useStyles();
   const mHistory = useHistory();
   const mUser = useUser();
   const mCampaign = useCampaign(mUser.token);
@@ -26,7 +35,7 @@ function UploadButton(){
     <React.Fragment>
       <Button 
         type="secondary" 
-        style={{ width: "100%" }}
+        className={mStyles.fullWidth}
         onClick={handleClick}
       >
         Upload & Start Campaign
