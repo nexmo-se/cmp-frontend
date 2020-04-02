@@ -60,7 +60,7 @@ function SideNavigation(){
             <SingleMenu icon="Vlt-icon-mind-map" label="Channel" active={menuActive === "channels"} to="/channels" />
             <NestedMenu icon="Vlt-icon-stack" label="Template" active={menuActive.includes("templates")}>
               <SingleMenu label="Overview" active={menuActive === "templates/overview"} to="/templates/overview" />
-              <SingleMenu label="Add New" active={menuActive === "templates/add_new"} to="/templates/add_new" />
+              <SingleMenu label="Add New" active={menuActive.includes("templates/add_new")} to="/templates/add_new" />
             </NestedMenu>
             <SingleMenu icon="Vlt-icon-packet" label="Campaign" active={menuActive === "campaigns"} to="/campaigns" />
           </ul>

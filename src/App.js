@@ -21,6 +21,7 @@ import QuickWizardPage from "pages/QuickWizardPage";
 
 import TemplatePage from "pages/TemplatePage";
 import TemplateDetailPage from "pages/TemplateDetailPage";
+import AddTemplatePage from "pages/AddTemplatePage";
 
 import CampaignPage from "pages/CampaignPage";
 import CampaignDetailPage from "pages/CampaignDetailPage";
@@ -44,7 +45,7 @@ function App(){
                   <PrivateRoute path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
                   <PrivateRoute path="/channels" component={ChannelPage} exact />
                   <PrivateRoute path="/templates/overview" component={TemplatePage} exact />
-                  <PrivateRoute path="/templates/add_new" component={TemplatePage} exact />
+                  <PrivateRoute path="/templates/add_new" component={AddTemplatePage} />
                   <PrivateRoute path="/templates/:templateId" component={TemplateDetailPage} />
                   <PrivateRoute path="/quickwizard" component={QuickWizardPage} exact />
                 </Switch>
