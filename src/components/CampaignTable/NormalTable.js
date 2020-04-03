@@ -44,7 +44,6 @@ function NormalTable({ campaigns, setRefreshToken, limit=10 }){
             .slice((currentPage - 1) * limit, limit * currentPage)
             .map(
               (campaign, index) => {
-                console.log(campaign);
                 let badgeBackground = "Vlt-grey";
                 if(campaign.status === "pending" || campaign.status === "paused") badgeBackground = "Vlt-yellow";
                 else if(campaign.status.started || campaign.status === "completed") badgeBackground = "Vlt-green";
