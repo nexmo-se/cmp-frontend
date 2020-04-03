@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import Login from "entities/login";
+import useError from "hooks/error";
 import { UserContext } from "contexts/user";
 
 import BigInput from "components/BigInput";
@@ -13,6 +14,7 @@ function LoginForm(){
   const [ isLoggingOn, setIsLoggingOn ] = React.useState(false);
   const { login, token } = React.useContext(UserContext);
   const history = useHistory();
+  const mError = useError();
 
   function handleUsernameChange(username){
     setUsername(username);
@@ -29,6 +31,7 @@ function LoginForm(){
       const l = new Login(username, password);
       await login(l);
     }catch(err){
+      mError.throwError(err);
       setIsLoggingOn(false);
     }
   }

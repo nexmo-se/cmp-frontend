@@ -12,7 +12,7 @@ import DeleteButton from "components/CampaignTable/DeleteButton";
 function DetailColumn({ campaign, setRefreshToken }){
   return (
     <TableColumn className="Vlt-table__cell--nowrap">
-      <DetailButton campaign={campaign} />
+      <DetailButton campaign={campaign} disabled={campaign.status !== "completed"} />
       <DuplicateButton campaign={campaign} setRefreshToken={setRefreshToken} />
       <DownloadButton campaign={campaign} disabled={campaign.status !== "draft"} />
       <UploadButton disabled={campaign.status !== "draft"} />

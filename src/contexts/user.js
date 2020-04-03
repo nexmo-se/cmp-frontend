@@ -12,7 +12,7 @@ export default function UserProvider({ children }){
 
   async function login(l){
     const url = `${process.env.REACT_APP_BASE_API_URL}/auth/login`;
-    const { token } = await FetchAPI.post(url, token, JSON.stringify(l.toJSON()));
+    const { token } = await FetchAPI.post(url, undefined, JSON.stringify(l.toJSON()));
     localStorage.setItem("token", token);
     setToken(token);
   }

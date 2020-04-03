@@ -13,11 +13,13 @@ import PrivateRoute from "components/PrivateRoute";
 
 import LoginPage from "pages/LoginPage";
 import DashboardPage from "pages/DashboardPage";
-import APIKeyPage from "pages/APIKeyPage";
-import APIKeyDetailPage from "pages/APIKeyDetailPage";
 import ApplicationPage from "pages/ApplicationPage";
 import ChannelPage from "pages/ChannelPage";
 import QuickWizardPage from "pages/QuickWizardPage";
+import ReportsPage from "pages/ReportsPage";
+
+import APIKeyPage from "pages/APIKeyPage";
+import APIKeyDetailPage from "pages/APIKeyDetailPage";
 
 import TemplatePage from "pages/TemplatePage";
 import TemplateDetailPage from "pages/TemplateDetailPage";
@@ -37,6 +39,7 @@ function App(){
                 <Switch>
                   <Route path="/" component={LoginPage} exact />
                   <PrivateRoute path="/dashboard" component={DashboardPage} exact />
+                  <PrivateRoute path="/reports" component={ReportsPage} exact />
                   <PrivateRoute path="/apikeys" component={APIKeyPage} exact />
                   <PrivateRoute path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
                   <PrivateRoute path="/applications" component={ApplicationPage} exact />

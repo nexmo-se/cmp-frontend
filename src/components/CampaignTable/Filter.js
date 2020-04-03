@@ -40,7 +40,7 @@ function Filter({ onChange }){
         className={clsx(
           (filter === "started")? "Vlt-btn_active": ""
         )}
-        onClick={() => setFilter("Started")}
+        onClick={() => setFilter("started")}
       >
         Started
       </Button>

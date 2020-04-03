@@ -5,11 +5,10 @@ import { useLocation } from "react-router-dom";
 
 import useUser from "hooks/user";
 
-import CompanyLogo from "components/SideNavigation/CompanyLogo";
-import Greetings from "components/SideNavigation/Greetings";
-import SingleMenu from "components/SideNavigation/SingleMenu";
-import MenuSeparator from "components/SideNavigation/MenuSeparator";
-
+import CompanyLogo from "./CompanyLogo";
+import Greetings from "./Greetings";
+import SingleMenu from "./SingleMenu";
+import MenuSeparator from "./MenuSeparator";
 
 function SideNavigation(){
   const [ menuActive, setMenuActive ] = React.useState(null);
@@ -58,8 +57,8 @@ function SideNavigation(){
         <div className="Vlt-sidenav__scroll">
           <ul className="Vlt-sidemenu">
             {/* <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive === "dashboard"} to="/dashboard" /> */}
-            {/* <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" active={menuActive === "reports"} /> */}
             <SingleMenu icon="Vlt-icon-rocket" label="Quick Wizard" to="/quickwizard" active={menuActive === "quickwizard"} />
+            <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" active={menuActive === "reports"} />
             <MenuSeparator>Configurations</MenuSeparator>
             <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive === "apikeys"} to="/apikeys"/>
             <SingleMenu icon="Vlt-icon-keypad" label="Application" active={menuActive === "applications"} to="/applications" />

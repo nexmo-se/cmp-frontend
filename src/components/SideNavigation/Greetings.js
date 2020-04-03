@@ -1,11 +1,22 @@
 import React from "react";
+
+import useError from "hooks/error";
 import useUser from "hooks/user";
 
 function Greetings(){
   const mUser = useUser();
+  const mError = useError();
+
+  async function fetchData(){
+    try{
+      await mUser.getMyInfo();
+    }catch(err){
+      mError.throwError(err);
+    }
+  }
 
   React.useEffect(() => {
-    if(mUser.token) mUser.getMyInfo();
+    fetchData();
   }, [ mUser.token ])
 
   return (

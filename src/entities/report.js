@@ -1,4 +1,10 @@
+import moment from "moment";
+
 class Report{
+  // downloadURL:string|void;
+  // name:string|void;
+  // status:string|void;
+  // submitTime:moment|void;
   // delivered:number|void;
   // rejected:number|void;
   // totalRecord:number|void;
@@ -11,9 +17,13 @@ class Report{
 
   static fromJSON(value){
     const report = new Report();
-    report.delivered = value.summary.delivered || 0;
-    report.rejected = value.summary.rejected || 0;
-    report.totalRecord = value.summary.total || 0;
+    report.delivered = value.summary?.delivered || 0;
+    report.rejected = value.summary?.rejected || 0;
+    report.totalRecord = value.summary?.total || 0;
+    report.name = value.name || "";
+    report.status = value.status || "";
+    report.submitTime = new moment(value.submitTime) || "";
+    report.downloadURL = value.url || ""
     return report;
   }
 }
