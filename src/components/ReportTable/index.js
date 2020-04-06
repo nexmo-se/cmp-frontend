@@ -8,7 +8,7 @@ import NormalTable from "./NormalTable";
 import Empty from "components/Empty";
 import FullPageSpinner from "components/FullPageSpinner";
 
-function ReportTable(){
+function ReportTable({ refreshToken }){
   const [ isFetching, setIsFetching ] = React.useState(false);
   const mUser = useUser();
   const mError = useError();
@@ -27,7 +27,7 @@ function ReportTable(){
 
   React.useEffect(() => {
     fetchData();
-  }, [])
+  }, [ refreshToken ])
 
   if(isFetching) return <FullPageSpinner />
   else if(mReport.reports?.length === 0) return <Empty />
