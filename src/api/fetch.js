@@ -1,7 +1,7 @@
 import CustomError from "entities/error";
 
 class FetchAPI{
-  static async processResponse(response){
+  static async processResponse(response, responseType="json"){
       if(response.status >= 400 && response.status <= 499){
         const errorResponse = await response.json();
         console.log(errorResponse);
@@ -15,8 +15,9 @@ class FetchAPI{
       }
       
       try{
-        const jsonResponse = await response.json();
-        return jsonResponse
+        if(responseType === "json") return await response.json();
+        else if(responseType === "blob") return await response.blob();
+        else await response.text();
       }catch(err){
         return null;
       }
@@ -38,7 +39,7 @@ class FetchAPI{
     return FetchAPI.processResponse(response);
   }
 
-  static async get(url, token){
+  static async get(url, token, responseType="json"){
     console.log(`Processing GET ${url}`);
     const response = await fetch(url, {
       method: "GET",
@@ -46,7 +47,7 @@ class FetchAPI{
         Authorization: `Bearer ${token}`
       }
     });
-    return FetchAPI.processResponse(response)
+    return FetchAPI.processResponse(response, responseType)
   }
 
   static async post(url, token, body){
