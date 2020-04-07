@@ -39,7 +39,6 @@ function App(){
                 <Switch>
                   <Route path="/" component={LoginPage} exact />
                   <PrivateRoute path="/dashboard" component={DashboardPage} exact />
-                  <PrivateRoute path="/reports" component={ReportsPage} exact />
                   <PrivateRoute path="/apikeys" component={APIKeyPage} exact />
                   <PrivateRoute path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
                   <PrivateRoute path="/applications" component={ApplicationPage} exact />

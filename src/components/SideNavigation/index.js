@@ -22,9 +22,7 @@ function SideNavigation(){
   }, [ mUser.token ])
 
   React.useEffect(() => {
-    if(mLocation.pathname.includes("/dashboard")) setMenuActive("dashboard");
-    else if(mLocation.pathname.includes("/reports")) setMenuActive("reports");
-    else if(mLocation.pathname.includes("/quickwizard")) setMenuActive("quickwizard");
+    if(mLocation.pathname.includes("/quickwizard")) setMenuActive("quickwizard");
     else if(mLocation.pathname.includes("/apikeys")) setMenuActive("apikeys");
     else if(mLocation.pathname.includes("/applications")) setMenuActive("applications");
     else if(mLocation.pathname.includes("/channels")) setMenuActive("channels");
@@ -56,9 +54,7 @@ function SideNavigation(){
 
         <div className="Vlt-sidenav__scroll">
           <ul className="Vlt-sidemenu">
-            {/* <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive === "dashboard"} to="/dashboard" /> */}
             <SingleMenu icon="Vlt-icon-rocket" label="Quick Wizard" to="/quickwizard" active={menuActive === "quickwizard"} />
-            <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" active={menuActive === "reports"} />
             <MenuSeparator>Configurations</MenuSeparator>
             <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive === "apikeys"} to="/apikeys"/>
             <SingleMenu icon="Vlt-icon-keypad" label="Application" active={menuActive === "applications"} to="/applications" />
