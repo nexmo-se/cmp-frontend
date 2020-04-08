@@ -3,11 +3,12 @@ import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-function SingleMenu({ icon, label, active, to }){
+function SingleMenu({ icon, label, active, to, onClick }){
   const history = useHistory();
 
   function handleClick(){
     if(to) history.push(to);
+    if(onClick) onClick();
   }
 
   return (
