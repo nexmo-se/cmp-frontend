@@ -40,13 +40,19 @@ function NormalTable({ campaigns, setRefreshToken, limit=10 }){
         </TableHead>
         <TableBody>
           {campaigns
-            .filter((campaign) => campaign.status === selectedFilter || selectedFilter === "all")
+            .filter((campaign) => {
+              const filter = selectedFilter.split("|");
+              if(selectedFilter === "all") return true;
+              else if(filter.includes(campaign.status)) return true;
+              else return false;
+            })
             .slice((currentPage - 1) * limit, limit * currentPage)
             .map(
               (campaign, index) => {
-                let badgeBackground = "Vlt-grey";
-                if(campaign.status === "pending" || campaign.status === "paused") badgeBackground = "Vlt-yellow";
-                else if(campaign.status.started || campaign.status === "completed") badgeBackground = "Vlt-green";
+                const yellowBadge = [ "pending", "paused", "reporting" ];
+                const greenBadge = [ "started", "completed" ];
+                const badgeBackground = (yellowBadge.includes(campaign.status))? "Vlt-yellow": 
+                                        (greenBadge.includes(campaign.status))? "Vlt-green": "Vlt-grey";
                 
                 const startDate = new moment(campaign.campaignStartDate).local().format("DD MMMM YYYY");
                 const endDate = new moment(campaign.campaignEndDate).local().format("DD MMMM YYYY");
@@ -79,7 +85,12 @@ function NormalTable({ campaigns, setRefreshToken, limit=10 }){
       <Pagination 
         totalData={
           campaigns
-          .filter((campaign) => campaign.status === selectedFilter || selectedFilter === "all")
+          .filter((campaign) => {
+            const filter = selectedFilter.split("|");
+            if(selectedFilter === "all") return true;
+            else if(filter.includes(campaign.status)) return true;
+            else return false;
+          })
           .length
         } 
         limit={limit} 

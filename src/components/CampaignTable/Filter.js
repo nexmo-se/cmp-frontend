@@ -48,7 +48,7 @@ function Filter({ onChange }){
         className={clsx(
           (filter === "completed")? "Vlt-btn_active": ""
         )}
-        onClick={() => setFilter("completed")}
+        onClick={() => setFilter("reporting|completed")}
       >
         Completed
       </Button>
