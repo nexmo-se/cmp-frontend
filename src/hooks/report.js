@@ -13,5 +13,10 @@ export default function useReport(token){
     setReports(reports);
   }
 
-  return { reports, list }
+  async function download(campaign){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/reports/archive/${campaign.id}.csv`;
+    return FetchAPI.get(url, token, "blob");
+  }
+
+  return { reports, list, download }
 }

@@ -2,7 +2,9 @@ import React from "react";
 
 import useUser from "hooks/user";
 import useError from "hooks/error";
-import useCampaign from "hooks/campaign";
+import useReport from "hooks/report";
+
+import CustomError from "entities/error";
 import SuccessMessage from "entities/success";
 
 import Button from "components/Button";
@@ -12,13 +14,27 @@ function ExportCampaignDetailReportButton({ campaign }){
   const [ exporting, setExporting ] = React.useState(false);
   const mError = useError();
   const mUser = useUser();
-  const mCampaign = useCampaign(mUser.token);
+  const mReport = useReport(mUser.token);
 
   async function handleClick(){
     try{
+      if(campaign.status !== "completed"){
+        throw new CustomError(
+          "component/export_campaign_detail_report_button", 
+          "Campaign report still generating. Please wait until it's completed"
+        );
+      }
+
       setExporting(true);
-      await mCampaign.exportDetailReport(campaign);
-      mError.throwSuccess(new SuccessMessage("Export is on going, check status on reports menu"));
+      const downloadFile = await mReport.download(campaign);
+      const downloadURL = URL.createObjectURL(downloadFile);
+      const link = document.createElement("a");
+      link.href = downloadURL;
+      link.setAttribute("download");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      mError.throwSuccess(new SuccessMessage("Your download is starting"));
     }catch(err){
       mError.throwError(err);
     }finally{
