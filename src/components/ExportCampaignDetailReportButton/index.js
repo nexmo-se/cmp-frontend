@@ -30,7 +30,7 @@ function ExportCampaignDetailReportButton({ campaign }){
       const downloadURL = URL.createObjectURL(downloadFile);
       const link = document.createElement("a");
       link.href = downloadURL;
-      link.setAttribute("download");
+      link.setAttribute("download", `${campaign.id}.csv`);
       document.body.appendChild(link);
       link.click();
       link.parentNode.removeChild(link);
