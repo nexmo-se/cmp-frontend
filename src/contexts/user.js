@@ -23,6 +23,11 @@ export default function UserProvider({ children }){
     setFullName(`${firstName} ${lastName}`)
   }
 
+  function logout(){
+    localStorage.removeItem("token");
+    setToken("");
+  }
+
   React.useEffect(() => {
     if(token){
       setIsAuthenticated(true);
@@ -32,7 +37,8 @@ export default function UserProvider({ children }){
   const value = { 
     fullName,
     token, 
-    login, 
+    login,
+    logout,
     isAuthenticated, 
     getMyInfo 
   }

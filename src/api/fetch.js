@@ -1,13 +1,18 @@
 import CustomError from "entities/error";
+import NotAuthenticatedError from "entities/error/notAuthenticated";
 
 class FetchAPI{
   static async processResponse(response, responseType="json"){
-      if(response.status >= 400 && response.status <= 499){
+      if(response.status === 401){
+        throw new NotAuthenticatedError();
+      }else if(response.status >= 400 && response.status <= 499){
         const errorResponse = await response.json();
         console.log(errorResponse);
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }else if(response.status >= 500 && response.status <= 599){
         const errorResponse = await response.json();
+        if(errorResponse.message === "invalid signature") throw new NotAuthenticatedError();
+        else if(errorResponse.message = "jwt malformed") throw new NotAuthenticatedError();
         console.log(errorResponse);
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }else if(response.status !== 200){

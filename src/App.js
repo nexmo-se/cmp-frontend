@@ -16,7 +16,6 @@ import DashboardPage from "pages/DashboardPage";
 import ApplicationPage from "pages/ApplicationPage";
 import ChannelPage from "pages/ChannelPage";
 import QuickWizardPage from "pages/QuickWizardPage";
-import ReportsPage from "pages/ReportsPage";
 
 import APIKeyPage from "pages/APIKeyPage";
 import APIKeyDetailPage from "pages/APIKeyDetailPage";
@@ -31,8 +30,8 @@ function App(){
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <UserProvider>
-        <ErrorProvider>
-          <BrowserRouter>
+        <BrowserRouter>
+          <ErrorProvider>
             <PageContainer>
               <SideNavigation />
               <SectionContainer>
@@ -51,8 +50,8 @@ function App(){
                 </Switch>
               </SectionContainer>
             </PageContainer>
-          </BrowserRouter>
-        </ErrorProvider>
+          </ErrorProvider>
+        </BrowserRouter>
       </UserProvider>
     </MuiPickersUtilsProvider>
   )
