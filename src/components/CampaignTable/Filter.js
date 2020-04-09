@@ -38,6 +38,14 @@ function Filter({ onChange }){
       </Button>
       <Button 
         className={clsx(
+          (filter === "paused")? "Vlt-btn_active": ""
+        )}
+        onClick={() => setFilter("paused")}
+      >
+        Paused
+      </Button>
+      <Button 
+        className={clsx(
           (filter === "started")? "Vlt-btn_active": ""
         )}
         onClick={() => setFilter("started")}
