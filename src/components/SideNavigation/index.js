@@ -71,7 +71,9 @@ function SideNavigation(){
           </ul>
         </div>
         <div className="Vlt-sidenav__block Vlt-sidenav__block--link Vlt-sidenav__block--border-top">
-          <SingleMenu icon="Vlt-icon-quit" label="Sign Out" onClick={handleSignOut} />
+          <ul className="Vlt-sidemenu">
+            <SingleMenu icon="Vlt-icon-quit" label="Sign Out" onClick={handleSignOut} />
+          </ul>
         </div>
       </div>
     </React.Fragment>
