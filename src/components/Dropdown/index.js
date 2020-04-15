@@ -19,7 +19,7 @@ function Dropdown({
       <label className="Vlt-label">
         {label}
       </label>
-      <div style={containerStyle} className="Vlt-native-dropdown">
+      <div style={containerStyle} className="Vlt-native-dropdown Vlt-native-dropdown--app">
         <select 
           style={selectStyle} 
           value={value} 
