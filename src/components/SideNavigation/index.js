@@ -4,6 +4,7 @@ import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 import { useLocation } from "react-router-dom";
 
 import useUser from "hooks/user";
+import { useHistory } from "react-router-dom";
 
 import CompanyLogo from "./CompanyLogo";
 import Greetings from "./Greetings";
@@ -15,6 +16,12 @@ function SideNavigation(){
   const [ render, setRender ] = React.useState(false);
   const mLocation = useLocation();
   const mUser = useUser();
+  const mHistory = useHistory();
+
+  async function handleSignOut(){
+    await mUser.logout();
+    mHistory.push("/");
+  }
 
   React.useEffect(() => {
     if(mUser.token) setRender(true);
@@ -62,6 +69,9 @@ function SideNavigation(){
             <SingleMenu icon="Vlt-icon-stack" label="Template" active={menuActive === "templates"} to="/templates" />
             <SingleMenu icon="Vlt-icon-packet" label="Campaign" active={menuActive === "campaigns"} to="/campaigns" />
           </ul>
+        </div>
+        <div className="Vlt-sidenav__block Vlt-sidenav__block--link Vlt-sidenav__block--border-top">
+          <SingleMenu icon="Vlt-icon-quit" label="Sign Out" onClick={handleSignOut} />
         </div>
       </div>
     </React.Fragment>

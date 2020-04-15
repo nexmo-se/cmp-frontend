@@ -29,8 +29,8 @@ import CampaignDetailPage from "pages/CampaignDetailPage";
 function App(){
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
-      <UserProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <UserProvider>
           <ErrorProvider>
             <PageContainer>
               <SideNavigation />
@@ -51,8 +51,8 @@ function App(){
               </SectionContainer>
             </PageContainer>
           </ErrorProvider>
-        </BrowserRouter>
-      </UserProvider>
+        </UserProvider>
+      </BrowserRouter>
     </MuiPickersUtilsProvider>
   )
 }
