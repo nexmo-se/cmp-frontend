@@ -8,7 +8,7 @@ function ReportInformationCard(){
         <div className="Vlt-card__content">
           <p>REPORTS</p>
           <h4>
-            <b>Learn how you can generate your reports.</b>
+            <b>Learn how you can generate your reports</b>
           </h4>
           <p>To generate a template, you need open any completed campaign and click <code>Export Detail Report</code> button.</p>
           <br />

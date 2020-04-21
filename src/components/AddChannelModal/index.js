@@ -121,7 +121,7 @@ function AddChannelModal({
             </div>
             <div className="Vlt-col Vlt-col--A">
               <NumberInput 
-                label="TPS" 
+                label="throughput per second (TPS)" 
                 value={state.tps} 
                 setValue={handleTPSChange}
                 disabled={!state.channel}
