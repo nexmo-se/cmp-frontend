@@ -1,14 +1,23 @@
 import React from "react";
 import clsx from "clsx";
+import { useCookies } from "react-cookie";
 
 import Button from "components/Button";
 
 function Filter({ onChange }){
   const [ filter, setFilter ] = React.useState("draft");
+  const [ cookies, setCookies ] = useCookies([ "campaign_filter" ]);
 
   React.useEffect(() => {
-    if(onChange) onChange(filter);
-  }, [ filter ])
+    if(onChange) {
+      setCookies("campaign_filter", filter, { path: "/" })
+      onChange(filter);
+    }
+  }, [ filter ]);
+
+  React.useEffect(() => {
+    setFilter(cookies.campaign_filter || "draft");
+  }, [])
 
   return (
     <div className="Vlt-btn-group">
