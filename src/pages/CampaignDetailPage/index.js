@@ -70,7 +70,7 @@ function CampaignDetailPage(){
       
       <SummaryStats report={report}>
         <RejectedCard />
-        <ReadCard />
+        {(report.read !== 0)? <ReadCard />: null}
         <DeliveryCard />
         <TimeTakenCard campaign={campaign} />
       </SummaryStats>

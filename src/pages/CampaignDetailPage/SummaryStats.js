@@ -8,6 +8,7 @@ function SummaryStats({ report, children }){
   return (
     <div className="Vlt-grid">
       {children.map((child) => {
+        if(!child) return null;
         const newComponent = React.cloneElement(child, { report });
         return (
           <div className="Vlt-col">
