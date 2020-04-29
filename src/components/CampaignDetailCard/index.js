@@ -32,6 +32,7 @@ function CampaignDetailCard({ report, campaign }){
         <Row label="End Date">{new moment(campaign?.campaignEndDate).format("DD MMMM YYYY")}</Row>
         <Row label="End Time">{new moment(campaign?.campaignEndDate).format("HH:mm")}</Row>
         <Row label="Total Messages">{report?.totalRecord.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Row>
+        <Row label="Total Cost">EUR {report?.price.toFixed(5)}</Row>
       </div>
     </div>
   )

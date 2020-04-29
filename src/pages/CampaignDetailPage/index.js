@@ -15,6 +15,7 @@ import PageHeader from "components/PageHeader";
 import Button from "components/Button";
 import ExportCampaignDetailReportButton from "components/ExportCampaignDetailReportButton";
 
+import AllReportStatusCard from "./AllReportStatusCard";
 import SummaryStats from "./SummaryStats";
 import RejectedCard from "./RejectedCard";
 import DeliveryCard from "./DeliveryCard";
@@ -80,7 +81,14 @@ function CampaignDetailPage(){
           <CampaignDetailCard campaign={campaign} report={report} />
         </div>
         <div className="Vlt-col">
-          <CampaignAuditLogCard campaign={campaign} />
+          <div className="Vlt-grid">
+            <div className="Vlt-col Vlt-grid__separator">
+              <CampaignAuditLogCard campaign={campaign} />
+            </div>
+            <div className="Vlt-col">
+              <AllReportStatusCard report={report} />
+            </div>
+          </div>
         </div>
       </div>
     </React.Fragment>
