@@ -16,11 +16,17 @@ import Button from "components/Button";
 import ExportCampaignDetailReportButton from "components/ExportCampaignDetailReportButton";
 
 import SummaryStats from "./SummaryStats";
+import RejectedCard from "./RejectedCard";
+import DeliveryCard from "./DeliveryCard";
+import TimeTakenCard from "./TimeTakenCard";
+import ReadCard from "./ReadCard";
+
 
 function CampaignDetailPage(){
   const [ refreshToken, setRefreshToken ] = React.useState(uuid());
   const [ isLoading, setIsLoading ] = React.useState(true);
   const [ campaign, setCampaign ] = React.useState();
+  const [ report, setReport ] = React.useState();
   const { campaignId } = useParams();
   const mUser = useUser();
   const mError = useError();
@@ -29,8 +35,10 @@ function CampaignDetailPage(){
   async function fetchData(){
     try{
       setIsLoading(true);
-      const c = await mCampaign.retrieve(Campaign.fromID(campaignId));
-      setCampaign(c);
+      const foundCampaign = await mCampaign.retrieve(Campaign.fromID(campaignId));
+      const foundReport = await mCampaign.summaryReport(foundCampaign);
+      setReport(foundReport);
+      setCampaign(foundCampaign);
     }catch(err){
       mError.throwError(err);
     }finally{
@@ -59,10 +67,17 @@ function CampaignDetailPage(){
           </React.Fragment>
         )}
       />
-      <SummaryStats campaign={campaign} />
+      
+      <SummaryStats report={report}>
+        <RejectedCard />
+        <ReadCard />
+        <DeliveryCard />
+        <TimeTakenCard campaign={campaign} />
+      </SummaryStats>
+
       <div className="Vlt-grid">
         <div className="Vlt-col">
-          <CampaignDetailCard campaign={campaign} />
+          <CampaignDetailCard campaign={campaign} report={report} />
         </div>
         <div className="Vlt-col">
           <CampaignAuditLogCard campaign={campaign} />

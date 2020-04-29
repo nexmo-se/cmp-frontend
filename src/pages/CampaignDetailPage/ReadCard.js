@@ -14,6 +14,10 @@ const useStyles = makeStyles(() => ({
     marginTop: 0,
     marginBottom: 0
   }, 
+  gradient: {
+    background: "#348f50",
+    background: "linear-gradient(to right, #348f50, #56b4d3)"
+  },
   content: { 
     display: "flex",
     alignItems: "center",
@@ -29,29 +33,28 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function RejectedCard({ report }){
+function ReadCard({ report }){
   const mStyles = useStyles();
 
   return (
     <div 
       className={clsx(
-        "Vlt-card", 
-        "Vlt-card--clickable",
-        "Vlt-gradient--pink-to-peach", 
+        "Vlt-card",
+        mStyles.gradient,
         mStyles.normalCursor,
         mStyles.overflowHidden
       )}
     >
       <div className={clsx("Vlt-card__content", mStyles.content)}>
-        <VoltaIcon className={clsx("Vlt-white", mStyles.largeIcon)} icon="Vlt-icon-cross-circle" />
+        <VoltaIcon className={clsx("Vlt-white", mStyles.largeIcon)} icon="Vlt-icon-check-double-bold" />
         <div className={mStyles.dataContainer}>
-          <p className={clsx("Vlt-white", mStyles.noMarginPadding)}>REJECTED</p>
+          <p className={clsx("Vlt-white", mStyles.noMarginPadding)}>READ</p>
           <h4 className={clsx("Vlt-white", mStyles.noMarginPadding)}>
-            <StatsNumber left={report?.rejected} right={report?.totalRecord} />
+            <StatsNumber left={report?.read} right={report?.totalRecord} />
           </h4>
         </div>
       </div>
     </div>
   )
 }
-export default RejectedCard;
+export default ReadCard;

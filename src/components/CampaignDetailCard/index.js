@@ -7,19 +7,12 @@ import useCampaign from "hooks/campaign";
 import Row from "./Row";
 import StatusText from "./StatusText";
 
-function CampaignDetailCard({ campaign }){
+function CampaignDetailCard({ report, campaign }){
   const [ lastStatusUpdate, setLastStatusUpdate ] = React.useState("");
-  const [ report, setReport ] = React.useState(null);
   const mUser = useUser();
   const mCampaign = useCampaign(mUser.token);
-  
-  async function fetchReport(){
-    const report = await mCampaign.summaryReport(campaign);
-    setReport(report);
-  }
 
   React.useEffect(() => {
-    fetchReport();
     const lastStatusUpdate = new moment(campaign?.statusTime).fromNow();
     setLastStatusUpdate(lastStatusUpdate);
   }, [ campaign ]);
