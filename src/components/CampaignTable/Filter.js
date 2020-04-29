@@ -16,6 +16,7 @@ function Filter({ onChange }){
   }, [ filter ]);
 
   React.useEffect(() => {
+    console.log(cookies.campaign_filter)
     setFilter(cookies.campaign_filter || "draft");
   }, [])
 
@@ -63,7 +64,7 @@ function Filter({ onChange }){
       </Button>
       <Button 
         className={clsx(
-          (filter === "completed")? "Vlt-btn_active": ""
+          (filter === "reporting|completed")? "Vlt-btn_active": ""
         )}
         onClick={() => setFilter("reporting|completed")}
       >
