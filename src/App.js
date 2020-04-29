@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import UserProvider from "contexts/user";
 import ErrorProvider from "contexts/error";
+import { CookiesProvider } from "react-cookie";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 import SideNavigation from "components/SideNavigation";
@@ -30,28 +31,30 @@ function App(){
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <BrowserRouter>
-        <UserProvider>
-          <ErrorProvider>
-            <PageContainer>
-              <SideNavigation />
-              <SectionContainer>
-                <Switch>
-                  <Route path="/" component={LoginPage} exact />
-                  <PrivateRoute path="/dashboard" component={DashboardPage} exact />
-                  <PrivateRoute path="/apikeys" component={APIKeyPage} exact />
-                  <PrivateRoute path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
-                  <PrivateRoute path="/applications" component={ApplicationPage} exact />
-                  <PrivateRoute path="/campaigns" component={CampaignPage} exact />
-                  <PrivateRoute path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
-                  <PrivateRoute path="/channels" component={ChannelPage} exact />
-                  <PrivateRoute path="/templates" component={TemplatePage} exact />
-                  <PrivateRoute path="/templates/:templateId" component={TemplateDetailPage} />
-                  <PrivateRoute path="/quickwizard" component={QuickWizardPage} exact />
-                </Switch>
-              </SectionContainer>
-            </PageContainer>
-          </ErrorProvider>
-        </UserProvider>
+        <CookiesProvider>
+          <UserProvider>
+            <ErrorProvider>
+              <PageContainer>
+                <SideNavigation />
+                <SectionContainer>
+                  <Switch>
+                    <Route path="/" component={LoginPage} exact />
+                    <PrivateRoute path="/dashboard" component={DashboardPage} exact />
+                    <PrivateRoute path="/apikeys" component={APIKeyPage} exact />
+                    <PrivateRoute path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
+                    <PrivateRoute path="/applications" component={ApplicationPage} exact />
+                    <PrivateRoute path="/campaigns" component={CampaignPage} exact />
+                    <PrivateRoute path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
+                    <PrivateRoute path="/channels" component={ChannelPage} exact />
+                    <PrivateRoute path="/templates" component={TemplatePage} exact />
+                    <PrivateRoute path="/templates/:templateId" component={TemplateDetailPage} />
+                    <PrivateRoute path="/quickwizard" component={QuickWizardPage} exact />
+                  </Switch>
+                </SectionContainer>
+              </PageContainer>
+            </ErrorProvider>
+          </UserProvider>
+        </CookiesProvider>
       </BrowserRouter>
     </MuiPickersUtilsProvider>
   )

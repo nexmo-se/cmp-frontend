@@ -18,7 +18,7 @@ function AuditLogsTable({ campaign }){
         <RowHeader>Time</RowHeader>
         <RowHeader>Status</RowHeader>
       </div>
-      {logs.slice(0, 2).map((log) => {
+      {logs.slice(0, 5).map((log) => {
         const time = new moment(log.statusTime).format("DD MMMM YYYY HH:mmA");
         const statusColor = (log.status === "completed")? "Vlt-green":
                             (log.status === "started")? "Vlt-grey-darker": "";

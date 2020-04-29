@@ -39,10 +39,6 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
       setFile(null);
     }
   }
-
-  React.useEffect(() => {
-    console.log(file);
-  }, [ file ])
   
   return (
     <Modal visible={visible} size="small">

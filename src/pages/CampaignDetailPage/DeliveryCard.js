@@ -2,7 +2,6 @@ import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/styles";
 
-import useCampaign from "hooks/campaign";
 import VoltaIcon from "components/VoltaIcon";
 import StatsNumber from "pages/CampaignDetailPage/StatsNumber";
 import { UserContext } from "contexts/user";
@@ -31,26 +30,8 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function DeliveryCard({ campaign }){
-  const [ report, setReport ] = React.useState(null);
-  const [ isFetching, setIsFetching ] = React.useState(true);
-  const { token } = React.useContext(UserContext);
-  const classes = useStyles();
-  const mCampaign = useCampaign(token);
-
-  async function fetchData(){
-    try{
-      setIsFetching(true);
-      const report = await mCampaign.summaryReport(campaign);
-      setReport(report);
-    }finally{
-      setIsFetching(false);
-    }
-  }
-
-  React.useEffect(() => {
-    fetchData();
-  }, [ campaign ])
+function DeliveryCard({ report }){
+  const mStyles = useStyles();
 
   return (
     <div 
@@ -58,15 +39,15 @@ function DeliveryCard({ campaign }){
         "Vlt-card", 
         "Vlt-card--clickable",
         "Vlt-gradient--blue-to-purple", 
-        classes.normalCursor,
-        classes.overflowHidden
+        mStyles.normalCursor,
+        mStyles.overflowHidden
       )}
     >
-      <div className={clsx("Vlt-card__content", classes.content)}>
-        <VoltaIcon className={clsx("Vlt-white", classes.largeIcon)} icon="Vlt-icon-check-double-bold" />
-        <div className={classes.dataContainer}>
-          <p className={clsx("Vlt-white", classes.noMarginPadding)}>DELIVERED</p>
-          <h4 className={clsx("Vlt-white", classes.noMarginPadding)}>
+      <div className={clsx("Vlt-card__content", mStyles.content)}>
+        <VoltaIcon className={clsx("Vlt-white", mStyles.largeIcon)} icon="Vlt-icon-check-bold" />
+        <div className={mStyles.dataContainer}>
+          <p className={clsx("Vlt-white", mStyles.noMarginPadding)}>DELIVERED</p>
+          <h4 className={clsx("Vlt-white", mStyles.noMarginPadding)}>
             <StatsNumber left={report?.delivered} right={report?.totalRecord} />
           </h4>
         </div>

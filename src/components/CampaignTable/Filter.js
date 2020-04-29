@@ -1,14 +1,24 @@
 import React from "react";
 import clsx from "clsx";
+import { useCookies } from "react-cookie";
 
 import Button from "components/Button";
 
 function Filter({ onChange }){
   const [ filter, setFilter ] = React.useState("draft");
+  const [ cookies, setCookies ] = useCookies([ "campaign_filter" ]);
 
   React.useEffect(() => {
-    if(onChange) onChange(filter);
-  }, [ filter ])
+    if(onChange) {
+      setCookies("campaign_filter", filter, { path: "/" })
+      onChange(filter);
+    }
+  }, [ filter ]);
+
+  React.useEffect(() => {
+    console.log(cookies.campaign_filter)
+    setFilter(cookies.campaign_filter || "draft");
+  }, [])
 
   return (
     <div className="Vlt-btn-group">
@@ -54,7 +64,7 @@ function Filter({ onChange }){
       </Button>
       <Button 
         className={clsx(
-          (filter === "completed")? "Vlt-btn_active": ""
+          (filter === "reporting|completed")? "Vlt-btn_active": ""
         )}
         onClick={() => setFilter("reporting|completed")}
       >

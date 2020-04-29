@@ -12,15 +12,22 @@ import CampaignDetailCard from "components/CampaignDetailCard";
 import CampaignAuditLogCard from "components/CampaignAuditLogCard";
 import FullPageSpinner from "components/FullPageSpinner";
 import PageHeader from "components/PageHeader";
-import Button from "components/Button";
+import RefreshButton from "components/RefreshButton";
 import ExportCampaignDetailReportButton from "components/ExportCampaignDetailReportButton";
 
+import AllReportStatusCard from "./AllReportStatusCard";
 import SummaryStats from "./SummaryStats";
+import RejectedCard from "./RejectedCard";
+import DeliveryCard from "./DeliveryCard";
+import TimeTakenCard from "./TimeTakenCard";
+import ReadCard from "./ReadCard";
+
 
 function CampaignDetailPage(){
   const [ refreshToken, setRefreshToken ] = React.useState(uuid());
   const [ isLoading, setIsLoading ] = React.useState(true);
   const [ campaign, setCampaign ] = React.useState();
+  const [ report, setReport ] = React.useState();
   const { campaignId } = useParams();
   const mUser = useUser();
   const mError = useError();
@@ -29,8 +36,10 @@ function CampaignDetailPage(){
   async function fetchData(){
     try{
       setIsLoading(true);
-      const c = await mCampaign.retrieve(Campaign.fromID(campaignId));
-      setCampaign(c);
+      const foundCampaign = await mCampaign.retrieve(Campaign.fromID(campaignId));
+      const foundReport = await mCampaign.summaryReport(foundCampaign);
+      setReport(foundReport);
+      setCampaign(foundCampaign);
     }catch(err){
       mError.throwError(err);
     }finally{
@@ -54,18 +63,32 @@ function CampaignDetailPage(){
         name={campaign?.name}
         rightComponent={(
           <React.Fragment>
-            <Button type="tertiary" onClick={handleRefresh}>Refresh</Button>
+            <RefreshButton onClick={handleRefresh} />
             <ExportCampaignDetailReportButton campaign={campaign} />
           </React.Fragment>
         )}
       />
-      <SummaryStats campaign={campaign} />
+      
+      <SummaryStats report={report}>
+        <RejectedCard />
+        {(report.read !== 0)? <ReadCard />: null}
+        <DeliveryCard />
+        <TimeTakenCard campaign={campaign} />
+      </SummaryStats>
+
       <div className="Vlt-grid">
         <div className="Vlt-col">
-          <CampaignDetailCard campaign={campaign} />
+          <CampaignDetailCard campaign={campaign} report={report} />
         </div>
         <div className="Vlt-col">
-          <CampaignAuditLogCard campaign={campaign} />
+          <div className="Vlt-grid">
+            <div className="Vlt-col Vlt-grid__separator">
+              <CampaignAuditLogCard campaign={campaign} />
+            </div>
+            <div className="Vlt-col">
+              <AllReportStatusCard report={report} />
+            </div>
+          </div>
         </div>
       </div>
     </React.Fragment>
