@@ -12,7 +12,7 @@ import CampaignDetailCard from "components/CampaignDetailCard";
 import CampaignAuditLogCard from "components/CampaignAuditLogCard";
 import FullPageSpinner from "components/FullPageSpinner";
 import PageHeader from "components/PageHeader";
-import Button from "components/Button";
+import RefreshButton from "components/RefreshButton";
 import ExportCampaignDetailReportButton from "components/ExportCampaignDetailReportButton";
 
 import AllReportStatusCard from "./AllReportStatusCard";
@@ -63,7 +63,7 @@ function CampaignDetailPage(){
         name={campaign?.name}
         rightComponent={(
           <React.Fragment>
-            <Button type="tertiary" onClick={handleRefresh}>Refresh</Button>
+            <RefreshButton onClick={handleRefresh} />
             <ExportCampaignDetailReportButton campaign={campaign} />
           </React.Fragment>
         )}
