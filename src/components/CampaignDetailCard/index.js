@@ -25,7 +25,7 @@ function CampaignDetailCard({ campaign }){
   }, [ campaign ]);
 
   return (
-    <div className="Vlt-card">
+    <div className="Vlt-card Vlt-card--border">
       <div className="Vlt-card__header">
         <h4>Campaign Detail</h4>
       </div>
