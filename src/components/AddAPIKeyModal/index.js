@@ -45,10 +45,6 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
   function handleAPIKeyChange(value){ handleValueChange("apiKey", value) }
 
   function handleAPISecretChange(value){ handleValueChange("apiSecret", value) }
-  
-  function handleSignatureSecretChange(value) { handleValueChange("signatureSecret", value) }
-
-  function handleSignatureMethodChange(value){ handleValueChange("signatureMethod", value) }
 
   async function handleAddNew(){
     try{
@@ -85,18 +81,6 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
           label="API Secret" 
           value={apiSecret}
           setValue={handleAPISecretChange}
-        />
-        <PasswordInput 
-          label="Signature Secret" 
-          value={signatureSecret}
-          setValue={handleSignatureSecretChange}
-          disabled
-        />
-        <SignatureMethodDropdown 
-          label="Signature Method" 
-          value={signatureMethod} 
-          setValue={handleSignatureMethodChange}
-          disabled
         />
       </ModalContent>
       <ModalFooter>

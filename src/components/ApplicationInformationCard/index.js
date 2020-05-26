@@ -7,7 +7,7 @@ function ApplicationInformationCard(){
         <div className="Vlt-card__content">
           <p>APPLICATIONS</p>
           <h4>
-            <b>Learn how you can obtain your Application ID from Vonage API Platform.</b>
+            <b>Learn how you can obtain your Application ID from Vonage API Platform</b>
           </h4>
           <p>Before you are able to add an Application to this platform, first you need to create an application directly in Vonage API Platform. Please do not lost your private key</p>
           <p>To obtain Application ID, please go to Vonage API platform</p>

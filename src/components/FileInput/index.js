@@ -10,9 +10,14 @@ function FileInput({ label, setFile=() => {} }){
   }
 
   function handleChange(){
-    const [ selectedFile ] = realInput.current.files;
-    setFileName(selectedFile.name);
-    setFile(selectedFile);
+    if(realInput.current.files?.length > 0){
+      const [ selectedFile ] = realInput.current.files;
+      setFileName(selectedFile.name);
+      setFile(selectedFile);
+    }else{
+      setFile(null);
+      setFileName("Choose file...");
+    }
   }
 
   return (

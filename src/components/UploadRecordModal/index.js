@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import SuccessMessage from "entities/success";
 import useRecord from "hooks/record";
@@ -46,6 +47,12 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
       </ModalHeader>
       <ModalContent>
         <FileInput label="CSV Template" setFile={setFile}/>
+        {file?(
+          <React.Fragment>
+            <p className="Vlt-truncate">File Name: {file?.name}</p>
+            <p>Date: {new moment(file?.lastModifiedDate).format("DD MMMM YYYY HH:mm")}</p>
+          </React.Fragment>
+        ): null}
       </ModalContent>
       <ModalFooter>
         <Button 

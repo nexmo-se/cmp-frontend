@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 function Dropdown({ 
   label, 
@@ -6,6 +7,7 @@ function Dropdown({
   value, 
   setValue, 
   children, 
+  className,
   containerStyle={ width: "100%" }, 
   selectStyle={ width: "100%" },
   disabled=false 
@@ -15,11 +17,14 @@ function Dropdown({
   } 
 
   return (
-    <div className="Vlt-form__element">
+    <div className={clsx(
+      "Vlt-form__element",
+      className
+    )}>
       <label className="Vlt-label">
         {label}
       </label>
-      <div style={containerStyle} className="Vlt-native-dropdown">
+      <div style={containerStyle} className="Vlt-native-dropdown Vlt-native-dropdown--app">
         <select 
           style={selectStyle} 
           value={value} 

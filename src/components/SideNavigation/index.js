@@ -4,18 +4,24 @@ import voltaIcons from "@vonagevolta/volta2/dist/symbol/volta-icons.svg";
 import { useLocation } from "react-router-dom";
 
 import useUser from "hooks/user";
+import { useHistory } from "react-router-dom";
 
-import CompanyLogo from "components/SideNavigation/CompanyLogo";
-import Greetings from "components/SideNavigation/Greetings";
-import SingleMenu from "components/SideNavigation/SingleMenu";
-import MenuSeparator from "components/SideNavigation/MenuSeparator";
-
+import CompanyLogo from "./CompanyLogo";
+import Greetings from "./Greetings";
+import SingleMenu from "./SingleMenu";
+import MenuSeparator from "./MenuSeparator";
 
 function SideNavigation(){
   const [ menuActive, setMenuActive ] = React.useState(null);
   const [ render, setRender ] = React.useState(false);
   const mLocation = useLocation();
   const mUser = useUser();
+  const mHistory = useHistory();
+
+  async function handleSignOut(){
+    await mUser.logout();
+    mHistory.push("/");
+  }
 
   React.useEffect(() => {
     if(mUser.token) setRender(true);
@@ -23,9 +29,7 @@ function SideNavigation(){
   }, [ mUser.token ])
 
   React.useEffect(() => {
-    if(mLocation.pathname.includes("/dashboard")) setMenuActive("dashboard");
-    else if(mLocation.pathname.includes("/reports")) setMenuActive("reports");
-    else if(mLocation.pathname.includes("/quickwizard")) setMenuActive("quickwizard");
+    if(mLocation.pathname.includes("/quickwizard")) setMenuActive("quickwizard");
     else if(mLocation.pathname.includes("/apikeys")) setMenuActive("apikeys");
     else if(mLocation.pathname.includes("/applications")) setMenuActive("applications");
     else if(mLocation.pathname.includes("/channels")) setMenuActive("channels");
@@ -57,8 +61,6 @@ function SideNavigation(){
 
         <div className="Vlt-sidenav__scroll">
           <ul className="Vlt-sidemenu">
-            {/* <SingleMenu icon="Vlt-icon-pie-chart" label="Dashboard" active={menuActive === "dashboard"} to="/dashboard" /> */}
-            {/* <SingleMenu icon="Vlt-icon-files" label="Reports" to="/reports" active={menuActive === "reports"} /> */}
             <SingleMenu icon="Vlt-icon-rocket" label="Quick Wizard" to="/quickwizard" active={menuActive === "quickwizard"} />
             <MenuSeparator>Configurations</MenuSeparator>
             <SingleMenu icon="Vlt-icon-key" label="API Key" active={menuActive === "apikeys"} to="/apikeys"/>
@@ -66,6 +68,11 @@ function SideNavigation(){
             <SingleMenu icon="Vlt-icon-mind-map" label="Channel" active={menuActive === "channels"} to="/channels" />
             <SingleMenu icon="Vlt-icon-stack" label="Template" active={menuActive === "templates"} to="/templates" />
             <SingleMenu icon="Vlt-icon-packet" label="Campaign" active={menuActive === "campaigns"} to="/campaigns" />
+          </ul>
+        </div>
+        <div className="Vlt-sidenav__block Vlt-sidenav__block--link Vlt-sidenav__block--border-top">
+          <ul className="Vlt-sidemenu">
+            <SingleMenu icon="Vlt-icon-quit" label="Sign Out" onClick={handleSignOut} />
           </ul>
         </div>
       </div>

@@ -1,23 +1,21 @@
 import React from "react";
 
-import RejectedCard from "pages/CampaignDetailPage/RejectedCard";
-import DeliveryCard from "pages/CampaignDetailPage/DeliveryCard";
-import TimeTakenCard from "pages/CampaignDetailPage/TimeTakenCard";
+import RejectedCard from "./RejectedCard";
+import DeliveryCard from "./DeliveryCard";
+import TimeTakenCard from "./TimeTakenCard";
 
-function SummaryStats({ campaign }){
+function SummaryStats({ report, children }){
   return (
     <div className="Vlt-grid">
-      <div className="Vlt-col">
-        <RejectedCard campaign={campaign} />
-      </div>
-
-      <div className="Vlt-col">
-        <DeliveryCard campaign={campaign} />
-      </div>
-
-      <div className="Vlt-col">
-        <TimeTakenCard campaign={campaign} />
-      </div>
+      {children.map((child) => {
+        if(!child) return null;
+        const newComponent = React.cloneElement(child, { report });
+        return (
+          <div className="Vlt-col">
+            {newComponent}
+          </div>
+        )
+      })}
     </div>
   )
 }

@@ -1,22 +1,28 @@
 import CustomError from "entities/error";
+import NotAuthenticatedError from "entities/error/notAuthenticated";
 
 class FetchAPI{
-  static async processResponse(response){
-      if(response.status >= 400 && response.status <= 499){
+  static async processResponse(response, responseType="json"){
+      if(response.status === 401){
+        throw new NotAuthenticatedError();
+      }else if(response.status >= 400 && response.status <= 499){
         const errorResponse = await response.json();
         console.log(errorResponse);
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }else if(response.status >= 500 && response.status <= 599){
         const errorResponse = await response.json();
         console.log(errorResponse);
+        if(errorResponse.message === "invalid signature") throw new NotAuthenticatedError();
+        else if(errorResponse.message = "jwt malformed") throw new NotAuthenticatedError();
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }else if(response.status !== 200){
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }
       
       try{
-        const jsonResponse = await response.json();
-        return jsonResponse
+        if(responseType === "json") return await response.json();
+        else if(responseType === "blob") return await response.blob();
+        else await response.text();
       }catch(err){
         return null;
       }
@@ -38,7 +44,7 @@ class FetchAPI{
     return FetchAPI.processResponse(response);
   }
 
-  static async get(url, token){
+  static async get(url, token, responseType="json"){
     console.log(`Processing GET ${url}`);
     const response = await fetch(url, {
       method: "GET",
@@ -46,7 +52,7 @@ class FetchAPI{
         Authorization: `Bearer ${token}`
       }
     });
-    return FetchAPI.processResponse(response)
+    return FetchAPI.processResponse(response, responseType)
   }
 
   static async post(url, token, body){

@@ -106,10 +106,30 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
             setValue={handleChannelChange} 
             refreshToken={refreshToken}
           />
-          <TemplateType 
-            channel={currentChannel} 
-            loading={loadingChannel}
-            onChange={handleMediaTypeChange} 
+          {currentChannel === "whatsapp"? (
+            <div className="Vlt-grid Vlt-grid--narrow">
+              <div className="Vlt-col Vlt-col--A">
+                <TextInput 
+                  label="WhatsApp Template Namespace" 
+                  value={whatsappTemplateNamespace}
+                  setValue={handleWATemplateNamespaceChange}
+                  disabled={currentChannel !== "whatsapp"}
+                />
+              </div>
+              <div className="Vlt-col Vlt-col--A">
+                <TextInput 
+                  label="WhatsApp Template Name" 
+                  value={whatsappTemplateName}
+                  setValue={handleWATemplateNameChange}
+                  disabled={currentChannel !== "whatsapp"}
+                />
+              </div>
+            </div>
+          ): null}
+          <TextArea 
+            label="Body" 
+            value={body} 
+            setValue={handleBodyChange} 
           />
           {
             (mediaType === "text")? <TextTemplateInput onChange={handleContentChange} />: 

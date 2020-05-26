@@ -8,19 +8,24 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center"
-  }  
+  },
+  dropdown: { width: "35%" }
 }))
 
 function ChannelSelectionStep({ number, value, setValue }){
-  const classes = useStyles();
+  const mStyles = useStyles();
 
   return (
-    <div className={classes.container}>
+    <div className={mStyles.container}>
       <div>
         <span className="Vlt-number" data-index={number} />
-        <span className="p-large">Select Channel</span>
+        <span className="p-large">Select Funnel</span>
       </div>
-      <Dropdown value={value} setValue={setValue}>
+      <Dropdown 
+        className={mStyles.dropdown}
+        value={value} 
+        setValue={setValue}
+      >
         <option value="sms">SMS</option>
         <option value="social-channel">Social Channel</option>
       </Dropdown>
