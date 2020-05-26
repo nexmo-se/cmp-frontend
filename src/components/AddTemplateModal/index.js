@@ -24,6 +24,7 @@ import ChannelDropdown from "components/ChannelDropdown";
 import TemplateType from "./TemplateType";
 import ViberTemplateInput from "./ViberTemplateInput";
 import TextTemplateInput from "./TextTemplateInput";
+import WhatsAppTextTemplateInput from "./Whatsapp/TextTemplateInput";
 
 function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
@@ -106,34 +107,15 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
             setValue={handleChannelChange} 
             refreshToken={refreshToken}
           />
-          {currentChannel === "whatsapp"? (
-            <div className="Vlt-grid Vlt-grid--narrow">
-              <div className="Vlt-col Vlt-col--A">
-                <TextInput 
-                  label="WhatsApp Template Namespace" 
-                  value={whatsappTemplateNamespace}
-                  setValue={handleWATemplateNamespaceChange}
-                  disabled={currentChannel !== "whatsapp"}
-                />
-              </div>
-              <div className="Vlt-col Vlt-col--A">
-                <TextInput 
-                  label="WhatsApp Template Name" 
-                  value={whatsappTemplateName}
-                  setValue={handleWATemplateNameChange}
-                  disabled={currentChannel !== "whatsapp"}
-                />
-              </div>
-            </div>
-          ): null}
-          <TextArea 
-            label="Body" 
-            value={body} 
-            setValue={handleBodyChange} 
+          <TemplateType 
+            channel={currentChannel} 
+            loading={loadingChannel}
+            onChange={handleMediaTypeChange} 
           />
           {
             (mediaType === "text")? <TextTemplateInput onChange={handleContentChange} />: 
-            (mediaType === "viber_template")? <ViberTemplateInput onChange={handleContentChange} />: null
+            (mediaType === "viber_template")? <ViberTemplateInput onChange={handleContentChange} />:
+            (mediaType === "whatsapp_text")? <WhatsAppTextTemplateInput onChange={() => {}} />: null
           }
         </ModalContent>
         <ModalFooter>

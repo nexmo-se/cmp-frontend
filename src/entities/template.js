@@ -1,13 +1,14 @@
+// @flow
 import Channel from "entities/channel";
 
 class Template{
-  // id: String
-  // name: String
-  // channel: Channel
-  // body: String
-  // whatsappTemplateName: String
-  // whatsappTemplateNamespace: String
-  // mediaType: String
+  id:string;
+  name:string;
+  channel:Channel;
+  body:string;
+  whatsappTemplateName:string;
+  whatsappTemplateNamespace:string;
+  mediaType:string;
 
   constructor(id, name, channel, body=null, whatsappTemplateNamespace=null, whatsappTemplateName=null, mediaType="text"){
     this.id = id;
