@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
 const FormContainer = styled.div`
-  width: 50vw;
+  width: 25vw;
 `
 export default FormContainer;

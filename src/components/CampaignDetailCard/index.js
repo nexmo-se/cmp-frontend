@@ -7,25 +7,18 @@ import useCampaign from "hooks/campaign";
 import Row from "./Row";
 import StatusText from "./StatusText";
 
-function CampaignDetailCard({ campaign }){
+function CampaignDetailCard({ report, campaign }){
   const [ lastStatusUpdate, setLastStatusUpdate ] = React.useState("");
-  const [ report, setReport ] = React.useState(null);
   const mUser = useUser();
   const mCampaign = useCampaign(mUser.token);
-  
-  async function fetchReport(){
-    const report = await mCampaign.summaryReport(campaign);
-    setReport(report);
-  }
 
   React.useEffect(() => {
-    fetchReport();
     const lastStatusUpdate = new moment(campaign?.statusTime).fromNow();
     setLastStatusUpdate(lastStatusUpdate);
   }, [ campaign ]);
 
   return (
-    <div className="Vlt-card">
+    <div className="Vlt-card Vlt-card--border">
       <div className="Vlt-card__header">
         <h4>Campaign Detail</h4>
       </div>
@@ -39,6 +32,7 @@ function CampaignDetailCard({ campaign }){
         <Row label="End Date">{new moment(campaign?.campaignEndDate).format("DD MMMM YYYY")}</Row>
         <Row label="End Time">{new moment(campaign?.campaignEndDate).format("HH:mm")}</Row>
         <Row label="Total Messages">{report?.totalRecord.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Row>
+        <Row label="Total Cost">EUR {report?.price.toFixed(5)}</Row>
       </div>
     </div>
   )

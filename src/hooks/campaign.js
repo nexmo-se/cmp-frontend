@@ -143,6 +143,18 @@ function useCampaign(token){
     return chartData;
   }
 
+  async function exportDetailReport(campaign){
+    const url = `${process.env.REACT_APP_BASE_API_URL}/reports/csv`;
+    const payload = {
+      type: "campaign_detail",
+      name: campaign.name,
+      content: {
+        cmpCampaignId: campaign.id
+      }
+    }
+    await FetchAPI.post(url, token, JSON.stringify(payload));
+  }
+
   return {
     data, 
     list, 
@@ -153,7 +165,8 @@ function useCampaign(token){
     summaryReport,
     overallSummaryReport,
     lineChart,
-    overallLineChart
+    overallLineChart,
+    exportDetailReport
   };
 }
 export default useCampaign;

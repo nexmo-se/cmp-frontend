@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import ButtonIcon from "components/ButtonIcon";
 
-function DetailButton({ campaign }){
+function DetailButton({ campaign, disabled }){
   const history = useHistory();
 
   function handleClick(){
@@ -13,6 +13,7 @@ function DetailButton({ campaign }){
   return (
     <ButtonIcon 
       icon="Vlt-icon-gear"
+      disabled={disabled}
       onClick={handleClick}
     />
   )

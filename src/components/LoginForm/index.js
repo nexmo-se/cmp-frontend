@@ -1,7 +1,8 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import Login from "entities/login";
+import useError from "hooks/error";
 import { UserContext } from "contexts/user";
 
 import BigInput from "components/BigInput";
@@ -12,7 +13,9 @@ function LoginForm(){
   const [ password, setPassword ] = React.useState("");
   const [ isLoggingOn, setIsLoggingOn ] = React.useState(false);
   const { login, token } = React.useContext(UserContext);
-  const history = useHistory();
+  const mHistory = useHistory();
+  const mError = useError();
+  const mLocation = useLocation();
 
   function handleUsernameChange(username){
     setUsername(username);
@@ -29,12 +32,16 @@ function LoginForm(){
       const l = new Login(username, password);
       await login(l);
     }catch(err){
+      mError.throwError(err);
       setIsLoggingOn(false);
     }
   }
 
   React.useEffect(() => {
-    if(token) history.replace("/quickwizard");
+    if(token) {
+      const location = (mLocation.state?.from)? mLocation.state.from: "/quickwizard";
+      mHistory.replace(location);
+    }
   }, [ token ])
 
   return (

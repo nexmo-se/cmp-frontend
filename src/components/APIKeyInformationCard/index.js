@@ -7,7 +7,7 @@ function APIKeyInformationCard(){
         <div className="Vlt-card__content">
           <p>API KEYS</p>
           <h4>
-            <b>Learn how you can obtain your API Key from Vonage API Platform.</b>
+            <b>Learn how you can obtain your API Key from Vonage API Platform</b>
           </h4>
           <p>API Key is the most critical part of this Campaign Management Portal. Your API Key should be registered inside Vonage API platform.</p>
           <p>To obtain API key, please go to Vonage API platform</p>
