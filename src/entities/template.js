@@ -2,25 +2,27 @@
 import Channel from "entities/channel";
 
 class Template{
-  id:string;
+  id:string|void;
   name:string;
   channel:Channel;
   body:string;
-  whatsappTemplateName:string;
-  whatsappTemplateNamespace:string;
+  whatsappTemplateName:string|void;
+  whatsappTemplateNamespace:string|void;
   mediaType:string;
 
-  constructor(id, name, channel, body=null, whatsappTemplateNamespace=null, whatsappTemplateName=null, mediaType="text"){
-    this.id = id;
-    this.name = name;
-    this.channel = channel;
-    this.body = body;
-    this.whatsappTemplateName = whatsappTemplateName;
-    this.whatsappTemplateNamespace = whatsappTemplateNamespace;
-    this.mediaType = mediaType;
+  constructor(args:any){
+    this.id = undefined;
+    this.name = "";
+    this.channel = new Channel();
+    this.body = "";
+    this.whatsappTemplateName = undefined;
+    this.whatsappTemplateNamespace = undefined;
+    this.mediaType = "";
+
+    if(args) Object.assign(this, args);
   }
 
-  toJSON(){
+  toRequest(){
     const jsonData = {
       id: this.id,
       name: this.name,
@@ -33,7 +35,7 @@ class Template{
     return JSON.parse(JSON.stringify(jsonData));
   }
 
-  toUpdateJSON(){
+  toUpdateRequest(){
     const jsonData = {
       name: this.name,
       mediaType: this.mediaType,
@@ -42,19 +44,8 @@ class Template{
     return JSON.parse(JSON.stringify(jsonData));
   }
 
-  static fromID(id){
-    const template = new Template(id);
-    return template;
-  }
-
-  static fromJSON(value){
-    const t = new Template();
-    t.id = value.id;
-    t.name = value.name;
-    t.body = value.body;
-    t.whatsappTemplateName = value.whatsappTemplateName;
-    t.whatsappTemplateNamespace = value.whatsappTemplateNamespace;
-    t.mediaType = value.mediaType;
+  static fromResponse(value:any):Template{
+    const t = new Template({ ...value });
 
     if(value.cmpChannel) t.channel = Channel.fromJSON(value.cmpChannel);
     else if(value.cmpChannelId){

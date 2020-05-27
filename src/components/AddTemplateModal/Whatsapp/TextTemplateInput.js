@@ -12,7 +12,13 @@ function TextTemplateInput({ onChange }:Props){
   const [ namespace, setNamespace ] = React.useState<string>("")
 
   React.useEffect(() => {
-    if(onChange) onChange({ body });
+    if(onChange){
+      onChange({
+        whatsappTemplateName: name,
+        whatsappTemplateNamespace: namespace,
+        body 
+      });
+    }
   }, [ body, name ])
 
   return (

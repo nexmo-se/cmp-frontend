@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 
 import useChannel from "hooks/channel";
@@ -6,7 +7,14 @@ import { ErrorContext } from "contexts/error";
 
 import Dropdown from "components/Dropdown";
 
-function ChannelDropdown({ refreshToken, label, value, setValue, disabled }){
+type Props = {
+  refreshToken:string,
+  label:string,
+  value:string,
+  setValue:Function
+}
+
+function ChannelDropdown({ refreshToken, label, value, setValue, ...props }:Props){
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mChannel = useChannel(token);
@@ -17,10 +25,10 @@ function ChannelDropdown({ refreshToken, label, value, setValue, disabled }){
 
   return(
     <Dropdown 
+      {...props}
       label={label} 
       value={value} 
       setValue={setValue} 
-      disabled={disabled}
     >
       <option>--- Please Select ---</option>
       {mChannel.data.map((channel) => {

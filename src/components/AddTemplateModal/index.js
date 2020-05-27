@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 
 import Channel from "entities/channel";
@@ -26,7 +27,14 @@ import ViberTemplateInput from "./ViberTemplateInput";
 import TextTemplateInput from "./TextTemplateInput";
 import WhatsAppTextTemplateInput from "./Whatsapp/TextTemplateInput";
 
-function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
+type Props = {
+  refreshToken:string,
+  visible:boolean,
+  setVisible:Function,
+  onAdded?:Function
+}
+
+function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const [ isAdding, setIsAdding ] = React.useState(false);
   const [ currentChannel, setCurrentChannel ] = React.useState(null);
@@ -60,12 +68,12 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
     dispatch({ type: "CHANGE_CONTENT", value });
   }
 
-  async function handleChannelChange(value){ 
+  async function handleChannelChange(channelId){ 
     try{
-      dispatch({ type: "CHANGE_CHANNEL", value });
+      dispatch({ type: "CHANGE_CHANNEL", value: new Channel({ id: channelId }) });
       dispatch({ type: "LOADING_CHANNEL" });
       setCurrentChannel(null);
-      const searchChannel = Channel.fromID(value);
+      const searchChannel = new Channel({ id: channelId });
       const channel = await mChannel.retrieve(searchChannel);    
       setCurrentChannel(channel.channel);
     }catch(err){
@@ -75,14 +83,18 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
     }
   }
 
-  async function handleAddNew(){
+  async function handleAddNew(e){
     try{
+      e.preventDefault();
       setIsAdding(true);
-      const t = new Template();
-      t.name = name;
-      t.channel = Channel.fromID(channel);
+      const newTemplate = new Template({
+        ...content,
+        channel,
+        name,
+        mediaType
+      });
       
-      await mTemplate.create(t);
+      await mTemplate.create(newTemplate);
       dispatch({ type: "CLEAR_INPUT" });
       if(onAdded) onAdded();
     }catch(err){
@@ -103,7 +115,7 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
           <TextInput label="Name" value={name} setValue={handleNameChange}/>
           <ChannelDropdown 
             label="Channel" 
-            value={channel} 
+            value={channel?.id} 
             setValue={handleChannelChange} 
             refreshToken={refreshToken}
           />
@@ -115,12 +127,16 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
           {
             (mediaType === "text")? <TextTemplateInput onChange={handleContentChange} />: 
             (mediaType === "viber_template")? <ViberTemplateInput onChange={handleContentChange} />:
-            (mediaType === "whatsapp_text")? <WhatsAppTextTemplateInput onChange={() => {}} />: null
+            (mediaType === "whatsapp_text")? <WhatsAppTextTemplateInput onChange={handleContentChange} />: null
           }
         </ModalContent>
         <ModalFooter>
           <Button type="tertiary" onClick={handleCancel} disabled={isAdding}>Cancel</Button>
-          <LoadingButton loading={isAdding} onClick={handleAddNew} buttonType="submit">
+          <LoadingButton 
+            loading={isAdding} 
+            onClick={handleAddNew} 
+            buttonType="submit"
+          >
             Add New
           </LoadingButton>
         </ModalFooter>

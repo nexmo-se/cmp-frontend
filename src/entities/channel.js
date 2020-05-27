@@ -1,24 +1,29 @@
+// @flow
 import Application from "entities/application";
 import APIKey from "entities/apiKey";
 
 class Channel{
-  // name:string|void
-  // channel:string|void
-  // senderId:string|void
-  // tps:number|void
-  // smsUseSignature:boolean|void
-  // application:Application|void
-  // apiKey:APIKey|void
+  id:string|void;
+  name:string;
+  channel:string;
+  senderId:string;
+  tps:number;
+  smsUseSignature:boolean;
+  application:Application|void;
+  apiKey:APIKey|void;
+  
 
-  constructor(name, channel, senderId, apiKey, id=null, tps=100, application=null, smsUseSignature=false){
-    this.id = id;
-    this.name = name;
-    this.channel = channel;
-    this.senderId = senderId;
-    this.apiKey = apiKey;
-    this.tps = tps;
-    this.smsUseSignature = smsUseSignature;
-    this.application = application;
+  constructor(args:any){
+    this.id = undefined;
+    this.name = "";
+    this.channel = "";
+    this.senderId = "";
+    this.tps = 15;
+    this.smsUseSignature = false;
+    this.application = undefined;
+    this.apiKey = undefined;
+
+    if(args) Object.assign(this, args);
   }
 
   toJSON(){
@@ -27,22 +32,16 @@ class Channel{
       name: this.name,
       channel: this.channel,
       senderId: this.senderId,
-      tps: this.tps,
+      tps: parseInt(this.tps),
       smsUseSignature: this.smsUseSignature,
-      cmpApiKeyId: this.apiKey?.id || undefined,
-      cmpApplicationId: this.application?.id || undefined
+      cmpApiKeyId: this.apiKey?.id,
+      cmpApplicationId: this.application?.id
     }
     return JSON.parse(JSON.stringify(jsonData));
   }
 
-  static fromID(id){
-    const ch = new Channel();
-    ch.id = id;
-    return ch;
-  }
-
-  static fromJSON(value){
-    const ch = new Channel();
+  static fromJSON(value:any):Channel{
+    const ch = new Channel({ ...value});
     ch.id = value.id;
     ch.name = value.name;
     ch.channel = value.channel;
@@ -50,13 +49,8 @@ class Channel{
     ch.tps = parseInt(value.tps);
     ch.smsUseSignature = value.smsUseSignature;
 
-    if(value.cmpApplication){
-      ch.application = Application.fromJSON(value.cmpApplication)
-    }
-
-    if(value.cmpApiKey){
-      ch.apiKey = APIKey.fromJSON(value.cmpApiKey);
-    }
+    if(value.cmpApplication) ch.application = Application.fromJSON(value.cmpApplication)
+    if(value.cmpApiKey) ch.apiKey = APIKey.fromJSON(value.cmpApiKey);
 
     return ch;
   }

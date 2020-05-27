@@ -12,25 +12,25 @@ function useTemplate(token){
   async function list(){
     const url = `${process.env.REACT_APP_BASE_API_URL}/templates`;
     const responseData = await FetchAPI.get(url, token);
-    const newData = responseData.map((data) => Template.fromJSON(data));
+    const newData = responseData.map((data) => Template.fromResponse(data));
     setData(newData);
   }
 
   async function create(template){
     const url = `${process.env.REACT_APP_BASE_API_URL}/templates`;
-    await FetchAPI.post(url, token, JSON.stringify(template.toJSON()));
+    await FetchAPI.post(url, token, JSON.stringify(template.toRequest()));
   }
 
   async function retrieve(template){
     const url = `${process.env.REACT_APP_BASE_API_URL}/templates/${template.id}`;
     const responseData = await FetchAPI.get(url, token);
-    if(responseData) return Template.fromJSON(responseData);
+    if(responseData) return Template.fromResponse(responseData);
     else return null;
   }
 
   async function update(template){
     const url = `${process.env.REACT_APP_BASE_API_URL}/templates/${template.id}`;
-    await FetchAPI.put(url, token, JSON.stringify(template.toUpdateJSON()));
+    await FetchAPI.put(url, token, JSON.stringify(template.toUpdateRequest()));
   }
 
   async function remove(template){
@@ -38,6 +38,13 @@ function useTemplate(token){
     await FetchAPI.remove(url, token);
   }
 
-  return { data, list, create, retrieve, remove, update } 
+  return { 
+    data, 
+    list, 
+    create, 
+    retrieve, 
+    remove, 
+    update 
+  } 
 }
 export default useTemplate;

@@ -1,5 +1,17 @@
+// @flow
 import React from "react";
 import clsx from "clsx";
+
+type Props = {
+  label:string,
+  hint?:string,
+  value:string,
+  setValue:Function,
+  children:any,
+  className?:any,
+  containerStyle?:any,
+  selectStyle?:any,
+}
 
 function Dropdown({ 
   label, 
@@ -10,8 +22,8 @@ function Dropdown({
   className,
   containerStyle={ width: "100%" }, 
   selectStyle={ width: "100%" },
-  disabled=false 
-}){
+  ...props
+}:Props){
   function handleChange(e){
     setValue(e.target.value);
   } 
@@ -26,10 +38,10 @@ function Dropdown({
       </label>
       <div style={containerStyle} className="Vlt-native-dropdown Vlt-native-dropdown--app">
         <select 
+          {...props}
           style={selectStyle} 
           value={value} 
           onChange={handleChange} 
-          disabled={disabled}
         >
           {children}
         </select>
