@@ -1,6 +1,9 @@
+// @flow
 import React from "react";
 
 import Template from "entities/template";
+import Campaign from "entities/campaign";
+
 import CSVAPI from "api/csv";
 import useTemplate from "hooks/template"
 import { UserContext } from "contexts/user";
@@ -13,83 +16,104 @@ import ModalFooter from "components/Modal/ModalFooter";
 import CampaignDropdown from "components/CampaignDropdown";
 import TemplateDropdown from "components/TemplateDropdown";
 import Button from "components/Button";
+import LoadingButton from "components/LoadingButton";
+
+type Props = {
+  visible:boolean,
+  setVisible:Function,
+  campaign:Campaign,
+  refreshToken:string,
+  disableCampaign?:boolean,
+  disableTemplate?:boolean
+}
 
 function GenerateCSVModal({ 
   visible, 
   setVisible, 
-  initCampaign,
+  campaign:initialCampaign, 
   refreshToken,
-  style={} 
-}){
-  const [ templateId, setTemplateId ] = React.useState(null);
-  const [ isAdding, setIsAdding ] = React.useState(false);
+  disableCampaign,
+  disableTemplate
+}:Props){
+  const [ selectedTemplate, setSelectedTemplate ] = React.useState<Template|void>()
+  const [ selectedCampaign, setSelectedCampaign ] = React.useState<Campaign>(initialCampaign)
+  const [ isGenerating, setIsGenerating ] = React.useState<boolean>(false);
+  const [ isClean, setIsClean ] = React.useState<boolean>(true);
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mTemplate = useTemplate(token);
-
-  async function handleGenerateDownload(e){
-    try{
-      e.preventDefault();
-      setIsAdding(true);
-      const template = Template.fromID(templateId);
-      const foundTemplate = await mTemplate.retrieve(template);
-      const parameters = foundTemplate.body.match(/{{\d+}}/g);
-      const csvContent = CSVAPI.generateBlaster(parameters);
-      const link = document.createElement("a");
-      link.setAttribute("href", encodeURI(csvContent));
-      link.setAttribute("download", `${initCampaign}#${templateId}.csv`);
-      link.click();
-    }catch(err){
-      throwError(err);
-    }finally{
-      setIsAdding(false);
-      setVisible(false);
-    }
-  }
 
   function handleCancel(){
     setVisible(false);
   }
 
+  async function handleGenerateDownload(e){
+    try{
+      e.preventDefault();
+      if(!isClean) throw new Error("You need to complete the form");
+      setIsGenerating(true);
+      const foundTemplate = await mTemplate.retrieve(selectedTemplate);
+      const csvContent = CSVAPI.generateBlaster(foundTemplate);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodeURI(csvContent));
+      
+      if(!selectedTemplate?.id) throw new Error("You need to complete the form ");
+      link.setAttribute("download", `${selectedCampaign.id}#${selectedTemplate.id}.csv`)
+      link.click();
+    }catch(err){
+      throwError(err);
+    }finally{
+      setIsGenerating(false);
+      setVisible(false);
+    }
+  }
+
+  React.useEffect(() => {
+    setSelectedCampaign(initialCampaign);
+  }, [ initialCampaign ])
+
+  React.useEffect(() => {
+    if(selectedCampaign && selectedTemplate) setIsClean(true);
+    else setIsClean(false);
+  }, [ selectedCampaign, selectedTemplate ])
+
   return (
-    <Modal visible={visible} style={style} size="small">
+    <Modal visible={visible} size="small">
       <form>
         <ModalHeader setVisible={setVisible}>
           <h4>Generate CSV</h4>
         </ModalHeader>
         <ModalContent>
           <CampaignDropdown 
-            value={initCampaign} 
+            value={selectedCampaign} 
+            onChange={setSelectedCampaign}
             label="Selected Campaign"
             refreshToken={refreshToken}
-            disabled
+            disabled={disableCampaign}
           />
           <TemplateDropdown 
-            value={templateId} 
-            setValue={setTemplateId} 
+            value={selectedTemplate} 
+            onChange={setSelectedTemplate} 
             label="Select Template"
             refreshToken={refreshToken}
+            disabled={disableTemplate}
           />
         </ModalContent>
         <ModalFooter>
           <Button 
             type="tertiary" 
             onClick={handleCancel}
-            disabled={isAdding}
+            disabled={isGenerating || !isClean}
           >
             Cancel
           </Button>
-          <Button 
-            buttonType="submit"
-            type="secondary" 
+          <LoadingButton
             onClick={handleGenerateDownload}
-            disabled={isAdding}
+            disabled={!isClean}
+            loading={isGenerating}
           >
-            {isAdding?(
-              <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white" />
-            ): null}
-            Generate & Download
-          </Button>
+            Generate &amp; Download
+          </LoadingButton>
         </ModalFooter>
       </form>
     </Modal>

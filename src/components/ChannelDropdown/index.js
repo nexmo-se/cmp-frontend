@@ -1,5 +1,6 @@
 // @flow
 import React from "react";
+import Channel from "entities/channel";
 
 import useChannel from "hooks/channel";
 import { UserContext } from "contexts/user";
@@ -11,13 +12,20 @@ type Props = {
   refreshToken:string,
   label:string,
   value:string,
-  setValue:Function
+  onChange:Function
 }
 
-function ChannelDropdown({ refreshToken, label, value, setValue, ...props }:Props){
+function ChannelDropdown({ refreshToken, label, value, onChange, ...props }:Props){
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mChannel = useChannel(token);
+
+  function handleChange(channelId){
+    if(onChange){
+      const channel = new Channel({ id: channelId });
+      onChange(channel);
+    }
+  }
 
   React.useEffect(() => {
     mChannel.list().catch((err) => throwError(err))
@@ -28,7 +36,7 @@ function ChannelDropdown({ refreshToken, label, value, setValue, ...props }:Prop
       {...props}
       label={label} 
       value={value} 
-      setValue={setValue} 
+      setValue={handleChange}
     >
       <option>--- Please Select ---</option>
       {mChannel.data.map((channel) => {

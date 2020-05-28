@@ -11,15 +11,20 @@ class Template{
   mediaType:string;
 
   constructor(args:any){
-    this.id = undefined;
-    this.name = "";
-    this.channel = new Channel();
-    this.body = "";
-    this.whatsappTemplateName = undefined;
-    this.whatsappTemplateNamespace = undefined;
-    this.mediaType = "";
-
     if(args) Object.assign(this, args);
+  }
+
+  get additionalColumns():Array<string>{
+    switch(this.mediaType){
+      case "audio": return [ "url" ];
+      case "file": return [ "url", "caption", "fileName" ];
+      case "image": return [ "url", "caption" ];
+      case "location": return [ "latitude", "longitude", "name", "address" ];
+      case "text": return [ "text" ];
+      case "viber_template": return [ "url", "caption", "actionUrl" ];
+      case "video": return [ "url", "caption" ];
+      default: return []
+    }
   }
 
   toRequest(){

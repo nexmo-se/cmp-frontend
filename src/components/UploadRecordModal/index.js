@@ -1,7 +1,10 @@
+// @flow
 import React from "react";
 import moment from "moment";
 
 import SuccessMessage from "entities/success";
+import Campaign from "entities/campaign";
+import Template from "entities/template";
 import useRecord from "hooks/record";
 
 import { ErrorContext } from "contexts/error";
@@ -13,10 +16,24 @@ import ModalContent from "components/Modal/ModalContent";
 import ModalFooter from "components/Modal/ModalFooter";
 import Button from "components/Button";
 import FileInput from "components/FileInput";
+import LoadingButton from "components/LoadingButton";
+import CampaignDropdown from "components/CampaignDropdown";
+import TemplateDropdown from "components/TemplateDropdown";
 
-function UploadRecordModal({ visible, setVisible, onUploaded }){
+type Props = {
+  campaign?:Campaign,
+  template?:Template,
+  visible:boolean,
+  setVisible:Function,
+  onUploaded?:Function
+}
+
+function UploadRecordModal({ visible, setVisible, onUploaded, campaign:initialCampaign, template:initialTemplate }:Props){
   const [ file, setFile ] = React.useState(null);
   const [ isUploading, setIsUploading ] = React.useState(false);
+  const [ selectedCampaign, setSelectedCampaign ] = React.useState<Campaign|void>(initialCampaign);
+  const [ selectedTemplate, setSelectedTemplate ] = React.useState<Template|void>(initialTemplate);
+  const [ isClean, setIsClean ] = React.useState<boolean>(false);
   const { throwError, throwSuccess } = React.useContext(ErrorContext);
   const { token } = React.useContext(UserContext);
   const mRecord = useRecord(token);
@@ -25,12 +42,23 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
     setVisible(false);
   }
 
+  function handleCampaignChange(campaignId){
+    const newCampaign = new Campaign({ id: campaignId });
+    setSelectedCampaign(newCampaign);
+  }
+
+  function handleTemplateChange(templateId){
+    const newTemplate = new Template({ id: templateId });
+    setSelectedTemplate(newTemplate);
+  }
+
   async function handleUpload(){
     try{
       setIsUploading(true);
-      const { campaign, template } = await mRecord.uploadCSV(file);
-      throwSuccess(new SuccessMessage("File Uploaded!"));
-      if(onUploaded) onUploaded(campaign, template);
+      // await mRecord.uploadCSV(selectedCampaign, selectedTemplate, file);
+      // const { campaign, template } = await mRecord.uploadCSV(file);
+      // throwSuccess(new SuccessMessage("File Uploaded!"));
+      // if(onUploaded) onUploaded(campaign, template);
     }catch(err){
       throwError(err);
     }finally{
@@ -39,6 +67,12 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
       setFile(null);
     }
   }
+
+  React.useEffect(() => {
+    if(selectedCampaign, selectedTemplate, file){
+      setIsClean(true);
+    }else setIsClean(false);
+  }, [ selectedCampaign, selectedTemplate, file ])
   
   return (
     <Modal visible={visible} size="small">
@@ -46,6 +80,16 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
         <h4>Upload Records</h4>
       </ModalHeader>
       <ModalContent>
+        <CampaignDropdown 
+          label="Campaign"
+          value={selectedCampaign}
+          onChange={setSelectedCampaign}
+        />
+        <TemplateDropdown 
+          label="Template"
+          value={selectedTemplate}
+          onChange={setSelectedTemplate}
+        />
         <FileInput label="CSV Template" setFile={setFile}/>
         {file?(
           <React.Fragment>
@@ -62,16 +106,13 @@ function UploadRecordModal({ visible, setVisible, onUploaded }){
         >
           Cancel
         </Button>
-        <Button 
-          type="secondary" 
+        <LoadingButton 
           onClick={handleUpload}
-          disabled={isUploading}
+          disabled={!isClean}
+          loading={isUploading}
         >
-          {isUploading?(
-            <span className="Vlt-spinner Vlt-spinner--smaller Vlt-spinner--white"/>
-          ): null}
           Upload
-        </Button>
+        </LoadingButton>
       </ModalFooter>
     </Modal>
   )

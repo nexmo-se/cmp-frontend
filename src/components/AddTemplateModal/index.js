@@ -17,6 +17,7 @@ import ModalHeader from "components/Modal/ModalHeader";
 import ModalContent from "components/Modal/ModalContent";
 import ModalFooter from "components/Modal/ModalFooter";
 
+import FullPageSpinner from "components/FullPageSpinner";
 import Button from "components/Button";
 import LoadingButton from "components/LoadingButton";
 import TextInput from "components/TextInput";
@@ -68,14 +69,13 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
     dispatch({ type: "CHANGE_CONTENT", value });
   }
 
-  async function handleChannelChange(channelId){ 
+  async function handleChannelChange(channel){ 
     try{
-      dispatch({ type: "CHANGE_CHANNEL", value: new Channel({ id: channelId }) });
+      dispatch({ type: "CHANGE_CHANNEL", value: channel });
       dispatch({ type: "LOADING_CHANNEL" });
       setCurrentChannel(null);
-      const searchChannel = new Channel({ id: channelId });
-      const channel = await mChannel.retrieve(searchChannel);    
-      setCurrentChannel(channel.channel);
+      const foundChannel = await mChannel.retrieve(channel);    
+      setCurrentChannel(foundChannel);
     }catch(err){
       mError.throwError(err);
     }finally{
@@ -93,8 +93,8 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
         name,
         mediaType
       });
-      
-      await mTemplate.create(newTemplate);
+      console.log(newTemplate);
+      // await mTemplate.create(newTemplate);
       dispatch({ type: "CLEAR_INPUT" });
       if(onAdded) onAdded();
     }catch(err){
@@ -116,19 +116,19 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
           <ChannelDropdown 
             label="Channel" 
             value={channel?.id} 
-            setValue={handleChannelChange} 
+            onChange={handleChannelChange} 
             refreshToken={refreshToken}
           />
-          <TemplateType 
-            channel={currentChannel} 
-            loading={loadingChannel}
-            onChange={handleMediaTypeChange} 
-          />
-          {
-            (mediaType === "text")? <TextTemplateInput onChange={handleContentChange} />: 
-            (mediaType === "viber_template")? <ViberTemplateInput onChange={handleContentChange} />:
-            (mediaType === "whatsapp_text")? <WhatsAppTextTemplateInput onChange={handleContentChange} />: null
-          }
+          {currentChannel?(
+            <React.Fragment>
+              <TemplateType channel={currentChannel} onChange={handleMediaTypeChange} />
+              {
+                (mediaType === "text"|| mediaType === "none")? <TextTemplateInput onChange={handleContentChange} />: 
+                (mediaType === "viber_template")? <ViberTemplateInput onChange={handleContentChange} />:
+                (mediaType === "whatsapp_text")? <WhatsAppTextTemplateInput onChange={handleContentChange} />: null
+              }
+            </React.Fragment>
+          ): state.loadingChannel? <FullPageSpinner />: null}
         </ModalContent>
         <ModalFooter>
           <Button type="tertiary" onClick={handleCancel} disabled={isAdding}>Cancel</Button>

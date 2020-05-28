@@ -5,8 +5,8 @@ import clsx from "clsx";
 type Props = {
   label:string,
   hint?:string,
-  value:string,
-  setValue:Function,
+  value?:string,
+  setValue?:Function,
   children:any,
   className?:any,
   containerStyle?:any,
@@ -25,7 +25,7 @@ function Dropdown({
   ...props
 }:Props){
   function handleChange(e){
-    setValue(e.target.value);
+    if(setValue) setValue(e.target.value);
   } 
 
   return (

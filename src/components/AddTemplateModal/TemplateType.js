@@ -1,20 +1,26 @@
+// @flow
 import React from "react";
 import clsx from "clsx";
 import { titleCase } from "title-case";
 
-import FullPageSpinner from "components/FullPageSpinner";
 import Button from "components/Button";
 import ButtonGroup from "components/Button/ButtonGroup";
+import Channel from "entities/channel";
 
 const channelMapping = {
-  whatsapp: [ "audio", "file", "image", "location", { id: "whatsapp_text", text: "Text" }, "video" ],
-  viber: [ "image", "text", { id: "viber_template", text: "Viber Template" } ],
-  sms: [ "text" ]
+  whatsapp: [ "audio", "file", "image", "location", {id: "whatsapp_text", text: "Text"}, "video" ],
+  viber: [ "image", "text", {id: "viber_template", text: "Viber Template"} ],
+  sms: [ {id: "none", text: "Text"} ]
 }
 
 const notSupportedType = [ "audio", "file", "image", "location", "video" ]
 
-function TemplateType({ loading, channel, onChange }){
+type Props = {
+  channel:Channel,
+  onChange:Function
+}
+
+function TemplateType({ channel, onChange }:Props){
   const [ selectedType, setSelectedType ] = React.useState();
 
   React.useEffect(() => {
@@ -22,28 +28,27 @@ function TemplateType({ loading, channel, onChange }){
   }, [ selectedType ]);
 
   React.useEffect(() => {
+    // set default selectedType when channel changes
     if(!channel) setSelectedType(null)
-    else if(channelMapping[channel]?.length === 1){
-      const [ type ] = channelMapping[channel];
-      setSelectedType(type);
-    }else if(channelMapping[channel]?.length > 1 && channel !== "whatsapp"){
-      setSelectedType("text");
-    }else if(channelMapping[channel]?.length > 1 && channel === "whatsapp"){
-      setSelectedType("whatsapp_text")
+    else{
+      switch(channel.channel){
+        case "sms": return setSelectedType("none");
+        case "whatsapp": return setSelectedType("whatsapp_text");
+        case "viber": return setSelectedType("text")
+        default: return setSelectedType(null);
+      }
     }
   }, [ channel ])
 
-  if(loading) return <FullPageSpinner />
-  else if(!channel) return null;
   return (
     <div className="Vlt-form__element">
       <div className="Vlt-label">
         Template Type
       </div>
       <ButtonGroup>
-        {channelMapping[channel]?.map((type) => {
+        {channelMapping[channel.channel].map((type) => {
           const typeData = (typeof(type) === "string")? { id: type, text: type }:
-                           (typeof(type) === "object")? type: "";
+                           (typeof(type) === "object")? type: { id: "", text: "" }
 
           return (
             <Button 

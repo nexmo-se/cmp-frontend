@@ -47,28 +47,5 @@ class Record{
     record.template = Template.fromJSON(value.cmpTemplate);
     record.cmpRecordMessages = value.cmpRecordMessages;
   }
-
-  static async fromCSV(file){
-    const { data } = await CSVAPI.parse(file);
-    const [ campaignId, endingFileName ] = file.name.split("#");
-    const [ templateId ] = endingFileName.split(".");
-    const campaign = Campaign.fromID(campaignId);
-    const template = Template.fromID(templateId);
-    const newData = data.map((row, index) => {
-      if(index <= 3) return undefined
-      const [ recipient, startTime, duration, activeOnWeekends, timezone ] = row;
-      const record = new Record();
-      record.campaign = campaign;
-      record.template = template;
-      record.recipient = recipient;
-      record.startTime = startTime;
-      record.duration = duration;
-      record.timezone = timezone;
-      record.activeOnWeekends = activeOnWeekends;
-      record.parameters = row.slice(5);
-      return record;
-    }).filter((record) => record);
-    return newData
-  }
 }
 export default Record;

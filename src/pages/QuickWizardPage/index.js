@@ -1,18 +1,20 @@
+// @flow
 import React from "react";
-import uuid from "uuid/v4";
 import clsx from "clsx";
+import { v4 as uuid } from "uuid";
 import { makeStyles } from "@material-ui/styles";
 
-import CampaignDropdown from "components/CampaignDropdown";
+import Campaign from "entities/campaign"
 
-import DownloadButton from "pages/QuickWizardPage/DownloadButton";
-import UploadButton from "pages/QuickWizardPage/UploadButton";
-import CreateAPIKeyStep from "pages/QuickWizardPage/CreateAPIKeyStep";
-import CreateApplicationStep from "pages/QuickWizardPage/CreateApplicationStep";
-import CreateChannelStep from "pages/QuickWizardPage/CreateChannelStep";
-import CreateTemplateStep from "pages/QuickWizardPage/CreateTemplateStep";
-import CreateCampaignStep from "pages/QuickWizardPage/CreateCampaignStep";
-import ChannelSelectionStep from "pages/QuickWizardPage/ChannelSelectionStep";
+import CampaignDropdown from "components/CampaignDropdown";
+import DownloadButton from "./DownloadButton";
+import UploadButton from "./UploadButton";
+import CreateAPIKeyStep from "./CreateAPIKeyStep";
+import CreateApplicationStep from "./CreateApplicationStep";
+import CreateChannelStep from "./CreateChannelStep";
+import CreateTemplateStep from "./CreateTemplateStep";
+import CreateCampaignStep from "./CreateCampaignStep";
+import ChannelSelectionStep from "./ChannelSelectionStep";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -23,16 +25,17 @@ const useStyles = makeStyles(() => ({
 }))
 
 function QuickWizardPage(){
-  const [ campaign, setCampaign ] = React.useState(null);
-  const [ campaignRefreshToken, setCampaignRefreshToken ] = React.useState(null);
-  const [ channelRefreshToken, setChannelRefreshToken ] = React.useState(null);
-  const [ templateRefreshToken, setTemplateRefreshToken ] = React.useState(null);
-  const [ applicationRefreshToken, setApplicationRefreshToken ] = React.useState(null);
+  const [ campaignRefreshToken, setCampaignRefreshToken ] = React.useState<string>(uuid());
+  const [ channelRefreshToken, setChannelRefreshToken ] = React.useState<string>(uuid());
+  const [ templateRefreshToken, setTemplateRefreshToken ] = React.useState<string>(uuid());
+  const [ applicationRefreshToken, setApplicationRefreshToken ] = React.useState<string>(uuid());
   const [ selectedChannel, setSelectedChannel ] = React.useState("sms");
+  const [ selectedCampaign, setSelectedCampaign ] = React.useState<Campaign|void>();
   const mStyles = useStyles();
 
-  function handleCampaignCreated(){
+  function handleCampaignCreated(createdCampaign){
     setCampaignRefreshToken(uuid());
+    setSelectedCampaign(createdCampaign);
   }
 
   function handleAPIKeyCreated(){
@@ -51,7 +54,7 @@ function QuickWizardPage(){
   function handleApplicationCreated(){
     setChannelRefreshToken(uuid());
   }
-
+  
   return (
     <div className={clsx("Vlt-grid", mStyles.container)}>
       <div className={clsx("Vlt-card", mStyles.mediumWidth)}>
@@ -106,16 +109,20 @@ function QuickWizardPage(){
           </div>
           <CampaignDropdown 
             label="Select your campaign"
-            value={campaign}
-            setValue={setCampaign}
+            value={selectedCampaign}
+            onChange={setSelectedCampaign}
             refreshToken={campaignRefreshToken}
           />
           <div className="Vlt-grid Vlr-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
-              <DownloadButton campaign={campaign} refreshToken={campaignRefreshToken} />
+              <DownloadButton 
+                campaign={selectedCampaign} 
+                refreshToken={campaignRefreshToken} 
+                disabled={!selectedCampaign}
+              />
             </div>
             <div className="Vlt-col Vlt-col--A">
-              <UploadButton />
+              <UploadButton disabled={!selectedCampaign}/>
             </div>
           </div>
         </div>
