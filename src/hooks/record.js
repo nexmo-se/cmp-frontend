@@ -1,37 +1,58 @@
 // @flow
-import React from "react";
-
-import FetchAPI from "api/fetch";
+import fetch from "node-fetch";
+import config from "config";
 
 import Campaign from "entities/campaign";
 import Template from "entities/template";
 import Record from "entities/record";
 
 function useRecord(token:string){
-  async function uploadCSV(campaign:Campaign, template:Template, file:File){
-    // uploading metadata to server
-    if(!template.mediaType) throw new Error();
+  async function createMetadata(campaign:Campaign, template:Template){
+    if(!template.body) throw new Error("Your developer need to fix something. `template.body undefined`");
 
-    // const payload = {
-    //   mediaType: template.mediaType,
-    //   column: [
-    //     "recipient",
-    //     ...template.additionalColumns,
-    //     ...template.parameterColumns
-    //   ]
-    // }
-
-    // const [ filename ] = file.name.match(/([a-z|0-9|-])+#([a-z|0-9|-])+/g);
-    // const [ campaignId, templateId ] = filename.split("#");
-    // const campaign = Campaign.fromID(campaignId);
-    // const template = Template.fromID(templateId);
-    // const url = `${process.env.REACT_APP_BASE_API_URL}/records/csv/${campaign.id}/${template.id}`;
-    // const formData = new FormData();
-    // formData.append("file", file);
-    // await FetchAPI.postFile(url, token, formData);
-    // return { campaign, template }
+    const payload = {
+      mediaType: template.mediaType,
+      column: [
+        "recipient",
+        ...template.additionalColumns,
+        ...template.parameterColumns
+      ]
+    }
+    
+    if(!campaign.id) throw new Error();
+    if(!template.id) throw new Error();
+    const url = `${config.apiDomain}/records/csv/${campaign.id}/${template.id}/metadata`
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    });
+    if(response.ok) return true;
+    else throw new Error(response.statusText);
   }
 
-  return { uploadCSV }
+  async function uploadCSV(campaign:Campaign, template:Template, file:File){
+    if(!template.id) throw new Error("Your developer need to fix something. `template.id undefined`");
+    const url = `${config.apiDomain}/records/csv/${campaign.id}/${template.id}`;
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    });
+    if(response.ok) return true;
+    else throw new Error(response.statusText);
+  }
+
+  return { createMetadata, uploadCSV }
 }
 export default useRecord;

@@ -4,17 +4,15 @@ import Template from "entities/template";
 
 class CSVAPI{
   static generateBlaster(template:Template, mockRows:number=0){
-    const parameters = template.body.match(/{{\d+}}/g) ?? [];
-    const parameterSamples = parameters.map((parameter) => {
+    const parameterSamples = template.parameters.map((parameter) => {
       const number = parseInt(parameter.match(/\d+/g));
       if(number) return `parameter ${number}`;
     })
 
-    const parameterFields = parameters.map((parameter) => "parameter")
-
     const content = [
-      [ "recipient", ...template.additionalColumns, ...parameterFields ],
+      [ "recipient", ...template.additionalColumns, ...template.parameterColumns ],
       [ "6588888888", ...template.additionalColumns, ...parameterSamples ],
+      [ "Please add below this row. Above row(s) are sample for your reference. Do not remove this row."]
     ]
   
     for(let a=0; a < mockRows; a++){

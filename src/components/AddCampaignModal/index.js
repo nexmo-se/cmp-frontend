@@ -1,9 +1,10 @@
+// @flow
 import React from "react";
 import moment from "moment-timezone";
 
 import Campaign from "entities/campaign";
 import useCampaign from "hooks/campaign";
-import reducer, { initialState } from "components/AddCampaignModal/reducer";
+import reducer, { initialState } from "./reducer";
 import { ErrorContext } from "contexts/error";
 import { UserContext } from "contexts/user";
 

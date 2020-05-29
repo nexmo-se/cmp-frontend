@@ -27,6 +27,14 @@ class Template{
     }
   }
 
+  get parameters():Array<string>{
+    return this.body.match(/{{\d+}}/g) ?? [];
+  }
+
+  get parameterColumns():Array<string>{
+    return this.parameters.map((parameter) => "parameter");
+  }
+
   toRequest(){
     const jsonData = {
       id: this.id,

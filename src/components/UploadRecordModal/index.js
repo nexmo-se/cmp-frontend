@@ -5,7 +5,9 @@ import moment from "moment";
 import SuccessMessage from "entities/success";
 import Campaign from "entities/campaign";
 import Template from "entities/template";
+
 import useRecord from "hooks/record";
+import useTemplate from "hooks/template";
 
 import { ErrorContext } from "contexts/error";
 import { UserContext } from "contexts/user";
@@ -37,28 +39,24 @@ function UploadRecordModal({ visible, setVisible, onUploaded, campaign:initialCa
   const { throwError, throwSuccess } = React.useContext(ErrorContext);
   const { token } = React.useContext(UserContext);
   const mRecord = useRecord(token);
+  const mTemplate = useTemplate(token);
   
   function handleCancel(){
     setVisible(false);
   }
 
-  function handleCampaignChange(campaignId){
-    const newCampaign = new Campaign({ id: campaignId });
-    setSelectedCampaign(newCampaign);
-  }
-
-  function handleTemplateChange(templateId){
-    const newTemplate = new Template({ id: templateId });
-    setSelectedTemplate(newTemplate);
-  }
-
   async function handleUpload(){
     try{
       setIsUploading(true);
-      // await mRecord.uploadCSV(selectedCampaign, selectedTemplate, file);
-      // const { campaign, template } = await mRecord.uploadCSV(file);
-      // throwSuccess(new SuccessMessage("File Uploaded!"));
-      // if(onUploaded) onUploaded(campaign, template);
+      if(!selectedCampaign) throw new Error("Please complete the form");
+      if(!selectedTemplate) throw new Error("Please complete the form");
+      if(!file) throw new Error("Please complete the form");
+
+      const foundTemplate = await mTemplate.retrieve(selectedTemplate);
+      await mRecord.createMetadata(selectedCampaign, foundTemplate);
+      await mRecord.uploadCSV(selectedCampaign, selectedTemplate, file);
+      throwSuccess(new SuccessMessage("File uploaded!"));
+      if(onUploaded) onUploaded(selectedCampaign, selectedTemplate);
     }catch(err){
       throwError(err);
     }finally{
