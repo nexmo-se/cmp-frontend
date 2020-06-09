@@ -1,40 +1,44 @@
+// @flow
 import React from "react";
-
+import config from "config";
 import FetchAPI from "api/fetch";
 import APIKey from "entities/apiKey";
 
-function useAPIKey(token){
-  const [ data, setData ] = React.useState([]);
+function useAPIKey(token:string){
+  const [ data, setData ] = React.useState<Array<APIKey>>([]);
 
   async function list(){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys`;
+    const url = `${config.apiDomain}/apikeys`;
     const responseData = await FetchAPI.get(url, token);
     const newData = responseData.map((data) => {
-      const key = APIKey.fromJSON(data);
+      const key = APIKey.fromResponse(data);
       return key;
     })
     setData(newData);
   }
 
-  async function retrieve(apiKey){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys/${apiKey.id}`;
+  async function retrieve(apiKey:APIKey):Promise<APIKey>{
+    if(!apiKey.id) throw new Error();
+    const url = `${config.apiDomain}/apikeys/${apiKey.id}`;
     const responseData = await FetchAPI.get(url, token);
-    if(responseData) return APIKey.fromJSON(responseData);
-    else return null;
+    if(responseData) return APIKey.fromResponse(responseData);
+    else throw new Error("API Key not found");
   }
 
-  async function create(apiKey){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys`;
-    await FetchAPI.post(url, token, JSON.stringify(apiKey.toJSON()));
+  async function create(apiKey:APIKey){
+    const url = `${config.apiDomain}/apikeys`;
+    await FetchAPI.post(url, token, JSON.stringify(apiKey.toRequest()));
   }
 
-  async function update(apiKey){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys/${apiKey.id}`;
-    await FetchAPI.put(url, token, JSON.stringify(apiKey.toJSON()));
+  async function update(apiKey:APIKey){
+    if(!apiKey.id) throw new Error();
+    const url = `${config.apiDomain}/apikeys/${apiKey.id}`;
+    await FetchAPI.put(url, token, JSON.stringify(apiKey.toRequest()));
   }
   
-  async function remove(apiKey){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/apikeys/${apiKey.id}`;
+  async function remove(apiKey:APIKey){
+    if(!apiKey.id) throw new Error();
+    const url = `${config.apiDomain}/apikeys/${apiKey.id}`;
     await FetchAPI.remove(url, token);
   }
 

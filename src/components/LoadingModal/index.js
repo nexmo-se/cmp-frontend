@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
@@ -14,12 +15,17 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function LoadingModal({ visible, label }){
-  const classes = useStyles();
+type Props = {
+  visible:boolean,
+  label:string
+}
+
+function LoadingModal({ visible, label }:Props){
+  const mStyles = useStyles();
 
   return (
     <Modal size="small" visible={visible}>
-      <ModalContent className={[ classes.content ]}>
+      <ModalContent className={mStyles.content}>
         <Spinner white={false} />
         <h4>{label}</h4>
       </ModalContent>

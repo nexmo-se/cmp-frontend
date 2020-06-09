@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 
 import Channel from "entities/channel";
@@ -22,33 +23,40 @@ import NumberInput from "components/NumberInput";
 import APIKeyDropdown from "components/APIKeyDropdown";
 import ApplicationDropdown from "components/ApplicationDropdown";
 
+type Props = {
+  disableSMS?:boolean,
+  disableAPIKey?:boolean,
+  visible:boolean,
+  setVisible:Function,
+  refreshToken?:string,
+  apiKey:APIKey,
+  onAdded?:Function
+}
+
 function AddChannelModal({ 
-  disableSMS=false, 
   visible, 
   setVisible, 
-  onAdded,
-  refreshToken,
-  apiKey:initAPIKey=""
-}){
+  onAdded, 
+  refreshToken, 
+  apiKey, 
+  disableSMS,
+  disableAPIKey
+}:Props){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const [ isAdding, setIsAdding ] = React.useState(false);
   const { throwError } = React.useContext(ErrorContext);
   const { token } = React.useContext(UserContext);
   const mChannel = useChannel(token);
 
-  function handleCancel(e){
-    e.preventDefault();
+  function handleCancel(){
     setVisible(false);
-  }
-
-  function handleChannelChange(value){
-    handleValueChange("channel", value);
-    if(value === "whatsapp") handleValueChange("smsUseSignature", false);
   }
 
   function handleValueChange(valueName, value){
     dispatch({ type: "CHANGE_VALUE", valueName, value });
   }
+
+  function handleChannelChange(value){ handleValueChange("channel", value) }
 
   function handleNameChange(value){ handleValueChange("name", value) }
 
@@ -64,12 +72,7 @@ function AddChannelModal({
     e.preventDefault();
     setIsAdding(true);
     try{
-      const ch = Channel.fromJSON(state);
-      ch.apiKey = new APIKey(state.apiKey);
-      if(state.channel !== "sms"){
-        ch.application = new Application();
-        ch.application.id = state.application;
-      }
+      const ch = new Channel(state);
       await mChannel.create(ch);
       dispatch({ type: "CLEAR_INPUT" })
       if(onAdded) onAdded()
@@ -87,8 +90,19 @@ function AddChannelModal({
   }, [ disableSMS ])
 
   React.useEffect(() => {
-    handleValueChange("apiKey", initAPIKey.id)
-  }, [ initAPIKey ])
+    handleValueChange("apiKey", apiKey)
+  }, [ apiKey ]);
+
+  React.useEffect(() => {
+    dispatch({ type: "CHECK_CLEAN" });
+  }, [ 
+    state.name, 
+    state.channel, 
+    state.senderId, 
+    state.apiKey, 
+    state.channel,
+    state.application
+  ])
 
   return (
     <form>
@@ -98,11 +112,10 @@ function AddChannelModal({
         </ModalHeader>
         <ModalContent>
           <TextInput label="Name" value={state.name} setValue={handleNameChange} />
-
           <div className="Vlt-grid Vlt-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
               <Dropdown label="Channel" value={state.channel} setValue={handleChannelChange}>
-                <option>--- Please select ---</option>
+                <option value="">--- Please select ---</option>
                 <option value="sms" disabled={disableSMS}>SMS</option>
                 <option value="whatsapp">WhatsApp</option>
                 <option value="viber">Viber</option>
@@ -134,8 +147,8 @@ function AddChannelModal({
               <APIKeyDropdown 
                 label="API Key" 
                 value={state.apiKey} 
-                setValue={handleAPIKeyChange} 
-                disabled={!state.channel}
+                onChange={handleAPIKeyChange} 
+                disabled={!state.channel || disableAPIKey}
                 refreshToken={refreshToken}
               />
             </div>
@@ -143,16 +156,27 @@ function AddChannelModal({
               <ApplicationDropdown 
                 label="Application" 
                 value={state.application} 
-                setValue={handleApplicationChange} 
-                disabled={state.channel === "sms"}
+                onChange={handleApplicationChange} 
+                disabled={state.channel === "sms" || !state.channel}
                 refreshToken={refreshToken}
               />
             </div>
           </div>
         </ModalContent>
         <ModalFooter>
-          <Button type="tertiary" onClick={handleCancel} disabled={isAdding}>Cancel</Button>
-          <LoadingButton loading={isAdding} onClick={handleAddNew} buttonType="submit">
+          <Button 
+            type="tertiary" 
+            onClick={handleCancel} 
+            disabled={isAdding}
+          >
+            Cancel
+          </Button>
+          <LoadingButton 
+            loading={isAdding}
+            disabled={!state.isClean}
+            onClick={handleAddNew} 
+            buttonType="submit"
+          >
             Add New
           </LoadingButton>
         </ModalFooter>

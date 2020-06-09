@@ -3,39 +3,36 @@ import React from "react";
 import Channel from "entities/channel";
 
 import useChannel from "hooks/channel";
-import { UserContext } from "contexts/user";
-import { ErrorContext } from "contexts/error";
+import useUser from "hooks/user";
+import useError from "hooks/error";
 
 import Dropdown from "components/Dropdown";
 
 type Props = {
-  refreshToken:string,
+  refreshToken?:string,
   label:string,
-  value:string,
-  onChange:Function
+  value?:Channel,
+  onChange?:Function
 }
 
 function ChannelDropdown({ refreshToken, label, value, onChange, ...props }:Props){
-  const { token } = React.useContext(UserContext);
-  const { throwError } = React.useContext(ErrorContext);
-  const mChannel = useChannel(token);
+  const mUser = useUser();
+  const mError = useError();
+  const mChannel = useChannel(mUser.token);
 
   function handleChange(channelId){
-    if(onChange){
-      const channel = new Channel({ id: channelId });
-      onChange(channel);
-    }
+    if(onChange) onChange(new Channel({ id: channelId }));
   }
 
   React.useEffect(() => {
-    mChannel.list().catch((err) => throwError(err))
+    mChannel.list().catch((err) => mError.throwError(err))
   }, [ refreshToken ])
 
   return(
     <Dropdown 
       {...props}
       label={label} 
-      value={value} 
+      value={value?.id ?? ""} 
       setValue={handleChange}
     >
       <option>--- Please Select ---</option>

@@ -22,7 +22,7 @@ type Props = {
   visible:boolean,
   setVisible:Function,
   campaign:Campaign,
-  refreshToken:string,
+  refreshToken?:string,
   disableCampaign?:boolean,
   disableTemplate?:boolean
 }
@@ -51,6 +51,7 @@ function GenerateCSVModal({
     try{
       e.preventDefault();
       if(!isClean) throw new Error("You need to complete the form");
+      if(!selectedTemplate) throw new Error("Please select one template");
       setIsGenerating(true);
       const foundTemplate = await mTemplate.retrieve(selectedTemplate);
       const csvContent = CSVAPI.generateBlaster(foundTemplate);

@@ -1,10 +1,23 @@
+// @flow
 import React from "react";
+import Campaign from "entities/campaign";
+import { makeStyles } from "@material-ui/styles";
 
 import ButtonIcon from "components/ButtonIcon";
 import UploadRecordModal from "components/UploadRecordModal";
 
-function UploadButton({ disabled }){
+const useStyles = makeStyles(() => ({
+  button: { marginRight: 4 }
+}))
+
+type Props = { 
+  campaign:Campaign,
+  disabled:boolean 
+}
+
+function UploadButton({ campaign, ...props }:Props){
   const [ visible, setVisible ] = React.useState(false);
+  const mStyles = useStyles();
 
   function handleClick(){
     setVisible((prevVisible) => !prevVisible);
@@ -13,14 +26,16 @@ function UploadButton({ disabled }){
   return (
     <React.Fragment>
       <ButtonIcon 
+        { ...props }
         icon="Vlt-icon-upload" 
         onClick={handleClick}
-        style={{ marginRight: 4 }}
-        disabled={disabled}
+        className={mStyles.button}
       />
       <UploadRecordModal 
+        campaign={campaign}
         visible={visible} 
         setVisible={setVisible} 
+        disableCampaign
       />
     </React.Fragment>
   )

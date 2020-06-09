@@ -26,11 +26,19 @@ type Props = {
   campaign?:Campaign,
   template?:Template,
   visible:boolean,
+  disableCampaign?:boolean,
   setVisible:Function,
   onUploaded?:Function
 }
 
-function UploadRecordModal({ visible, setVisible, onUploaded, campaign:initialCampaign, template:initialTemplate }:Props){
+function UploadRecordModal({ 
+  visible, 
+  setVisible, 
+  onUploaded, 
+  disableCampaign,
+  campaign:initialCampaign, 
+  template:initialTemplate 
+}:Props){
   const [ file, setFile ] = React.useState(null);
   const [ isUploading, setIsUploading ] = React.useState(false);
   const [ selectedCampaign, setSelectedCampaign ] = React.useState<Campaign|void>(initialCampaign);
@@ -82,6 +90,7 @@ function UploadRecordModal({ visible, setVisible, onUploaded, campaign:initialCa
           label="Campaign"
           value={selectedCampaign}
           onChange={setSelectedCampaign}
+          disabled={disableCampaign}
         />
         <TemplateDropdown 
           label="Template"

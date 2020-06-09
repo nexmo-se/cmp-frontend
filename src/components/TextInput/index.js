@@ -5,12 +5,12 @@ type Props = {
   label:string,
   hint?:string,
   value:string,
-  setValue:Function
+  setValue?:Function
 }
 
 function TextInput({ label, hint, value, setValue, ...props }:Props){
   function handleChange(e){
-    setValue(e.target.value);
+    if(setValue) setValue(e.target.value);
   }
 
   return (

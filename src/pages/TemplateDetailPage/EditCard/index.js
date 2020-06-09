@@ -1,4 +1,6 @@
+// @flow
 import React from "react";
+import reducer, { initialState } from "./reducer";
 
 import Channel from "entities/channel";
 import SuccessMessage from "entities/success";
@@ -12,10 +14,10 @@ import LoadingButton from "components/LoadingButton";
 import TextInput from "components/TextInput";
 import TextArea from "components/TextArea";
 import ChannelDropdown from "components/ChannelDropdown";
+import TemplateType from "components/TemplateType";
 
-import reducer, { initialState } from "./reducer";
-
-function EditCard({ template }) {
+type Props = { template:Template }
+function EditCard({ template }:Props) {
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const mUser = useUser();
   const mError = useError();
@@ -25,15 +27,25 @@ function EditCard({ template }) {
     dispatch({ type: "CHANGE_NAME", value });
   }
 
-  function handleBodyChange(value){
-    dispatch({ type: "CHANGE_BODY", value })
+  function handleMediaTypeChange(mediaType:string){
+    dispatch({ type: "CHANGE_MEDIA_TYPE", value: mediaType });
+  }
+
+  function handleContentChange(content:string){
+    dispatch({ type: "CHANGE_CONTENT", value: content });
   }
 
   async function handleEditClick(){
     try{
       dispatch({ type: "START_EDITING" });
-      const t = Template.fromJSON(state);
-      await mTemplate.update(t);
+      const newTemplate = new Template({
+        ...state.content,
+        channel: state.channel,
+        name: state.name,
+        mediaType: state.mediaType
+      })
+      console.log(newTemplate);
+      // await mTemplate.update(newTemplate);
       mError.throwSuccess(new SuccessMessage("Template has been edited"));
     }catch(err){
       mError.throwError(err);
@@ -46,7 +58,8 @@ function EditCard({ template }) {
     dispatch({ type: "INIT_VALUES", value: template})
   }, [ template ])
 
-  return (
+  if(!state.channel) return null;
+  else return (
     <div className="Vlt-card Vlt-card--border">
       <div className="Vlt-card__header">
         <h4>Edit Template</h4>
@@ -56,37 +69,25 @@ function EditCard({ template }) {
           <div className="Vlt-col Vlt-grid__separator">
             <TextInput 
               label="Name" 
-              value={state?.name}
+              value={state.name}
               setValue={handleNameChange}
             />
           </div>
           <div className="Vlt-col Vlt-grid__separator">
             <ChannelDropdown 
               label="Channel"
-              value={state?.channel?.id}
-              disabled
-            />
-          </div>
-          <div className="Vlt-col Vlt-col--A">
-            <TextInput 
-              label="Whatsapp Template Namespace" 
-              value={state?.whatsappTemplateNamespace}
-              disabled
-            />
-          </div>
-          <div className="Vlt-col Vlt-col--A">
-            <TextInput 
-              label="Whatsapp Template Name" 
-              value={state?.whatsappTemplateName}
+              value={state.channel}
               disabled
             />
           </div>
           <div className="Vlt-grid__separator" />
           <div className="Vlt-col Vlt-grid__separator">
-            <TextArea 
-              label="Body" 
-              value={state?.body}
-              setValue={handleBodyChange}
+            <TemplateType 
+              mediaType={state.mediaType}
+              channel={state.channel} 
+              onMediaTypeChange={handleMediaTypeChange}
+              onContentChange={handleContentChange}
+              content={state.content}
             />
           </div>
           <div className="Vlt-col Vlt-right">

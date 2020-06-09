@@ -1,10 +1,14 @@
+// @flow
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
-import useError from "hooks/error";
 import SuccessMessage from "entities/success";
+import APIKey from "entities/apiKey";
+import Application from "entities/application";
+
+import useError from "hooks/error";
 import AddApplicationModal from "components/AddApplicationModal";
 
 const useStyles = makeStyles(() => ({
@@ -14,8 +18,14 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function ApplicationSummary({ setRefreshToken, apiKey, applications }){
-  const [ visible, setVisible ] = React.useState(false);
+type Props = {
+  setRefreshToken:Function,
+  apiKey:APIKey,
+  applications:Array<Application>
+}
+
+function ApplicationSummary({ setRefreshToken, apiKey, applications }:Props){
+  const [ visible, setVisible ] = React.useState<boolean>(false);
   const mStyles = useStyles();
   const mError = useError();
 
@@ -43,6 +53,7 @@ function ApplicationSummary({ setRefreshToken, apiKey, applications }){
         setVisible={setVisible}
         apiKey={apiKey}
         onAdded={handleApplicationCreated}
+        disableAPIKey
       />
     </React.Fragment>
   )

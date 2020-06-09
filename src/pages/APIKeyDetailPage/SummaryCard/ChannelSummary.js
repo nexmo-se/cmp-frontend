@@ -1,10 +1,14 @@
+// @flow
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
-import useError from "hooks/error";
 import SuccessMessage from "entities/success";
+import APIKey from "entities/apiKey";
+import Channel from "entities/channel";
+
+import useError from "hooks/error";
 import AddChannelModal from "components/AddChannelModal";
 
 const useStyles = makeStyles(() => ({
@@ -14,7 +18,13 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function ChannelSummary({ apiKey, channels, setRefreshToken }){
+type Props = {
+  apiKey:APIKey,
+  channels:Array<Channel>,
+  setRefreshToken:Function
+}
+
+function ChannelSummary({ apiKey, channels, setRefreshToken }:Props){
   const [ visible, setVisible ] = React.useState(false);
   const mStyles = useStyles();
   const mError = useError();
@@ -43,6 +53,7 @@ function ChannelSummary({ apiKey, channels, setRefreshToken }){
         setVisible={setVisible}
         apiKey={apiKey}
         onAdded={handleAdded}
+        disableAPIKey
       />
     </React.Fragment>
   )

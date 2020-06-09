@@ -1,10 +1,10 @@
 // @flow
-import fetch from "node-fetch";
 import config from "config";
 
 import Campaign from "entities/campaign";
 import Template from "entities/template";
 import Record from "entities/record";
+import FetchAPI from "api/fetch";
 
 function useRecord(token:string){
   async function createMetadata(campaign:Campaign, template:Template){
@@ -22,17 +22,7 @@ function useRecord(token:string){
     if(!campaign.id) throw new Error();
     if(!template.id) throw new Error();
     const url = `${config.apiDomain}/records/csv/${campaign.id}/${template.id}/metadata`
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(payload)
-    });
-    if(response.ok) return true;
-    else throw new Error(response.statusText);
+    await FetchAPI.post(url, token, JSON.stringify(payload));
   }
 
   async function uploadCSV(campaign:Campaign, template:Template, file:File){

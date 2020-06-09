@@ -50,7 +50,7 @@ function NormalTable({ templates, setRefreshToken, limit=10 }){
                   <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 250 }}>{template.id}</p>
                 </TableColumn>
                 <TableColumn>{template.channel.name}</TableColumn>
-                <TableColumn>{template?.channel.apiKey?.key}</TableColumn>
+                <TableColumn>{template?.channel.apiKey?.name}</TableColumn>
                 <DetailColumn template={template} setRefreshToken={setRefreshToken} />
               </TableBodyRow>
             )

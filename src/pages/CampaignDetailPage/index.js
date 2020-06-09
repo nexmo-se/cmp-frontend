@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
@@ -22,7 +23,6 @@ import DeliveryCard from "./DeliveryCard";
 import TimeTakenCard from "./TimeTakenCard";
 import ReadCard from "./ReadCard";
 
-
 function CampaignDetailPage(){
   const [ refreshToken, setRefreshToken ] = React.useState(uuid());
   const [ isLoading, setIsLoading ] = React.useState(true);
@@ -36,7 +36,7 @@ function CampaignDetailPage(){
   async function fetchData(){
     try{
       setIsLoading(true);
-      const foundCampaign = await mCampaign.retrieve(Campaign.fromID(campaignId));
+      const foundCampaign = await mCampaign.retrieve(new Campaign({ id: campaignId }));
       const foundReport = await mCampaign.summaryReport(foundCampaign);
       setReport(foundReport);
       setCampaign(foundCampaign);
@@ -71,7 +71,7 @@ function CampaignDetailPage(){
       
       <SummaryStats report={report}>
         <RejectedCard />
-        {(report.read !== 0)? <ReadCard />: null}
+        {(report?.read !== 0)? <ReadCard />: null}
         <DeliveryCard />
         <TimeTakenCard campaign={campaign} />
       </SummaryStats>

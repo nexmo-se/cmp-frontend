@@ -1,4 +1,6 @@
+// @flow
 import React from "react";
+import Channel from "entities/channel";
 import { makeStyles } from "@material-ui/styles";
 
 import NumberIndicator from "components/NumberIndicator";
@@ -15,9 +17,15 @@ import DetailColumn from "./DetailColumn";
 
 const useStyles = makeStyles(() => ({
   appWidth: { maxWidth: 100 }
-}))
+}));
 
-function NormalTable({ channels, setRefreshToken, limit=10 }){
+type Props = {
+  channels:Array<Channel>,
+  setRefreshToken:Function,
+  limit:number
+}
+
+function NormalTable({ channels, setRefreshToken, limit=10 }:Props){
   const [ currentPage, setCurrentPage ] = React.useState(1);
   const mStyles = useStyles();
 
@@ -56,9 +64,9 @@ function NormalTable({ channels, setRefreshToken, limit=10 }){
                   <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 150 }}>{channel.id}</p>
                 </TableColumn>
                 <TableColumn>{channel.senderId}</TableColumn>
-                <TableColumn className="Vlt-right">{channel.tps}</TableColumn>
+                <TableColumn className="Vlt-centre">{channel.tps}</TableColumn>
                 <TableColumn className={mStyles.appWidth}>{channel.application?.name}</TableColumn>
-                <TableColumn>{channel.apiKey?.key}</TableColumn>
+                <TableColumn>{channel.apiKey?.name}</TableColumn>
                 <DetailColumn channel={channel} setRefreshToken={setRefreshToken} />
               </TableBodyRow>
             )

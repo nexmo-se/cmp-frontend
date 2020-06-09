@@ -1,5 +1,6 @@
 // @flow
 import React from "react";
+import reducer, { initialState } from "./reducer";
 
 import Channel from "entities/channel";
 import Template from "entities/template";
@@ -7,10 +8,7 @@ import Template from "entities/template";
 import useChannel from "hooks/channel";
 import useTemplate from "hooks/template";
 import useError from "hooks/error";
-
-import reducer, { initialState } from "components/AddTemplateModal/reducer";
-import { UserContext } from "contexts/user";
-import { ErrorContext } from "contexts/error";
+import useUser from "hooks/user";
 
 import Modal from "components/Modal";
 import ModalHeader from "components/Modal/ModalHeader";
@@ -22,11 +20,11 @@ import Button from "components/Button";
 import LoadingButton from "components/LoadingButton";
 import TextInput from "components/TextInput";
 import ChannelDropdown from "components/ChannelDropdown";
+import TemplateType from "components/TemplateType";
 
-import TemplateType from "./TemplateType";
-import ViberTemplateInput from "./ViberTemplateInput";
-import TextTemplateInput from "./TextTemplateInput";
-import WhatsAppTextTemplateInput from "./Whatsapp/TextTemplateInput";
+import ViberTemplateInput from "components/TemplateInput/ViberTemplateInput";
+import TextTemplateInput from "components/TemplateInput/TextTemplateInput";
+import WhatsAppTextTemplateInput from "components/TemplateInput/Whatsapp/TextTemplateInput";
 
 type Props = {
   refreshToken:string,
@@ -39,18 +37,9 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const [ isAdding, setIsAdding ] = React.useState(false);
   const [ currentChannel, setCurrentChannel ] = React.useState(null);
-  const {
-    name,
-    channel,
-    mediaType,
-    content, 
-    loadingChannel
-  } = state;
-
-  const { token } = React.useContext(UserContext);
-  const { throwError } = React.useContext(ErrorContext);
-  const mChannel = useChannel(token);
-  const mTemplate = useTemplate(token);
+  const mUser = useUser();
+  const mChannel = useChannel(mUser.token);
+  const mTemplate = useTemplate(mUser.token);
   const mError = useError();
 
   function handleCancel(){
@@ -88,17 +77,18 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
       e.preventDefault();
       setIsAdding(true);
       const newTemplate = new Template({
-        ...content,
-        channel,
-        name,
-        mediaType
+        ...state.content,
+        channel: state.channel,
+        name: state.name,
+        mediaType: state.mediaType
       });
       console.log(newTemplate);
       // await mTemplate.create(newTemplate);
       dispatch({ type: "CLEAR_INPUT" });
+      setCurrentChannel();
       if(onAdded) onAdded();
     }catch(err){
-      throwError(err);
+      mError.throwError(err);
     }finally{
       setIsAdding(false);
       setVisible(false);
@@ -112,22 +102,20 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
           <h4>Add New Template</h4>
         </ModalHeader>
         <ModalContent>
-          <TextInput label="Name" value={name} setValue={handleNameChange}/>
+          <TextInput label="Name" value={state.name} setValue={handleNameChange}/>
           <ChannelDropdown 
             label="Channel" 
-            value={channel?.id} 
+            value={state.channel} 
             onChange={handleChannelChange} 
             refreshToken={refreshToken}
           />
-          {currentChannel?(
-            <React.Fragment>
-              <TemplateType channel={currentChannel} onChange={handleMediaTypeChange} />
-              {
-                (mediaType === "text"|| mediaType === "none")? <TextTemplateInput onChange={handleContentChange} />: 
-                (mediaType === "viber_template")? <ViberTemplateInput onChange={handleContentChange} />:
-                (mediaType === "whatsapp_text")? <WhatsAppTextTemplateInput onChange={handleContentChange} />: null
-              }
-            </React.Fragment>
+          {currentChannel? (
+            <TemplateType 
+              channel={currentChannel} 
+              onMediaTypeChange={handleMediaTypeChange}
+              onContentChange={handleContentChange}
+              content={state.content}
+            />
           ): state.loadingChannel? <FullPageSpinner />: null}
         </ModalContent>
         <ModalFooter>

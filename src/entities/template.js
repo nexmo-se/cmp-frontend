@@ -60,7 +60,7 @@ class Template{
   static fromResponse(value:any):Template{
     const t = new Template({ ...value });
 
-    if(value.cmpChannel) t.channel = Channel.fromJSON(value.cmpChannel);
+    if(value.cmpChannel) t.channel = Channel.fromResponse(value.cmpChannel);
     else if(value.cmpChannelId){
       t.channel = new Channel();
       t.channel.id = value.cmpChannelId
