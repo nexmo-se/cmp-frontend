@@ -1,10 +1,17 @@
+// @flow
 import React from "react";
 import moment from "moment";
+import Campaign from "entities/campaign";
 
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
 import Button from "components/Button";
 
+import DetailColumn from "./DetailColumn";
+import Filter from "./Filter";
+
+import GenerateCSVModal from "components/GenerateCSVModal";
+import UploadRecordModal from "components/UploadRecordModal";
 import Table from "components/Table";
 import TableHead from "components/Table/TableHead";
 import TableRow from "components/Table/TableRow";
@@ -13,12 +20,28 @@ import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import TableBodyRow from "components/Table/TableBodyRow";
 
-import DetailColumn from "./DetailColumn";
-import Filter from "./Filter";
+type Props = {
+  campaigns:Array<Campaign>,
+  setRefreshToken:Function,
+  limit:number
+}
 
-function NormalTable({ campaigns, setRefreshToken, limit=10 }){
-  const [ currentPage, setCurrentPage ] = React.useState(1);
-  const [ selectedFilter, setSelectedFilter ] = React.useState("draft");
+function NormalTable({ campaigns, setRefreshToken, limit=10 }:Props){
+  const [ currentPage, setCurrentPage ] = React.useState<number>(1);
+  const [ selectedFilter, setSelectedFilter ] = React.useState<string>("draft");
+  const [ donwloadModalOpen, setDownloadModalOpen ] = React.useState<boolean>(false);
+  const [ uploadModalOpen, setUploadModalOpen ] = React.useState<boolean>(false);
+  const [ selectedCampaign, setSelectedCampaign ] = React.useState<Campaign|void>();
+
+  function handleUploadClick(campaign:Campaign){
+    setUploadModalOpen((open) => !open);
+    setSelectedCampaign(campaign);
+  }
+
+  function handleDownloadClick(campaign:Campaign){
+    setDownloadModalOpen((open) => !open)
+    setSelectedCampaign(campaign);
+  }
 
   React.useEffect(() => {
     setCurrentPage(1);
@@ -74,7 +97,12 @@ function NormalTable({ campaigns, setRefreshToken, limit=10 }){
                     </TableColumn>
                     <TableColumn>{startDate}</TableColumn>
                     <TableColumn>{endDate}</TableColumn>
-                    <DetailColumn campaign={campaign} setRefreshToken={setRefreshToken} />
+                    <DetailColumn 
+                      campaign={campaign}
+                      setRefreshToken={setRefreshToken}
+                      onUploadClick={handleUploadClick}
+                      onDownloadClick={handleDownloadClick}
+                    />
                   </TableBodyRow>
                 )
               }
@@ -97,6 +125,24 @@ function NormalTable({ campaigns, setRefreshToken, limit=10 }){
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
       />
+
+      {selectedCampaign? (
+        <React.Fragment>
+          <GenerateCSVModal 
+            visible={donwloadModalOpen} 
+            setVisible={setDownloadModalOpen} 
+            campaign={selectedCampaign}
+            disableCampaign
+          />
+
+          <UploadRecordModal 
+            campaign={selectedCampaign}
+            visible={uploadModalOpen} 
+            setVisible={setUploadModalOpen} 
+            disableCampaign
+          />
+        </React.Fragment>
+      ): null}
     </React.Fragment>
   )
 }

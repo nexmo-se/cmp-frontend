@@ -4,7 +4,6 @@ import Campaign from "entities/campaign";
 import { makeStyles } from "@material-ui/styles";
 
 import ButtonIcon from "components/ButtonIcon";
-import UploadRecordModal from "components/UploadRecordModal";
 
 const useStyles = makeStyles(() => ({
   button: { marginRight: 4 }
@@ -12,32 +11,24 @@ const useStyles = makeStyles(() => ({
 
 type Props = { 
   campaign:Campaign,
-  disabled:boolean 
+  disabled:boolean,
+  onClick:Function
 }
 
-function UploadButton({ campaign, ...props }:Props){
-  const [ visible, setVisible ] = React.useState(false);
+function UploadButton({ onClick, campaign, ...props }:Props){
   const mStyles = useStyles();
 
   function handleClick(){
-    setVisible((prevVisible) => !prevVisible);
+    if(onClick) onClick(campaign);
   }
 
   return (
-    <React.Fragment>
-      <ButtonIcon 
-        { ...props }
-        icon="Vlt-icon-upload" 
-        onClick={handleClick}
-        className={mStyles.button}
-      />
-      <UploadRecordModal 
-        campaign={campaign}
-        visible={visible} 
-        setVisible={setVisible} 
-        disableCampaign
-      />
-    </React.Fragment>
+    <ButtonIcon 
+      { ...props }
+      icon="Vlt-icon-upload" 
+      onClick={handleClick}
+      className={mStyles.button}
+    />
   )
 }
 export default UploadButton;

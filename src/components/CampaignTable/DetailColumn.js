@@ -13,16 +13,26 @@ import DeleteButton from "./DeleteButton";
 
 type Props = {
   campaign:Campaign,
-  setRefreshToken:Function
+  setRefreshToken:Function,
+  onUploadClick:Function,
+  onDownloadClick:Function
 }
 
-function DetailColumn({ campaign, setRefreshToken }:Props){
+function DetailColumn({ onUploadClick, onDownloadClick, campaign, setRefreshToken }:Props){
   return (
     <TableColumn className="Vlt-table__cell--nowrap">
       <DetailButton campaign={campaign} disabled={campaign.status !== "completed" && campaign.status !== "reporting"} />
       <DuplicateButton campaign={campaign} setRefreshToken={setRefreshToken} />
-      <DownloadButton campaign={campaign} disabled={campaign.status !== "draft"} />
-      <UploadButton campaign={campaign} disabled={campaign.status !== "draft"} />
+      <DownloadButton 
+        campaign={campaign} 
+        disabled={campaign.status !== "draft"} 
+        onClick={onDownloadClick}
+      />
+      <UploadButton 
+        campaign={campaign} 
+        disabled={campaign.status !== "draft"} 
+        onClick={onUploadClick}
+      />
       {campaign.status === "draft"?(
         <StartButton campaign={campaign} setRefreshToken={setRefreshToken}  />
       ): campaign.status === "paused"?(
