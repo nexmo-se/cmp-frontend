@@ -5,10 +5,6 @@ import Campaign from "entities/campaign";
 
 import ButtonIcon from "components/ButtonIcon";
 
-const useStyles = makeStyles(() => ({
-  button: { marginRight: 4 }
-}))
-
 type Props = {
   campaign:Campaign,
   disabled:boolean,
@@ -16,8 +12,6 @@ type Props = {
 }
 
 function DownloadButton({ onClick, campaign, ...props }:Props){
-  const mStyles = useStyles();
-
   function handleClick(){
     if(onClick) onClick(campaign);
   }
@@ -27,7 +21,6 @@ function DownloadButton({ onClick, campaign, ...props }:Props){
       { ...props }
       icon="Vlt-icon-download" 
       onClick={handleClick} 
-      className={mStyles.button}
     />
   )
 }
