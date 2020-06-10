@@ -30,6 +30,9 @@ function TextTemplateInput({ onChange, content }:Props){
 
   return (
     <React.Fragment>
+      <p>
+        You can insert not-body parameters inside the <code>csv</code> file. To learn more, you can download <code>csv</code> template once the campaign and template is created.
+      </p>
       <div className="Vlt-grid">
         <div className="Vlt-col">
           <TextInput 

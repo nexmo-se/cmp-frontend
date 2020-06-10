@@ -22,10 +22,6 @@ import TextInput from "components/TextInput";
 import ChannelDropdown from "components/ChannelDropdown";
 import TemplateType from "components/TemplateType";
 
-import ViberTemplateInput from "components/TemplateInput/ViberTemplateInput";
-import TextTemplateInput from "components/TemplateInput/TextTemplateInput";
-import WhatsAppTextTemplateInput from "components/TemplateInput/Whatsapp/TextTemplateInput";
-
 type Props = {
   refreshToken:string,
   visible:boolean,
@@ -112,6 +108,7 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
           {currentChannel? (
             <TemplateType 
               channel={currentChannel} 
+              mediaType={state.mediaType}
               onMediaTypeChange={handleMediaTypeChange}
               onContentChange={handleContentChange}
               content={state.content}

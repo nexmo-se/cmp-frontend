@@ -6,18 +6,29 @@ import { titleCase } from "title-case";
 
 import TextTemplateInput from "components/TemplateInput/TextTemplateInput";
 import ViberTemplateInput from "components/TemplateInput/ViberTemplateInput";
-import WhatsAppTextTemplateInput from "components/TemplateInput/Whatsapp/TextTemplateInput";
+import WhatsappTemplateInput from "components/TemplateInput/WhatsappTemplateInput";
 
 import Button from "components/Button";
 import ButtonGroup from "components/Button/ButtonGroup";
 
 const channelMapping = {
-  whatsapp: [ "audio", "file", "image", "location", {id: "whatsapp_text", text: "Text"}, "video" ],
-  viber: [ "image", { id: "none", text: "Text" }, {id: "viber_template", text: "Viber Template"} ],
-  sms: [ {id: "none", text: "Text"} ]
+  whatsapp: [ 
+    "audio", 
+    "file",
+    "image", 
+    "location",
+    { id: "none", text: "Text" },
+    "video" 
+  ],
+  viber: [ 
+    "image", 
+    { id: "none", text: "Text" }, 
+    { id: "viber_template", text: "Viber Template" } 
+  ],
+  sms: [{ id: "none", text: "Text" }]
 }
 
-const notSupportedType = [ "audio", "file", "image", "location", "video" ]
+const notSupportedType = [ "audio", "image", "video" ]
 
 type Content = {
   body:string,
@@ -28,6 +39,7 @@ type Content = {
 type InputProps = { 
   mediaType?:string,
   content:Content,
+  channel:Channel,
   onChange?:Function
 };
 
@@ -39,10 +51,11 @@ type Props = {
   onContentChange?:Function
 }
 
-function Input({ mediaType, ...props }:InputProps){
+function Input({ channel, mediaType, ...props }:InputProps){
+  if(!mediaType) return null;
   if(mediaType === "none") return <TextTemplateInput {...props }/>
-  else if(mediaType === "viber_template") return <ViberTemplateInput {...props} />
-  else if(mediaType === "whatsapp_text") return <WhatsAppTextTemplateInput {...props} />
+  else if(channel.channel === "viber" && mediaType === "viber_template") return <ViberTemplateInput {...props} />
+  else if(channel.channel === "whatsapp") return <WhatsappTemplateInput {...props} />
   else return null;
 }
 
@@ -60,10 +73,10 @@ function TemplateType({ mediaType, content, channel, onMediaTypeChange, onConten
   React.useEffect(() => {
     // set default selectedType when channel changes
     if(!channel) setSelectedType("")
-    else{
+    else if(!mediaType){
       switch(channel.channel){
         case "sms": return setSelectedType("none");
-        case "whatsapp": return setSelectedType("whatsapp_text");
+        case "whatsapp": return setSelectedType("none");
         case "viber": return setSelectedType("none")
         default: return setSelectedType("");
       }
@@ -98,7 +111,12 @@ function TemplateType({ mediaType, content, channel, onMediaTypeChange, onConten
           })}
         </ButtonGroup>
       </div>
-      <Input mediaType={selectedType} content={content} onChange={onContentChange} />
+      <Input 
+        mediaType={selectedType} 
+        content={content} 
+        onChange={onContentChange}
+        channel={channel}
+      />
     </React.Fragment>
   )
 }
