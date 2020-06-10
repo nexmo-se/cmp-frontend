@@ -11,7 +11,7 @@ function useRecord(token:string){
     if(!template.body) throw new Error("Your developer need to fix something. `template.body undefined`");
 
     const payload = {
-      mediaType: template.mediaType === "whatsapp_text"? "none": "",
+      mediaType: template.mediaType === "whatsapp_text"? "none": template.mediaType,
       columns: [
         "recipient",
         ...template.additionalColumns,
