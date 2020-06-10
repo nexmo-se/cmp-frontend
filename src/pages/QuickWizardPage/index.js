@@ -122,7 +122,11 @@ function QuickWizardPage(){
               />
             </div>
             <div className="Vlt-col Vlt-col--A">
-              <UploadButton disabled={!selectedCampaign}/>
+              <UploadButton 
+                campaign={selectedCampaign}
+                refreshToken={campaignRefreshToken}
+                disabled={!selectedCampaign}
+              />
             </div>
           </div>
         </div>

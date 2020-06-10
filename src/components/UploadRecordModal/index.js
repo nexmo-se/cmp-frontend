@@ -26,6 +26,7 @@ type Props = {
   campaign?:Campaign,
   template?:Template,
   visible:boolean,
+  refreshToken?:string,
   disableCampaign?:boolean,
   setVisible:Function,
   onUploaded?:Function
@@ -35,6 +36,7 @@ function UploadRecordModal({
   visible, 
   setVisible, 
   onUploaded, 
+  refreshToken,
   disableCampaign,
   campaign:initialCampaign, 
   template:initialTemplate 
@@ -88,6 +90,7 @@ function UploadRecordModal({
       <ModalContent>
         <CampaignDropdown 
           label="Campaign"
+          refreshToken={refreshToken}
           value={selectedCampaign}
           onChange={setSelectedCampaign}
           disabled={disableCampaign}

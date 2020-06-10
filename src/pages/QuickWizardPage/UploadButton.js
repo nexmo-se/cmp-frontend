@@ -1,5 +1,6 @@
 // @flow
 import React from "react";
+import Campaign from "entities/campaign";
 import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
 
@@ -9,13 +10,17 @@ import useCampaign from "hooks/campaign";
 import Button from "components/Button";
 import UploadRecordModal from "components/UploadRecordModal";
 
-type Props = { disabled?:boolean };
+type Props = { 
+  campaign?:Campaign,
+  refreshToken:string,
+  disabled?:boolean 
+};
 
 const useStyles = makeStyles(() => ({
   fullWidth: { width: "100%" }
 }))
 
-function UploadButton({ disabled }:Props){
+function UploadButton({ campaign, refreshToken, disabled }:Props){
   const [ visible, setVisible ] = React.useState(false);
   const mHistory = useHistory();
   const mUser = useUser();
@@ -41,11 +46,16 @@ function UploadButton({ disabled }:Props){
       >
         Upload &amp; Start Campaign
       </Button>
-      <UploadRecordModal 
-        visible={visible}
-        setVisible={setVisible}
-        onUploaded={handleUploaded}
-      />
+      {campaign?(
+        <UploadRecordModal 
+          visible={visible}
+          setVisible={setVisible}
+          onUploaded={handleUploaded}
+          campaign={campaign}
+          refreshToken={refreshToken}
+          disableCampaign
+        />
+      ): null}
     </React.Fragment>
   )
 }
