@@ -40,8 +40,8 @@ class Template{
       id: this.id,
       name: this.name,
       cmpChannelId: this.channel.id,
-      whatsappTemplateNamespace: this.whatsappTemplateNamespace,
-      whatsappTemplateName: this.whatsappTemplateName,
+      whatsappTemplateNamespace: this.whatsappTemplateNamespace || undefined,
+      whatsappTemplateName: this.whatsappTemplateName || undefined,
       mediaType: this.mediaType,
       body: this.body
     }

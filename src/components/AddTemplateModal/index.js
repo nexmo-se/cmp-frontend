@@ -82,8 +82,8 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
         name: state.name,
         mediaType: state.mediaType
       });
-      console.log(newTemplate);
-      // await mTemplate.create(newTemplate);
+      
+      await mTemplate.create(newTemplate);
       dispatch({ type: "CLEAR_INPUT" });
       setCurrentChannel();
       if(onAdded) onAdded();

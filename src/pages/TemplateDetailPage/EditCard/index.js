@@ -9,6 +9,7 @@ import Template from "entities/template";
 import useTemplate from "hooks/template";
 import useUser from "hooks/user";
 import useError from "hooks/error";
+import { useParams } from "react-router-dom";
 
 import LoadingButton from "components/LoadingButton";
 import TextInput from "components/TextInput";
@@ -22,6 +23,7 @@ function EditCard({ template }:Props) {
   const mUser = useUser();
   const mError = useError();
   const mTemplate = useTemplate(mUser.token);
+  const mParams = useParams();
 
   function handleNameChange(value){
     dispatch({ type: "CHANGE_NAME", value });
@@ -40,12 +42,13 @@ function EditCard({ template }:Props) {
       dispatch({ type: "START_EDITING" });
       const newTemplate = new Template({
         ...state.content,
+        id: mParams.templateId,
         channel: state.channel,
         name: state.name,
         mediaType: state.mediaType
       })
-      console.log(newTemplate);
-      // await mTemplate.update(newTemplate);
+      
+      await mTemplate.update(newTemplate);
       mError.throwSuccess(new SuccessMessage("Template has been edited"));
     }catch(err){
       mError.throwError(err);
