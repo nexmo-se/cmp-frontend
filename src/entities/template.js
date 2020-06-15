@@ -17,12 +17,12 @@ class Template{
   get additionalColumns():Array<string>{
     switch(this.mediaType){
       case "audio": return [ "url" ];
-      case "file": return [ "url", "caption", "fileName" ];
-      case "image": return [ "url", "caption" ];
+      case "file": return [ "url", "fileName" ];
+      case "image": return [ "url" ];
       case "location": return [ "latitude", "longitude", "name", "address" ];
       case "text": return [ "text" ];
       case "viber_template": return [ "url", "caption", "actionUrl" ];
-      case "video": return [ "url", "caption" ];
+      case "video": return [ "url" ];
       default: return []
     }
   }

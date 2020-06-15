@@ -13,10 +13,10 @@ import ButtonGroup from "components/Button/ButtonGroup";
 
 const channelMapping = {
   whatsapp: [ 
-    "audio", 
     "file",
     "image", 
     "location",
+    { id: "text", text: "Text Header" },
     { id: "none", text: "Text" },
     "video" 
   ],
@@ -28,7 +28,7 @@ const channelMapping = {
   sms: [{ id: "none", text: "Text" }]
 }
 
-const notSupportedType = [ "audio", "image", "video" ]
+const notSupportedType = []
 
 type Content = {
   body:string,
@@ -53,7 +53,7 @@ type Props = {
 
 function Input({ channel, mediaType, ...props }:InputProps){
   if(!mediaType) return null;
-  if(mediaType === "none") return <TextTemplateInput {...props }/>
+  if(channel.channel !== "whatsapp" && mediaType === "none") return <TextTemplateInput {...props }/>
   else if(channel.channel === "viber" && mediaType === "viber_template") return <ViberTemplateInput {...props} />
   else if(channel.channel === "whatsapp") return <WhatsappTemplateInput {...props} />
   else return null;
