@@ -28,7 +28,7 @@ class Template{
   }
 
   get parameters():Array<string>{
-    return this.body.match(/{{\d+}}/g) ?? [];
+    return this.body?.match(/{{\d+}}/g) ?? [];
   }
 
   get parameterColumns():Array<string>{
@@ -43,7 +43,7 @@ class Template{
       whatsappTemplateNamespace: this.whatsappTemplateNamespace || undefined,
       whatsappTemplateName: this.whatsappTemplateName || undefined,
       mediaType: this.mediaType,
-      body: this.body
+      body: this.body? this.body: undefined
     }
     return JSON.parse(JSON.stringify(jsonData));
   }
