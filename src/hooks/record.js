@@ -1,33 +1,46 @@
-import React from "react";
-
-import FetchAPI from "api/fetch";
+// @flow
+import config from "config";
 
 import Campaign from "entities/campaign";
 import Template from "entities/template";
 import Record from "entities/record";
+import FetchAPI from "api/fetch";
 
-function useRecord(token){
-  const [ data, setData ] = React.useState([]);
+function useRecord(token:string){
+  async function createMetadata(campaign:Campaign, template:Template){
+    const payload = {
+      mediaType: template.mediaType === "whatsapp_text"? "none": template.mediaType,
+      columns: [
+        "recipient",
+        ...template.additionalColumns,
+        ...template.parameterColumns
+      ]
+    }
+    
+    if(!campaign.id) throw new Error();
+    if(!template.id) throw new Error();
+    const url = `${config.apiDomain}/records/csv/${campaign.id}/${template.id}/metadata`
+    await FetchAPI.post(url, token, JSON.stringify(payload));
+  }
 
-  async function uploadCSV(file){
-    const [ filename ] = file.name.match(/([a-z|0-9|-])+#([a-z|0-9|-])+/g);
-    const [ campaignId, templateId ] = filename.split("#");
-    const campaign = Campaign.fromID(campaignId);
-    const template = Template.fromID(templateId);
-    const url = `${process.env.REACT_APP_BASE_API_URL}/records/csv/${campaign.id}/${template.id}`;
+  async function uploadCSV(campaign:Campaign, template:Template, file:File){
+    if(!template.id) throw new Error("Your developer need to fix something. `template.id undefined`");
+    const url = `${config.apiDomain}/records/csv/${campaign.id}/${template.id}`;
     const formData = new FormData();
     formData.append("file", file);
-    await FetchAPI.postFile(url, token, formData);
-    return { campaign, template }
+    
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    });
+    if(response.ok) return true;
+    else throw new Error(response.statusText);
   }
 
-  async function retrieveFromCampaign(campaign, limit=25){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/records?cmpCampaignId=${campaign.id}&limit=${limit}`;
-    const responseData = await FetchAPI.get(url, token);
-    const newData = responseData.map((data) => Record.fromJSON(data));
-    setData(newData);
-  }
-
-  return { data, uploadCSV, retrieveFromCampaign }
+  return { createMetadata, uploadCSV }
 }
 export default useRecord;

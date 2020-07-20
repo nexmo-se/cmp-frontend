@@ -1,15 +1,21 @@
+// @flow
 import React from "react";
 
 import Spinner from "components/Spinner";
 import Button from "components/Button";
 
-function LoadingButton({ loading, onClick, children, buttonType="button" }){
+type Props = {
+  loading:boolean,
+  disabled?:boolean,
+  children?:any
+}
+
+function LoadingButton({ loading, children, disabled, ...props }:Props){
   return (
     <Button
+      { ...props }
       type="secondary"
-      buttonType={buttonType}
-      disabled={loading}
-      onClick={onClick}
+      disabled={loading || disabled}
     >
       {loading?(
         <Spinner className="Vlt-spinner--smaller" white />

@@ -1,38 +1,54 @@
+// @flow
 import Channel from "entities/channel";
 
 class Template{
-  // id: String
-  // name: String
-  // channel: Channel
-  // body: String
-  // whatsappTemplateName: String
-  // whatsappTemplateNamespace: String
-  // mediaType: String
+  id:string|void;
+  name:string;
+  channel:Channel;
+  body:string;
+  whatsappTemplateName:string|void;
+  whatsappTemplateNamespace:string|void;
+  mediaType:string;
 
-  constructor(id, name, channel, body=null, whatsappTemplateNamespace=null, whatsappTemplateName=null, mediaType="text"){
-    this.id = id;
-    this.name = name;
-    this.channel = channel;
-    this.body = body;
-    this.whatsappTemplateName = whatsappTemplateName;
-    this.whatsappTemplateNamespace = whatsappTemplateNamespace;
-    this.mediaType = mediaType;
+  constructor(args:any){
+    if(args) Object.assign(this, args);
   }
 
-  toJSON(){
+  get additionalColumns():Array<string>{
+    switch(this.mediaType){
+      case "audio": return [ "url" ];
+      case "file": return [ "url", "fileName" ];
+      case "image": return [ "url" ];
+      case "location": return [ "latitude", "longitude", "name", "address" ];
+      case "text": return [ "text" ];
+      case "viber_template": return [ "url", "caption", "actionUrl" ];
+      case "video": return [ "url" ];
+      default: return []
+    }
+  }
+
+  get parameters():Array<string>{
+    return this.body?.match(/{{\d+}}/g) ?? [];
+  }
+
+  get parameterColumns():Array<string>{
+    return this.parameters.map((parameter) => "parameter");
+  }
+
+  toRequest(){
     const jsonData = {
       id: this.id,
       name: this.name,
       cmpChannelId: this.channel.id,
-      whatsappTemplateNamespace: this.whatsappTemplateNamespace,
-      whatsappTemplateName: this.whatsappTemplateName,
+      whatsappTemplateNamespace: this.whatsappTemplateNamespace || undefined,
+      whatsappTemplateName: this.whatsappTemplateName || undefined,
       mediaType: this.mediaType,
-      body: this.body
+      body: this.body? this.body: undefined
     }
     return JSON.parse(JSON.stringify(jsonData));
   }
 
-  toUpdateJSON(){
+  toUpdateRequest(){
     const jsonData = {
       name: this.name,
       mediaType: this.mediaType,
@@ -41,21 +57,10 @@ class Template{
     return JSON.parse(JSON.stringify(jsonData));
   }
 
-  static fromID(id){
-    const template = new Template(id);
-    return template;
-  }
+  static fromResponse(value:any):Template{
+    const t = new Template({ ...value });
 
-  static fromJSON(value){
-    const t = new Template();
-    t.id = value.id;
-    t.name = value.name;
-    t.body = value.body;
-    t.whatsappTemplateName = value.whatsappTemplateName;
-    t.whatsappTemplateNamespace = value.whatsappTemplateNamespace;
-    t.mediaType = value.mediaType;
-
-    if(value.cmpChannel) t.channel = Channel.fromJSON(value.cmpChannel);
+    if(value.cmpChannel) t.channel = Channel.fromResponse(value.cmpChannel);
     else if(value.cmpChannelId){
       t.channel = new Channel();
       t.channel.id = value.cmpChannelId

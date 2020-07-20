@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 
 import { ErrorContext } from "contexts/error";
@@ -10,7 +11,6 @@ import reducer, { initialState } from "components/AddAPIKeyModal/reducer";
 import Button from "components/Button";
 import TextInput from "components/TextInput";
 import PasswordInput from "components/PasswordInput";
-import SignatureMethodDropdown from "components/SignatureMethodDropdown";
 import LoadingButton from "components/LoadingButton";
 
 import Modal from "components/Modal";
@@ -18,19 +18,18 @@ import ModalHeader from "components/Modal/ModalHeader";
 import ModalContent from "components/Modal/ModalContent";
 import ModalFooter from "components/Modal/ModalFooter";
 
-function AddAPIKeyModal({ visible, setVisible, onAdded }){
+type Props = {
+  visible:boolean,
+  setVisible:Function,
+  onAdded?:Function
+}
+
+function AddAPIKeyModal({ visible, setVisible, onAdded }:Props){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const [ isAdding, setIsAdding ] = React.useState(false);
   const { throwError } = React.useContext(ErrorContext);
   const { token } = React.useContext(UserContext);
   const mAPI = useAPIKey(token);
-  const {
-    name, 
-    apiKey,
-    apiSecret,
-    signatureSecret,
-    signatureMethod
-  } = state;
 
   function handleCancel(){
     setVisible(false);
@@ -49,7 +48,12 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
   async function handleAddNew(){
     try{
       setIsAdding(true);
-      const key = new APIKey(null, name, apiKey, apiSecret);
+      const key = new APIKey({
+        name: state.name,
+        apiKey: state.apiKey,
+        apiSecret: state.apiSecret
+      });
+
       await mAPI.create(key);
       dispatch({ type: "CLEAR_INPUT" })
       if(onAdded) onAdded();
@@ -61,6 +65,10 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
     }
   }
 
+  React.useEffect(() => {
+    dispatch({ type:"CHECK_CLEAN" });
+  }, [ state.name, state.apiKey, state.apiSecret ])
+
   return (
     <Modal visible={visible} size="small">
       <ModalHeader setVisible={setVisible}>
@@ -69,17 +77,17 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
       <ModalContent>
         <TextInput 
           label="Name" 
-          value={name}
+          value={state.name}
           setValue={handleNameChange}
         />
         <TextInput 
           label="API Key" 
-          value={apiKey}
+          value={state.apiKey}
           setValue={handleAPIKeyChange}
         />
         <PasswordInput 
           label="API Secret" 
-          value={apiSecret}
+          value={state.apiSecret}
           setValue={handleAPISecretChange}
         />
       </ModalContent>
@@ -91,7 +99,11 @@ function AddAPIKeyModal({ visible, setVisible, onAdded }){
         >
           Cancel
         </Button>
-        <LoadingButton loading={isAdding} onClick={handleAddNew}>
+        <LoadingButton 
+          disabled={!state.isClean}
+          loading={isAdding} 
+          onClick={handleAddNew}
+        >
           Add New
         </LoadingButton>
       </ModalFooter>

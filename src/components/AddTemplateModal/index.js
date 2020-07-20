@@ -1,86 +1,90 @@
+// @flow
 import React from "react";
+import reducer, { initialState } from "./reducer";
 
 import Channel from "entities/channel";
 import Template from "entities/template";
 
 import useChannel from "hooks/channel";
 import useTemplate from "hooks/template";
-
-import reducer, { initialState } from "components/AddTemplateModal/reducer";
-import { UserContext } from "contexts/user";
-import { ErrorContext } from "contexts/error";
+import useError from "hooks/error";
+import useUser from "hooks/user";
 
 import Modal from "components/Modal";
 import ModalHeader from "components/Modal/ModalHeader";
 import ModalContent from "components/Modal/ModalContent";
 import ModalFooter from "components/Modal/ModalFooter";
 
-import LoadingButton from "components/LoadingButton";
+import FullPageSpinner from "components/FullPageSpinner";
 import Button from "components/Button";
+import LoadingButton from "components/LoadingButton";
 import TextInput from "components/TextInput";
-import TextArea from "components/TextArea";
 import ChannelDropdown from "components/ChannelDropdown";
+import TemplateType from "components/TemplateType";
 
-function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
+type Props = {
+  refreshToken:string,
+  visible:boolean,
+  setVisible:Function,
+  onAdded?:Function
+}
+
+function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const [ isAdding, setIsAdding ] = React.useState(false);
   const [ currentChannel, setCurrentChannel ] = React.useState(null);
-  const {
-    name,
-    channel,
-    whatsappTemplateNamespace,
-    whatsappTemplateName,
-    body
-  } = state;
-
-  const { token } = React.useContext(UserContext);
-  const { throwError } = React.useContext(ErrorContext);
-  const mChannel = useChannel(token);
-  const mTemplate = useTemplate(token);
+  const mUser = useUser();
+  const mChannel = useChannel(mUser.token);
+  const mTemplate = useTemplate(mUser.token);
+  const mError = useError();
 
   function handleCancel(){
     setVisible(false);
   }
 
-  function handleChangeValue(valueName, value){
-    dispatch({ type: "CHANGE_VALUE", valueName, value });
+  function handleNameChange(value){ 
+    dispatch({ type: "CHANGE_NAME", value });  
   }
 
-  function handleNameChange(value){ handleChangeValue("name", value) }
-
-  async function handleChannelChange(value){ 
-    handleChangeValue("channel", value)
-    setCurrentChannel(null);
-    const searchChannel = Channel.fromID(value);
-    const channel = await mChannel.retrieve(searchChannel);    
-    setCurrentChannel(channel.channel);
+  function handleMediaTypeChange(value){
+    dispatch({ type: "CHANGE_MEDIA_TYPE", value });
   }
 
-  function handleWATemplateNamespaceChange(value){
-    handleChangeValue("whatsappTemplateNamespace", value);
+  function handleContentChange(value){
+    dispatch({ type: "CHANGE_CONTENT", value });
   }
 
-  function handleWATemplateNameChange(value){
-    handleChangeValue("whatsappTemplateName", value);
-  }
-
-  function handleBodyChange(value){ handleChangeValue("body", value) }
-
-  async function handleAddNew(){
+  async function handleChannelChange(channel){ 
     try{
+      dispatch({ type: "CHANGE_CHANNEL", value: channel });
+      dispatch({ type: "LOADING_CHANNEL" });
+      setCurrentChannel(null);
+      const foundChannel = await mChannel.retrieve(channel);    
+      setCurrentChannel(foundChannel);
+    }catch(err){
+      mError.throwError(err);
+    }finally{
+      dispatch({ type: "LOADED_CHANNEL" })
+    }
+  }
+
+  async function handleAddNew(e){
+    try{
+      e.preventDefault();
       setIsAdding(true);
-      const t = new Template();
-      t.name = name;
-      t.channel = Channel.fromID(channel);
-      t.body = body;
-      t.whatsappTemplateName = (currentChannel === "whatsapp")? whatsappTemplateName: undefined;
-      t.whatsappTemplateNamespace = (currentChannel === "whatsapp")? whatsappTemplateNamespace: undefined;
+      const newTemplate = new Template({
+        ...state.content,
+        channel: state.channel,
+        name: state.name,
+        mediaType: state.mediaType
+      });
       
-      await mTemplate.create(t);
+      await mTemplate.create(newTemplate);
       dispatch({ type: "CLEAR_INPUT" });
+      setCurrentChannel();
       if(onAdded) onAdded();
     }catch(err){
-      throwError(err);
+      mError.throwError(err);
     }finally{
       setIsAdding(false);
       setVisible(false);
@@ -94,42 +98,30 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }){
           <h4>Add New Template</h4>
         </ModalHeader>
         <ModalContent>
-          <TextInput label="Name" value={name} setValue={handleNameChange}/>
+          <TextInput label="Name" value={state.name} setValue={handleNameChange}/>
           <ChannelDropdown 
             label="Channel" 
-            value={channel} 
-            setValue={handleChannelChange} 
+            value={state.channel} 
+            onChange={handleChannelChange} 
             refreshToken={refreshToken}
           />
-          {currentChannel === "whatsapp"? (
-            <div className="Vlt-grid Vlt-grid--narrow">
-              <div className="Vlt-col Vlt-col--A">
-                <TextInput 
-                  label="WhatsApp Template Namespace" 
-                  value={whatsappTemplateNamespace}
-                  setValue={handleWATemplateNamespaceChange}
-                  disabled={currentChannel !== "whatsapp"}
-                />
-              </div>
-              <div className="Vlt-col Vlt-col--A">
-                <TextInput 
-                  label="WhatsApp Template Name" 
-                  value={whatsappTemplateName}
-                  setValue={handleWATemplateNameChange}
-                  disabled={currentChannel !== "whatsapp"}
-                />
-              </div>
-            </div>
-          ): null}
-          <TextArea 
-            label="Body" 
-            value={body} 
-            setValue={handleBodyChange} 
-          />
+          {currentChannel? (
+            <TemplateType 
+              channel={currentChannel} 
+              mediaType={state.mediaType}
+              onMediaTypeChange={handleMediaTypeChange}
+              onContentChange={handleContentChange}
+              content={state.content}
+            />
+          ): state.loadingChannel? <FullPageSpinner />: null}
         </ModalContent>
         <ModalFooter>
           <Button type="tertiary" onClick={handleCancel} disabled={isAdding}>Cancel</Button>
-          <LoadingButton loading={isAdding} onClick={handleAddNew} buttonType="submit">
+          <LoadingButton 
+            loading={isAdding} 
+            onClick={handleAddNew} 
+            buttonType="submit"
+          >
             Add New
           </LoadingButton>
         </ModalFooter>

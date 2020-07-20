@@ -1,28 +1,27 @@
+// @flow
 import React from "react";
+import { makeStyles } from "@material-ui/styles";
+import Campaign from "entities/campaign";
 
 import ButtonIcon from "components/ButtonIcon";
-import GenerateCSVModal from "components/GenerateCSVModal";
 
-function DownloadButton({ campaign, disabled }){
-  const [ visible, setVisible ] = React.useState(false);
+type Props = {
+  campaign:Campaign,
+  disabled:boolean,
+  onClick:Function
+}
 
+function DownloadButton({ onClick, campaign, ...props }:Props){
   function handleClick(){
-    setVisible(true);
+    if(onClick) onClick(campaign);
   }
 
   return (
-    <React.Fragment>
-      <ButtonIcon 
-        icon="Vlt-icon-download" 
-        onClick={handleClick} 
-        style={{ marginRight: 4 }}
-        disabled={disabled}
-      />
-      <GenerateCSVModal 
-        visible={visible} 
-        setVisible={setVisible} 
-        initCampaign={campaign.id}/>
-    </React.Fragment>
+    <ButtonIcon 
+      { ...props }
+      icon="Vlt-icon-download" 
+      onClick={handleClick} 
+    />
   )
 }
 export default DownloadButton;
