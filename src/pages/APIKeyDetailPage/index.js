@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
@@ -17,7 +18,7 @@ import ApplicationListCard from "./ApplicationListCard";
 import ChannelListCard from "./ChannelListCard";
 
 function APIKeyDetailPage(){
-  const [ apiKey, setAPIKey ] = React.useState();
+  const [ apiKey, setAPIKey ] = React.useState<APIKey|void>();
   const [ isFetching, setIsFetching ] = React.useState(true);
   const [ refreshToken, setRefreshToken ] = React.useState(uuid());
   const { apiKeyId } = useParams();
@@ -28,8 +29,9 @@ function APIKeyDetailPage(){
   async function fetchData(){
     try{
       setIsFetching(true);
-      const apiKey = await mAPIKey.retrieve(APIKey.fromID(apiKeyId));
-      setAPIKey(apiKey);
+      const apiKey = new APIKey({ id: apiKeyId });
+      const foundKey = await mAPIKey.retrieve(apiKey);
+      setAPIKey(foundKey);
     }catch(err){
       mError.throwError(err);
     }finally{
@@ -41,7 +43,7 @@ function APIKeyDetailPage(){
     fetchData();
   }, [ apiKeyId, refreshToken ])
 
-  if(isFetching) return <FullPageSpinner />
+  if(isFetching || !apiKey) return <FullPageSpinner />
   return (
     <React.Fragment>
       <PageHeader 

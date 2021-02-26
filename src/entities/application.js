@@ -1,23 +1,17 @@
+// @flow
 import Channel from "entities/channel";
 import APIKey from "entities/apiKey";
 
 class Application{
-  // name:string|void
-  // apiKey:ApiKey|void
-  // applicationId:string|void;
-  // id:string|void;
-  // privateKey:string|void;
-  // channels:Array<Channel>|void;
-  // apiKey:APIKey|void;
+  id:string|void;
+  name:string;
+  apiKey:APIKey;
+  applicationId:String;
+  privateKey:string;
+  channels:Array<Channel>;
 
-  constructor(name, apiKey, applicationId, id=null, privateKey=null, channels=[], users=[]){
-    this.name = name;
-    this.apiKey = apiKey;
-    this.applicationId = applicationId;
-    this.id = id;
-    this.privateKey = privateKey;
-    this.channels = channels;
-    this.users = users;
+  constructor(args:any){
+    if(args) Object.assign(this, args);
   }
 
   toJSON(){
@@ -29,20 +23,12 @@ class Application{
     }
   }
 
-  static fromJSON(value){
-    const app = new Application();
-    app.id = value.id;
-    app.name = value.name;
-    app.applicationId = value.applicationId;
+  static fromResponse(response:any):Application{
+    const app = new Application(response);
+    app.channels = response.cmpChannels?.map((channel) => Channel.fromResponse(channel)) ?? []
 
-    if(value.cmpChannels){
-      app.channels = value.cmpChannels.map((channel) => Channel.fromJSON(channel));
-    }
-
-    if(value.cmpApiKey){
-      app.apiKey = APIKey.fromJSON(value.cmpApiKey);
-    }
-
+    if(response.cmpApiKey) app.apiKey = APIKey.fromResponse(response.cmpApiKey);
+    else if(response.cmpApiKeyId) app.apiKey = new APIKey({ id: response.cmpApiKeyId });
     return app;
   }
 }

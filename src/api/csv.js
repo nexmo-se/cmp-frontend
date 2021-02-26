@@ -1,33 +1,27 @@
+// @flow
 import Papa from "papaparse";
+import Template from "entities/template";
 
 class CSVAPI{
-  static generateBlaster(parameters=[], mockRows=0){
-    const parameterSamples = parameters.map((parameter) => {
-      const number = parameter.match(/\d+/g);
-      return `parameter ${number}`;
+  static generateBlaster(template:Template, mockRows:number=0){
+    const parameterSamples = template.parameters.map((parameter) => {
+      const number = parseInt(parameter.match(/\d+/g));
+      if(number) return `parameter ${number}`;
     })
 
     const content = [
-      [ "recipient", ...parameters ],
-      [ "6588888888", ...parameterSamples ],
-      [ "Do not remove example above. Fill your content right below this row. Please do not rename the file name as well." ]
+      [ "recipient", ...template.additionalColumns, ...template.parameterColumns ],
+      [ "6588888888", ...template.additionalColumns, ...parameterSamples ],
+      [ "Please add below this row. Above row(s) are sample for your reference. Do not remove this row."]
     ]
   
     for(let a=0; a < mockRows; a++){
-      content.push([ "6599999999", ...parameterSamples ])
+      content.push([ "6599999999", ...template.additionalColumns, ...parameterSamples ])
     }
 
     const strContent = content.map((e) => e.join(",")).join("\n");
     const csvContent = `data:text/csv;charset=utf-8,${strContent}`;
     return csvContent;
-  }
-
-  static async parse(file){
-    return new Promise((resolve, reject) => {
-      Papa.parse(file, {
-        complete: (results) => resolve(results)
-      })
-    })
   }
 }
 export default CSVAPI;

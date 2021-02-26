@@ -1,21 +1,38 @@
+// @flow
 import React from "react";
+import Campaign from "entities/campaign";
 
 import TableColumn from "components/Table/TableColumn";
-import DetailButton from "components/CampaignTable/DetailButton";
-import DownloadButton from "components/CampaignTable/DownloadButton";
-import StartButton from "components/CampaignTable/StartButton";
-import PauseButton from "components/CampaignTable/PauseButton";
-import UploadButton from "components/CampaignTable/UploadButton";
-import DuplicateButton from "components/CampaignTable/DuplicateButton";
-import DeleteButton from "components/CampaignTable/DeleteButton";
+import DetailButton from "./DetailButton";
+import DownloadButton from "./DownloadButton";
+import StartButton from "./StartButton";
+import PauseButton from "./PauseButton";
+import UploadButton from "./UploadButton";
+import DuplicateButton from "./DuplicateButton";
+import DeleteButton from "./DeleteButton";
 
-function DetailColumn({ campaign, setRefreshToken }){
+type Props = {
+  campaign:Campaign,
+  setRefreshToken:Function,
+  onUploadClick:Function,
+  onDownloadClick:Function
+}
+
+function DetailColumn({ onUploadClick, onDownloadClick, campaign, setRefreshToken }:Props){
   return (
     <TableColumn className="Vlt-table__cell--nowrap">
       <DetailButton campaign={campaign} disabled={campaign.status !== "completed" && campaign.status !== "reporting"} />
       <DuplicateButton campaign={campaign} setRefreshToken={setRefreshToken} />
-      <DownloadButton campaign={campaign} disabled={campaign.status !== "draft"} />
-      <UploadButton disabled={campaign.status !== "draft"} />
+      <DownloadButton 
+        campaign={campaign} 
+        disabled={campaign.status !== "draft"} 
+        onClick={onDownloadClick}
+      />
+      <UploadButton 
+        campaign={campaign} 
+        disabled={campaign.status !== "draft"} 
+        onClick={onUploadClick}
+      />
       {campaign.status === "draft"?(
         <StartButton campaign={campaign} setRefreshToken={setRefreshToken}  />
       ): campaign.status === "paused"?(

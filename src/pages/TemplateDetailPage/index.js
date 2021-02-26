@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
@@ -17,9 +18,9 @@ import TextArea from "components/TextArea";
 import ChannelDropdown from "components/ChannelDropdown";
 
 function TemplateDetailPage(){
-  const [ template, setTemplate ] = React.useState();
-  const [ isFetching, setIsFetching ] = React.useState(true);
-  const [ refreshToken, setRefreshToken ] = React.useState(uuid());
+  const [ template, setTemplate ] = React.useState<Template|void>();
+  const [ isFetching, setIsFetching ] = React.useState<boolean>(true);
+  const [ refreshToken, setRefreshToken ] = React.useState<string>(uuid());
   const { templateId } = useParams();
   const mUser = useUser();
   const mError = useError();
@@ -28,7 +29,7 @@ function TemplateDetailPage(){
   async function fetchData(){
     try{
       setIsFetching(true);
-      const template = await mTemplate.retrieve(Template.fromID(templateId));
+      const template = await mTemplate.retrieve(new Template({ id: templateId }));
       setTemplate(template);
     }catch(err){
       mError.throwError(err);
@@ -41,7 +42,7 @@ function TemplateDetailPage(){
     fetchData();
   }, [ templateId, refreshToken ])
 
-  if(isFetching) return <FullPageSpinner />
+  if(isFetching || !template) return <FullPageSpinner />
   return (
     <React.Fragment>
       <PageHeader title="TEMPLATE" name={template?.name} />

@@ -48,7 +48,7 @@ function NormalTable({ applications, setRefreshToken, limit=10 }){
                   <p className="Vlt-grey Vlt-truncate">{application.id}</p>
                 </TableColumn>
                 <TableColumn>{application.apiKey.name}</TableColumn>
-                <TableColumn className="Vlt-right">{application.channels.length}</TableColumn>
+                <TableColumn className="Vlt-center">{application.channels.length}</TableColumn>
                 <DetailColumn application={application} setRefreshToken={setRefreshToken} />
               </TableBodyRow>
             )

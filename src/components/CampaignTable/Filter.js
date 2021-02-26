@@ -21,7 +21,7 @@ function Filter({ onChange }){
   }, [])
 
   return (
-    <div className="Vlt-btn-group">
+    <div className="Vlt-btn-group Vlt-btn-group--app">
       <Button 
         className={clsx(
           (filter === "all")? "Vlt-btn_active": ""

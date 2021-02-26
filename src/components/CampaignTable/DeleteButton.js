@@ -1,5 +1,7 @@
+// @flow
 import React from "react";
 import uuid from "uuid/v4";
+import Campaign from "entities/campaign";
 
 import { UserContext } from "contexts/user";
 import { ErrorContext } from "contexts/error";
@@ -8,7 +10,12 @@ import useCampaign from "hooks/campaign";
 import ButtonIcon from "components/ButtonIcon";
 import LoadingModal from "components/LoadingModal";
 
-function DeleteButton({ campaign, setRefreshToken }){
+type Props = {
+  campaign:Campaign, 
+  setRefreshToken:Function
+}
+
+function DeleteButton({ campaign, setRefreshToken }:Props){
   const [ loading, setLoading ] = React.useState(false);
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);

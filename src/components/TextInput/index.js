@@ -1,16 +1,16 @@
+// @flow
 import React from "react";
 
-function TextInput({ 
-  label, 
-  hint, 
-  value, 
-  setValue, 
-  onFocus,
-  onClick,
-  disabled=false 
-}){
+type Props = {
+  label:string,
+  hint?:string,
+  value:string,
+  setValue?:Function
+}
+
+function TextInput({ label, hint, value, setValue, ...props }:Props){
   function handleChange(e){
-    setValue(e.target.value);
+    if(setValue) setValue(e.target.value);
   }
 
   return (
@@ -20,12 +20,10 @@ function TextInput({
       </label>
       <div className="Vlt-input">
         <input 
+          {...props}
           type="text" 
           value={value} 
-          onChange={handleChange} 
-          onFocus={onFocus}
-          onClick={onClick}
-          disabled={disabled} 
+          onChange={handleChange}
         />
       </div>
       <small className="Vlt-form__element__hint">

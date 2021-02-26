@@ -1,22 +1,40 @@
+// @flow
 import React from "react";
 
+import Application from "entities/application";
 import useApplication from "hooks/application";
-import { UserContext } from "contexts/user";
-import { ErrorContext } from "contexts/error";
+import useUser from "hooks/user";
+import useError from "hooks/error";
 
 import Dropdown from "components/Dropdown";
 
-function ApplicationDropdown({ label, value, setValue, disabled }){
-  const { token } = React.useContext(UserContext);
-  const { throwError } = React.useContext(ErrorContext);
-  const mApplication = useApplication(token);
+type Props = {
+  label:string,
+  value?:Application,
+  onChange?:Function,
+  disabled:boolean
+}
+
+function ApplicationDropdown({ label, value, onChange, ...props }:Props){
+  const mUser = useUser();
+  const mError = useError();
+  const mApplication = useApplication(mUser.token);
+
+  function handleChange(applicationId){
+    if(onChange) onChange(new Application({ id: applicationId }));
+  }
 
   React.useEffect(() => {
-    mApplication.list().catch((err) => throwError(err));
+    mApplication.list().catch((err) => mError.throwError(err));
   }, [])
 
   return (
-    <Dropdown label={label} value={value} setValue={setValue} disabled={disabled}>
+    <Dropdown 
+      {...props}
+      label={label}
+      value={value?.id} 
+      setValue={handleChange} 
+    >
       <option>--- Please Select ---</option>
       {mApplication.data.map((application) => {
         return (

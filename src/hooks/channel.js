@@ -10,7 +10,7 @@ function useChannel(token){
     const url = `${process.env.REACT_APP_BASE_API_URL}/channels`;
     const responseData = await FetchAPI.get(url, token);
     const newData = responseData.map((data) => {
-      const channel = Channel.fromJSON(data);
+      const channel = Channel.fromResponse(data);
       return channel;
     });
     setData(newData);
@@ -18,13 +18,13 @@ function useChannel(token){
 
   async function create(channel){
     const url = `${process.env.REACT_APP_BASE_API_URL}/channels`;
-    await FetchAPI.post(url, token, JSON.stringify(channel.toJSON()));
+    await FetchAPI.post(url, token, JSON.stringify(channel.toRequest()));
   }
 
   async function retrieve(channel){
     const url = `${process.env.REACT_APP_BASE_API_URL}/channels/${channel.id}`;
     const responseData = await FetchAPI.get(url, token);
-    if(responseData) return Channel.fromJSON(responseData);
+    if(responseData) return Channel.fromResponse(responseData);
     else return null;
   }
 

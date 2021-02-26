@@ -10,7 +10,7 @@ function useApplication(token){
     const url = `${process.env.REACT_APP_BASE_API_URL}/applications`;
     const responseData = await FetchAPI.get(url, token);
     const newData = responseData.map((data) => {
-      const application = Application.fromJSON(data);
+      const application = Application.fromResponse(data);
       return application;
     });
     setData(newData);

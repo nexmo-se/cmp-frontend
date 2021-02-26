@@ -1,53 +1,29 @@
-import moment from "moment-timezone";
-class Campaign{
-  // id: String
-  // name: String
-  // campaignStartDate: String
-  // campaignEndDate: String
-  // actualStartDate: String
-  // actualEndDate: String
-  // status: String
-  // statusTime: String
-  // cmpCampaignStatusAudits: Array
+// @flow
 
-  constructor(
-    id, 
-    name, 
-    campaignStartDate,
-    campaignEndDate, 
-    actualStartDate, 
-    actualEndDate, 
-    actualDuration, 
-    status="draft", 
-    statusTime, 
-    activeStartHour,
-    activeStartMinute,
-    activeEndHour,
-    activeEndMinute,
-    activeOnWeekends,
-    timezone,
-    cmpCampaignStatusAudits=[]
-  ){
-    this.id = id;
-    this.name = name;
-    this.campaignStartDate = campaignStartDate;
-    this.campaignEndDate = campaignEndDate;
-    this.actualStartDate = actualStartDate;
-    this.actualEndDate = actualEndDate;
-    this.actualDuration = actualDuration;
-    this.status = status;
-    this.statusTime = statusTime;
-    this.activeStartHour = activeStartHour;
-    this.activeStartMinute = activeStartMinute;
-    this.activeEndHour = activeEndHour;
-    this.activeEndMinute = activeEndMinute;
-    this.activeOnWeekends = activeOnWeekends;
-    this.timezone = timezone;
-    this.cmpCampaignStatusAudits = cmpCampaignStatusAudits;
+class Campaign{
+  id:string;
+  name:string;
+  campaignStartDate:string;
+  campaignEndDate:string;
+  actualStartDate:string;
+  actualEndDate:string;
+  status:string;
+  statusTime:string;
+  activeStartHour:number;
+  activeStartMinute:number
+  activeEndHour:number;
+  activeEndMinute:number;
+  activeOnWeekends:boolean;
+  timezone:string;
+  cmpCampaignStatusAudits:Array<any>;
+
+  constructor(args:any){
+    this.status = "draft";
+    if(args) Object.assign(this, args);
   }
 
   toJSON(){
-    return {
+    const jsonData = {
       name: this.name,
       campaignStartDate: this.campaignStartDate,
       campaignEndDate: this.campaignEndDate,
@@ -58,30 +34,11 @@ class Campaign{
       activeOnWeekends: this.activeOnWeekends,
       timezone: this.timezone
     }
+    return JSON.parse(JSON.stringify(jsonData));
   }
 
-  static fromID(id){
-    return new Campaign(id);
-  }
-
-  static fromJSON(value){
-    const campaign = new Campaign(); 
-    campaign.id = value.id;
-    campaign.name = value.name;
-    campaign.campaignStartDate = value.campaignStartDate;
-    campaign.campaignEndDate = value.campaignEndDate;
-    campaign.actualStartDate = value.actualStartDate;
-    campaign.actualEndDate = value.actualEndDate;
-    campaign.actualDuration = value.actualDuration;
-    campaign.status = value.status;
-    campaign.statusTime = value.statusTime;
-    campaign.activeStartHour = value.activeStartHour;
-    campaign.activeStartMinute = value.activeStartMinute;
-    campaign.activeEndHour = value.activeEndHour;
-    campaign.activeEndMinute = value.activeEndMinute;
-    campaign.activeOnWeekends = value.activeOnWeekends;
-    campaign.timezone = value.timezone;
-    campaign.cmpCampaignStatusAudits = value.cmpCampaignStatusAudits;
+  static fromJSON(value:any):Campaign{
+    const campaign = new Campaign({ ...value });
     return campaign;
   }
 }
