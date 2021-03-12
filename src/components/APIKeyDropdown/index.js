@@ -1,36 +1,41 @@
 // @flow
 import React from "react";
 
-import APIKey from "entities/apiKey";
+import ApiKey from "entities/apiKey";
 import useAPIKey from "hooks/apiKey";
 import useUser from "hooks/user";
 import useError from "hooks/error";
 
 import Dropdown from "components/Dropdown";
 
-type Props = {
-  refreshToken?:string,
-  label:string,
-  value?:APIKey,
-  onChange?:Function
+interface ApiKeyDropdownProps {
+  refreshToken?: string,
+  label: string,
+  value: ?ApiKey,
+  onChange?: (value: ApiKey) => void
 }
 
-function APIKeyDropdown({ refreshToken, label, value, onChange, ...props }:Props){
+function APIKeyDropdown (props: ApiKeyDropdownProps) {
+  const { refreshToken, label, value, onChange, ...others } = props;
+
   const mUser = useUser();
   const mError = useError();
   const mKey = useAPIKey(mUser.token);
 
-  function handleChange(keyId){
-    if(onChange) onChange(new APIKey({ id: keyId }));
+  function handleChange (keyId) {
+    if (onChange) onChange(new ApiKey({ id: keyId }));
   }
 
-  React.useEffect(() => {
-    mKey.list().catch((err) => mError.throwError(err));
-  }, [ refreshToken ])
+  React.useEffect(
+    () => {
+      mKey.list().catch((err) => mError.throwError(err));
+    },
+    [refreshToken]
+  )
 
   return (
     <Dropdown 
-      {...props}
+      {...others}
       label={label} 
       value={value?.id} 
       setValue={handleChange}

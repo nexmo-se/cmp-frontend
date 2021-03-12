@@ -24,34 +24,34 @@ const useStyles = makeStyles(() => ({
   mediumWidth: { width: "60%" }
 }))
 
-function QuickWizardPage(){
-  const [ campaignRefreshToken, setCampaignRefreshToken ] = React.useState<string>(uuid());
-  const [ channelRefreshToken, setChannelRefreshToken ] = React.useState<string>(uuid());
-  const [ templateRefreshToken, setTemplateRefreshToken ] = React.useState<string>(uuid());
-  const [ applicationRefreshToken, setApplicationRefreshToken ] = React.useState<string>(uuid());
-  const [ selectedChannel, setSelectedChannel ] = React.useState("sms");
-  const [ selectedCampaign, setSelectedCampaign ] = React.useState<Campaign|void>();
+function QuickWizardPage () {
+  const [campaignRefreshToken, setCampaignRefreshToken] = React.useState<string>(uuid());
+  const [channelRefreshToken, setChannelRefreshToken] = React.useState<string>(uuid());
+  const [templateRefreshToken, setTemplateRefreshToken] = React.useState<string>(uuid());
+  const [applicationRefreshToken, setApplicationRefreshToken] = React.useState<string>(uuid());
+  const [selectedChannel, setSelectedChannel] = React.useState("sms");
+  const [selectedCampaign, setSelectedCampaign] = React.useState<Campaign|void>();
   const mStyles = useStyles();
 
-  function handleCampaignCreated(createdCampaign){
+  function handleCampaignCreated (createdCampaign) {
     setCampaignRefreshToken(uuid());
     setSelectedCampaign(createdCampaign);
   }
 
-  function handleAPIKeyCreated(){
+  function handleAPIKeyCreated () {
     setChannelRefreshToken(uuid());
     setApplicationRefreshToken(uuid());
   }
 
-  function handleChannelCreated(){
+  function handleChannelCreated () {
     setTemplateRefreshToken(uuid());
   }
 
-  function handleTemplateCreated(){
+  function handleTemplateCreated () {
     setCampaignRefreshToken(uuid());
   }
 
-  function handleApplicationCreated(){
+  function handleApplicationCreated () {
     setChannelRefreshToken(uuid());
   }
   
@@ -68,41 +68,51 @@ function QuickWizardPage(){
             value={selectedChannel}
             setValue={setSelectedChannel}
           />
-          {selectedChannel === "social-channel"?(
-            <React.Fragment>
-              <CreateApplicationStep 
-                number={3} 
-                onCreated={handleApplicationCreated}
-                refreshToken={applicationRefreshToken} 
-              />
-              <CreateChannelStep 
-                number={4} 
-                refreshToken={channelRefreshToken} 
-                onCreated={handleChannelCreated}
-                disableSMS
-              />
-              <CreateTemplateStep 
-                number={5} 
-                refreshToken={templateRefreshToken}
-                onCreated={handleTemplateCreated}
-              />
-              <CreateCampaignStep number={6} onAdded={handleCampaignCreated} />
-            </React.Fragment>
-          ): (
-            <React.Fragment>
-              <CreateChannelStep 
-                number={3} 
-                refreshToken={channelRefreshToken} 
-                onCreated={handleChannelCreated}
-              />
-              <CreateTemplateStep 
-                number={4} 
-                refreshToken={templateRefreshToken} 
-                onCreated={handleTemplateCreated}
-              />
-              <CreateCampaignStep number={5} onCreated={handleCampaignCreated} />
-            </React.Fragment>
-          )}
+          {
+            (
+              selectedChannel === "social-channel" ||
+              selectedChannel === "voice"
+            )? (
+              <React.Fragment>
+                <CreateApplicationStep 
+                  number={3} 
+                  onCreated={handleApplicationCreated}
+                  refreshToken={applicationRefreshToken} 
+                />
+                <CreateChannelStep 
+                  number={4} 
+                  refreshToken={channelRefreshToken} 
+                  onCreated={handleChannelCreated}
+                  disabledChannels={
+                    (selectedChannel === "voice")
+                    ? ["sms", "viber", "whatsapp"]
+                    : ["sms"]
+                  }
+                />
+                <CreateTemplateStep 
+                  number={5} 
+                  refreshToken={templateRefreshToken}
+                  onCreated={handleTemplateCreated}
+                />
+                <CreateCampaignStep number={6} onAdded={handleCampaignCreated} />
+              </React.Fragment>
+            ): (
+              <React.Fragment>
+                <CreateChannelStep 
+                  number={3} 
+                  refreshToken={channelRefreshToken} 
+                  onCreated={handleChannelCreated}
+                  disabledChannels={["whatsapp", "viber", "voice"]}
+                />
+                <CreateTemplateStep 
+                  number={4} 
+                  refreshToken={templateRefreshToken} 
+                  onCreated={handleTemplateCreated}
+                />
+                <CreateCampaignStep number={5} onCreated={handleCampaignCreated} />
+              </React.Fragment>
+            )
+          }
           
           <div className="Vlt-text-separator">
             <span>Running your campaign</span>

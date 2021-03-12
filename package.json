@@ -17,6 +17,7 @@
     "faker": "4.1.0",
     "flow-bin": "0.146.0",
     "jsonwebtoken": "8.5.1",
+    "lodash": "^4.17.21",
     "moment": "2.29.1",
     "moment-range": "4.0.2",
     "moment-timezone": "0.5.33",

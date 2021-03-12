@@ -8,29 +8,34 @@ import useError from "hooks/error";
 
 import Dropdown from "components/Dropdown";
 
-type Props = {
-  label:string,
-  value?:Application,
-  onChange?:Function,
-  disabled:boolean
+interface ApplicationDropdownProps {
+  label: string,
+  value: ?Application,
+  onChange?: (value: Application) => void,
+  disabled: boolean
 }
 
-function ApplicationDropdown({ label, value, onChange, ...props }:Props){
+function ApplicationDropdown (props: ApplicationDropdownProps) {
+  const { label, value, onChange, ...others } = props;
+
   const mUser = useUser();
   const mError = useError();
   const mApplication = useApplication(mUser.token);
 
-  function handleChange(applicationId){
-    if(onChange) onChange(new Application({ id: applicationId }));
+  function handleChange (applicationId) {
+    if (onChange) onChange(new Application({ id: applicationId }));
   }
 
-  React.useEffect(() => {
-    mApplication.list().catch((err) => mError.throwError(err));
-  }, [])
+  React.useEffect(
+    () => {
+      mApplication.list().catch((err) => mError.throwError(err));
+    },
+    []
+  )
 
   return (
     <Dropdown 
-      {...props}
+      {...others}
       label={label}
       value={value?.id} 
       setValue={handleChange} 

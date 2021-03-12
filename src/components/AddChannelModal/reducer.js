@@ -1,17 +1,20 @@
-import APIKey from "entities/apiKey";
+// @flow
+import ApiKey from "entities/apiKey";
 import Application from "entities/application";
+import Channel from "entities/channel";
 
-type Props = {
-  name:string,
-  channel:string,
-  senderId:string,
-  tps:number,
-  apiKey:APIKey,
-  application:Application,
-  isClean:booelan
+interface InitialState {
+  name: string;
+  channel: string;
+  smsUseSignature: boolean;
+  senderId: string;
+  tps: number;
+  apiKey: ?ApiKey;
+  application: ?Application;
+  isClean: boolean;
 };
 
-export const initialState:Props = {
+export const initialState: InitialState = {
   name: "",
   channel: "",
   smsUseSignature: false,
@@ -19,17 +22,17 @@ export const initialState:Props = {
   tps: 15,
   apiKey: undefined,
   application: undefined,
-  isClean:false
+  isClean: false
 }
 
 export default function reducer(state, action){
   const nameValid = !!state.name;
-  const channelValid = !!state.channel;
+  const channelValid = !!state.channel && Channel.acceptedChannel.includes(state.channel);
   const senderIdValid = !!state.channel;
   const apiKeyValid = !!state.apiKey;
   const applicationValid = state.channel === "sms"? true: !!state.application;
 
-  switch(action.type){
+  switch (action.type) {
     case "CHANGE_VALUE":
       return Object.assign({}, state, { [action.valueName]: action.value });
     case "CLEAR_INPUT":

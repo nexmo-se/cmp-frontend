@@ -4,20 +4,28 @@ import APIKey from "entities/apiKey";
 
 interface Constructor {
   id?: string;
-  name: string;
-  channel: string;
-  senderId: string;
-  tps: number;
-  smsUseSignature: boolean;
-  application?: Application;
-  apiKey?: APIKey;
+  name?: string;
+  channel?: string;
+  senderId?: string;
+  tps?: number;
+  smsUseSignature?: boolean;
+  application?: ?Application;
+  apiKey?: ?APIKey;
 }
 
 class Channel {
+  static acceptedChannel = ["sms", "whatsapp", "viber", "voice"];
+  static channelMapping = {
+    sms: "SMS",
+    whatsapp: "Whatsapp",
+    viber: "Viber",
+    voice: "Voice",
+  }
+
   id: ?string;
-  name: string;
-  channel: string;
-  senderId: string;
+  name: ?string;
+  channel: ?string;
+  senderId: ?string;
   tps: number;
   smsUseSignature: boolean;
   application: ?Application;
@@ -25,8 +33,6 @@ class Channel {
   
 
   constructor (args: Constructor) {
-    if(args) Object.assign(this, args);
-
     this.id = args.id;
     this.name = args.name;
     this.channel = args.channel;

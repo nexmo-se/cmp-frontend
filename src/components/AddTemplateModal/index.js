@@ -22,17 +22,17 @@ import TextInput from "components/TextInput";
 import ChannelDropdown from "components/ChannelDropdown";
 import TemplateType from "components/TemplateType";
 
-type Props = {
-  refreshToken:string,
-  visible:boolean,
-  setVisible:Function,
-  onAdded?:Function
+interface AddTemplateModalProps {
+  refreshToken: string;
+  visible: boolean;
+  setVisible: (value: boolean) => void;
+  onAdded?: () => void;
 }
 
-function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
-  const [ state, dispatch ] = React.useReducer(reducer, initialState);
-  const [ isAdding, setIsAdding ] = React.useState(false);
-  const [ currentChannel, setCurrentChannel ] = React.useState(null);
+function AddTemplateModal ({ refreshToken, visible, setVisible, onAdded }: AddTemplateModalProps) {
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [isAdding, setIsAdding] = React.useState(false);
+  const [currentChannel, setCurrentChannel] = React.useState(null);
   const mUser = useUser();
   const mChannel = useChannel(mUser.token);
   const mTemplate = useTemplate(mUser.token);
@@ -54,7 +54,7 @@ function AddTemplateModal({ refreshToken, visible, setVisible, onAdded }:Props){
     dispatch({ type: "CHANGE_CONTENT", value });
   }
 
-  async function handleChannelChange(channel){ 
+  async function handleChannelChange (channel: Channel): Promise<void> { 
     try{
       dispatch({ type: "CHANGE_CHANNEL", value: channel });
       dispatch({ type: "LOADING_CHANNEL" });

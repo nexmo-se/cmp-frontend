@@ -8,14 +8,14 @@ import useError from "hooks/error";
 
 import Dropdown from "components/Dropdown";
 
-type Props = {
-  refreshToken?:string,
-  label:string,
-  value?:Channel,
-  onChange?:Function
+interface ChannelDropdownProps {
+  refreshToken?: string;
+  label: string;
+  value?: Channel;
+  onChange?: ((value: Channel) => void) | ((value: Channel) => Promise<void>);
 }
 
-function ChannelDropdown({ refreshToken, label, value, onChange, ...props }:Props){
+function ChannelDropdown ({ refreshToken, label, value, onChange, ...props }: ChannelDropdownProps) {
   const mUser = useUser();
   const mError = useError();
   const mChannel = useChannel(mUser.token);
@@ -35,14 +35,18 @@ function ChannelDropdown({ refreshToken, label, value, onChange, ...props }:Prop
       value={value?.id ?? ""} 
       setValue={handleChange}
     >
-      <option>--- Please Select ---</option>
-      {mChannel.data.map((channel) => {
-        return (
-          <option value={channel.id} key={channel.id}>
+      <option value="">--- Please Select ---</option>
+      {mChannel.data.map(
+        (channel) => (
+          <option
+            value={channel.id}
+            key={channel.id}
+          >
             {channel.name}
           </option>
         )
-      })}
+      )}
+      
     </Dropdown>
   )
 }

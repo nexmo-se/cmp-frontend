@@ -4,13 +4,11 @@ import ChannelTable from "components/ChannelTable";
 import Header from "./Header";
 
 function ChannelPage(){
-  const [ refreshToken, setRefreshToken ] = React.useState(null);
+  const [refreshToken, setRefreshToken] = React.useState(null);
 
   return (
     <React.Fragment>
-      <Header
-        setRefreshToken={setRefreshToken}
-      />
+      <Header setRefreshToken={setRefreshToken} />
       <hr />
       <div className="Vlt-grid">
         <div className="Vlt-col">
