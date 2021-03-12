@@ -1,8 +1,6 @@
 import React from "react";
 
 import ChannelTable from "components/ChannelTable";
-import ChannelInformationCard from "components/ChannelInformationCard";
-
 import Header from "./Header";
 
 function ChannelPage(){
@@ -10,11 +8,16 @@ function ChannelPage(){
 
   return (
     <React.Fragment>
-      <Header setRefreshToken={setRefreshToken} />
+      <Header
+        setRefreshToken={setRefreshToken}
+      />
       <hr />
       <div className="Vlt-grid">
         <div className="Vlt-col">
-          <ChannelTable refreshToken={refreshToken} setRefreshToken={setRefreshToken} />
+          <ChannelTable
+            refreshToken={refreshToken}
+            setRefreshToken={setRefreshToken}
+          />
         </div>
       </div>
     </React.Fragment>
