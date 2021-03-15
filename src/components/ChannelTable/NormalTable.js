@@ -44,33 +44,40 @@ function NormalTable ({ channels, setRefreshToken, limit=10 }: NormalTableProps)
           </TableRow>
         </TableHead>
         <TableBody>
-          {channels.slice((currentPage - 1) * limit, currentPage * limit).map((channel, index) => {
-            const number = ((currentPage - 1) * limit) + index + 1;
-            const channelColor = (channel.channel === "sms")? "Vlt-orange": 
-                                 (channel.channel === "whatsapp")? "Vlt-green":
-                                 (channel.channel === "viber")? "Vlt-purple": "Vlt-green";
-            return(
-              <TableBodyRow key={channel.id}>
-                <TableColumn>
-                  <NumberIndicator number={number} />
-                </TableColumn>
-                <TableColumn>
-                  <p>
-                    <b>
-                      {channel.name} &nbsp;|&nbsp;
-                      <span className={channelColor}>{channel.channel}</span>
-                    </b>
-                  </p>
-                  <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 150 }}>{channel.id}</p>
-                </TableColumn>
-                <TableColumn>{channel.senderId}</TableColumn>
-                <TableColumn className="Vlt-centre">{channel.tps}</TableColumn>
-                <TableColumn className={mStyles.appWidth}>{channel.application?.name}</TableColumn>
-                <TableColumn>{channel.apiKey?.name}</TableColumn>
-                <DetailColumn channel={channel} setRefreshToken={setRefreshToken} />
-              </TableBodyRow>
-            )
-          })}
+          {
+            channels
+              .slice((currentPage - 1) * limit, currentPage * limit)
+              .map(
+                (channel, index) => {
+                  const number = ((currentPage - 1) * limit) + index + 1;
+                  const channelColor = (channel.channel === "sms")? "Vlt-orange": 
+                                      (channel.channel === "whatsapp")? "Vlt-green":
+                                      (channel.channel === "viber")? "Vlt-purple":
+                                      (channel.channel === "voice")? "Vlt-teal": "Vlt-green";
+                  return (
+                    <TableBodyRow key={channel.id}>
+                      <TableColumn>
+                        <NumberIndicator number={number} />
+                      </TableColumn>
+                      <TableColumn>
+                        <p>
+                          <b>
+                            {channel.name} &nbsp;|&nbsp;
+                            <span className={channelColor}>{channel.channel}</span>
+                          </b>
+                        </p>
+                        <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 150 }}>{channel.id}</p>
+                      </TableColumn>
+                      <TableColumn>{channel.senderId}</TableColumn>
+                      <TableColumn className="Vlt-centre">{channel.tps}</TableColumn>
+                      <TableColumn className={mStyles.appWidth}>{channel.application?.name}</TableColumn>
+                      <TableColumn>{channel.apiKey?.name}</TableColumn>
+                      <DetailColumn channel={channel} setRefreshToken={setRefreshToken} />
+                    </TableBodyRow>
+                  )
+                }
+              )
+            }
         </TableBody>
       </Table>
       <Pagination 
