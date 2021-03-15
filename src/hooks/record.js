@@ -6,8 +6,8 @@ import Template from "entities/template";
 import Record from "entities/record";
 import FetchAPI from "api/fetch";
 
-function useRecord(token:string){
-  async function createMetadata(campaign:Campaign, template:Template){
+function useRecord (token: string) {
+  async function createMetadata (campaign: Campaign, template: Template) {
     const payload = {
       mediaType: template.mediaType === "whatsapp_text"? "none": template.mediaType,
       columns: [
@@ -23,8 +23,8 @@ function useRecord(token:string){
     await FetchAPI.post(url, token, JSON.stringify(payload));
   }
 
-  async function uploadCSV(campaign:Campaign, template:Template, file:File){
-    if(!template.id) throw new Error("Your developer need to fix something. `template.id undefined`");
+  async function uploadCSV (campaign: Campaign, template: Template, file:File) {
+    if (!template.id) throw new Error("Your developer need to fix something. `template.id undefined`");
     const url = `${config.apiDomain}/records/csv/${campaign.id}/${template.id}`;
     const formData = new FormData();
     formData.append("file", file);
@@ -37,7 +37,7 @@ function useRecord(token:string){
       },
       body: formData
     });
-    if(response.ok) return true;
+    if (response.ok) return true;
     else throw new Error(response.statusText);
   }
 
