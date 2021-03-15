@@ -1,5 +1,4 @@
 // @flow
-import Papa from "papaparse";
 import Template from "entities/template";
 
 class CSVAPI{
