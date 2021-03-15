@@ -19,14 +19,14 @@ const useStyles = makeStyles(() => ({
   appWidth: { maxWidth: 100 }
 }));
 
-type Props = {
-  channels:Array<Channel>,
-  setRefreshToken:Function,
-  limit:number
+interface NormalTableProps {
+  channels: Channel[];
+  setRefreshToken: (token: string) => void;
+  limit?: number;
 }
 
-function NormalTable({ channels, setRefreshToken, limit=10 }:Props){
-  const [ currentPage, setCurrentPage ] = React.useState(1);
+function NormalTable ({ channels, setRefreshToken, limit=10 }: NormalTableProps) {
+  const [currentPage, setCurrentPage] = React.useState(1);
   const mStyles = useStyles();
 
   return (
