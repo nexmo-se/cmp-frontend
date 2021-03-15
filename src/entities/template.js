@@ -25,6 +25,7 @@ class Template {
     this.name = args.name;
     this.channel = args.channel;
     this.body = args.body;
+    this.mediaType = args.mediaType;
     this.whatsappTemplateName = args.whatsappTemplateName;
     this.whatsappTemplateNamespace = args.whatsappTemplateNamespace;
   }

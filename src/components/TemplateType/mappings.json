@@ -31,7 +31,7 @@
   ],
   "voice": [
     {
-      "id": "none",
+      "id": "voice",
       "text": "Text"
     }
   ]

@@ -6,7 +6,7 @@ import APIKeyInformationCard from "components/APIKeyInformationCard";
 import Header from "./Header";
 
 function APIKeyPage(){
-  const [ refreshToken, setRefreshToken ] = React.useState(null);
+  const [refreshToken, setRefreshToken] = React.useState(null);
 
   return (
     <React.Fragment>

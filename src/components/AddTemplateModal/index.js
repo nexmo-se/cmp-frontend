@@ -93,6 +93,8 @@ function AddTemplateModal ({ refreshToken, visible, setVisible, onAdded }: AddTe
     }
   }
 
+  console.log(state)
+
   return (
     <form>
       <Modal visible={visible}>

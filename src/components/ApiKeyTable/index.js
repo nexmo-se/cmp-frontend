@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 
 import useAPIKey from "hooks/apiKey";
@@ -8,27 +9,31 @@ import FullPageSpinner from "components/FullPageSpinner";
 import Empty from "components/Empty";
 import NormalTable from "./NormalTable";
 
-function APIKeyTable({ refreshToken, setRefreshToken, compact=false }){
+function APIKeyTable({ refreshToken, setRefreshToken, compact }){
   const [ isFetching, setIsFetching ] = React.useState(true);
   const { token } = useUser();
   const { throwError } = useError();
   const { list, data } = useAPIKey(token);
 
+  const fetchData = React.useCallback(
+    async () => {
+      try {
+        setIsFetching(true);
+        await list();
+      } catch (err) {
+        throwError(err);
+      } finally {
+        setIsFetching(false);
+      }
+    },
+    [list, throwError]
+  )
+
   React.useEffect(
     () => {
-      async function fetchData(){
-        try{
-          setIsFetching(true);
-          await list();
-        }catch(err){
-          throwError(err);
-        }finally{
-          setIsFetching(false);
-        }
-      }
       fetchData();
     },
-    [refreshToken, list, throwError]
+    [refreshToken, fetchData]
   )
 
   if (isFetching) {

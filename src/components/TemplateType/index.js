@@ -35,10 +35,14 @@ interface TemplateTypeProps {
 
 function Input ({ channel, mediaType, ...props }: InputProps) {
   if(!mediaType) return null;
+
+  const textInput = ["none", "voice"];
+  const viberInput = ["viber_template"];
+  const whatsappInput = ["whatsapp"];
   
-  if (channel.channel !== "whatsapp" && mediaType === "none") {
+  if (channel.channel !== "whatsapp" && textInput.includes(mediaType)) {
     return <TemplateInput.Text {...props} />
-  } else if (channel.channel === "viber" && mediaType === "viber_template") {
+  } else if (channel.channel === "viber" && viberInput.includes(mediaType)) {
     return <TemplateInput.Viber {...props} />
   } else if (channel.channel === "whatsapp") {
     return <TemplateInput.Whatsapp {...props} />
@@ -71,7 +75,7 @@ function TemplateType( { mediaType, content, channel, onMediaTypeChange, onConte
           case "sms": return setSelectedType("none");
           case "whatsapp": return setSelectedType("none");
           case "viber": return setSelectedType("none")
-          case "voice": return setSelectedType("none");
+          case "voice": return setSelectedType("voice");
           default: return setSelectedType("");
         }
       }

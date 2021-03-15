@@ -8,15 +8,18 @@ import Channel from "entities/channel";
 function useChannel(token){
   const [ data, setData ] = React.useState([]);
 
-  async function list () {
-    const url = `${Config.apiDomain}/channels`;
-    const responseData = await FetchAPI.get(url, token);
-    const newData = responseData.map((data) => {
-      const channel = Channel.fromResponse(data);
-      return channel;
-    });
-    setData(newData);
-  }
+  const list = React.useCallback(
+    async () => {
+      const url = `${Config.apiDomain}/channels`;
+      const responseData = await FetchAPI.get(url, token);
+      const newData = responseData.map((data) => {
+        const channel = Channel.fromResponse(data);
+        return channel;
+      });
+      setData(newData);
+    },
+    [token]
+  )
 
   async function create (channel: Channel) {
     const url = `${Config.apiDomain}/channels`;

@@ -1,4 +1,5 @@
 import React from "react";
+import Config from "config";
 import moment from "moment";
 
 import FetchAPI from "api/fetch";
@@ -9,30 +10,33 @@ import Report from "entities/report";
 import ChartData from "entities/chartData";
 import LineData from "entities/lineData";
 
-function useCampaign(token){
-  const [ data, setData ] = React.useState([]);
+function useCampaign (token) {
+  const [data, setData] = React.useState([]);
 
-  async function list(){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns`;
-    const responseData = await FetchAPI.get(url, token);
-    const newData = responseData.map((data) => Campaign.fromJSON(data))
-    setData(newData);
-  }
+  const list = React.useCallback(
+    async () => {
+      const url = `${Config.apiDomain}/campaigns`;
+      const responseData = await FetchAPI.get(url, token);
+      const newData = responseData.map((data) => Campaign.fromJSON(data))
+      setData(newData);
+    },
+    [token]
+  )
 
   async function create(campaign){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns`;
+    const url = `${Config.apiDomain}/campaigns`;
     await FetchAPI.post(url, token, JSON.stringify(campaign.toJSON()));
   }
 
   async function retrieve(campaign){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}`;
+    const url = `${Config.apiDomain}/campaigns/${campaign.id}`;
     const responseData = await FetchAPI.get(url, token);
     if(responseData) return Campaign.fromJSON(responseData);
     else return null;
   }
 
   async function updateStatus(campaign, status){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}/status`
+    const url = `${Config.apiDomain}/campaigns/${campaign.id}/status`
     const body = { status }
     await FetchAPI.put(url, token, JSON.stringify(body));
   }

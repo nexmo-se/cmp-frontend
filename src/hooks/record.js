@@ -7,9 +7,14 @@ import Record from "entities/record";
 import FetchAPI from "api/fetch";
 
 function useRecord (token: string) {
+
+  /**
+   * Create Metadata to be sent to the server
+   * Override the mediaType based on the template.mediaType
+   */
   async function createMetadata (campaign: Campaign, template: Template) {
     const payload = {
-      mediaType: template.mediaType === "whatsapp_text"? "none": template.mediaType,
+      mediaType: (template.mediaType === "whatsapp_text" || template.mediaType === "voice")? "none": template.mediaType,
       columns: [
         "recipient",
         ...template.additionalColumns,
