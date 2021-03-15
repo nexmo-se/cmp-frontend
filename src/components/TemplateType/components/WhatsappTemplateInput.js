@@ -5,33 +5,35 @@ import TextInput from "components/TextInput";
 import TextArea from "components/TextArea";
 
 type Content = {
-  body:string,
-  whatsappTemplateName:string,
-  whatsappTemplateNamespace:string
+  body: string,
+  whatsappTemplateName: string,
+  whatsappTemplateNamespace: string
 }
 
-type Props = { 
-  onChange:Function,
-  content:Content
+interface WhatsappTemplateInputProps{
+  onChange: (value: Content) => void;
+  content: Content;
 }
 
-function TextTemplateInput({ onChange, content }:Props){
-  function handleNameChange(value){
+function WhatsappTemplateInput ({ onChange, content }: WhatsappTemplateInputProps) {
+  function handleNameChange (value) {
     onChange({ ...content, whatsappTemplateName: value })
   }
 
-  function handleNamespaceChange(value){
+  function handleNamespaceChange (value) {
     onChange({ ...content, whatsappTemplateNamespace: value });
   }
 
-  function handleBodyChange(value){
+  function handleBodyChange (value) {
     onChange({ ...content, body: value });
   }
 
   return (
     <React.Fragment>
       <p>
-        You can insert not-body parameters inside the <code>csv</code> file. To learn more, you can download <code>csv</code> template once the campaign and template is created.
+        You can insert not-body parameters inside the <code>csv</code> file.&nbsp;
+        To learn more, you can download <code>csv</code> &nbsp;
+        template once the campaign and template is created.
       </p>
       <div className="Vlt-grid">
         <div className="Vlt-col">
@@ -49,8 +51,13 @@ function TextTemplateInput({ onChange, content }:Props){
           />
         </div>
       </div>
-      <TextArea label="Body" value={content.body} setValue={handleBodyChange} />
+      <TextArea
+        label="Body"
+        value={content.body}
+        setValue={handleBodyChange}
+      />
     </React.Fragment>
   )
 }
-export default TextTemplateInput;
+
+export default WhatsappTemplateInput;

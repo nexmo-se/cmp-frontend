@@ -11,7 +11,7 @@ import Dropdown from "components/Dropdown";
 interface ChannelDropdownProps {
   refreshToken?: string;
   label: string;
-  value?: Channel;
+  value?: ?Channel;
   onChange?: ((value: Channel) => void) | ((value: Channel) => Promise<void>);
 }
 

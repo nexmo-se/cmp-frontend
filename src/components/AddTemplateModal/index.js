@@ -23,7 +23,7 @@ import ChannelDropdown from "components/ChannelDropdown";
 import TemplateType from "components/TemplateType";
 
 interface AddTemplateModalProps {
-  refreshToken: string;
+  refreshToken?: string;
   visible: boolean;
   setVisible: (value: boolean) => void;
   onAdded?: () => void;
@@ -73,7 +73,9 @@ function AddTemplateModal ({ refreshToken, visible, setVisible, onAdded }: AddTe
       e.preventDefault();
       setIsAdding(true);
       const newTemplate = new Template({
-        ...state.content,
+        body: state.content.body,
+        whatsappTemplateName: state.content.whatsappTemplateName,
+        whatsappTemplateNamespace: state.content.whatsappTemplateNamespace, 
         channel: state.channel,
         name: state.name,
         mediaType: state.mediaType
