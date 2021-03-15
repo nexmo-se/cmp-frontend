@@ -22,40 +22,42 @@ import LoadingButton from "components/LoadingButton";
 import CampaignDropdown from "components/CampaignDropdown";
 import TemplateDropdown from "components/TemplateDropdown";
 
-type Props = {
-  campaign?:Campaign,
-  template?:Template,
-  visible:boolean,
-  refreshToken?:string,
-  disableCampaign?:boolean,
-  setVisible:Function,
-  onUploaded?:Function
+interface UploadRecordModalProps {
+  campaign?: Campaign;
+  template?: Template;
+  visible: boolean;
+  refreshToken?: string;
+  disableCampaign?: boolean;
+  setVisible: (visible: boolean) => void;
+  onUploaded?: ((campaign: Campaign, template?: Template) => void) | ((campaign: Campaign, template?: Template) => Promise<void>);
 }
 
-function UploadRecordModal({ 
-  visible, 
-  setVisible, 
-  onUploaded, 
-  refreshToken,
-  disableCampaign,
-  campaign:initialCampaign, 
-  template:initialTemplate 
-}:Props){
-  const [ file, setFile ] = React.useState(null);
-  const [ isUploading, setIsUploading ] = React.useState(false);
-  const [ selectedCampaign, setSelectedCampaign ] = React.useState<Campaign|void>(initialCampaign);
-  const [ selectedTemplate, setSelectedTemplate ] = React.useState<Template|void>(initialTemplate);
-  const [ isClean, setIsClean ] = React.useState<boolean>(false);
+function UploadRecordModal (props: UploadRecordModalProps) {
+  const {
+    visible, 
+    setVisible, 
+    onUploaded, 
+    refreshToken,
+    disableCampaign,
+    campaign: initialCampaign, 
+    template: initialTemplate 
+  } = props;
+
+  const [file, setFile] = React.useState(null);
+  const [isUploading, setIsUploading] = React.useState(false);
+  const [selectedCampaign, setSelectedCampaign] = React.useState<Campaign|void>(initialCampaign);
+  const [selectedTemplate, setSelectedTemplate] = React.useState<Template|void>(initialTemplate);
+  const [isClean, setIsClean] = React.useState<boolean>(false);
   const { throwError, throwSuccess } = React.useContext(ErrorContext);
   const { token } = React.useContext(UserContext);
   const mRecord = useRecord(token);
   const mTemplate = useTemplate(token);
   
-  function handleCancel(){
+  function handleCancel () {
     setVisible(false);
   }
 
-  async function handleUpload(){
+  async function handleUpload () {
     try{
       setIsUploading(true);
       if(!selectedCampaign) throw new Error("Please complete the form");
@@ -80,7 +82,7 @@ function UploadRecordModal({
     if(selectedCampaign, selectedTemplate, file){
       setIsClean(true);
     }else setIsClean(false);
-  }, [ selectedCampaign, selectedTemplate, file ])
+  }, [selectedCampaign, selectedTemplate, file])
   
   return (
     <Modal visible={visible} size="small">

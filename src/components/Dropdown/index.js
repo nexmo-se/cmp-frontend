@@ -5,7 +5,7 @@ import clsx from "clsx";
 interface DropdownProps {
   label?: string,
   hint?: string,
-  value?: string,
+  value?: ?string,
   setValue?: (value: string) => void,
   children: any,
   className?: any,
@@ -21,8 +21,8 @@ function Dropdown (props: DropdownProps) {
     setValue, 
     children, 
     className,
-    containerStyle={ width: "100%" }, 
-    selectStyle={ width: "100%" },
+    containerStyle = { width: "100%" }, 
+    selectStyle = { width: "100%" },
     ...others
   } = props;
 

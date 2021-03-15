@@ -17,8 +17,11 @@ import TextArea from "components/TextArea";
 import ChannelDropdown from "components/ChannelDropdown";
 import TemplateType from "components/TemplateType";
 
-type Props = { template:Template }
-function EditCard({ template }:Props) {
+interface EditProps {
+  template: Template;
+}
+
+function EditCard ({ template }: EditProps) {
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
   const mUser = useUser();
   const mError = useError();
@@ -41,7 +44,9 @@ function EditCard({ template }:Props) {
     try{
       dispatch({ type: "START_EDITING" });
       const newTemplate = new Template({
-        ...state.content,
+        body: state.content.body,
+        whatsappTemplateName: state.content.whatsappTemplateName,
+        whatsappTemplateNamespace: state.content.whatsappTemplateNamespace,
         id: mParams.templateId,
         channel: state.channel,
         name: state.name,

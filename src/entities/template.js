@@ -3,22 +3,22 @@ import Channel from "entities/channel";
 
 interface Constructor {
   id?: ?string;
-  name: string;
-  channel: ?Channel;
-  body: string;
-  whatsappTemplateName: ?string;
-  whatsappTemplateNamespace: ?string;
-  mediaType: string;
+  name?: string;
+  channel?: ?Channel;
+  body?: string;
+  whatsappTemplateName?: ?string;
+  whatsappTemplateNamespace?: ?string;
+  mediaType?: ?string;
 }
 
 class Template {
   id: ?string;
-  name: string;
+  name: ?string;
   channel: ?Channel;
-  body: string;
+  body: ?string;
   whatsappTemplateName: ?string;
   whatsappTemplateNamespace: ?string;
-  mediaType: string;
+  mediaType: ?string;
 
   constructor (args: Constructor) {
     this.id = args.id;
@@ -85,12 +85,12 @@ class Template {
   static fromResponse(value:any):Template{
     const t = new Template({ ...value });
 
-    if(value.cmpChannel) t.channel = Channel.fromResponse(value.cmpChannel);
-    else if(value.cmpChannelId){
+    if (value.cmpChannel) t.channel = Channel.fromResponse(value.cmpChannel);
+    else if (value.cmpChannelId){
       t.channel = new Channel({
         id: value.cmpChannelId
       });
-    }else if(value.channel) t.channel = value.channel;
+    }else if (value.channel) t.channel = value.channel;
     return t;
   }
 }

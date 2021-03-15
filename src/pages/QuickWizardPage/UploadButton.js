@@ -10,18 +10,18 @@ import useCampaign from "hooks/campaign";
 import Button from "components/Button";
 import UploadRecordModal from "components/UploadRecordModal";
 
-type Props = { 
-  campaign?:Campaign,
-  refreshToken:string,
-  disabled?:boolean 
+interface UploadButtonProps {
+  campaign?: Campaign,
+  refreshToken: string,
+  disabled?: boolean 
 };
 
 const useStyles = makeStyles(() => ({
   fullWidth: { width: "100%" }
 }))
 
-function UploadButton({ campaign, refreshToken, disabled }:Props){
-  const [ visible, setVisible ] = React.useState(false);
+function UploadButton ({ campaign, refreshToken, disabled }: UploadButtonProps) {
+  const [visible, setVisible] = React.useState(false);
   const mHistory = useHistory();
   const mUser = useUser();
   const mStyles = useStyles();
@@ -31,7 +31,7 @@ function UploadButton({ campaign, refreshToken, disabled }:Props){
     setVisible(true);
   }
 
-  async function handleUploaded(campaign){
+  async function handleUploaded (campaign): Promise<void> {
     await mCampaign.updateStatus(campaign, "pending");
     mHistory.push("/campaigns");
   }

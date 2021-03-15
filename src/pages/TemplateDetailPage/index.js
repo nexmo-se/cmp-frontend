@@ -29,7 +29,7 @@ function TemplateDetailPage(){
   async function fetchData(){
     try{
       setIsFetching(true);
-      const template = await mTemplate.retrieve(new Template({ id: templateId }));
+      const template = await mTemplate.retrieve({ id: templateId });
       setTemplate(template);
     }catch(err){
       mError.throwError(err);
