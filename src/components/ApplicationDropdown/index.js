@@ -18,9 +18,9 @@ interface ApplicationDropdownProps {
 function ApplicationDropdown (props: ApplicationDropdownProps) {
   const { label, value, onChange, ...others } = props;
 
-  const mUser = useUser();
-  const mError = useError();
-  const mApplication = useApplication(mUser.token);
+  const { token } = useUser();
+  const { throwError } = useError();
+  const { data, list } = useApplication(token);
 
   function handleChange (applicationId) {
     if (onChange) onChange(new Application({ id: applicationId }));
@@ -28,9 +28,9 @@ function ApplicationDropdown (props: ApplicationDropdownProps) {
 
   React.useEffect(
     () => {
-      mApplication.list().catch((err) => mError.throwError(err));
+      list().catch((err) => throwError(err));
     },
-    []
+    [list, throwError]
   )
 
   return (
@@ -41,7 +41,7 @@ function ApplicationDropdown (props: ApplicationDropdownProps) {
       setValue={handleChange} 
     >
       <option>--- Please Select ---</option>
-      {mApplication.data.map((application) => {
+      {data.map((application) => {
         return (
           <option value={application.id} key={application.id}>
             {application.name}

@@ -3,10 +3,13 @@ import Template from "entities/template";
 
 class CSVAPI{
   static generateBlaster(template:Template, mockRows:number=0){
-    const parameterSamples = template.parameters.map((parameter) => {
-      const number = parseInt(parameter.match(/\d+/g));
-      if(number) return `parameter ${number}`;
-    })
+    const parameterSamples = template.parameters.map(
+      (parameter) => {
+        const number = parseInt(parameter.match(/\d+/g));
+        if(number) return `parameter ${number}`;
+        else return undefined;
+      }
+    )
 
     const content = [
       [ "recipient", ...template.additionalColumns, ...template.parameterColumns ],
@@ -14,7 +17,7 @@ class CSVAPI{
       [ "Please add below this row. Above row(s) are sample for your reference. Do not remove this row."]
     ]
   
-    for(let a=0; a < mockRows; a++){
+    for (let a=0; a < mockRows; a++) {
       content.push([ "6599999999", ...template.additionalColumns, ...parameterSamples ])
     }
 

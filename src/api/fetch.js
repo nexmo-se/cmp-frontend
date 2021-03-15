@@ -12,8 +12,9 @@ class FetchAPI{
       }else if(response.status >= 500 && response.status <= 599){
         const errorResponse = await response.json();
         console.log(errorResponse);
-        if(errorResponse.message === "invalid signature") throw new NotAuthenticatedError();
-        else if(errorResponse.message = "jwt malformed") throw new NotAuthenticatedError();
+        
+        const notAuthenticated = ["invalid signature", "jwt malformed"];
+        if (notAuthenticated.includes(errorResponse.message)) throw new NotAuthenticatedError();
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)
       }else if(response.status !== 200){
         throw new CustomError("fetch/api-error", `Error with response: ${response.status}`)

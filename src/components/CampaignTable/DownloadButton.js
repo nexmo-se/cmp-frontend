@@ -1,17 +1,16 @@
 // @flow
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
 import Campaign from "entities/campaign";
 
 import ButtonIcon from "components/ButtonIcon";
 
-type Props = {
-  campaign:Campaign,
-  disabled:boolean,
-  onClick:Function
+interface DownloadButtonProps {
+  campaign: Campaign,
+  disabled: boolean,
+  onClick: (campaign: Campaign) => void;
 }
 
-function DownloadButton({ onClick, campaign, ...props }:Props){
+function DownloadButton ({ onClick, campaign, ...props }: DownloadButtonProps) {
   function handleClick(){
     if(onClick) onClick(campaign);
   }

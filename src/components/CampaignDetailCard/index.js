@@ -1,21 +1,19 @@
 import React from "react";
 import moment from "moment";
 
-import useUser from "hooks/user";
-import useCampaign from "hooks/campaign";
-
 import Row from "./Row";
 import StatusText from "./StatusText";
 
 function CampaignDetailCard({ report, campaign }){
   const [ lastStatusUpdate, setLastStatusUpdate ] = React.useState("");
-  const mUser = useUser();
-  const mCampaign = useCampaign(mUser.token);
 
-  React.useEffect(() => {
-    const lastStatusUpdate = new moment(campaign?.statusTime).fromNow();
-    setLastStatusUpdate(lastStatusUpdate);
-  }, [ campaign ]);
+  React.useEffect(
+    () => {
+      const lastStatusUpdate = new moment(campaign?.statusTime).fromNow();
+      setLastStatusUpdate(lastStatusUpdate);
+    },
+    [campaign]
+  );
 
   return (
     <div className="Vlt-card Vlt-card--border">

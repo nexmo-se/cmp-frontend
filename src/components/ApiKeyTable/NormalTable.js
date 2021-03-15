@@ -1,5 +1,6 @@
+// @flow
 import React from "react";
-import clsx from "clsx";
+import ApiKey from "entities/apiKey";
 import { makeStyles } from "@material-ui/styles";
 
 import NumberIndicator from "components/NumberIndicator";
@@ -18,8 +19,14 @@ const useStyles = makeStyles(() => ({
   nameWidth: { maxWidth: 200 }
 }))
 
-function NormalTable({ apiKeys, setRefreshToken, limit=10 }){
-  const [ currentPage, setCurrentPage ] = React.useState(1);
+interface NormalTableProps {
+  apiKeys: ApiKey[];
+  setRefreshToken: (token: string) => void;
+  limit?: number;
+}
+
+function NormalTable ({ apiKeys, setRefreshToken, limit=10 }: NormalTableProps) {
+  const [currentPage, setCurrentPage] = React.useState(1);
   const mStyles = useStyles();
 
   return (
@@ -35,25 +42,31 @@ function NormalTable({ apiKeys, setRefreshToken, limit=10 }){
           </TableRow>
         </TableHead>
         <TableBody>
-          {apiKeys.slice((currentPage - 1) * limit, currentPage * limit).map((apiKey, index) => {
-            const number = (currentPage - 1) * limit + index + 1
-            return(
-              <TableBodyRow key={apiKey.id}>
-                <TableColumn>
-                  <NumberIndicator number={number} />
-                </TableColumn>
-                <TableColumn className={mStyles.nameWidth}>
-                  <p className="Vlt-truncate">
-                    <b>{apiKey.name} ({apiKey.key})</b>
-                  </p>
-                  <p className="Vlt-grey Vlt-truncate">{apiKey.id}</p>
-                </TableColumn>
-                <TableColumn className="Vlt-right">{apiKey.applications.length}</TableColumn>
-                <TableColumn className="Vlt-right">{apiKey.channels.length}</TableColumn>
-                <DetailColumn apiKey={apiKey} setRefreshToken={setRefreshToken} />
-              </TableBodyRow>
+          {
+            apiKeys
+            .slice((currentPage - 1) * limit, currentPage * limit)
+            .map(
+              (apiKey, index) => {
+                const number = (currentPage - 1) * limit + index + 1
+                return(
+                  <TableBodyRow key={apiKey.id}>
+                    <TableColumn>
+                      <NumberIndicator number={number} />
+                    </TableColumn>
+                    <TableColumn className={mStyles.nameWidth}>
+                      <p className="Vlt-truncate">
+                        <b>{apiKey.name} ({apiKey.key})</b>
+                      </p>
+                      <p className="Vlt-grey Vlt-truncate">{apiKey.id}</p>
+                    </TableColumn>
+                    <TableColumn className="Vlt-right">{apiKey.applications.length}</TableColumn>
+                    <TableColumn className="Vlt-right">{apiKey.channels.length}</TableColumn>
+                    <DetailColumn apiKey={apiKey} setRefreshToken={setRefreshToken} />
+                  </TableBodyRow>
+                )
+              }
             )
-          })}
+          }
         </TableBody>
       </Table>
       <Pagination 

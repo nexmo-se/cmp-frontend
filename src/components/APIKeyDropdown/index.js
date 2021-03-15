@@ -18,9 +18,9 @@ interface ApiKeyDropdownProps {
 function APIKeyDropdown (props: ApiKeyDropdownProps) {
   const { refreshToken, label, value, onChange, ...others } = props;
 
-  const mUser = useUser();
-  const mError = useError();
-  const mKey = useAPIKey(mUser.token);
+  const { token } = useUser();
+  const { throwError } = useError();
+  const { list, data } = useAPIKey(token);
 
   function handleChange (keyId) {
     if (onChange) onChange(new ApiKey({ id: keyId }));
@@ -28,9 +28,9 @@ function APIKeyDropdown (props: ApiKeyDropdownProps) {
 
   React.useEffect(
     () => {
-      mKey.list().catch((err) => mError.throwError(err));
+      list().catch((err) => throwError(err));
     },
-    [refreshToken]
+    [refreshToken, list, throwError]
   )
 
   return (
@@ -41,13 +41,17 @@ function APIKeyDropdown (props: ApiKeyDropdownProps) {
       setValue={handleChange}
     >
       <option>--- Please Select ---</option>
-      {mKey.data.map((apiKey) => {
-        return (
-          <option value={apiKey.id} key={apiKey.id}>
-            {apiKey.name} ({apiKey.key})
-          </option>
+      {
+        data.map(
+          (apiKey) => {
+            return (
+              <option value={apiKey.id} key={apiKey.id}>
+                {apiKey.name} ({apiKey.key})
+              </option>
+            )
+          }
         )
-      })}
+      }
     </Dropdown>
   )
 }
