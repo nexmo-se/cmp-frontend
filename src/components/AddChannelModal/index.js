@@ -143,7 +143,7 @@ function AddChannelModal (props: AddChannelModalProps) {
       state.channel,
       state.application
     ]
-  )
+  );
 
   return (
     <form>
@@ -188,7 +188,7 @@ function AddChannelModal (props: AddChannelModalProps) {
           <div className="Vlt-grid Vlt-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
               <TextInput 
-                label="Sender ID" 
+                label={state.channel === "voice"? "Caller ID": "Sender ID"}
                 value={state.senderId} 
                 setValue={handleSenderIdChange} 
                 disabled={!state.channel}
@@ -196,7 +196,7 @@ function AddChannelModal (props: AddChannelModalProps) {
             </div>
             <div className="Vlt-col Vlt-col--A">
               <NumberInput 
-                label="throughput per second (TPS)" 
+                label={state.channel === "voice"? "Call per Second (CPS)": "Throughput per Second (TPS)"}
                 value={state.tps} 
                 setValue={handleTPSChange}
                 disabled={!state.channel}

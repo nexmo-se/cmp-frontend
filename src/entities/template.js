@@ -44,8 +44,8 @@ class Template {
           "voice_voiceType",
           "voice_language",
           "voice_style",
-          "voice_streamUrl",
-          "voice_answerUrl"
+          // "voice_streamUrl",
+          // "voice_answerUrl"
         ]
       default: return []
     }
