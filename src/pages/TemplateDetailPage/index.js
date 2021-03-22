@@ -13,14 +13,11 @@ import EditCard from "./EditCard";
 import TemplateInformationCard from "components/TemplateInformationCard";
 import FullPageSpinner from "components/FullPageSpinner";
 import PageHeader from "components/PageHeader";
-import TextInput from "components/TextInput";
-import TextArea from "components/TextArea";
-import ChannelDropdown from "components/ChannelDropdown";
 
 function TemplateDetailPage(){
-  const [ template, setTemplate ] = React.useState<Template|void>();
-  const [ isFetching, setIsFetching ] = React.useState<boolean>(true);
-  const [ refreshToken, setRefreshToken ] = React.useState<string>(uuid());
+  const [template, setTemplate] = React.useState<Template|void>();
+  const [isFetching, setIsFetching] = React.useState<boolean>(true);
+  const [refreshToken, setRefreshToken] = React.useState<string>(uuid());
   const { templateId } = useParams();
   const mUser = useUser();
   const mError = useError();

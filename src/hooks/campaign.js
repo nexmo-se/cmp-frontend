@@ -28,12 +28,15 @@ function useCampaign (token) {
     await FetchAPI.post(url, token, JSON.stringify(campaign.toJSON()));
   }
 
-  async function retrieve(campaign){
-    const url = `${Config.apiDomain}/campaigns/${campaign.id}`;
-    const responseData = await FetchAPI.get(url, token);
-    if(responseData) return Campaign.fromJSON(responseData);
-    else return null;
-  }
+  const retrieve = React.useCallback(
+    async (campaign) => {
+      const url = `${Config.apiDomain}/campaigns/${campaign.id}`;
+      const responseData = await FetchAPI.get(url, token);
+      if(responseData) return Campaign.fromJSON(responseData);
+      else return null;
+    },
+    []
+  )
 
   async function updateStatus(campaign, status){
     const url = `${Config.apiDomain}/campaigns/${campaign.id}/status`
@@ -46,20 +49,23 @@ function useCampaign (token) {
     await FetchAPI.remove(url, token);
   }
 
-  async function summaryReport(campaign, from, to){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/reports/json`;
-    const payload = {
-      type: "campaign_summary",
-      content: {
-        cmpCampaignId: campaign.id,
-        to,
-        from
-      }
-    };
-    const responseData = await FetchAPI.post(url, token, JSON.stringify(payload));
-    if(responseData) return Report.fromJSON(responseData);
-    else return null;
-  }
+  const summaryReport = React.useCallback(
+    async (campaign, from, to) => {
+      const url = `${process.env.REACT_APP_BASE_API_URL}/reports/json`;
+      const payload = {
+        type: "campaign_summary",
+        content: {
+          cmpCampaignId: campaign.id,
+          to,
+          from
+        }
+      };
+      const responseData = await FetchAPI.post(url, token, JSON.stringify(payload));
+      if(responseData) return Report.fromJSON(responseData);
+      else return null;
+    },
+    []
+  )
 
   async function overallSummaryReport(from, to){
     const url = `${process.env.REACT_APP_BASE_API_URL}/reports/json`;

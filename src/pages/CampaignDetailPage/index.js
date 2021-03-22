@@ -24,36 +24,42 @@ import TimeTakenCard from "./TimeTakenCard";
 import ReadCard from "./ReadCard";
 
 function CampaignDetailPage(){
-  const [ refreshToken, setRefreshToken ] = React.useState(uuid());
-  const [ isLoading, setIsLoading ] = React.useState(true);
-  const [ campaign, setCampaign ] = React.useState();
-  const [ report, setReport ] = React.useState();
+  const [refreshToken, setRefreshToken]= React.useState(uuid());
+  const [isLoading, setIsLoading]= React.useState(true);
+  const [campaign, setCampaign]= React.useState();
+  const [report, setReport]= React.useState();
   const { campaignId } = useParams();
-  const mUser = useUser();
-  const mError = useError();
-  const mCampaign = useCampaign(mUser.token);
+  const { token } = useUser();
+  const { retrieve, summaryReport } = useCampaign(token);
+  const { throwError } = useError();
 
-  async function fetchData(){
-    try{
-      setIsLoading(true);
-      const foundCampaign = await mCampaign.retrieve(new Campaign({ id: campaignId }));
-      const foundReport = await mCampaign.summaryReport(foundCampaign);
-      setReport(foundReport);
-      setCampaign(foundCampaign);
-    }catch(err){
-      mError.throwError(err);
-    }finally{
-      setIsLoading(false);
-    }
-  }
+  const fetchData = React.useCallback(
+    async () => {
+      try{
+        setIsLoading(true);
+        const foundCampaign = await retrieve(new Campaign({ id: campaignId }));
+        const foundReport = await summaryReport(foundCampaign);
+        setReport(foundReport);
+        setCampaign(foundCampaign);
+      }catch(err){
+        throwError(err);
+      }finally{
+        setIsLoading(false);
+      }
+    },
+    [campaignId, retrieve, summaryReport, throwError]
+  )
 
   function handleRefresh(){
     setRefreshToken(uuid());
   }
 
-  React.useEffect(() => {
-    fetchData();
-  }, [ campaignId, refreshToken ])
+  React.useEffect(
+    () => {
+      fetchData();
+    },
+    [fetchData, refreshToken ]
+  )  
 
   if(isLoading) return <FullPageSpinner />;
   return (
