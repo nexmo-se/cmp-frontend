@@ -1,5 +1,5 @@
 import React from "react";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import useCampaign from "hooks/campaign";
 import { ErrorContext } from "contexts/error";

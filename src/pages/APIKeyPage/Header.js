@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import { makeStyles } from "@material-ui/styles";
 
 import AddButton from "components/AddButton";

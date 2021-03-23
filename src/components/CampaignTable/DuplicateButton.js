@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 import { UserContext } from "contexts/user";
 import { ErrorContext } from "contexts/error";
