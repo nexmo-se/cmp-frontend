@@ -1,4 +1,6 @@
 {
   "autoDarkMode.darkTheme": "Ayu Mirage",
-  "autoDarkMode.lightTheme": "Ayu Light"
+  "autoDarkMode.lightTheme": "Ayu Light",
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": false
 }

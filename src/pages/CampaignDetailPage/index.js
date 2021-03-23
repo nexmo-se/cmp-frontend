@@ -1,6 +1,5 @@
 // @flow
 import React from "react";
-import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 import Campaign from "entities/campaign";
@@ -8,52 +7,61 @@ import Campaign from "entities/campaign";
 import useUser from "hooks/user";
 import useCampaign from "hooks/campaign";
 import useError from "hooks/error";
+import { useParams } from "react-router-dom";
 
-import CampaignDetailCard from "components/CampaignDetailCard";
-import CampaignAuditLogCard from "components/CampaignAuditLogCard";
 import FullPageSpinner from "components/FullPageSpinner";
 import PageHeader from "components/PageHeader";
 import RefreshButton from "components/RefreshButton";
 import ExportCampaignDetailReportButton from "components/ExportCampaignDetailReportButton";
 
-import AllReportStatusCard from "./AllReportStatusCard";
-import SummaryStats from "./SummaryStats";
-import RejectedCard from "./RejectedCard";
-import DeliveryCard from "./DeliveryCard";
-import TimeTakenCard from "./TimeTakenCard";
-import ReadCard from "./ReadCard";
+import CampaignAuditLogCard from "./components/CampaignAuditLogCard";
+import CampaignDetailCard from "./components/CampaignDetailCard";
+import AllReportStatusCard from "./components/AllReportStatusCard";
+import SummaryStats from "./components/SummaryStats";
+import RejectedCard from "./components/RejectedCard";
+import DeliveryCard from "./components/DeliveryCard";
+import TimeTakenCard from "./components/TimeTakenCard";
+import ReadCard from "./components/ReadCard";
+import UnansweredCard from "./components/UnansweredCard";
+import CompletedCard from "./components/CompletedCard";
 
-function CampaignDetailPage(){
-  const [ refreshToken, setRefreshToken ] = React.useState(uuid());
-  const [ isLoading, setIsLoading ] = React.useState(true);
-  const [ campaign, setCampaign ] = React.useState();
-  const [ report, setReport ] = React.useState();
+function CampaignDetailPage () {
+  const [refreshToken, setRefreshToken]= React.useState(uuid());
+  const [isLoading, setIsLoading]= React.useState(true);
+  const [campaign, setCampaign]= React.useState();
+  const [report, setReport]= React.useState();
   const { campaignId } = useParams();
-  const mUser = useUser();
-  const mError = useError();
-  const mCampaign = useCampaign(mUser.token);
+  const { token } = useUser();
+  const { retrieve, summaryReport } = useCampaign(token);
+  const { throwError } = useError();
 
-  async function fetchData(){
-    try{
-      setIsLoading(true);
-      const foundCampaign = await mCampaign.retrieve(new Campaign({ id: campaignId }));
-      const foundReport = await mCampaign.summaryReport(foundCampaign);
-      setReport(foundReport);
-      setCampaign(foundCampaign);
-    }catch(err){
-      mError.throwError(err);
-    }finally{
-      setIsLoading(false);
-    }
-  }
+  const fetchData = React.useCallback(
+    async () => {
+      try{
+        setIsLoading(true);
+        const foundCampaign = await retrieve(new Campaign({ id: campaignId }));
+        const foundReport = await summaryReport(foundCampaign);
+        setReport(foundReport);
+        setCampaign(foundCampaign);
+      }catch(err){
+        throwError(err);
+      }finally{
+        setIsLoading(false);
+      }
+    },
+    [campaignId, retrieve, summaryReport, throwError]
+  )
 
-  function handleRefresh(){
+  function handleRefresh () {
     setRefreshToken(uuid());
   }
 
-  React.useEffect(() => {
-    fetchData();
-  }, [ campaignId, refreshToken ])
+  React.useEffect(
+    () => {
+      fetchData();
+    },
+    [fetchData, refreshToken ]
+  )  
 
   if(isLoading) return <FullPageSpinner />;
   return (
@@ -70,9 +78,11 @@ function CampaignDetailPage(){
       />
       
       <SummaryStats report={report}>
-        <RejectedCard />
-        {(report?.read !== 0)? <ReadCard />: null}
+        <CompletedCard />
         <DeliveryCard />
+        <ReadCard />
+        <RejectedCard />
+        <UnansweredCard />
         <TimeTakenCard campaign={campaign} />
       </SummaryStats>
 

@@ -1,21 +1,21 @@
 // @flow
 import Channel from "entities/channel";
 
-type Content = {
-  body:string,
-  whatsappTemplateName:string,
-  whatsappTemplateNamespace:string
+interface Content {
+  body: string,
+  whatsappTemplateName?: string,
+  whatsappTemplateNamespace?: string
 }
 
-type State = {
-  name:string,
-  channel:Channel|void,
-  loadingChannel:boolean,
-  mediaType:string,
-  content:Content
+interface InitialState {
+  name: string,
+  channel: ?Channel,
+  loadingChannel: boolean,
+  mediaType: string,
+  content: Content
 }
 
-export const initialState:State = {
+export const initialState: InitialState = {
   name: "",
   channel: undefined,
   loadingChannel: false,
@@ -27,8 +27,8 @@ export const initialState:State = {
   }
 }
 
-export default function reducer(state:State, action:any){
-  switch(action.type){
+export default function reducer (state: InitialState, action: any) {
+  switch (action.type) {
     case "CHANGE_NAME": 
       return Object.assign({}, state, { name: action.value });
     case "CHANGE_CHANNEL":

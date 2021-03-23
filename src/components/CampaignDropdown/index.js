@@ -8,17 +8,17 @@ import { ErrorContext } from "contexts/error";
 
 import Dropdown from "components/Dropdown";
 
-type Props = {
-  label:string,
-  value?:Campaign,
-  refreshToken?:string,
-  onChange?:Function
+interface CampaignDropdownProps {
+  label: string;
+  value: ?Campaign;
+  refreshToken?: string;
+  onChange: (campaign: Campaign) => void;
 }
 
-function CampaignDropdown({ label, value, onChange, refreshToken, ...props }:Props){
+function CampaignDropdown ({ label, value, onChange, refreshToken, ...props }:CampaignDropdownProps) {
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
-  const mCampaign = useCampaign(token);
+  const { list, data } = useCampaign(token);
 
   function handleChange(campaignId){
     if(onChange){
@@ -27,9 +27,12 @@ function CampaignDropdown({ label, value, onChange, refreshToken, ...props }:Pro
     }
   }
 
-  React.useEffect(() => {
-    mCampaign.list().catch((err) => throwError(err));
-  }, [ refreshToken ])
+  React.useEffect(
+    () => {
+      list().catch((err) => throwError(err));
+    },
+    [refreshToken, list, throwError]
+  )
 
   return (
     <Dropdown 
@@ -39,13 +42,17 @@ function CampaignDropdown({ label, value, onChange, refreshToken, ...props }:Pro
       setValue={handleChange}
     >
       <option>--- Please Select ---</option>
-      {mCampaign.data.map((campaign) => {
-        return (
-          <option value={campaign.id} key={campaign.id}>
-            {campaign.name}
-          </option>
+      {
+        data.map(
+          (campaign) => {
+            return (
+              <option value={campaign.id} key={campaign.id}>
+                {campaign.name}
+              </option>
+            )
+          }
         )
-      })}
+      }
     </Dropdown>
   )
 }

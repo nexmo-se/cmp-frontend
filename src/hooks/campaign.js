@@ -1,4 +1,5 @@
 import React from "react";
+import Config from "config";
 import moment from "moment";
 
 import FetchAPI from "api/fetch";
@@ -9,55 +10,64 @@ import Report from "entities/report";
 import ChartData from "entities/chartData";
 import LineData from "entities/lineData";
 
-function useCampaign(token){
-  const [ data, setData ] = React.useState([]);
+function useCampaign (token) {
+  const [data, setData] = React.useState([]);
 
-  async function list(){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns`;
-    const responseData = await FetchAPI.get(url, token);
-    const newData = responseData.map((data) => Campaign.fromJSON(data))
-    setData(newData);
-  }
+  const list = React.useCallback(
+    async () => {
+      const url = `${Config.apiDomain}/campaigns`;
+      const responseData = await FetchAPI.get(url, token);
+      const newData = responseData.map((data) => Campaign.fromJSON(data))
+      setData(newData);
+    },
+    [token]
+  )
 
-  async function create(campaign){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns`;
+  async function create (campaign) {
+    const url = `${Config.apiDomain}/campaigns`;
     await FetchAPI.post(url, token, JSON.stringify(campaign.toJSON()));
   }
 
-  async function retrieve(campaign){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}`;
-    const responseData = await FetchAPI.get(url, token);
-    if(responseData) return Campaign.fromJSON(responseData);
-    else return null;
-  }
+  const retrieve = React.useCallback(
+    async (campaign) => {
+      const url = `${Config.apiDomain}/campaigns/${campaign.id}`;
+      const responseData = await FetchAPI.get(url, token);
+      if(responseData) return Campaign.fromJSON(responseData);
+      else return null;
+    },
+    []
+  )
 
-  async function updateStatus(campaign, status){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}/status`
+  async function updateStatus (campaign, status) {
+    const url = `${Config.apiDomain}/campaigns/${campaign.id}/status`
     const body = { status }
     await FetchAPI.put(url, token, JSON.stringify(body));
   }
 
-  async function remove(campaign){
+  async function remove (campaign) {
     const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}`;
     await FetchAPI.remove(url, token);
   }
 
-  async function summaryReport(campaign, from, to){
-    const url = `${process.env.REACT_APP_BASE_API_URL}/reports/json`;
-    const payload = {
-      type: "campaign_summary",
-      content: {
-        cmpCampaignId: campaign.id,
-        to,
-        from
-      }
-    };
-    const responseData = await FetchAPI.post(url, token, JSON.stringify(payload));
-    if(responseData) return Report.fromJSON(responseData);
-    else return null;
-  }
+  const summaryReport = React.useCallback(
+    async (campaign, from, to) => {
+      const url = `${process.env.REACT_APP_BASE_API_URL}/reports/json`;
+      const payload = {
+        type: "campaign_summary",
+        content: {
+          cmpCampaignId: campaign.id,
+          to,
+          from
+        }
+      };
+      const responseData = await FetchAPI.post(url, token, JSON.stringify(payload));
+      if (responseData) return Report.fromResponse(responseData);
+      else return null;
+    },
+    []
+  )
 
-  async function overallSummaryReport(from, to){
+  async function overallSummaryReport (from, to) {
     const url = `${process.env.REACT_APP_BASE_API_URL}/reports/json`;
     const payload = {
       type: "overall_summary",
@@ -75,7 +85,7 @@ function useCampaign(token){
     else return null;
   }
 
-  async function lineChart(campaign, filter="day"){
+  async function lineChart (campaign, filter="day") {
     const range = DateAPI.getRangeFromNow(filter);
     const labels = range.map((date) => date.format("MMM DD"));
     
@@ -104,7 +114,7 @@ function useCampaign(token){
     return chartData;
   }
 
-  async function overallLineChart(filter="day"){
+  async function overallLineChart (filter="day") {
     const range = DateAPI.getRangeFromNow(filter);
     const labels = range.map((date) => date.format("MMM DD"));
 
@@ -115,7 +125,7 @@ function useCampaign(token){
       const overallReport = new Report();
       reports.forEach((report) => {
         console.log(report);
-        overallReport.totalRecord = report.totalRecord;
+        overallReport.total = report.total;
         overallReport.delivered = report.delivered;
         overallReport.rejected = report.rejected;
       })
@@ -143,7 +153,7 @@ function useCampaign(token){
     return chartData;
   }
 
-  async function exportDetailReport(campaign){
+  async function exportDetailReport (campaign) {
     const url = `${process.env.REACT_APP_BASE_API_URL}/reports/csv`;
     const payload = {
       type: "campaign_detail",

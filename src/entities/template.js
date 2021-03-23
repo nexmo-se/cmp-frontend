@@ -1,21 +1,37 @@
 // @flow
 import Channel from "entities/channel";
 
-class Template{
-  id:string|void;
-  name:string;
-  channel:Channel;
-  body:string;
-  whatsappTemplateName:string|void;
-  whatsappTemplateNamespace:string|void;
-  mediaType:string;
+interface Constructor {
+  id?: ?string;
+  name?: string;
+  channel?: ?Channel;
+  body?: string;
+  whatsappTemplateName?: ?string;
+  whatsappTemplateNamespace?: ?string;
+  mediaType?: ?string;
+}
 
-  constructor(args:any){
-    if(args) Object.assign(this, args);
+class Template {
+  id: ?string;
+  name: ?string;
+  channel: ?Channel;
+  body: ?string;
+  whatsappTemplateName: ?string;
+  whatsappTemplateNamespace: ?string;
+  mediaType: ?string;
+
+  constructor (args: Constructor) {
+    this.id = args.id;
+    this.name = args.name;
+    this.channel = args.channel;
+    this.body = args.body;
+    this.mediaType = args.mediaType;
+    this.whatsappTemplateName = args.whatsappTemplateName;
+    this.whatsappTemplateNamespace = args.whatsappTemplateNamespace;
   }
 
-  get additionalColumns():Array<string>{
-    switch(this.mediaType){
+  get additionalColumns(): Array<string>{
+    switch (this.mediaType) {
       case "audio": return [ "url" ];
       case "file": return [ "url", "fileName" ];
       case "image": return [ "url" ];
@@ -23,11 +39,19 @@ class Template{
       case "text": return [ "text" ];
       case "viber_template": return [ "url", "caption", "actionUrl" ];
       case "video": return [ "url" ];
+      case "voice": 
+        return [
+          "voice_voiceType",
+          "voice_language",
+          "voice_style",
+          // "voice_streamUrl",
+          // "voice_answerUrl"
+        ]
       default: return []
     }
   }
 
-  get parameters():Array<string>{
+  get parameters (): string[] {
     return this.body?.match(/{{\d+}}/g) ?? [];
   }
 
@@ -36,12 +60,14 @@ class Template{
   }
 
   toRequest(){
+    if (!this.channel) throw new Error("You must provide channel");
+
     const jsonData = {
       id: this.id,
       name: this.name,
       cmpChannelId: this.channel.id,
-      whatsappTemplateNamespace: this.whatsappTemplateNamespace || undefined,
-      whatsappTemplateName: this.whatsappTemplateName || undefined,
+      whatsappTemplateNamespace: this.whatsappTemplateNamespace ?? undefined,
+      whatsappTemplateName: this.whatsappTemplateName ?? undefined,
       mediaType: this.mediaType,
       body: this.body? this.body: undefined
     }
@@ -60,11 +86,12 @@ class Template{
   static fromResponse(value:any):Template{
     const t = new Template({ ...value });
 
-    if(value.cmpChannel) t.channel = Channel.fromResponse(value.cmpChannel);
-    else if(value.cmpChannelId){
-      t.channel = new Channel();
-      t.channel.id = value.cmpChannelId
-    }else if(value.channel) t.channel = value.channel;
+    if (value.cmpChannel) t.channel = Channel.fromResponse(value.cmpChannel);
+    else if (value.cmpChannelId){
+      t.channel = new Channel({
+        id: value.cmpChannelId
+      });
+    }else if (value.channel) t.channel = value.channel;
     return t;
   }
 }

@@ -1,45 +1,46 @@
 {
-  "name": "SEG-157",
+  "name": "cmp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@date-io/moment": "1.x",
-    "@material-ui/core": "4.8.3",
+    "@material-ui/core": "4.11.3",
     "@material-ui/pickers": "3.2.10",
-    "@material-ui/styles": "4.9.0",
-    "@material-ui/system": "4.9.6",
+    "@material-ui/styles": "4.11.3",
+    "@material-ui/system": "4.11.3",
     "@testing-library/jest-dom": "4.2.4",
     "@testing-library/react": "9.3.2",
     "@testing-library/user-event": "7.1.2",
-    "@vonagevolta/volta2": "0.0.29",
+    "@types/luxon": "^1.26.2",
+    "@vonagevolta/volta2": "0.0.56",
     "chart.js": "2.9.3",
     "copy-to-clipboard": "3.3.1",
     "faker": "4.1.0",
-    "flow-bin": "0.125.1",
+    "flow-bin": "0.146.0",
     "jsonwebtoken": "8.5.1",
-    "moment": "2.24.0",
+    "lodash": "^4.17.21",
+    "luxon": "^1.26.0",
+    "moment": "2.29.1",
     "moment-range": "4.0.2",
-    "moment-timezone": "0.5.28",
-    "papaparse": "5.1.1",
-    "react": "16.12.0",
-    "react-chartjs-2": "2.8.0",
+    "moment-timezone": "0.5.33",
+    "react": "17.0.1",
+    "react-chartjs-2": "2.11.1",
     "react-cookie": "4.0.3",
-    "react-dom": "16.12.0",
-    "react-router-dom": "5.1.2",
-    "react-scripts": "3.4.0",
+    "react-dom": "17.0.1",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "4.0.3",
     "serve": "11.3.2",
-    "styled-components": "5.0.0",
-    "title-case": "3.0.2",
-    "uuid": "3.4.0"
+    "styled-components": "5.2.1",
+    "swr": "0.5.2",
+    "title-case": "3.0.3",
+    "uuid": "8.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start:prod": "env NODE_ENV=production serve -s build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "start:prod": "env NODE_ENV=production serve -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,14 +56,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/core": "7.8.3",
-    "@storybook/addon-actions": "5.3.4",
-    "@storybook/addon-knobs": "5.3.4",
-    "@storybook/addon-links": "5.3.4",
-    "@storybook/addons": "5.3.4",
-    "@storybook/react": "5.3.4",
-    "babel-loader": "8.0.6"
   }
 }

@@ -8,28 +8,31 @@ import { ErrorContext } from "contexts/error";
 import Dropdown from "components/Dropdown";
 import Template from "entities/template";
 
-type Props = {
-  refreshToken?:string,
-  label:string,
-  value?:Template,
-  onChange?:Function
+interface TemplateDropdownProps {
+  refreshToken?: string;
+  label: string;
+  value?: Template;
+  onChange?: (template: Template) => void;
 }
 
-function TemplateDropdown({ refreshToken, label, value, onChange, ...props }:Props){
+function TemplateDropdown ({ refreshToken, label, value, onChange, ...props }: TemplateDropdownProps) {
   const { token } = React.useContext(UserContext);
   const { throwError } = React.useContext(ErrorContext);
   const mTemplate = useTemplate(token);
 
-  function handleChange(templateId){
-    if(onChange){
+  function handleChange (templateId) {
+    if (onChange) {
       const template = new Template({ id: templateId });
       onChange(template);
-    }
+    }  
   }
 
-  React.useEffect(() => {
-    mTemplate.list().catch((err) => throwError(err));
-  }, [ refreshToken ])
+  React.useEffect(
+    () => {
+      mTemplate.list().catch((err) => throwError(err));
+    },
+    [refreshToken]
+  )
 
   return (
     <Dropdown 

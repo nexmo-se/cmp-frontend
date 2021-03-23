@@ -1,6 +1,7 @@
+// @flow
 import React from "react";
 import clsx from "clsx";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import { makeStyles } from "@material-ui/styles";
 
 import AddButton from "components/AddButton";
@@ -14,8 +15,12 @@ const useStyles = makeStyles(() => ({
   title: { marginBottom: 0 }
 }))
 
-function Header({ setRefreshToken }){
-  const [ modalVisible, setModalVisible ] = React.useState(false);
+interface HeaderProps {
+  setRefreshToken: (value: string) => void;
+}
+
+function Header ({ setRefreshToken }: HeaderProps) {
+  const [modalVisible, setModalVisible] = React.useState(false);
   const mStyles = useStyles();
 
   function handleToggleModal(e){
@@ -31,10 +36,12 @@ function Header({ setRefreshToken }){
     <React.Fragment>
       <div className="Vlt-grid">
       <div 
-        className={clsx(
-          "Vlt-col",
-          mStyles.flexCenter
-        )}
+        className={
+          clsx(
+            "Vlt-col",
+            mStyles.flexCenter
+          )
+        }
       >
         <h1 className={mStyles.title}>Templates</h1>
       </div>

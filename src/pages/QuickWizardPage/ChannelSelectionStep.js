@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
@@ -12,7 +13,13 @@ const useStyles = makeStyles(() => ({
   dropdown: { width: "35%" }
 }))
 
-function ChannelSelectionStep({ number, value, setValue }){
+interface ChannelSelectionStepProps {
+  number: number;
+  value: string;
+  setValue: (value: string) => void;
+}
+
+function ChannelSelectionStep ({ number, value, setValue }: ChannelSelectionStepProps) {
   const mStyles = useStyles();
 
   return (
@@ -27,6 +34,7 @@ function ChannelSelectionStep({ number, value, setValue }){
         setValue={setValue}
       >
         <option value="sms">SMS</option>
+        <option value="voice">Voice</option>
         <option value="social-channel">Social Channel</option>
       </Dropdown>
     </div>

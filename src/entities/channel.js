@@ -2,25 +2,49 @@
 import Application from "entities/application";
 import APIKey from "entities/apiKey";
 
-class Channel{
-  id:string|void;
-  name:string;
-  channel:string;
-  senderId:string;
-  tps:number;
-  smsUseSignature:boolean;
-  application:Application|void;
-  apiKey:APIKey|void;
-  
+interface Constructor {
+  id?: string;
+  name?: string;
+  channel?: string;
+  senderId?: string;
+  tps?: number;
+  smsUseSignature?: boolean;
+  application?: ?Application;
+  apiKey?: ?APIKey;
+}
 
-  constructor(args:any){
-    this.tps = 15;
-    this.smsUseSignature = false;
-
-    if(args) Object.assign(this, args);
+class Channel {
+  static acceptedChannel = ["sms", "whatsapp", "viber", "voice"];
+  static channelMapping = {
+    sms: "SMS",
+    whatsapp: "Whatsapp",
+    viber: "Viber",
+    voice: "Voice",
   }
 
-  toRequest(){
+  id: ?string;
+  name: ?string;
+  channel: ?string;
+  senderId: ?string;
+  tps: number;
+  smsUseSignature: boolean;
+  application: ?Application;
+  apiKey: ?APIKey;
+  
+
+  constructor (args: Constructor) {
+    this.id = args.id;
+    this.name = args.name;
+    this.channel = args.channel;
+    this.senderId = args.senderId;
+    this.tps = args.tps ?? 15;
+    this.smsUseSignature = args.smsUseSignature ?? false;
+    this.application = args.application;
+    this.apiKey = args.apiKey
+    
+  }
+
+  toRequest () {
     const jsonData = {
       id: this.id,
       name: this.name,
@@ -34,14 +58,19 @@ class Channel{
     return JSON.parse(JSON.stringify(jsonData));
   }
 
-  static fromResponse(value:any):Channel{
-    const ch = new Channel({ ...value});
-    ch.tps = parseInt(value.tps);
-
-    if(value.cmpApplication) ch.application = Application.fromResponse(value.cmpApplication)
-    if(value.cmpApiKey) ch.apiKey = APIKey.fromResponse(value.cmpApiKey);
-
-    return ch;
+  static fromResponse (value: any): Channel {
+    const channel = new Channel({
+      id: value.id,
+      name: value.name,
+      channel: value.channel,
+      senderId: value.senderId,
+      tps: parseInt(value.tps),
+      smsUseSignature: value.smsUseSignature,
+      application: (value.cmpApplication)? Application.fromResponse(value.cmpApplication): undefined,
+      apiKey: (value.cmpApiKey)? APIKey.fromResponse(value.cmpApiKey): undefined
+    });
+    
+    return channel;
   }
 }
 export default Channel;

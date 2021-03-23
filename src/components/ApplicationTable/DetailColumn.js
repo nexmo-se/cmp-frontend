@@ -1,7 +1,6 @@
 import React from "react";
 
 import TableColumn from "components/Table/TableColumn";
-import DetailButton from "./DetailButton";
 import DeleteButton from "./DeleteButton";
 
 function DetailColumn({ application, setRefreshToken }){

@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
 }))
 
 function Header({ setRefreshToken }){
-  const [ modalVisible, setModalVisible ] = React.useState(false);
+  const [modalVisible, setModalVisible] = React.useState(false);
   const mStyles = useStyles();
 
   function handleToggleModal(e){

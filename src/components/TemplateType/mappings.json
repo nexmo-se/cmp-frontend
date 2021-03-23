@@ -1,0 +1,38 @@
+{
+  "whatsapp": [
+    "file",
+    "image", 
+    "location",
+    {
+      "id": "text",
+      "text": "Text Header"
+    },
+    {
+      "id": "none",
+      "text": "Text"
+    },
+    "video" 
+  ],
+  "viber": [
+    {
+      "id": "none",
+      "text": "Text"
+    }, 
+    {
+      "id": "viber_template",
+      "text": "Viber Template"
+    } 
+  ],
+  "sms": [
+    {
+      "id": "none",
+      "text": "Text"
+    }
+  ],
+  "voice": [
+    {
+      "id": "voice",
+      "text": "Text"
+    }
+  ]
+}
