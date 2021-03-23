@@ -1,4 +1,4 @@
-// flow
+// @flow
 import { DateTime } from "luxon"
 
 interface Constructor {
@@ -21,8 +21,9 @@ interface Constructor {
   rejected?: ?number;
   failed?: ?number;
   timeout?: ?number;
+  completed?: ?number;
 
-  totalRecord?: ?number;
+  total?: ?number;
 }
 
 class Report {
@@ -45,8 +46,9 @@ class Report {
   rejected: ?number;
   failed: ?number;
   timeout: ?number;
+  completed: ?number;
 
-  totalRecord: ?number;
+  total: ?number;
 
   constructor (args: Constructor) {
     this.id = args.id;
@@ -65,7 +67,7 @@ class Report {
     this.rejected = args.rejected;
     this.failed = args.failed;
     this.timeout = args.timeout;
-    this.totalRecord = args.totalRecord;
+    this.total = args.total;
   }
   
   setSummaries (summaries: any) {
@@ -80,13 +82,16 @@ class Report {
       "disconnected",
       "rejected",
       "failed",
-      "timeout"
+      "timeout",
+      "total",
+      "completed"
     ];
 
     const givenSummaries = Object.keys(summaries);
     givenSummaries.forEach(
       (key) => {
         if (acceptedSummary.includes(key)) {
+          // $FlowFixMe
           this[key] = summaries[key];
         } else {
           // The summary is not accepted
@@ -106,6 +111,7 @@ class Report {
     });
 
     report.setSummaries(data.summary);
+    return report;
   }
 }
 

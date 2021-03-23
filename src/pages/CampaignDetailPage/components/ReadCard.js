@@ -25,7 +25,7 @@ function ReadCard(){
       value={(
         <StatsNumber
           left={report?.read}
-          right={report?.totalRecord}
+          right={report?.total}
         />
       )}
     />

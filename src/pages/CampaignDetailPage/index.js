@@ -9,19 +9,21 @@ import useCampaign from "hooks/campaign";
 import useError from "hooks/error";
 import { useParams } from "react-router-dom";
 
-import CampaignDetailCard from "components/CampaignDetailCard";
-import CampaignAuditLogCard from "components/CampaignAuditLogCard";
 import FullPageSpinner from "components/FullPageSpinner";
 import PageHeader from "components/PageHeader";
 import RefreshButton from "components/RefreshButton";
 import ExportCampaignDetailReportButton from "components/ExportCampaignDetailReportButton";
 
+import CampaignAuditLogCard from "./components/CampaignAuditLogCard";
+import CampaignDetailCard from "./components/CampaignDetailCard";
 import AllReportStatusCard from "./components/AllReportStatusCard";
 import SummaryStats from "./components/SummaryStats";
 import RejectedCard from "./components/RejectedCard";
 import DeliveryCard from "./components/DeliveryCard";
 import TimeTakenCard from "./components/TimeTakenCard";
 import ReadCard from "./components/ReadCard";
+import UnansweredCard from "./components/UnansweredCard";
+import CompletedCard from "./components/CompletedCard";
 
 function CampaignDetailPage () {
   const [refreshToken, setRefreshToken]= React.useState(uuid());
@@ -76,9 +78,11 @@ function CampaignDetailPage () {
       />
       
       <SummaryStats report={report}>
-        <RejectedCard />
-        <ReadCard />
+        <CompletedCard />
         <DeliveryCard />
+        <ReadCard />
+        <RejectedCard />
+        <UnansweredCard />
         <TimeTakenCard campaign={campaign} />
       </SummaryStats>
 

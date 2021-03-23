@@ -4,18 +4,19 @@ import { useSummaryReport } from "../hooks/summary-report";
 import StatsNumber from "./StatsNumber";
 import StatsCard from "./StatsCard";
 
-function RejectedCard () {
+function CompletedCard () {
   const { report } = useSummaryReport();
-
+  console.log(report);
+  
   return (
     <StatsCard
-      visible={report?.rejected !== undefined}
-      iconName="Vlt-icon-cross-circle"
-      backgroundColor="Vlt-gradient--pink-to-peach"
-      label="REJECTED"
+      visible={report?.completed !== undefined}
+      iconName="Vlt-icon-check-bold"
+      backgroundColor="Vlt-gradient--blue-to-purple"
+      label="COMPLETED"
       value={(
         <StatsNumber
-          left={report?.rejected}
+          left={report?.completed}
           right={report?.total}
         />
       )}
@@ -23,4 +24,4 @@ function RejectedCard () {
   )
 }
 
-export default RejectedCard;
+export default CompletedCard;

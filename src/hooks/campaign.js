@@ -125,7 +125,7 @@ function useCampaign (token) {
       const overallReport = new Report();
       reports.forEach((report) => {
         console.log(report);
-        overallReport.totalRecord = report.totalRecord;
+        overallReport.total = report.total;
         overallReport.delivered = report.delivered;
         overallReport.rejected = report.rejected;
       })
