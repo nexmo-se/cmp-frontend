@@ -1,39 +1,112 @@
-import moment from "moment";
+// flow
+import { DateTime } from "luxon"
 
-class Report{
-  // downloadURL:string|void;
-  // name:string|void;
-  // status:string|void;
-  // submitTime:moment|void;
-  // price:number|void;
+interface Constructor {
+  id: string;
+  downloadUrl?: ?string;
+  name: string;
+  status?: ?string;
+  price: number;
 
-  // submitted:number|void;
-  // delivered:number|void;
-  // rejected:number|void;
-  // read:number|void;
-  // totalRecord:number|void.
+  submitted?: ?number;
+  delivered?: ?number;
+  rejected?: ?number;
+  read?: ?number;
 
-  constructor(delivered=0, rejected=0, totalRecord=0){
-    this.delivered = delivered;
-    this.rejected = rejected;
-    this.totalRecord = totalRecord;
+  // This status is for voice
+  busy?: ?number;
+  cancelled?: ?number;
+  unanswered?: ?number;
+  disconnected?: ?number;
+  rejected?: ?number;
+  failed?: ?number;
+  timeout?: ?number;
+
+  totalRecord?: ?number;
+}
+
+class Report {
+  id: string;
+  downloadUrl: ?string;
+  name: string;
+  status: ?string;
+  price: number;
+
+  submitted: ?number;
+  delivered: ?number;
+  rejected: ?number;
+  read: ?number;
+
+  // This status is for voice
+  busy: ?number;
+  cancelled: ?number;
+  unanswered: ?number;
+  disconnected: ?number;
+  rejected: ?number;
+  failed: ?number;
+  timeout: ?number;
+
+  totalRecord: ?number;
+
+  constructor (args: Constructor) {
+    this.id = args.id;
+    this.downloadUrl = args.downloadUrl;
+    this.name = args.name;
+    this.status = args.status;
+    this.price = args.price;
+    this.submitted = args.submitted;
+    this.delivered = args.delivered;
+    this.rejected = args.rejected;
+    this.read = args.read;
+    this.busy = args.busy;
+    this.cancelled = args.cancelled;
+    this.unanswered = args.unanswered;
+    this.disconnected = args.disconnected;
+    this.rejected = args.rejected;
+    this.failed = args.failed;
+    this.timeout = args.timeout;
+    this.totalRecord = args.totalRecord;
   }
+  
+  setSummaries (summaries: any) {
+    const acceptedSummary = [
+      "submitted",
+      "delivered",
+      "rejected",
+      "read",
+      "busy",
+      "cancelled",
+      "unanswered",
+      "disconnected",
+      "rejected",
+      "failed",
+      "timeout"
+    ];
 
-  static fromJSON(value){
-    console.log(value);
-    const report = new Report();
-    report.submitted = value.summary?.submitted || 0;
-    report.delivered = value.summary?.delivered || 0;
-    report.rejected = value.summary?.rejected || 0;
-    report.read = value.summary?.read || 0;
-    report.totalRecord = value.summary?.total || 0;
+    const givenSummaries = Object.keys(summaries);
+    givenSummaries.forEach(
+      (key) => {
+        if (acceptedSummary.includes(key)) {
+          this[key] = summaries[key];
+        } else {
+          // The summary is not accepted
+          // The backend might give more data to the accepted summary
+          // Consult to backend team and check if they gives 
+          // new summary
+        }
+      }
+    )
+  }
+  
+  static fromResponse (data: any) {
+    const report = new Report({
+      id: data.id,
+      name: data.name,
+      price: parseFloat(data.price)
+    });
 
-    report.price = parseFloat(value?.price) || 0;
-    report.name = value.name || "";
-    report.status = value.status || "";
-    report.submitTime = new moment(value.submitTime) || "";
-    report.downloadURL = value.url || ""
-    return report;
+    report.setSummaries(data.summary);
   }
 }
+
 export default Report;

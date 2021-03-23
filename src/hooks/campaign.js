@@ -23,7 +23,7 @@ function useCampaign (token) {
     [token]
   )
 
-  async function create(campaign){
+  async function create (campaign) {
     const url = `${Config.apiDomain}/campaigns`;
     await FetchAPI.post(url, token, JSON.stringify(campaign.toJSON()));
   }
@@ -38,13 +38,13 @@ function useCampaign (token) {
     []
   )
 
-  async function updateStatus(campaign, status){
+  async function updateStatus (campaign, status) {
     const url = `${Config.apiDomain}/campaigns/${campaign.id}/status`
     const body = { status }
     await FetchAPI.put(url, token, JSON.stringify(body));
   }
 
-  async function remove(campaign){
+  async function remove (campaign) {
     const url = `${process.env.REACT_APP_BASE_API_URL}/campaigns/${campaign.id}`;
     await FetchAPI.remove(url, token);
   }
@@ -61,13 +61,13 @@ function useCampaign (token) {
         }
       };
       const responseData = await FetchAPI.post(url, token, JSON.stringify(payload));
-      if(responseData) return Report.fromJSON(responseData);
+      if (responseData) return Report.fromResponse(responseData);
       else return null;
     },
     []
   )
 
-  async function overallSummaryReport(from, to){
+  async function overallSummaryReport (from, to) {
     const url = `${process.env.REACT_APP_BASE_API_URL}/reports/json`;
     const payload = {
       type: "overall_summary",
@@ -85,7 +85,7 @@ function useCampaign (token) {
     else return null;
   }
 
-  async function lineChart(campaign, filter="day"){
+  async function lineChart (campaign, filter="day") {
     const range = DateAPI.getRangeFromNow(filter);
     const labels = range.map((date) => date.format("MMM DD"));
     
@@ -114,7 +114,7 @@ function useCampaign (token) {
     return chartData;
   }
 
-  async function overallLineChart(filter="day"){
+  async function overallLineChart (filter="day") {
     const range = DateAPI.getRangeFromNow(filter);
     const labels = range.map((date) => date.format("MMM DD"));
 
@@ -153,7 +153,7 @@ function useCampaign (token) {
     return chartData;
   }
 
-  async function exportDetailReport(campaign){
+  async function exportDetailReport (campaign) {
     const url = `${process.env.REACT_APP_BASE_API_URL}/reports/csv`;
     const payload = {
       type: "campaign_detail",

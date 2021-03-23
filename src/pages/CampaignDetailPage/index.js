@@ -1,6 +1,5 @@
 // @flow
 import React from "react";
-import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
 import Campaign from "entities/campaign";
@@ -8,6 +7,7 @@ import Campaign from "entities/campaign";
 import useUser from "hooks/user";
 import useCampaign from "hooks/campaign";
 import useError from "hooks/error";
+import { useParams } from "react-router-dom";
 
 import CampaignDetailCard from "components/CampaignDetailCard";
 import CampaignAuditLogCard from "components/CampaignAuditLogCard";
@@ -16,14 +16,14 @@ import PageHeader from "components/PageHeader";
 import RefreshButton from "components/RefreshButton";
 import ExportCampaignDetailReportButton from "components/ExportCampaignDetailReportButton";
 
-import AllReportStatusCard from "./AllReportStatusCard";
-import SummaryStats from "./SummaryStats";
-import RejectedCard from "./RejectedCard";
-import DeliveryCard from "./DeliveryCard";
-import TimeTakenCard from "./TimeTakenCard";
-import ReadCard from "./ReadCard";
+import AllReportStatusCard from "./components/AllReportStatusCard";
+import SummaryStats from "./components/SummaryStats";
+import RejectedCard from "./components/RejectedCard";
+import DeliveryCard from "./components/DeliveryCard";
+import TimeTakenCard from "./components/TimeTakenCard";
+import ReadCard from "./components/ReadCard";
 
-function CampaignDetailPage(){
+function CampaignDetailPage () {
   const [refreshToken, setRefreshToken]= React.useState(uuid());
   const [isLoading, setIsLoading]= React.useState(true);
   const [campaign, setCampaign]= React.useState();
@@ -50,7 +50,7 @@ function CampaignDetailPage(){
     [campaignId, retrieve, summaryReport, throwError]
   )
 
-  function handleRefresh(){
+  function handleRefresh () {
     setRefreshToken(uuid());
   }
 
@@ -77,7 +77,7 @@ function CampaignDetailPage(){
       
       <SummaryStats report={report}>
         <RejectedCard />
-        {(report?.read !== 0)? <ReadCard />: null}
+        <ReadCard />
         <DeliveryCard />
         <TimeTakenCard campaign={campaign} />
       </SummaryStats>
