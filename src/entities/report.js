@@ -8,6 +8,7 @@ interface Constructor {
   status?: ?string;
   price: number;
 
+  requested?: ?number;
   submitted?: ?number;
   delivered?: ?number;
   rejected?: ?number;
@@ -33,6 +34,7 @@ class Report {
   status: ?string;
   price: number;
 
+  requested: ?number;
   submitted: ?number;
   delivered: ?number;
   rejected: ?number;
@@ -84,7 +86,8 @@ class Report {
       "failed",
       "timeout",
       "total",
-      "completed"
+      "completed",
+      "requested"
     ];
 
     const givenSummaries = Object.keys(summaries);

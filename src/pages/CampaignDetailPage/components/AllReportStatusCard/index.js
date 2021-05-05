@@ -13,6 +13,7 @@ function AllReportStatusCard({ report }){
         <Row label="Read" value={report.read} />
         <Row label="Delivered" value={report.delivered} />
         <Row label="Rejected" value={report.rejected} />
+        <Row label="Requested" value={report.requested} />
         <Row label="Completed" value={report.completed} />
         <Row label="Unanswered" value={report.unanswered} />
         <Row label="Busy" value={report.busy} />
