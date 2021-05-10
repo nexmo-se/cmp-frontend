@@ -14,12 +14,13 @@ interface Constructor {
 }
 
 class Channel {
-  static acceptedChannel = ["sms", "whatsapp", "viber", "voice"];
+  static acceptedChannel = ["sms", "whatsapp", "viber", "voice", "number_insight"];
   static channelMapping = {
     sms: "SMS",
     whatsapp: "Whatsapp",
     viber: "Viber",
     voice: "Voice",
+    number_insight: "Number Insight"
   }
 
   id: ?string;
