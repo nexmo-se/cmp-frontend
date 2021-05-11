@@ -39,21 +39,21 @@ function WhatsappTemplateInput ({ onChange, content }: WhatsappTemplateInputProp
         <div className="Vlt-col">
           <TextInput 
             label="Whatsappp Template Name" 
-            value={content.whatsappTemplateName}
+            value={content.whatsappTemplateName ?? ""}
             setValue={handleNameChange}
           />
         </div>
         <div className="Vlt-col">
           <TextInput 
             label="Whatsapp Template Namespace"
-            value={content.whatsappTemplateNamespace}
+            value={content.whatsappTemplateNamespace ?? ""}
             setValue={handleNamespaceChange}
           />
         </div>
       </div>
       <TextArea
         label="Body"
-        value={content.body}
+        value={content.body ?? ""}
         setValue={handleBodyChange}
       />
     </React.Fragment>

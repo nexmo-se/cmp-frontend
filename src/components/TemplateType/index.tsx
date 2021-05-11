@@ -1,10 +1,10 @@
-// @flow
 import channelMapping from "./mappings.json";
 
-import React from "react";
 import clsx from "clsx";
 import lodash from "lodash";
 import Channel from "entities/channel";
+import { useState, useEffect } from "react";
+import { TemplateContent } from "types/template";
 
 import TemplateInput from "./components/TemplateInput";
 import Button from "components/Button";
@@ -12,15 +12,9 @@ import ButtonGroup from "components/Button/ButtonGroup";
 
 const notSupportedType = []
 
-interface Content {
-  body: string,
-  whatsappTemplateName?: string,
-  whatsappTemplateNamespace?: string
-}
-
 interface InputProps { 
   mediaType: string;
-  content: Content;
+  content: TemplateContent;
   channel: Channel;
   onChange?: (value: any) => void;
 };
@@ -28,7 +22,7 @@ interface InputProps {
 interface TemplateTypeProps {
   channel: Channel,
   mediaType?: string,
-  content: Content,
+  content: TemplateContent,
   onMediaTypeChange?: (value: string) => void;
   onContentChange?: (value: any) => void;
 }
@@ -50,23 +44,23 @@ function Input ({ channel, mediaType, ...props }: InputProps) {
 }
 
 function TemplateType( { mediaType, content, channel, onMediaTypeChange, onContentChange }: TemplateTypeProps) {
-  const [selectedType, setSelectedType] = React.useState<string>("");
+  const [selectedType, setSelectedType] = useState<string>("");
 
-  React.useEffect(
+  useEffect(
     () => {
       if (onMediaTypeChange) onMediaTypeChange(selectedType);
     },
     [selectedType]
   );
 
-  React.useEffect(
+  useEffect(
     () => {
       if (mediaType) setSelectedType(mediaType)
     },
     [mediaType]
   )
 
-  React.useEffect(
+  useEffect(
     () => {
       // set default selectedType when channel changes
       if (!channel) setSelectedType("")
@@ -84,7 +78,7 @@ function TemplateType( { mediaType, content, channel, onMediaTypeChange, onConte
   )
 
   return (
-    <React.Fragment>
+    <>
       <div className="Vlt-form__element">
         <div className="Vlt-label">
           Template Type
@@ -123,7 +117,7 @@ function TemplateType( { mediaType, content, channel, onMediaTypeChange, onConte
         onChange={onContentChange}
         channel={channel}
       />
-    </React.Fragment>
+    </>
   )
 }
 export default TemplateType;

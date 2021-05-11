@@ -1,24 +1,23 @@
-// @flow
 import Channel from "entities/channel";
 
 interface Constructor {
-  id?: ?string;
+  id?: string;
   name?: string;
-  channel?: ?Channel;
+  channel?: Channel;
   body?: string;
-  whatsappTemplateName?: ?string;
-  whatsappTemplateNamespace?: ?string;
-  mediaType?: ?string;
+  whatsappTemplateName?: string;
+  whatsappTemplateNamespace?: string;
+  mediaType?: string;
 }
 
 class Template {
-  id: ?string;
-  name: ?string;
-  channel: ?Channel;
-  body: ?string;
-  whatsappTemplateName: ?string;
-  whatsappTemplateNamespace: ?string;
-  mediaType: ?string;
+  id: string;
+  name: string;
+  channel: Channel;
+  body: string;
+  whatsappTemplateName: string;
+  whatsappTemplateNamespace: string;
+  mediaType: string;
 
   constructor (args: Constructor) {
     this.id = args.id;
@@ -30,7 +29,7 @@ class Template {
     this.whatsappTemplateNamespace = args.whatsappTemplateNamespace;
   }
 
-  get additionalColumns(): Array<string>{
+  get additionalColumns (): Array<string> {
     switch (this.mediaType) {
       case "audio": return [ "url" ];
       case "file": return [ "url", "fileName" ];
@@ -55,11 +54,11 @@ class Template {
     return this.body?.match(/{{\d+}}/g) ?? [];
   }
 
-  get parameterColumns():Array<string>{
+  get parameterColumns (): Array<string> {
     return this.parameters.map((parameter) => "parameter");
   }
 
-  toRequest(){
+  toRequest () {
     if (!this.channel) throw new Error("You must provide channel");
 
     const jsonData = {
@@ -74,7 +73,7 @@ class Template {
     return JSON.parse(JSON.stringify(jsonData));
   }
 
-  toUpdateRequest(){
+  toUpdateRequest () {
     const jsonData = {
       name: this.name,
       mediaType: this.mediaType,
@@ -83,7 +82,7 @@ class Template {
     return JSON.parse(JSON.stringify(jsonData));
   }
 
-  static fromResponse(value:any):Template{
+  static fromResponse (value: Record<string, any>): Template {
     const t = new Template({ ...value });
 
     if (value.cmpChannel) t.channel = Channel.fromResponse(value.cmpChannel);

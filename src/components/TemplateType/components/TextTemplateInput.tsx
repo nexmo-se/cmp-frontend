@@ -1,14 +1,9 @@
-// @flow
-import React from "react";
 import TextArea from "components/TextArea";
-
-interface Content {
-  body:string
-}
+import { TemplateContent } from "types/template";
 
 interface TextTemplateInputProps {
   onChange: (value: Content) => void;
-  content: Content
+  content: TemplateContent
 }
 
 function TextTemplateInput ({ onChange, content }: TextTemplateInputProps) {
@@ -19,7 +14,7 @@ function TextTemplateInput ({ onChange, content }: TextTemplateInputProps) {
   return (
     <TextArea
       label="Body"
-      value={content.body}
+      value={content.body ?? ""}
       setValue={handleBodyChange}
     />
   )

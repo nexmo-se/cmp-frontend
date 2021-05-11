@@ -26,7 +26,7 @@ function ViberTemplateInput ({ onChange, content }: ViberTemplateInputProps) {
 
       <TextArea
         label="Body"
-        value={content.body}
+        value={content.body ?? ""}
         setValue={handleBodyChange}
       />
     </React.Fragment>

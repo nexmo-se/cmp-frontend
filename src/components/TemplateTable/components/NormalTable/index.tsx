@@ -1,6 +1,9 @@
-import React from "react";
-import { makeStyles } from "@material-ui/styles";
+import Template from "entities/template";
 
+import useStyles from "./styles";
+import { useState } from "react";
+
+import DetailColumn from "../DetailColumn";
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
 import Table from "components/Table";
@@ -11,20 +14,17 @@ import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import TableBodyRow from "components/Table/TableBodyRow";
 
-import DetailColumn from "./DetailColumn";
+interface NormalTableProps {
+  templates: Template[];
+  limit?: number;
+}
 
-const useStyles = makeStyles(() => ({
-  nameWidth: {
-    maxWidth: 150
-  }
-}))
-
-function NormalTable({ templates, setRefreshToken, limit=10 }){
-  const [ currentPage, setCurrentPage ] = React.useState(1);
+function NormalTable ({ templates, limit=10 }: NormalTableProps) {
+  const [currentPage, setCurrentPage] = useState(1);
   const mStyles = useStyles();
 
   return (
-    <React.Fragment>
+    <>
       <Table>
         <TableHead>
           <TableRow>
@@ -47,11 +47,13 @@ function NormalTable({ templates, setRefreshToken, limit=10 }){
                   <p>
                     <b>{template.name}</b>
                   </p>
-                  <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 250 }}>{template.id}</p>
+                  <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 250 }}>
+                    {template.id}
+                  </p>
                 </TableColumn>
                 <TableColumn>{template.channel.name}</TableColumn>
                 <TableColumn>{template?.channel.apiKey?.name}</TableColumn>
-                <DetailColumn template={template} setRefreshToken={setRefreshToken} />
+                <DetailColumn template={template} />
               </TableBodyRow>
             )
           })}
@@ -63,7 +65,7 @@ function NormalTable({ templates, setRefreshToken, limit=10 }){
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
       />
-    </React.Fragment>
+    </>
   )
 }
 export default NormalTable;
