@@ -1,3 +1,4 @@
+import lodash from "lodash";
 import Channel from "entities/channel";
 import ApiKey from "entities/apiKey";
 
@@ -25,15 +26,6 @@ class Application {
     this.applicationId = args.applicationId;
     this.privateKey = args.privateKey;
     this.channels = args.channels;
-  }
-
-  toJSON () {
-    return JSON.parse(JSON.stringify({
-      name: this.name,
-      cmpApiKeyId: this.apiKey.id,
-      applicationId: this.applicationId,
-      privateKey: this.privateKey
-    }))
   }
 
   static fromResponse (response: Record<string, any>): Application {

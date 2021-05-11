@@ -1,6 +1,9 @@
-import React from "react";
-import { makeStyles } from "@material-ui/styles";
+import Application from "entities/application";
 
+import useStyles from "./styles";
+import { useState } from "react";
+
+import DetailColumn from "../DetailColumn";
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
 import Table from "components/Table";
@@ -11,18 +14,17 @@ import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import TableBodyRow from "components/Table/TableBodyRow";
 
-import DetailColumn from "./DetailColumn";
+interface NormalTableProps {
+  applications: Application[];
+  limit?: number
+}
 
-const useStyles = makeStyles(() => ({
-  nameWidth: { maxWidth: 250 }
-}))
-
-function NormalTable({ applications, setRefreshToken, limit=10 }){
-  const [ currentPage, setCurrentPage ] = React.useState(1);
+function NormalTable ({ applications, limit=10 }: NormalTableProps) {
+  const [currentPage, setCurrentPage] = useState(1);
   const mStyles = useStyles();
 
   return (
-    <React.Fragment>
+    <>
       <Table>
         <TableHead>
           <TableRow>
@@ -49,7 +51,7 @@ function NormalTable({ applications, setRefreshToken, limit=10 }){
                 </TableColumn>
                 <TableColumn>{application.apiKey.name}</TableColumn>
                 <TableColumn className="Vlt-center">{application.channels.length}</TableColumn>
-                <DetailColumn application={application} setRefreshToken={setRefreshToken} />
+                <DetailColumn application={application} />
               </TableBodyRow>
             )
           })}
@@ -61,7 +63,7 @@ function NormalTable({ applications, setRefreshToken, limit=10 }){
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
       />
-    </React.Fragment>
+    </>
   )
 }
 export default NormalTable;
