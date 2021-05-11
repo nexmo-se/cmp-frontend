@@ -1,16 +1,16 @@
-// @flow
 import Application from "entities/application";
 import APIKey from "entities/apiKey";
+import { ChannelType } from "types/channel";
 
 interface Constructor {
   id?: string;
   name?: string;
-  channel?: string;
+  channel?: ChannelType;
   senderId?: string;
   tps?: number;
   smsUseSignature?: boolean;
-  application?: ?Application;
-  apiKey?: ?APIKey;
+  application?: Application;
+  apiKey?: APIKey;
 }
 
 class Channel {
@@ -23,15 +23,14 @@ class Channel {
     number_insight: "Number Insight"
   }
 
-  id: ?string;
-  name: ?string;
-  channel: ?string;
-  senderId: ?string;
-  tps: number;
-  smsUseSignature: boolean;
-  application: ?Application;
-  apiKey: ?APIKey;
-  
+  id?: string;
+  name?: string;
+  channel?: ChannelType;
+  senderId?: string;
+  tps?: number;
+  smsUseSignature?: boolean;
+  application?: Application;
+  apiKey?: APIKey;
 
   constructor (args: Constructor) {
     this.id = args.id;

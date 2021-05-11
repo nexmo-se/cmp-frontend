@@ -21,10 +21,14 @@ interface CreateOptions {
   application?: Application;
 }
 
+interface RemoveOptions {
+  id: string;
+}
+
 function useChannel () {
   const [channels, setChannels] = useState<Channel[]>([]);
   const { token } = useContext(UserContext);
-  const { data, error, loading, mutate } = useSWR([`${Config.apiDomain}/channels`, token]);
+  const { data, error, mutate } = useSWR([`${Config.apiDomain}/channels`, token]);
 
   async function create (args: CreateOptions) {
     const url = `${Config.apiDomain}/channels`;
@@ -40,7 +44,13 @@ function useChannel () {
     }))
     
     await FetchAPI.post(url, token, JSON.stringify(payload));
-    mutate();
+    await mutate();
+  }
+
+  async function remove ({ id }: RemoveOptions) {
+    const url = `${Config.apiDomain}/channels/${id}`;
+    await FetchAPI.remove(url, token);
+    await mutate();
   }
 
   useEffect(
@@ -54,7 +64,9 @@ function useChannel () {
 
   return {
     create,
-    channels
+    remove,
+    channels,
+    isLoading: !data && !error
   }
 
   // const [ data, setData ] = React.useState([]);

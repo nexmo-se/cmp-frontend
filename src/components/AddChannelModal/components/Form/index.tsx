@@ -1,12 +1,13 @@
 import ChannelService from "services/channel";
 import validator from "validator";
-import { UserContext } from "contexts/user";
 import { createContext, SetStateAction, Dispatch, FormEvent } from "react";
+
+import useChannel from "hooks/channel";
+import useError from "hooks/error";
 import { useContext, useState, useEffect } from "react";
 
 import ApiKey from "entities/apiKey";
 import Application from "entities/application";
-import useChannel from "hooks/channel";
 import { NotImplementedError } from "entities/error";
 
 interface FormContextProps {
@@ -44,6 +45,7 @@ function FormProvider ({ onSubmitted, onError, children }: FormProviderProps) {
   const [isClean, setIsClean] = useState<boolean>(false);
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const { create: createChannel } = useChannel();
+  const { throwError } = useError();
 
   function clearInput () {
     setName("");
@@ -70,8 +72,7 @@ function FormProvider ({ onSubmitted, onError, children }: FormProviderProps) {
       clearInput();
       if (onSubmitted) onSubmitted();
     } catch (err) {
-      console.log(err);
-      throw new NotImplementedError();
+      throwError(err);
     } finally {
       setIsAdding(false);
     }
@@ -106,10 +107,8 @@ function FormProvider ({ onSubmitted, onError, children }: FormProviderProps) {
           )
           break;
         case "number_insight":
-          setIsClean(
-            !validator.isEmpty(tps) &&
-            apiKey !== undefined
-          )
+          setIsClean(apiKey !== undefined);
+          break;
         default:
           setIsClean(false);
       }

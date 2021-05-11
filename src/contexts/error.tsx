@@ -10,7 +10,7 @@ import CriticalCallouts from "components/Callouts/Critical";
 import SuccessCallouts from "components/Callouts/Success";
 
 interface ErrorContextProps {
-  throwError: () => void;
+  throwError: (err: Error) => void;
   clearError: () => void;
   throwSuccess: () => void;
 }

@@ -1,7 +1,7 @@
-// @flow
-import React from "react";
 import Channel from "entities/channel";
-import { makeStyles } from "@material-ui/styles";
+
+import useStyles from "./styles";
+import { useState } from "react";
 
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
@@ -13,24 +13,39 @@ import TableColumn from "components/Table/TableColumn";
 import TableBody from "components/Table/TableBody";
 import TableBodyRow from "components/Table/TableBodyRow";
 
-import DetailColumn from "./DetailColumn";
-
-const useStyles = makeStyles(() => ({
-  appWidth: { maxWidth: 100 }
-}));
+import DetailColumn from "../DetailColumn";
 
 interface NormalTableProps {
   channels: Channel[];
-  setRefreshToken: (token: string) => void;
   limit?: number;
 }
 
-function NormalTable ({ channels, setRefreshToken, limit=10 }: NormalTableProps) {
-  const [currentPage, setCurrentPage] = React.useState(1);
+function NormalTable (props: NormalTableProps) {
+  const { channels, limit = 10 } = props;
+  const [currentPage, setCurrentPage] = useState(1);
   const mStyles = useStyles();
 
+  function generateColor (channel: Channel) {
+    if (!channel.channel) return "Vlt-green";
+
+    switch (channel.channel) {
+      case "sms":
+        return "Vlt-orange";
+      case "whatsapp":
+        return "Vlt-green";
+      case "viber": 
+        return "Vlt-purple";
+      case "voice":
+        return "Vlt-teal";
+      case "number_insight":
+        return "Vlt-yellow";
+      default:
+        return "Vlt-green";
+    }
+  }
+
   return (
-    <React.Fragment>
+    <>
       <Table>
         <TableHead>
           <TableRow>
@@ -38,7 +53,9 @@ function NormalTable ({ channels, setRefreshToken, limit=10 }: NormalTableProps)
             <TableHeader>NAME</TableHeader>
             <TableHeader>SENDER ID</TableHeader>
             <TableHeader>TPS</TableHeader>
-            <TableHeader className={mStyles.appWidth}>APP</TableHeader>
+            <TableHeader className={mStyles.appWidth}>
+              APP
+            </TableHeader>
             <TableHeader>API KEY</TableHeader>
             <TableHeader />
           </TableRow>
@@ -50,10 +67,7 @@ function NormalTable ({ channels, setRefreshToken, limit=10 }: NormalTableProps)
               .map(
                 (channel, index) => {
                   const number = ((currentPage - 1) * limit) + index + 1;
-                  const channelColor = (channel.channel === "sms")? "Vlt-orange": 
-                                      (channel.channel === "whatsapp")? "Vlt-green":
-                                      (channel.channel === "viber")? "Vlt-purple":
-                                      (channel.channel === "voice")? "Vlt-teal": "Vlt-green";
+                  const channelColor = generateColor(channel);
                   return (
                     <TableBodyRow key={channel.id}>
                       <TableColumn>
@@ -69,10 +83,14 @@ function NormalTable ({ channels, setRefreshToken, limit=10 }: NormalTableProps)
                         <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 150 }}>{channel.id}</p>
                       </TableColumn>
                       <TableColumn>{channel.senderId}</TableColumn>
-                      <TableColumn className="Vlt-centre">{channel.tps}</TableColumn>
-                      <TableColumn className={mStyles.appWidth}>{channel.application?.name}</TableColumn>
+                      <TableColumn className="Vlt-centre">
+                        {channel.tps}
+                      </TableColumn>
+                      <TableColumn className={mStyles.appWidth}>
+                        {channel.application?.name}
+                      </TableColumn>
                       <TableColumn>{channel.apiKey?.name}</TableColumn>
-                      <DetailColumn channel={channel} setRefreshToken={setRefreshToken} />
+                      <DetailColumn channel={channel} />
                     </TableBodyRow>
                   )
                 }
@@ -86,7 +104,7 @@ function NormalTable ({ channels, setRefreshToken, limit=10 }: NormalTableProps)
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
       />
-    </React.Fragment>
+    </>
   )
 }
 export default NormalTable;

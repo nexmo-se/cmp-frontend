@@ -1,21 +1,14 @@
-import React from "react";
 import clsx from "clsx";
 import { v4 as uuid } from "uuid";
-import { makeStyles } from "@material-ui/styles";
+
+import useStyles from "./style";
+import { useState } from "react";
 
 import AddButton from "components/AddButton";
 import AddChannelModal from "components/AddChannelModal";
 
-const useStyles = makeStyles(() => ({
-  flexCenter: {
-    display: "flex",
-    alignItems: "center"
-  },
-  title: { marginBottom: 0 }
-}))
-
-function Header({ setRefreshToken }){
-  const [modalVisible, setModalVisible] = React.useState(false);
+function Header(){
+  const [modalVisible, setModalVisible] = useState(false);
   const mStyles = useStyles();
 
   function handleToggleModal(e){
@@ -23,18 +16,16 @@ function Header({ setRefreshToken }){
     setModalVisible((prevVisible) => !prevVisible);
   }
 
-  function handleAdded(){
-    setRefreshToken(uuid());
-  }
-
   return (
-    <React.Fragment>
+    <>
       <div className="Vlt-grid">
       <div 
-        className={clsx(
-          "Vlt-col",
-          mStyles.flexCenter
-        )}
+        className={
+          clsx(
+            "Vlt-col",
+            mStyles.flexCenter
+          )
+        }
       >
         <h1 className={mStyles.title}>Channels</h1>
       </div>
@@ -45,9 +36,8 @@ function Header({ setRefreshToken }){
       <AddChannelModal 
         visible={modalVisible}
         setVisible={setModalVisible}
-        onAdded={handleAdded}
       />
-    </React.Fragment>
+    </>
   )
 }
 export default Header;
