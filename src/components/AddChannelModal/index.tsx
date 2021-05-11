@@ -18,10 +18,11 @@ interface AddChannelModalProps {
   disabledChannels?: string[];
   visible: boolean;
   setVisible: (visible: boolean) => void;
+  onAdded?: () => void;
 }
 
 function AddChannelModal (props: AddChannelModalProps) {
-  const { disabledChannels, visible, setVisible } = props;
+  const { disabledChannels, visible, setVisible, onAdded } = props;
   const { throwError } = useError();
 
   function handleCancel () {
@@ -34,6 +35,7 @@ function AddChannelModal (props: AddChannelModalProps) {
 
   function handleSubmitted () {
     setVisible(false);
+    if (onAdded) onAdded();
   }
 
   return (

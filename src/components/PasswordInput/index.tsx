@@ -1,15 +1,16 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 
-interface TextInputProps {
+interface PasswordInputProps {
   label: string;
-  hint?: string;
+  hint: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  disabled: boolean;
 }
 
-function TextInput ({ label, hint, value, setValue, ...props }: TextInputProps) {
-  function handleChange (e: ChangeEvent<HTMLInputElement>) {
-    if (setValue) setValue(e.target.value);
+function PasswordInput ({ label, hint, value, setValue, disabled }) {
+  function handleChange (e) {
+    setValue(e.target.value);
   }
 
   return (
@@ -19,10 +20,10 @@ function TextInput ({ label, hint, value, setValue, ...props }: TextInputProps) 
       </label>
       <div className="Vlt-input">
         <input 
-          {...props}
-          type="text" 
+          type="password" 
           value={value} 
-          onChange={handleChange}
+          onChange={handleChange} 
+          disabled={disabled} 
         />
       </div>
       <small className="Vlt-form__element__hint">
@@ -31,4 +32,5 @@ function TextInput ({ label, hint, value, setValue, ...props }: TextInputProps) 
     </div>
   );
 }
-export default TextInput;
+
+export default PasswordInput;
