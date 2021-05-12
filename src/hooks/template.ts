@@ -33,7 +33,6 @@ function useTemplate () {
 
   async function create (options: CreateOptions) {
     const url = `${Config.apiDomain}/templates`;
-    console.log(options);
     const payload = {
       name: options.name,
       cmpChannelId: options.channel.id,

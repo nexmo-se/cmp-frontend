@@ -1,6 +1,4 @@
-import React from "react";
-
-function TemplateInformationCard(){
+function TemplateInformationCard () {
   return (
     <div className="Vlt-card--gradient-wrapper Vlt-gradient--blue-to-pink">
       <div className="Vlt-card Vlt-card--border">
