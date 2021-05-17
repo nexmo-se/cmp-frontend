@@ -1,5 +1,5 @@
 import React from "react";
-import MomentUtils from "@date-io/moment";
+import LuxonUtils from "@date-io/luxon";
 import Fetcher from "utils/fetcher";
 import { SWRConfig } from "swr";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
@@ -31,7 +31,7 @@ import CampaignDetailPage from "pages/CampaignDetailPage";
 
 function App(){
   return (
-    <MuiPickersUtilsProvider utils={MomentUtils}>
+    <MuiPickersUtilsProvider utils={LuxonUtils}>
       <BrowserRouter>
         <CookiesProvider>
           <UserProvider>

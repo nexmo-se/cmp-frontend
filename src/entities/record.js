@@ -43,8 +43,8 @@ class Record{
     const record = new Record();
     record.id = value.id;
     record.recipient = value.recipient;
-    record.campaign = Campaign.fromJSON(value.cmpCampaign);
-    record.template = Template.fromJSON(value.cmpTemplate);
+    record.campaign = Campaign.fromResponse(value.cmpCampaign);
+    record.template = Template.fromResponse(value.cmpTemplate);
     record.cmpRecordMessages = value.cmpRecordMessages;
   }
 }
