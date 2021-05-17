@@ -8,12 +8,6 @@ import DetailColumn from "../DetailColumn";
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
 import Table from "components/Table";
-import TableHead from "components/Table/TableHead";
-import TableRow from "components/Table/TableRow";
-import TableHeader from "components/Table/TableHeader";
-import TableColumn from "components/Table/TableColumn";
-import TableBody from "components/Table/TableBody";
-import TableBodyRow from "components/Table/TableBodyRow";
 
 interface NormalTableProps {
   apiKeys: ApiKey[];
@@ -27,18 +21,18 @@ function NormalTable ({ apiKeys, limit = 10 }: NormalTableProps) {
   return (
     <>
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeader />
-            <TableHeader className={mStyles.nameWidth}>
+        <Table.Head>
+          <Table.Row>
+            <Table.Header />
+            <Table.Header className={mStyles.nameWidth}>
               NAME
-            </TableHeader>
-            <TableHeader>APPS</TableHeader>
-            <TableHeader>CHANNELS</TableHeader>
-            <TableHeader className={mStyles.nameWidth} />
-          </TableRow>
-        </TableHead>
-        <TableBody>
+            </Table.Header>
+            <Table.Header>APPS</Table.Header>
+            <Table.Header>CHANNELS</Table.Header>
+            <Table.Header className={mStyles.nameWidth} />
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
           {
             apiKeys
             .slice((currentPage - 1) * limit, currentPage * limit)
@@ -46,29 +40,29 @@ function NormalTable ({ apiKeys, limit = 10 }: NormalTableProps) {
               (apiKey, index) => {
                 const number = (currentPage - 1) * limit + index + 1
                 return(
-                  <TableBodyRow key={apiKey.id}>
-                    <TableColumn>
+                  <Table.BodyRow key={apiKey.id}>
+                    <Table.Column>
                       <NumberIndicator number={number} />
-                    </TableColumn>
-                    <TableColumn className={mStyles.nameWidth}>
+                    </Table.Column>
+                    <Table.Column className={mStyles.nameWidth}>
                       <p className="Vlt-truncate">
                         <b>{apiKey.name} ({apiKey.key})</b>
                       </p>
                       <p className="Vlt-grey Vlt-truncate">{apiKey.id}</p>
-                    </TableColumn>
-                    <TableColumn className="Vlt-right">
+                    </Table.Column>
+                    <Table.Column className="Vlt-right">
                       {apiKey.applications.length}
-                    </TableColumn>
-                    <TableColumn className="Vlt-right">
+                    </Table.Column>
+                    <Table.Column className="Vlt-right">
                       {apiKey.channels.length}
-                    </TableColumn>
+                    </Table.Column>
                     <DetailColumn apiKey={apiKey} />
-                  </TableBodyRow>
+                  </Table.BodyRow>
                 )
               }
             )
           }
-        </TableBody>
+        </Table.Body>
       </Table>
       <Pagination 
         totalData={apiKeys.length}

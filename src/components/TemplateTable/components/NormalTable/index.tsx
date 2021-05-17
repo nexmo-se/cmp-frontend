@@ -7,12 +7,6 @@ import DetailColumn from "../DetailColumn";
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
 import Table from "components/Table";
-import TableHead from "components/Table/TableHead";
-import TableRow from "components/Table/TableRow";
-import TableHeader from "components/Table/TableHeader";
-import TableColumn from "components/Table/TableColumn";
-import TableBody from "components/Table/TableBody";
-import TableBodyRow from "components/Table/TableBodyRow";
 
 interface NormalTableProps {
   templates: Template[];
@@ -26,38 +20,38 @@ function NormalTable ({ templates, limit=10 }: NormalTableProps) {
   return (
     <>
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeader />
-            <TableHeader className={mStyles.nameWidth}>NAME</TableHeader>
-            <TableHeader>CHANNEL</TableHeader>
-            <TableHeader>API KEY</TableHeader>
-            <TableHeader />
-          </TableRow>
-        </TableHead>
-        <TableBody>
+        <Table.Head>
+          <Table.Row>
+            <Table.Header />
+            <Table.Header className={mStyles.nameWidth}>NAME</Table.Header>
+            <Table.Header>CHANNEL</Table.Header>
+            <Table.Header>API KEY</Table.Header>
+            <Table.Header />
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
           {templates.slice((currentPage - 1) * limit, currentPage * limit).map((template, index) => {
             const number = (currentPage - 1) * limit + index + 1;
             return(
-              <TableBodyRow key={template.id}>
-                <TableColumn>
+              <Table.BodyRow key={template.id}>
+                <Table.Column>
                   <NumberIndicator number={number} />
-                </TableColumn>
-                <TableColumn className={mStyles.nameWidth}>
+                </Table.Column>
+                <Table.Column className={mStyles.nameWidth}>
                   <p>
                     <b>{template.name}</b>
                   </p>
                   <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 250 }}>
                     {template.id}
                   </p>
-                </TableColumn>
-                <TableColumn>{template.channel.name}</TableColumn>
-                <TableColumn>{template?.channel.apiKey?.name}</TableColumn>
+                </Table.Column>
+                <Table.Column>{template.channel.name}</Table.Column>
+                <Table.Column>{template?.channel.apiKey?.name}</Table.Column>
                 <DetailColumn template={template} />
-              </TableBodyRow>
+              </Table.BodyRow>
             )
           })}
-        </TableBody>
+        </Table.Body>
       </Table>
       <Pagination 
         totalData={templates.length}

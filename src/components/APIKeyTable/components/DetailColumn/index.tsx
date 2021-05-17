@@ -3,7 +3,7 @@ import useStyles from "./styles";
 import DetailButton from "../DetailButton";
 import DeleteButton from "../DeleteButton";
 import EditButton from "../EditButton";
-import TableColumn from "components/Table/TableColumn";
+import Table from "components/Table";
 
 interface DetailColumnProps {
   apiKey: ApiKey;
@@ -13,13 +13,13 @@ function DetailColumn ({ apiKey }: DetailColumnProps) {
   const mStyles = useStyles();
 
   return (
-    <TableColumn>
+    <Table.Column>
       <EditButton
         className={mStyles.marginRight}
         apiKey={apiKey}
       />
       <DeleteButton apiKey={apiKey} />
-    </TableColumn>
+    </Table.Column>
   )
 }
 export default DetailColumn

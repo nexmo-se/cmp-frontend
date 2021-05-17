@@ -1,4 +1,4 @@
-import TableColumn from "components/Table/TableColumn";
+import Table from "components/Table";
 import DeleteButton from "../DeleteButton";
 
 interface DetailColumnProps {
@@ -7,9 +7,9 @@ interface DetailColumnProps {
 
 function DetailColumn ({ channel }: DetailColumnProps) {
   return (
-    <TableColumn className="Vlt-table__cell--nowrap">
+    <Table.Column className="Vlt-table__cell--nowrap">
       <DeleteButton channel={channel} />
-    </TableColumn>
+    </Table.Column>
   )
 }
 export default DetailColumn

@@ -7,12 +7,6 @@ import DetailColumn from "../DetailColumn";
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
 import Table from "components/Table";
-import TableHead from "components/Table/TableHead";
-import TableRow from "components/Table/TableRow";
-import TableHeader from "components/Table/TableHeader";
-import TableColumn from "components/Table/TableColumn";
-import TableBody from "components/Table/TableBody";
-import TableBodyRow from "components/Table/TableBodyRow";
 
 interface NormalTableProps {
   applications: Application[];
@@ -26,36 +20,36 @@ function NormalTable ({ applications, limit=10 }: NormalTableProps) {
   return (
     <>
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeader/>
-            <TableHeader className={mStyles.nameWidth}>NAME</TableHeader>
-            <TableHeader>API KEYS</TableHeader>
-            <TableHeader>CHANNELS</TableHeader>
-            <TableHeader />
-          </TableRow>
-        </TableHead>
-        <TableBody>
+        <Table.Head>
+          <Table.Row>
+            <Table.Header/>
+            <Table.Header className={mStyles.nameWidth}>NAME</Table.Header>
+            <Table.Header>API KEYS</Table.Header>
+            <Table.Header>CHANNELS</Table.Header>
+            <Table.Header />
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
           {applications.slice((currentPage - 1) * limit, currentPage * limit).map((application, index) => {
             const number = ((currentPage - 1) * limit) + index + 1;
             return(
-              <TableBodyRow key={application.id}>
-                <TableColumn>
+              <Table.BodyRow key={application.id}>
+                <Table.Column>
                   <NumberIndicator number={number} />
-                </TableColumn>
-                <TableColumn className={mStyles.nameWidth}>
+                </Table.Column>
+                <Table.Column className={mStyles.nameWidth}>
                   <p>
                     <b>{application.name}</b>
                   </p>
                   <p className="Vlt-grey Vlt-truncate">{application.id}</p>
-                </TableColumn>
-                <TableColumn>{application.apiKey.name}</TableColumn>
-                <TableColumn className="Vlt-center">{application.channels.length}</TableColumn>
+                </Table.Column>
+                <Table.Column>{application.apiKey.name}</Table.Column>
+                <Table.Column className="Vlt-center">{application.channels.length}</Table.Column>
                 <DetailColumn application={application} />
-              </TableBodyRow>
+              </Table.BodyRow>
             )
           })}
-        </TableBody>
+        </Table.Body>
       </Table>
       <Pagination 
         totalData={applications.length}

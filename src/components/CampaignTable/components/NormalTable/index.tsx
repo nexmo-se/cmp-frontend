@@ -13,12 +13,6 @@ import Modals from "../Modals";
 import GenerateCSVModal from "components/GenerateCSVModal";
 import UploadRecordModal from "components/UploadRecordModal";
 import Table from "components/Table";
-import TableHead from "components/Table/TableHead";
-import TableRow from "components/Table/TableRow";
-import TableHeader from "components/Table/TableHeader";
-import TableColumn from "components/Table/TableColumn";
-import TableBody from "components/Table/TableBody";
-import TableBodyRow from "components/Table/TableBodyRow";
 
 interface NormalTableProps {
   campaigns: Campaign[];
@@ -53,17 +47,17 @@ function NormalTable ({ campaigns, limit = 10 }: NormalTableProps) {
     <Modals>
       <Filter onChange={setSelectedFilter} />
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeader />
-            <TableHeader>NAME</TableHeader>
-            <TableHeader>START DATE</TableHeader>
-            <TableHeader>END DATE</TableHeader>
-            <TableHeader>END DATE</TableHeader>
-            <TableHeader />
-          </TableRow>
-        </TableHead>
-        <TableBody>
+        <Table.Head>
+          <Table.Row>
+            <Table.Header />
+            <Table.Header>NAME</Table.Header>
+            <Table.Header>START DATE</Table.Header>
+            <Table.Header>END DATE</Table.Header>
+            <Table.Header>END DATE</Table.Header>
+            <Table.Header />
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
           {campaigns
             .filter(
               (campaign) => {
@@ -81,11 +75,11 @@ function NormalTable ({ campaigns, limit = 10 }: NormalTableProps) {
                 const number = ((currentPage - 1) * limit) + index + 1
 
                 return(
-                  <TableBodyRow key={campaign.id}>
-                    <TableColumn>
+                  <Table.BodyRow key={campaign.id}>
+                    <Table.Column>
                       <NumberIndicator number={number} />
-                    </TableColumn>
-                    <TableColumn>
+                    </Table.Column>
+                    <Table.Column>
                       <p>
                         <b>
                           {campaign.name} &nbsp;|&nbsp;
@@ -95,16 +89,16 @@ function NormalTable ({ campaigns, limit = 10 }: NormalTableProps) {
                         </b>
                       </p>
                       <p className="Vlt-grey Vlt-truncate" style={{ maxWidth: 300 }}>{campaign.id}</p>
-                    </TableColumn>
-                    <TableColumn>{startDate}</TableColumn>
-                    <TableColumn>{endDate}</TableColumn>
+                    </Table.Column>
+                    <Table.Column>{startDate}</Table.Column>
+                    <Table.Column>{endDate}</Table.Column>
                     <DetailColumn campaign={campaign} />
-                  </TableBodyRow>
+                  </Table.BodyRow>
                 )
               }
             )
           }
-        </TableBody>
+        </Table.Body>
       </Table>
       <Pagination 
         totalData={

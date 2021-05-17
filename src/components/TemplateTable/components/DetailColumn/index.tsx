@@ -1,6 +1,6 @@
 import Template from "entities/template";
 
-import TableColumn from "components/Table/TableColumn";
+import Table from "components/Table";
 import DeleteButton from "../DeleteButton";
 import DetailButton from "../DetailButton";
 
@@ -10,10 +10,10 @@ interface DetailColumnProps {
 
 function DetailColumn ({ template }: DetailColumnProps) {
   return (
-    <TableColumn className="Vlt-table__cell--nowrap">
+    <Table.Column className="Vlt-table__cell--nowrap">
       <DetailButton template={template} />
       <DeleteButton template={template} />
-    </TableColumn>
+    </Table.Column>
   )
 }
 export default DetailColumn

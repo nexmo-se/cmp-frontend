@@ -1,6 +1,6 @@
 import Campaign from "entities/campaign";
 
-import TableColumn from "components/Table/TableColumn";
+import Table from "components/Table";
 import DetailButton from "../DetailButton";
 import DownloadButton from "../DownloadButton";
 import StartButton from "../StartButton";
@@ -15,7 +15,7 @@ interface DetailColumnProps {
 
 function DetailColumn ({ campaign }: DetailColumnProps) {
   return (
-    <TableColumn className="Vlt-table__cell--nowrap">
+    <Table.Column className="Vlt-table__cell--nowrap">
       <DetailButton campaign={campaign} />
       <DuplicateButton campaign={campaign} />
       <DownloadButton campaign={campaign} />
@@ -23,7 +23,7 @@ function DetailColumn ({ campaign }: DetailColumnProps) {
       <StartButton campaign={campaign} />
       <PauseButton campaign={campaign} />
       <DeleteButton campaign={campaign} />
-    </TableColumn>
+    </Table.Column>
   )
 }
 export default DetailColumn
