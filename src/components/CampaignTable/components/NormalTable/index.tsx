@@ -69,7 +69,7 @@ function NormalTable ({ campaigns, limit = 10 }: NormalTableProps) {
             ).slice((currentPage - 1) * limit, limit * currentPage).map(
               (campaign, index) => {
                 console.log(campaign);
-                const badgeBackground = generateBadgeBackground(campaign.status);
+                const badgeBackground = generateBadgeBackground({ status: campaign.status });
                 const startDate = campaign.campaignStartDate.toLocaleString(DateTime.DATE_FULL);
                 const endDate = campaign.campaignEndDate.toLocaleString(DateTime.DATE_FULL);
                 const number = ((currentPage - 1) * limit) + index + 1

@@ -1,7 +1,11 @@
 import { DateTime } from "luxon";
 
-// TODO: Status Audit;
-type StatusAudit = {}
+type StatusAudit = {
+  id: string;
+  campaignId: string;
+  status: string;
+  statusTime: DateTime;
+}
 
 interface Constructor {
   id: string;
@@ -10,6 +14,7 @@ interface Constructor {
   campaignEndDate: DateTime;
   actualStartDate?: DateTime;
   actualEndDate?: DateTime;
+  actualDuration?: number;
   status: string;
   statusTime?: DateTime;
   activeStartHour: number;
@@ -28,6 +33,7 @@ class Campaign{
   campaignEndDate: DateTime;
   actualStartDate?: DateTime;
   actualEndDate?: DateTime;
+  actualDuration?: number;
   status: string;
   statusTime?: DateTime;
   activeStartHour: number;
@@ -45,6 +51,7 @@ class Campaign{
     this.campaignEndDate = args.campaignEndDate;
     this.actualStartDate = args.actualStartDate;
     this.actualEndDate = args.actualEndDate;
+    this.actualDuration = args.actualDuration;
     this.status = args.status;
     this.statusTime = args.statusTime;
     this.activeStartHour = args.activeStartHour;
@@ -57,6 +64,17 @@ class Campaign{
   }
 
   static fromResponse (response: Record<string, any>) {
+    const generateStatusAudits = (data: Record<string, any>): StatusAudit => {
+      return data.map(
+        (audiInformation) => ({
+          id: audiInformation.id,
+          campaignId: audiInformation.cmpCampaignId,
+          status: audiInformation.status,
+          statusTime: DateTime.fromISO(audiInformation.statusTime)
+        })
+      );
+    }
+
     return new Campaign({
       id: response.id,
       name: response.name,
@@ -64,6 +82,7 @@ class Campaign{
       campaignEndDate: DateTime.fromISO(response.campaignEndDate),
       actualStartDate: DateTime.fromISO(response.actualStartDate),
       actualEndDate: DateTime.fromISO(response.actualEndDate),
+      actualDuration: response.actualDuration,
       status: response.status,
       statusTime: DateTime.fromISO(response.statusTime),
       activeStartHour: parseInt(response.activeStartHour),
@@ -72,7 +91,7 @@ class Campaign{
       activeEndMinute: parseInt(response.activeEndMinute),
       activeOnWeekends: response.activeOnWeekends,
       timezone: response.timezone,
-      statusAudits: response.statusAudits
+      statusAudits: response.cmpCampaignStatusAudits && generateStatusAudits(response.cmpCampaignStatusAudits)
     });
   }
 }
