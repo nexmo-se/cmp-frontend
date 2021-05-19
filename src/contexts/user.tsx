@@ -53,6 +53,8 @@ function UserProvider ({ children }: UserProviderProps) {
   useEffect(
     () => {
       if (!data) return;
+      if (data.code) return; // assuming if backend return code, it means error
+
       setFullName(`${data.firstName} ${data.lastName}`);
     },
     [data]

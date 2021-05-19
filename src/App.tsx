@@ -28,38 +28,38 @@ import CampaignDetailPage from "pages/CampaignDetailPage";
 
 function App(){
   return (
-    <MuiPickersUtilsProvider utils={LuxonUtils}>
-      <BrowserRouter>
-        <CookiesProvider>
-          <UserProvider>
-            <ErrorProvider>
-              <SWRConfig
-                value={{
-                  fetcher: Fetcher.getInstance()
-                }}
-              >
-                <PageContainer>
-                  <SideNavigation />
-                  <SectionContainer>
-                    <Switch>
-                      <Route path="/" component={LoginPage} exact />
-                      <PrivateRoute path="/apikeys" component={APIKeyPage} exact />
-                      <PrivateRoute path="/applications" component={ApplicationPage} exact />
-                      <PrivateRoute path="/campaigns" component={CampaignPage} exact />
-                      <PrivateRoute path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
-                      <PrivateRoute path="/channels" component={ChannelPage} exact />
-                      <PrivateRoute path="/templates" component={TemplatePage} exact />
-                      <PrivateRoute path="/templates/:templateId" component={TemplateDetailPage} />
-                      <PrivateRoute path="/quickwizard" component={QuickWizardPage} exact />
-                    </Switch>
-                  </SectionContainer>
-                </PageContainer>
-              </SWRConfig>
-            </ErrorProvider>
-          </UserProvider>
-        </CookiesProvider>
-      </BrowserRouter>
-    </MuiPickersUtilsProvider>
+    <SWRConfig
+      value={{
+        fetcher: Fetcher.getInstance()
+      }}
+    >
+      <MuiPickersUtilsProvider utils={LuxonUtils}>
+        <BrowserRouter>
+          <CookiesProvider>
+            <UserProvider>
+              <ErrorProvider>
+                  <PageContainer>
+                    <SideNavigation />
+                    <SectionContainer>
+                      <Switch>
+                        <Route path="/" component={LoginPage} exact />
+                        <PrivateRoute path="/apikeys" component={APIKeyPage} exact />
+                        <PrivateRoute path="/applications" component={ApplicationPage} exact />
+                        <PrivateRoute path="/campaigns" component={CampaignPage} exact />
+                        <PrivateRoute path="/campaigns/:campaignId" component={CampaignDetailPage} exact />
+                        <PrivateRoute path="/channels" component={ChannelPage} exact />
+                        <PrivateRoute path="/templates" component={TemplatePage} exact />
+                        <PrivateRoute path="/templates/:templateId" component={TemplateDetailPage} />
+                        <PrivateRoute path="/quickwizard" component={QuickWizardPage} exact />
+                      </Switch>
+                    </SectionContainer>
+                  </PageContainer>
+              </ErrorProvider>
+            </UserProvider>
+          </CookiesProvider>
+        </BrowserRouter>
+      </MuiPickersUtilsProvider>
+    </SWRConfig>
   )
 }
 export default App;

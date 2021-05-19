@@ -21,7 +21,7 @@ function LoginForm () {
   const [isClean, setIsClean] = useState<boolean>(false);
   const { login, isAuthenticated } = useUser();
   const { throwError } = useError();
-  const { state } = useLocation<LocationState>();
+  const { state } = useLocation<LocationState | undefined>();
   
   async function handleSubmit (e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -49,6 +49,7 @@ function LoginForm () {
   useEffect(
     () => {
       if (!isAuthenticated) return;
+      if (!state) return;
 
       const location = state.from? state.from: "/quickwizard";
       window.location.replace(location);
