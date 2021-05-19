@@ -1,6 +1,6 @@
 import lodash from "lodash";
 import { cloneElement, createContext, Dispatch, SetStateAction, useContext } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface StepContextProps {
   funnel: string;

@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { useState, useEffect } from "react";
 
 interface UseSingleTemplateProps {
-  id: string;
+  id?: string;
 }
 
 export function useSingleTemplate ({ id }: UseSingleTemplateProps) {
@@ -14,7 +14,7 @@ export function useSingleTemplate ({ id }: UseSingleTemplateProps) {
   const { token } = useUser();
   const { data, error, mutate } = useSWR(
     () => {
-      if (!id) return undefined;
+      if (!id) return null;
       return [`${Config.apiDomain}/templates/${id}`, token];
     }
   );

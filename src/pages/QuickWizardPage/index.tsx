@@ -1,12 +1,7 @@
 import styles from "./QuickWizardPage.module.css";
-
-import React from "react";
 import Campaign from "entities/campaign"
 import clsx from "clsx";
-import { v4 as uuid } from "uuid";
-
 import { useState } from "react";
-import { useStep } from "./components/StepProvider";
 
 import CampaignDropdown from "components/CampaignDropdown";
 import DownloadButton from "./components/DownloadButton";
@@ -20,34 +15,7 @@ import ChannelSelectionStep from "./components/ChannelSelectionStep";
 import StepProvider from "./components/StepProvider";
 
 function QuickWizardPage () {
-  const [campaignRefreshToken, setCampaignRefreshToken] = useState<string>(uuid());
-  const [channelRefreshToken, setChannelRefreshToken] = useState<string>(uuid());
-  const [templateRefreshToken, setTemplateRefreshToken] = useState<string>(uuid());
-  const [applicationRefreshToken, setApplicationRefreshToken] = useState<string>(uuid());
-  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | undefined>();
-  const { funnel, setFunnel } = useStep();
-
-  function handleCampaignCreated (createdCampaign) {
-    setCampaignRefreshToken(uuid());
-    setSelectedCampaign(createdCampaign);
-  }
-
-  function handleAPIKeyCreated () {
-    setChannelRefreshToken(uuid());
-    setApplicationRefreshToken(uuid());
-  }
-
-  function handleChannelCreated () {
-    setTemplateRefreshToken(uuid());
-  }
-
-  function handleTemplateCreated () {
-    setCampaignRefreshToken(uuid());
-  }
-
-  function handleApplicationCreated () {
-    setChannelRefreshToken(uuid());
-  }
+  const [selectedCampaign, setSelectedCampaign] = useState<Campaign>();
   
   return (
     <div className={clsx("Vlt-grid", styles.container)}>
@@ -57,26 +25,12 @@ function QuickWizardPage () {
         </div>
         <div className="Vlt-card__content">
           <StepProvider>
-            <CreateAPIKeyStep onCreated={handleAPIKeyCreated} />
+            <CreateAPIKeyStep />
             <ChannelSelectionStep />
-            <CreateApplicationStep
-              acceptedFunnels={["social-channel", "voice"]}
-              onCreated={handleApplicationCreated}
-              refreshToken={applicationRefreshToken}
-            />
-            <CreateChannelStep
-              acceptedFunnels={["sms", "social-channel", "voice", "number-insight"]}
-              refreshToken={channelRefreshToken}
-              onCreated={handleChannelCreated}
-            />
-            <CreateTemplateStep 
-              acceptedFunnels={["sms", "social-channel", "voice"]}
-              refreshToken={templateRefreshToken}
-              onCreated={handleTemplateCreated}
-            />
-            <CreateCampaignStep
-              onAdded={handleCampaignCreated} 
-            />
+            <CreateApplicationStep acceptedFunnels={["social-channel", "voice"]} />
+            <CreateChannelStep acceptedFunnels={["sms", "social-channel", "voice", "number-insight"]} />
+            <CreateTemplateStep acceptedFunnels={["sms", "social-channel", "voice"]} />
+            <CreateCampaignStep />
           </StepProvider>
           
           <div className="Vlt-text-separator">
@@ -86,21 +40,18 @@ function QuickWizardPage () {
             label="Select your campaign"
             value={selectedCampaign}
             onChange={setSelectedCampaign}
-            refreshToken={campaignRefreshToken}
           />
           <div className="Vlt-grid Vlr-grid--narrow">
             <div className="Vlt-col Vlt-col--A">
-              <DownloadButton 
-                campaign={selectedCampaign} 
-                refreshToken={campaignRefreshToken} 
-                disabled={!selectedCampaign}
+              <DownloadButton
+                campaign={selectedCampaign}
+                disabled={selectedCampaign === undefined}
               />
             </div>
             <div className="Vlt-col Vlt-col--A">
-              <UploadButton 
+              <UploadButton
                 campaign={selectedCampaign}
-                refreshToken={campaignRefreshToken}
-                disabled={!selectedCampaign}
+                disabled={selectedCampaign === undefined}
               />
             </div>
           </div>

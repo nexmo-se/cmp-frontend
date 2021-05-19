@@ -16,7 +16,7 @@ function CampaignDetailCard () {
       if (!campaign.statusTime) return;
 
       const lastStatusUpdate = campaign.statusTime.toRelative();
-      setLastStatusUpdate(lastStatusUpdate);
+      setLastStatusUpdate(lastStatusUpdate ?? "");
     },
     [campaign]
   );
@@ -46,7 +46,7 @@ function CampaignDetailCard () {
             {campaign.campaignEndDate.toLocaleString(DateTime.TIME_24_SIMPLE)}
           </Row>
           <Row label="Total Messages">
-            {report.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            {report.total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? 0}
           </Row>
           <Row label="Total Cost">
             EUR {report.price.toFixed(5)}

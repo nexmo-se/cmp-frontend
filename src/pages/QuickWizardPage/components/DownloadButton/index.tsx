@@ -1,31 +1,26 @@
-// @flow
-import React from "react";
 import Campaign from "entities/campaign";
-import { makeStyles } from "@material-ui/styles";
+
+import useStyles from "./styles";
+import { useState } from "react";
 
 import Button from "components/Button";
 import GenerateCSVModal from "components/GenerateCSVModal";
 
-type Props = {
-  refreshToken:string,
-  campaign?:Campaign,
-  disabled?:boolean
+interface DownloadButtonProps {
+  campaign?: Campaign;
+  disabled?: boolean;
 }
 
-const useStyles = makeStyles(() => ({
-  fullWidth: { width: "100%" }
-}))
-
-function DownloadButton({ refreshToken, campaign, disabled }:Props){
-  const [ visible, setVisible ] = React.useState(false);
+function DownloadButton ({ campaign, disabled }: DownloadButtonProps) {
+  const [visible, setVisible] = useState(false);
   const mStyles = useStyles();
   
-  function handleClick(){
+  function handleClick () {
     setVisible(true)
   }
 
   return (
-    <React.Fragment>
+    <>
       <Button 
         type="tertiary" 
         className={mStyles.fullWidth}
@@ -34,16 +29,16 @@ function DownloadButton({ refreshToken, campaign, disabled }:Props){
       >
         Download Campaign Template
       </Button>
-      {campaign?(
-        <GenerateCSVModal 
-          visible={visible}
-          setVisible={setVisible}
-          campaign={campaign}
-          refreshToken={refreshToken}
-          disableCampaign={true}
-        />
-      ):null}
-    </React.Fragment>
+      {
+        campaign && (
+          <GenerateCSVModal 
+            visible={visible}
+            setVisible={setVisible}
+            campaign={campaign}
+          />
+        )
+      }
+    </>
   )
 }
 export default DownloadButton;

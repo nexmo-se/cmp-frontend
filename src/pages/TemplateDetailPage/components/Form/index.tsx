@@ -12,12 +12,15 @@ import { useSingleTemplate } from "hooks/single-template";
 import { useState, useEffect, useContext } from "react";
 
 interface FormContextProps {
-  name?: string;
-  content?: TemplateContent;
+  name: string;
+  content: TemplateContent;
   channel?: Channel;
-  mediaType?: string;
+  mediaType: string;
   isSubmitting: boolean;
   isClean: boolean;
+  setName: Dispatch<SetStateAction<string>>;
+  setContent: Dispatch<SetStateAction<TemplateContent>>;
+  setMediaType: Dispatch<SetStateAction<string>>;
 }
 
 interface FormProps {
@@ -31,11 +34,11 @@ const FormContext = createContext<FormContextProps>({} as FormContextProps);
 
 function Form ({ templateId, children, onSubmitted, initialValue }: FormProps) {
   const [name, setName] = useState<string>("");
-  const [content, setContent] = useState<TemplateContent>();
+  const [content, setContent] = useState<TemplateContent>({} as TemplateContent);
   const [channel, setChannel] = useState<Channel>();
   const [mediaType, setMediaType] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState<boolean>();
-  const [isClean, setIsClean] = useState<boolean>();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isClean, setIsClean] = useState<boolean>(false);
   const { throwError, throwSuccess } = useError();
   const { update } = useTemplate();
   const { mutate } = useSingleTemplate({ id: templateId });
@@ -69,9 +72,9 @@ function Form ({ templateId, children, onSubmitted, initialValue }: FormProps) {
   useEffect(
     () => {
       setIsClean(
-        !validator.isEmpty(name),
-        !validator.isEmpty(mediaType),
-        content !== undefined,
+        !validator.isEmpty(name) &&
+        !validator.isEmpty(mediaType) &&
+        content !== undefined &&
         channel !== undefined
       )
     },
@@ -105,7 +108,6 @@ function Form ({ templateId, children, onSubmitted, initialValue }: FormProps) {
         isClean,
         setName,
         setContent,
-        setChannel,
         setMediaType
       }}
     >

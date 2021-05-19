@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext } from "react";
 
 import Campaign from "entities/campaign";
 import SummaryReport from "entities/summary-report";
@@ -10,8 +10,8 @@ import { useState, useEffect, useContext } from "react";
 import FullPageSpinner from "components/FullPageSpinner";
 
 interface SummaryReportContextProps {
-  campaign: Campaign;
-  report: SummaryReport;
+  campaign?: Campaign;
+  report?: SummaryReport;
 }
 
 interface SummaryReportProviderProps {

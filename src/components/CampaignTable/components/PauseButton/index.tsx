@@ -13,6 +13,7 @@ const VISIBLE_STATUS = ["started", "pending"];
 
 function PauseButton ({ campaign }: PauseButtonProps) {
   const { updateStatus } = useSingleCampaign({ id: campaign.id });
+  const { throwError } = useError();
 
   async function handleClick () {
     try {

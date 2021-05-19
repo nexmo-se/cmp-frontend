@@ -1,26 +1,29 @@
-import React from "react";
 import Channel from "entities/channel";
-
+import lodash from "lodash";
 import useChannel from "hooks/channel";
-import useUser from "hooks/user";
-import useError from "hooks/error";
+import { DropdownProps } from "components/Dropdown";
 
 import Dropdown from "components/Dropdown";
 
 type ChangeReturnValue = void | Promise<void>;
-interface ChannelDropdownProps {
+
+interface MainProps {
   label: string;
   value?: Channel;
   onChange?: (value: Channel) => ChangeReturnValue;
 }
 
-function ChannelDropdown ({ refreshToken, label, value, onChange, ...props }: ChannelDropdownProps) {
-  const mUser = useUser();
-  const mError = useError();
+type OmitDropdownProps = Omit<DropdownProps, "value" | "children">;
+type ChannelDropdownProps = MainProps & OmitDropdownProps;
+
+function ChannelDropdown ({ label, value, onChange, ...props }: ChannelDropdownProps) {
   const { channels } = useChannel();
 
-  function handleChange (channelId) {
-    if(onChange) onChange(new Channel({ id: channelId }));
+  function handleChange (channelId: string) {
+    if(onChange) {
+      const channel = lodash(channels).find({ id: channelId });
+      if (channel) onChange(channel);
+    }
   }
 
   return (

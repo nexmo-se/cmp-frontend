@@ -5,6 +5,9 @@ interface ButtonIconProps {
   className?: string;
   type?: string;
   icon: string;
+  onClick?: () => (Promise<void> | void);
+  disabled?: boolean;
+  style?: Record<string, any>
 }
 
 function ButtonIcon (props: ButtonIconProps) {

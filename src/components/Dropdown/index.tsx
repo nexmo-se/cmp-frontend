@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { ChangeEvent } from "react";
 
 export interface DropdownProps {
   label?: string,
@@ -9,6 +10,7 @@ export interface DropdownProps {
   className?: any,
   containerStyle?: any,
   selectStyle?: any,
+  disabled?: boolean;
 }
 
 function Dropdown (props: DropdownProps) {
@@ -24,8 +26,8 @@ function Dropdown (props: DropdownProps) {
     ...others
   } = props;
 
-  function handleChange (e) {
-    if(setValue) setValue(e.target.value);
+  function handleChange (e: ChangeEvent<HTMLSelectElement>) {
+    if (setValue) setValue(e.target.value);
   } 
 
   return (

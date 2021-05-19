@@ -1,16 +1,16 @@
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 interface PasswordInputProps {
   label: string;
-  hint: string;
+  hint?: string;
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
-  disabled: boolean;
+  setValue?: Dispatch<SetStateAction<string>>;
+  disabled?: boolean;
 }
 
-function PasswordInput ({ label, hint, value, setValue, disabled }) {
-  function handleChange (e) {
-    setValue(e.target.value);
+function PasswordInput ({ label, hint, value, setValue, disabled }: PasswordInputProps) {
+  function handleChange (e: ChangeEvent<HTMLInputElement>) {
+    if (setValue) setValue(e.target.value);
   }
 
   return (

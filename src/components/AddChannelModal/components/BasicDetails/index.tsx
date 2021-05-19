@@ -22,7 +22,7 @@ function BasicDetails ({ disabledChannels }: BasicDetailsProps) {
         setChannel(availableChannel);
       }
     },
-    [disabledChannels]
+    [disabledChannels, setChannel]
   )
 
   return (

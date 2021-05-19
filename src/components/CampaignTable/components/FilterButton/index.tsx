@@ -13,8 +13,6 @@ function FilterButton ({ currentFilter, id, label, onClick }: FilterButtonProps)
     if (onClick) onClick(id);
   }
 
-  console.log(currentFilter, id);
-
   return (
     <Button
       className={
@@ -22,7 +20,7 @@ function FilterButton ({ currentFilter, id, label, onClick }: FilterButtonProps)
           "Vlt-btn_active": currentFilter === id
         })
       }
-      onClick={onClick}
+      onClick={handleClick}
     >
       {label}
     </Button>

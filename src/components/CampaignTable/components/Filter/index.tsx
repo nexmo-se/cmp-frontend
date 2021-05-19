@@ -1,9 +1,6 @@
-import clsx from "clsx";
-
 import { useCookies } from "react-cookie";
 import { useState, useEffect } from "react";
 
-import Button from "components/Button";
 import FilterButton from "../FilterButton";
 
 interface FilterProps {
@@ -29,14 +26,14 @@ function Filter ({ onChange }: FilterProps) {
       setCookies("campaign_filter", filter, { path: "/" })
       onChange(filter);
     },
-    [filter]
+    [filter, onChange, setCookies]
   );
 
   useEffect(
     () => {
       setFilter(cookies.campaign_filter ?? "draft");
     },
-    []
+    [cookies.campaign_filter]
   )
 
   return (

@@ -13,7 +13,6 @@ function FormContent () {
     channel,
     mediaType,
     setName,
-    setChannel,
     setMediaType,
     isSubmitting,
     isClean

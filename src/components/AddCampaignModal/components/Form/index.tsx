@@ -10,16 +10,25 @@ import { useContext, useState, useEffect } from "react";
 
 interface FormContextProps {
   name: string;
-  fromDate: DateTime,
-  fromTime: DateTime;
-  toDate: DateTime;
-  toTime: DateTime;
-  activeStartTime: DateTime;
-  activeEndTime: DateTime;
+  fromDate: DateTime | null;
+  fromTime: DateTime | null;
+  toDate: DateTime | null;
+  toTime: DateTime | null;
+  activeStartTime: DateTime | null;
+  activeEndTime: DateTime | null;
   activeOnWeekends: boolean;
   timezone: string;
   isSubmitting: boolean;
   isClean: boolean;
+  setName: Dispatch<SetStateAction<string>>;
+  setFromDate: Dispatch<SetStateAction<DateTime | null>>;
+  setFromTime: Dispatch<SetStateAction<DateTime | null>>;
+  setToDate: Dispatch<SetStateAction<DateTime | null>>;
+  setToTime: Dispatch<SetStateAction<DateTime | null>>;
+  setActiveStartTime: Dispatch<SetStateAction<DateTime | null>>;
+  setActiveEndTime: Dispatch<SetStateAction<DateTime | null>>;
+  setActiveOnWeekends: Dispatch<SetStateAction<boolean>>;
+  setTimezone: Dispatch<SetStateAction<string>>;
 }
 
 interface FormProps {
@@ -32,12 +41,12 @@ const FormContext = createContext<FormContextProps>({} as FormContextProps);
 
 function Form ({ initialValue, children, onSubmitted }: FormProps) {
   const [name, setName] = useState<string>("");
-  const [fromDate, setFromDate] = useState<DateTime>(DateTime.local().startOf("day"));
-  const [fromTime, setFromTime] = useState<DateTime>(DateTime.local().startOf("day").plus({ hours: 9 }));
-  const [toDate, setToDate] = useState<DateTime>(DateTime.local().startOf("day"));
-  const [toTime, setToTime] = useState<DateTime>(DateTime.local().startOf("day").plus({ hours: 18 }));
-  const [activeStartTime, setActiveStartTime] = useState<DateTime>(DateTime.local().startOf("day").plus({ hours: 9 }));
-  const [activeEndTime, setActiveEndTime] = useState<DateTime>(DateTime.local().startOf("day").plus({ hours: 18 }));
+  const [fromDate, setFromDate] = useState<DateTime | null>(DateTime.local().startOf("day"));
+  const [fromTime, setFromTime] = useState<DateTime | null>(DateTime.local().startOf("day").plus({ hours: 9 }));
+  const [toDate, setToDate] = useState<DateTime | null>(DateTime.local().startOf("day"));
+  const [toTime, setToTime] = useState<DateTime | null>(DateTime.local().startOf("day").plus({ hours: 18 }));
+  const [activeStartTime, setActiveStartTime] = useState<DateTime | null>(DateTime.local().startOf("day").plus({ hours: 9 }));
+  const [activeEndTime, setActiveEndTime] = useState<DateTime | null>(DateTime.local().startOf("day").plus({ hours: 18 }));
   const [activeOnWeekends, setActiveOnWeekends] = useState<boolean>(false);
   const [timezone, setTimezone] = useState<string>(momentTimezone.tz.guess());
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -63,6 +72,12 @@ function Form ({ initialValue, children, onSubmitted }: FormProps) {
     if (!isClean) return;
     try {
       setIsSubmitting(true);
+      if (!fromDate) return;
+      if (!toDate) return;
+      if (!fromTime) return;
+      if (!toTime) return;
+      if (!activeStartTime) return;
+      if (!activeEndTime) return;
 
       const startDate = `${fromDate.toFormat("dd/MM/yyyy")} ${fromTime.toFormat("HH:mm")}`;
       const endDate = `${toDate.toFormat("dd/MM/yyyy")} ${toTime.toFormat("HH:mm")}`;
@@ -92,12 +107,12 @@ function Form ({ initialValue, children, onSubmitted }: FormProps) {
     () => {
       setIsClean(
         !validator.isEmpty(name) &&
-        fromDate !== undefined &&
-        fromTime !== undefined &&
-        toDate !== undefined &&
-        toTime !== undefined &&
-        activeStartTime !== undefined &&
-        activeEndTime !== undefined &&
+        fromDate !== null &&
+        fromTime !== null &&
+        toDate !== null &&
+        toTime !== null &&
+        activeStartTime !== null &&
+        activeEndTime !== null &&
         fromDate >= toDate
       )
     },

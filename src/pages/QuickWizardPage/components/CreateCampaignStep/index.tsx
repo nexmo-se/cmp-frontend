@@ -1,16 +1,21 @@
-import React from "react";
-
 import SuccessMessage from "entities/success";
-import { ErrorContext } from "contexts/error";
+
+import useError from "hooks/error";
+import { useState } from "react";
 
 import AddCampaignModal from "components/AddCampaignModal";
 import Step from "../Step";
 
-function CreateCampaignStep({ number, onCreated }){
-  const [ visible, setVisible ] = React.useState(false);
-  const { throwSuccess } = React.useContext(ErrorContext);
+interface CreateCampaignStepProps {
+  number?: number;
+  onCreated?: () => void;
+}
 
-  function handleClick(){
+function CreateCampaignStep ({ number = 0, onCreated }: CreateCampaignStepProps) {
+  const [visible, setVisible] = useState(false);
+  const { throwSuccess } = useError();
+
+  function handleClick () {
     setVisible(true);
   }
 
@@ -20,7 +25,7 @@ function CreateCampaignStep({ number, onCreated }){
   }
 
   return (
-    <React.Fragment>
+    <>
       <Step 
         number={number}
         label="Create your Campaign"
@@ -32,7 +37,7 @@ function CreateCampaignStep({ number, onCreated }){
         setVisible={setVisible}
         onAdded={handleAdded}
       />
-    </React.Fragment>
+    </>
   )
 }
 export default CreateCampaignStep;

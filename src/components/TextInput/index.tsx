@@ -1,10 +1,13 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
+type SetValue = (Dispatch<SetStateAction<string>> | ((value: string) => void));
 interface TextInputProps {
   label: string;
   hint?: string;
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue?: SetValue;
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
 function TextInput ({ label, hint, value, setValue, ...props }: TextInputProps) {

@@ -1,7 +1,7 @@
 class SuccessMessage {
   message: string
   
-  constructor (message) {
+  constructor (message: string) {
     this.message = message;
   }
 }

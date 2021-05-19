@@ -29,21 +29,13 @@ class Application {
   }
 
   static fromResponse (response: Record<string, any>): Application {
-    const retrieveApiKey = (response: Record<string, any>) => {
-      if (response.cmpApiKey) {
-        return ApiKey.fromResponse(response.cmpApiKey);
-      } else if (response.cmpApiKeyId) {
-        return new ApiKey({ id: response.cmpApiKeyId })
-      } else return undefined;
-    }
-
     return new Application({
       id: response.id,
       name: response.name,
       applicationId: response.applicationId,
       privateKey: response.privateKey,
       channels: response.cmpChannels && lodash(response.cmpChannels).map(Channel.fromResponse).value(),
-      apiKey: retrieveApiKey(response)
+      apiKey: ApiKey.fromResponse(response.cmpApiKey)
     });
   }
 }

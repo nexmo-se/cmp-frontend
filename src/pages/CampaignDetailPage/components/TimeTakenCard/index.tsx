@@ -11,6 +11,7 @@ function TimeTakeCard () {
   useEffect(
     () => {
       if (!campaign) return;
+      if (!campaign.actualDuration) return;
 
       let duration = (campaign.actualDuration / 1000);
       let durationString = "seconds";

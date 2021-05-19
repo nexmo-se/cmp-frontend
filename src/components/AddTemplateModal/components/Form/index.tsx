@@ -13,7 +13,7 @@ interface FormContextProps {
   mediaType: string;
   content: TemplateContent;
   setName: Dispatch<SetStateAction<string>>;
-  setChannel: Dispatch<SetStateAction<Channel>>;
+  setChannel: Dispatch<SetStateAction<Channel | undefined>>;
   setMediaType: Dispatch<SetStateAction<string>>;
   setContent: Dispatch<SetStateAction<TemplateContent>>;
   isSubmitting: boolean;

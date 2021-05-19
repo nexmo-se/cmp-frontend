@@ -1,13 +1,13 @@
 import Channel from "entities/channel";
 
 interface Constructor {
-  id?: string;
-  name?: string;
-  channel?: Channel;
-  body?: string;
-  whatsappTemplateName?: string;
-  whatsappTemplateNamespace?: string;
-  mediaType?: string;
+  id: string;
+  name: string;
+  channel: Channel;
+  body: string;
+  whatsappTemplateName: string;
+  whatsappTemplateNamespace: string;
+  mediaType: string;
 }
 
 class Template {
@@ -58,21 +58,6 @@ class Template {
     return this.parameters.map((parameter) => "parameter");
   }
 
-  toRequest () {
-    if (!this.channel) throw new Error("You must provide channel");
-
-    const jsonData = {
-      id: this.id,
-      name: this.name,
-      cmpChannelId: this.channel.id,
-      whatsappTemplateNamespace: this.whatsappTemplateNamespace ?? undefined,
-      whatsappTemplateName: this.whatsappTemplateName ?? undefined,
-      mediaType: this.mediaType,
-      body: this.body? this.body: undefined
-    }
-    return JSON.parse(JSON.stringify(jsonData));
-  }
-
   toUpdateRequest () {
     const jsonData = {
       name: this.name,
@@ -83,15 +68,16 @@ class Template {
   }
 
   static fromResponse (value: Record<string, any>): Template {
-    const t = new Template({ ...value });
-
-    if (value.cmpChannel) t.channel = Channel.fromResponse(value.cmpChannel);
-    else if (value.cmpChannelId){
-      t.channel = new Channel({
-        id: value.cmpChannelId
-      });
-    }else if (value.channel) t.channel = value.channel;
-    return t;
+    return new Template({
+      id: value.id,
+      name: value.name,
+      channel: Channel.fromResponse(value.cmpChannel),
+      body: value.body,
+      whatsappTemplateName: value.whatsappTemplateName,
+      whatsappTemplateNamespace: value.whatsappTemplateNamespace,
+      mediaType: value.mediaType
+    });
   }
 }
+
 export default Template;

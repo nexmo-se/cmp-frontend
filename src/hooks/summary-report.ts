@@ -2,12 +2,11 @@ import FetchAPI from "api/fetch";
 import Config from "config";
 import SummaryReport from "entities/summary-report";
 
-import useSWR from "swr";
 import useUser from "hooks/user";
 import { useCallback } from "react";
 
 interface UseSummaryReportProps {
-  campaignId: string;
+  campaignId?: string;
 }
 
 export function useSummaryReport ({ campaignId }: UseSummaryReportProps) {
@@ -16,14 +15,15 @@ export function useSummaryReport ({ campaignId }: UseSummaryReportProps) {
   const retrieve = useCallback(
     async () => {
       if (!campaignId) return undefined;
+      if (!token) return;
       
       const url = `${Config.apiDomain}/reports/json`;
-      const payload = {
+      const body = JSON.stringify({
         type: "campaign_summary",
         content: { cmpCampaignId: campaignId }
-      };
+      });
 
-      const response = await FetchAPI.post(url, token, JSON.stringify(payload));
+      const response = await FetchAPI.post({ url, token, body });
       if (response) return SummaryReport.fromResponse(response);
       else return undefined;
     },
@@ -32,6 +32,8 @@ export function useSummaryReport ({ campaignId }: UseSummaryReportProps) {
 
   const download = useCallback(
     async () => {
+      if (!token) return;
+      
       const url = `${Config.apiDomain}/reports/archive/${campaignId}.csv`;
       return FetchAPI.get(url, token, "blob");
     },

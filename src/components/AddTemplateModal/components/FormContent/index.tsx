@@ -1,5 +1,3 @@
-import Channel from "entities/channel";
-
 import { useSingleChannel } from "hooks/single-channel";
 import { useForm } from "../Form";
 

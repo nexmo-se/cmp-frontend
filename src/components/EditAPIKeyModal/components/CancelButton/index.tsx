@@ -1,11 +1,11 @@
 import { useForm } from "../Form";
 import Button from "components/Button";
 
-interface CancelButton {
+interface CancelButtonProps {
   onClick: () => void;
 }
 
-function CancelButton ({ onClick }) {
+function CancelButton ({ onClick }: CancelButtonProps) {
   const { isSubmitting } = useForm();
 
   return (

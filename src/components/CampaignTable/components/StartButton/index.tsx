@@ -1,3 +1,5 @@
+import Campaign from "entities/campaign";
+
 import useError from "hooks/error";
 import { useSingleCampaign } from "hooks/single-campaign";
 
@@ -6,7 +8,11 @@ import ButtonIcon from "components/ButtonIcon";
 const VISIBLE_STATUS = ["draft", "paused", "completed", "reporting"];
 const DISABLED_STATUS = ["completed", "reporting"];
 
-function StartButton({ campaign }){
+interface StartButtonProps {
+  campaign: Campaign; 
+}
+
+function StartButton ({ campaign }: StartButtonProps) {
   const { updateStatus } = useSingleCampaign({ id: campaign?.id ?? undefined });
   const { throwError } = useError();
 
@@ -15,8 +21,6 @@ function StartButton({ campaign }){
       await updateStatus({ status: "pending" });
     } catch (err) {
       throwError(err);
-    } finally {
-      setRefreshToken(uuid());
     }
   }
 

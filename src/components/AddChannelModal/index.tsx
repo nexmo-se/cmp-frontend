@@ -1,10 +1,7 @@
 import useError from "hooks/error";
+import { Dispatch, SetStateAction } from "react";
 
 import Modal from "components/Modal";
-import ModalContent from "components/Modal/ModalContent";
-import ModalHeader from "components/Modal/ModalHeader";
-import ModalFooter from "components/Modal/ModalFooter";
-
 import CancelButton from "./components/CancelButton";
 import SubmitButton from "./components/SubmitButton";
 import NumberInsightDetails from "./components/NumberInsightDetails";
@@ -17,7 +14,7 @@ import FormProvider from "./components/Form";
 interface AddChannelModalProps {
   disabledChannels?: string[];
   visible: boolean;
-  setVisible: (visible: boolean) => void;
+  setVisible: Dispatch<SetStateAction<boolean>>;
   onAdded?: () => void;
 }
 
@@ -25,17 +22,19 @@ function AddChannelModal (props: AddChannelModalProps) {
   const { disabledChannels, visible, setVisible, onAdded } = props;
   const { throwError } = useError();
 
-  function handleCancel () {
-    setVisible(false);
-  }
-
-  function handleError (err) {
+  function handleError (err: Error) {
     throwError(err);
   }
 
   function handleSubmitted () {
-    setVisible(false);
+    toggleModal();
     if (onAdded) onAdded();
+  }
+
+  function toggleModal () {
+    setVisible(
+      (visible) => !visible
+    )
   }
 
   return (
@@ -44,20 +43,20 @@ function AddChannelModal (props: AddChannelModalProps) {
       onError={handleError}
     >
       <Modal visible={visible}>
-        <ModalHeader setVisible={setVisible}>
+        <Modal.Header setVisible={setVisible}>
           <h4>Add New Channel</h4>
-        </ModalHeader>
-        <ModalContent>
-          <BasicDetails disabledChannels={disabledChannels} />
+        </Modal.Header>
+        <Modal.Content>
+          <BasicDetails disabledChannels={disabledChannels ?? []} />
           <NumberInsightDetails />
           <VoiceDetails />
           <SocialChannelDetails />
           <SmsDetails />
-        </ModalContent>
-        <ModalFooter>
-          <CancelButton />
+        </Modal.Content>
+        <Modal.Footer>
+          <CancelButton onClick={toggleModal}/>
           <SubmitButton />
-        </ModalFooter>
+        </Modal.Footer>
       </Modal>
     </FormProvider>
   )

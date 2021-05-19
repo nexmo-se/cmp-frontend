@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 interface TableHeaderProps {
   className?: string;
-  children: any;
+  children?: any;
 }
 
 function TableHeader ({ className, children }: TableHeaderProps) {

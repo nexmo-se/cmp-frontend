@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { MouseEvent } from "react";
 
 import useStyles from "./styles";
 import { useState } from "react";
@@ -11,8 +10,7 @@ function Header () {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const mStyles = useStyles();
 
-  function handleToggleModal (e: MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
+  function handleToggleModal () {
     setModalVisible((prevVisible) => !prevVisible);
   }
 

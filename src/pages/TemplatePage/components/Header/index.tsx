@@ -10,8 +10,7 @@ function Header () {
   const [modalVisible, setModalVisible] = useState(false);
   const mStyles = useStyles();
 
-  function handleToggleModal (e) {
-    e.preventDefault();
+  function handleToggleModal () {
     setModalVisible((prevVisible) => !prevVisible);
   }
 

@@ -9,22 +9,22 @@ import { DatePicker as MuiDatePicker } from "@material-ui/pickers";
 
 interface DatePickerProps {
   label: string;
-  hint: string;
-  value: DateTime;
-  setValue: Dispatch<SetStateAction<DateTime>>;
+  hint?: string;
+  value: DateTime | null;
+  setValue: Dispatch<SetStateAction<DateTime | null>>;
 }
 
 function DatePicker ({ label, hint, value, setValue }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const mStyles = useStyles();
 
-  function handleClick(){
+  function handleClick (){ 
     setOpen(true);
   }
 
-  function handleChange(value){
+  function handleChange (value: DateTime | null) {
     setOpen(false);
-    if(setValue) setValue(value)
+    if (setValue) setValue(value)
   }
 
   return (
@@ -40,7 +40,6 @@ function DatePicker ({ label, hint, value, setValue }: DatePickerProps) {
         label={label}
         hint={hint}
         value={value?.toLocaleString(DateTime.DATE_SHORT) ?? ""}
-        setValue={setValue}
         onClick={handleClick}
       />
     </>

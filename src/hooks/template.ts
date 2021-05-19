@@ -1,16 +1,18 @@
 import Config from "config";
-import Template from "entities/template";
+import FetchAPI from "api/fetch";
 import lodash from "lodash";
+
+import Template from "entities/template";
+import Channel from "entities/channel";
 
 import useSWR from "swr";
 import useUser from "hooks/user";
 import { useState, useEffect } from "react";
-import FetchAPI from "api/fetch";
 
 interface CreateOptions {
   body: string;
-  whatsappTemplateName: string;
-  whatsappTemplateNamespace: string;
+  whatsappTemplateName?: string;
+  whatsappTemplateNamespace?: string;
   channel: Channel;
   name: string;
   mediaType: string;
@@ -33,20 +35,22 @@ function useTemplate () {
 
   async function create (options: CreateOptions) {
     const url = `${Config.apiDomain}/templates`;
-    const payload = {
+    const body = JSON.stringify({
       name: options.name,
       cmpChannelId: options.channel.id,
       whatsappTemplateNamespace: options.whatsappTemplateNamespace,
       whatsappTemplateName: options.whatsappTemplateName,
       mediaType: options.mediaType,
       body: options.body
-    }
+    })
 
-    await FetchAPI.post(url, token, JSON.stringify(payload));
+    await FetchAPI.post({ url, token, body });
     await mutate();
   }
 
   async function update (id: string, options: UpdateOptions) {
+    if (!token) return;
+
     const url = `${Config.apiDomain}/templates/${id}`;
     const payload = {
       name: options.name,
@@ -58,6 +62,8 @@ function useTemplate () {
   }  
 
   async function remove ({ id }: RemoveOptions) {
+    if (!token) return ;
+
     const url = `${Config.apiDomain}/templates/${id}`;
     await FetchAPI.remove(url, token);
     await mutate();
@@ -67,7 +73,7 @@ function useTemplate () {
     () => {
       if (!data) return;
 
-      const templates = lodash(data).map(Template.fromResponse).value();
+      const templates = lodash.map(data, Template.fromResponse);
       setTemplates(templates);
     },
     [data]

@@ -15,7 +15,7 @@ interface Constructor {
 
 class Channel {
   static acceptedChannel = ["sms", "whatsapp", "viber", "voice", "number_insight"];
-  static channelMapping = {
+  static channelMapping: Record<string, any> = {
     sms: "SMS",
     whatsapp: "Whatsapp",
     viber: "Viber",
@@ -27,7 +27,7 @@ class Channel {
   name?: string;
   channel?: ChannelType;
   senderId?: string;
-  tps?: number;
+  tps: number;
   smsUseSignature?: boolean;
   application?: Application;
   apiKey?: APIKey;
@@ -42,20 +42,6 @@ class Channel {
     this.application = args.application;
     this.apiKey = args.apiKey
     
-  }
-
-  toRequest () {
-    const jsonData = {
-      id: this.id,
-      name: this.name,
-      channel: this.channel,
-      senderId: this.senderId,
-      tps: parseInt(this.tps),
-      smsUseSignature: this.smsUseSignature,
-      cmpApiKeyId: this.apiKey?.id,
-      cmpApplicationId: this.application?.id
-    }
-    return JSON.parse(JSON.stringify(jsonData));
   }
 
   static fromResponse (value: any): Channel {

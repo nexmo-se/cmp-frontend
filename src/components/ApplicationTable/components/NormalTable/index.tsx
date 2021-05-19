@@ -43,7 +43,7 @@ function NormalTable ({ applications, limit=10 }: NormalTableProps) {
                   </p>
                   <p className="Vlt-grey Vlt-truncate">{application.id}</p>
                 </Table.Column>
-                <Table.Column>{application.apiKey.name}</Table.Column>
+                <Table.Column>{application.apiKey?.name ?? "-"}</Table.Column>
                 <Table.Column className="Vlt-center">{application.channels.length}</Table.Column>
                 <DetailColumn application={application} />
               </Table.BodyRow>

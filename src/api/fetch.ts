@@ -1,8 +1,21 @@
-import CustomError from "entities/error";
-import NotAuthenticatedError from "entities/error/notAuthenticated";
+import lodash from "lodash";
 
-class FetchAPI{
-  static async processResponse (response: Record<string, any>, responseType: string ="json") {
+import CustomError from "entities/error";
+import NotAuthenticatedError from "entities/error/not-authenticated";
+
+interface PostOptions {
+  url: string;
+  token?: string;
+  body: string
+}
+
+class FetchAPI {
+  private static generateAuthHeader (token?: string) {
+    if (!token) return undefined;
+    else return `Bearer ${token}`
+  }
+
+  private static async processResponse (response: Record<string, any>, responseType: string ="json") {
       if (response.status === 401) {
         throw new NotAuthenticatedError();
       } else if (response.status >= 400 && response.status <= 499) {
@@ -29,13 +42,13 @@ class FetchAPI{
       }
   }
 
-  static async otherThanGet (method: string, url: string, token: string, body: string, contentType: string) {
+  static async otherThanGet (method: string, url: string, token?: string, body?: string, contentType?: string) {
     console.log(`Processing ${method.toUpperCase()} ${url}`);
-    const headers = {
-      Authorization: `Bearer ${token}`,
+
+    const headers = lodash({
+      Authorization: FetchAPI.generateAuthHeader(token),
       "Content-Type": contentType      
-    }
-    Object.keys(headers).forEach(key => headers[key] === undefined && delete headers[key]);
+    }).pickBy(lodash.identity).value();
 
     const response = await fetch(url, {
       method: method.toUpperCase(),
@@ -47,21 +60,24 @@ class FetchAPI{
 
   static async get (url: string, token: string, responseType: string = "json") {
     console.log(`Processing GET ${url}`);
+
+    const headers = lodash({
+      Authorization: FetchAPI.generateAuthHeader(token)
+    }).pickBy(lodash.identity).value();
+
     const response = await fetch(url, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers
     });
     return FetchAPI.processResponse(response, responseType)
   }
 
-  static async post (url: string, token: string, body: string) {
+  static async post ({ url, token, body }: PostOptions) {
     return FetchAPI.otherThanGet("POST", url, token, body, "application/json");
   }
 
   static async postFile (url: string, token: string, formData: string) {
-    return FetchAPI.otherThanGet("POST", url, token, formData, undefined);
+    return FetchAPI.otherThanGet("POST", url, token, formData);
   }
 
   static async put (url: string, token: string, body: string) {

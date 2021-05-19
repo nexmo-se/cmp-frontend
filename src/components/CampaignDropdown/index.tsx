@@ -5,17 +5,19 @@ import { Dispatch, SetStateAction } from "react";
 
 import Dropdown from "components/Dropdown";
 
+type OnChange = Dispatch<SetStateAction<Campaign | undefined>> | Dispatch<SetStateAction<Campaign>>;
+
 interface CampaignDropdownProps {
   label: string;
   value?: Campaign;
-  onChange: Dispatch<SetStateAction<Campaign>>;
+  onChange?: OnChange;
   disabled?: boolean;
 }
 
 function CampaignDropdown ({ label, value, onChange, ...props }: CampaignDropdownProps) {
   const { campaigns } = useCampaign();
 
-  function handleChange (campaignId) {
+  function handleChange (campaignId: string) {
     if (!campaigns) return;
     const foundCampaign = lodash(campaigns).find({ id: campaignId });
     if (!foundCampaign) return;

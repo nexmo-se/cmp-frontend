@@ -1,3 +1,5 @@
+import Channel from "entities/channel";
+
 import useChannel from "hooks/channel";
 import useError from "hooks/error";
 import { useState } from "react";
@@ -14,7 +16,9 @@ function DeleteButton ({ channel }: DeleteButtonProps) {
   const { throwError } = useError()
   const { remove } = useChannel();
 
-  async function handleClick() {
+  async function handleClick () {
+    if (!channel.id) return;
+    
     try {
       setIsDeleting(true);
       await remove({ id: channel.id })

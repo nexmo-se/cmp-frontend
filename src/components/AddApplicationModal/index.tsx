@@ -1,39 +1,40 @@
 import { Dispatch, SetStateAction } from "react"
 
-import Modal from "components/Modal";
-import ModalContent from "components/Modal/ModalContent";
-import ModalHeader from "components/Modal/ModalHeader";
-import ModalFooter from "components/Modal/ModalFooter";
-
 import Form from "./components/Form";
 import FormContent from "./components/FormContent";
 import CancelButton from "./components/CancelButton";
 import SubmitButton from "./components/SubmitButton";
+import Modal from "components/Modal";
 
-interface AddApplicationModal {
+interface AddApplicationModalProps {
   visible: boolean;
-  setVisible: Dispatch<SetStateAction<booelan>>;
+  setVisible: Dispatch<SetStateAction<boolean>>;
   onAdded?: () => void;
 }
 
-function AddApplicationModal ({ visible, setVisible, onAdded }: AddApplicationModal) {
+function AddApplicationModal ({ visible, setVisible, onAdded }: AddApplicationModalProps) {
   function toggleModal () {
     setVisible(false);
   }
 
+  function handleSubmitted () {
+    toggleModal();
+    if (onAdded) onAdded();
+  }
+
   return (
     <Modal visible={visible}>
-      <Form onSubmitted={toggleModal}>
-        <ModalHeader setVisible={setVisible}>
+      <Form onSubmitted={handleSubmitted}>
+        <Modal.Header setVisible={setVisible}>
           <h4>Add New Application</h4>
-        </ModalHeader>
-        <ModalContent>
+        </Modal.Header>
+        <Modal.Content>
           <FormContent />
-        </ModalContent>
-        <ModalFooter>
+        </Modal.Content>
+        <Modal.Footer>
           <CancelButton onClick={toggleModal} />
           <SubmitButton />
-        </ModalFooter>
+        </Modal.Footer>
       </Form>
     </Modal>
   )

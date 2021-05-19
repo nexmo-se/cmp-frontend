@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { useState, useEffect } from "react";
 
 interface UseSingleChannelProps {
-  id: string;
+  id?: string;
 }
 
 export function useSingleChannel ({ id }: UseSingleChannelProps) {
@@ -14,7 +14,7 @@ export function useSingleChannel ({ id }: UseSingleChannelProps) {
   const { token } = useUser();
   const { data, error } = useSWR(
     () => {
-      if (!id) return undefined;
+      if (!id) return null;
       return [`${Config.apiDomain}/channels/${id}`, token];
     }
   );

@@ -1,6 +1,8 @@
-import React from "react";
+interface RowHeaderProps {
+  children?: any;
+}
 
-function RowHeader({ children }){
+function RowHeader ({ children }: RowHeaderProps) {
   return (
     <div className="Vlt-col">
       <p><b>{children}</b></p>

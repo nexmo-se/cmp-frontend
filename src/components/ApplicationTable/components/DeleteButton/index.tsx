@@ -17,6 +17,8 @@ function DeleteButton ({ application }: DeleteButtonProps) {
   const { throwError } = useError();
 
   async function handleClick () {
+    if (!application.id) return;
+    
     try {
       setIsDeleting(true);
       await remove({ id: application.id })

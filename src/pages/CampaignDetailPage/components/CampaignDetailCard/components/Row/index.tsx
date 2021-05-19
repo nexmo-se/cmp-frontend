@@ -1,6 +1,9 @@
-import React from "react";
+interface RowProps {
+  label: string;
+  children?: any;
+}
 
-function Row({ label, children }){
+function Row ({ label, children }: RowProps) {
   return (
     <div className="Vlt-grid">
       <div className="Vlt-col">

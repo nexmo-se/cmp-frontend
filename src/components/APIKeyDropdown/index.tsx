@@ -1,24 +1,26 @@
 import ApiKey from "entities/apiKey";
 import useApiKey from "hooks/apiKey";
+import lodash from "lodash";
 import { DropdownProps } from "components/Dropdown";
-import { Dispatch, SetStateAction } from "react";
 
 import Dropdown from "components/Dropdown";
 
-interface ApiKeyDropdownProps extends DropdownProps {
+interface MainProps {
   label: string,
   value?: ApiKey,
-  onChange?: Dispatch<SetStateAction<Apikey>>;
+  onChange?: (apiKey: ApiKey) => void;
 }
+
+type ApiKeyDropdownProps = MainProps & Omit<DropdownProps, "children" | "value">;
 
 function APIKeyDropdown (props: ApiKeyDropdownProps) {
   const { label, value, onChange, ...others } = props;
   const { apiKeys } = useApiKey();
 
-  function handleChange (keyId) {
+  function handleChange (keyId: string) {
     if (onChange) {
-      const apiKey = new ApiKey({id: keyId });
-      onChange(apiKey);
+      const apiKey = lodash(apiKeys).find({ id: keyId });
+      if (apiKey) onChange(apiKey);
     }
   }
 

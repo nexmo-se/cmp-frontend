@@ -1,35 +1,27 @@
-// @flow
-
-import React from "react";
 import TextInput from "components/TextInput";
 import TextArea from "components/TextArea";
+import { TemplateContent } from "types/template";
 
-type Content = {
-  body: string,
-  whatsappTemplateName: string,
-  whatsappTemplateNamespace: string
-}
-
-interface WhatsappTemplateInputProps{
-  onChange: (value: Content) => void;
-  content: Content;
+interface WhatsappTemplateInputProps {
+  onChange: (value: TemplateContent) => void;
+  content: TemplateContent;
 }
 
 function WhatsappTemplateInput ({ onChange, content }: WhatsappTemplateInputProps) {
-  function handleNameChange (value) {
+  function handleNameChange (value: string) {
     onChange({ ...content, whatsappTemplateName: value })
   }
 
-  function handleNamespaceChange (value) {
+  function handleNamespaceChange (value: string) {
     onChange({ ...content, whatsappTemplateNamespace: value });
   }
 
-  function handleBodyChange (value) {
+  function handleBodyChange (value: string) {
     onChange({ ...content, body: value });
   }
 
   return (
-    <React.Fragment>
+    <>
       <p>
         You can insert not-body parameters inside the <code>csv</code> file.&nbsp;
         To learn more, you can download <code>csv</code> &nbsp;
@@ -56,7 +48,7 @@ function WhatsappTemplateInput ({ onChange, content }: WhatsappTemplateInputProp
         value={content.body ?? ""}
         setValue={handleBodyChange}
       />
-    </React.Fragment>
+    </>
   )
 }
 

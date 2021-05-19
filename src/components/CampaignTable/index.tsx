@@ -7,7 +7,7 @@ import NormalTable from "./components/NormalTable";
 function CampaignTable () {
   const { campaigns, isLoading } = useCampaign();
 
-  if (isLoading) return <FullPageSpinner />
+  if (isLoading || !campaigns) return <FullPageSpinner />
   else if (campaigns.length <= 0) return <Empty />;
   else return <NormalTable campaigns={campaigns} />
 }

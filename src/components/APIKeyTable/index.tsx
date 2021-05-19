@@ -19,7 +19,7 @@ function ApiKeyTable ({ compact }: ApiKeyTableProps) {
     return null;
   } else if (!compact) {
     return <NormalTable apiKeys={apiKeys} />
-  }
+  } else return null;
 }
 
 export default ApiKeyTable;

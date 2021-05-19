@@ -7,32 +7,34 @@ import Template from "entities/template";
 import useRecord from "hooks/record";
 import useError from "hooks/error";
 import { useSingleTemplate } from "hooks/single-template";
+import { useSingleCampaign } from "hooks/single-campaign";
 import { useState, useEffect } from "react";
 
 import Modal from "components/Modal";
-import ModalHeader from "components/Modal/ModalHeader";
-import ModalContent from "components/Modal/ModalContent";
-import ModalFooter from "components/Modal/ModalFooter";
 import Button from "components/Button";
 import FileInput from "components/FileInput";
 import LoadingButton from "components/LoadingButton";
 import CampaignDropdown from "components/CampaignDropdown";
 import TemplateDropdown from "components/TemplateDropdown";
+import { DateTime } from "luxon";
 
 interface UploadRecordModalProps {
   campaign: Campaign;
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
+  onUploaded?: (campaign: Campaign, template: Template) => void;
 }
 
-function UploadRecordModal ({ visible, setVisible, campaign }: UploadRecordModalProps) {
-  const [file, setFile] = useState(null);
+function UploadRecordModal ({ visible, setVisible, campaign, onUploaded }: UploadRecordModalProps) {
+  const [file, setFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign>(campaign);
   const [selectedTemplate, setSelectedTemplate] = useState<Template>();
   const [isClean, setIsClean] = useState<boolean>(false);
   const { throwError, throwSuccess } = useError();
-  const { retrieve } = useSingleTemplate({ id: selectedTemplate?.id ?? undefined });
+  const { template: foundTemplate } = useSingleTemplate({ id: selectedTemplate?.id ?? undefined });
+  const { campaign: foundCampaign } = useSingleCampaign({ id: selectedCampaign?.id ?? undefined });
+  const { createMetadata, uploadCSV } = useRecord();
   
   function handleCancel () {
     setVisible(false);
@@ -41,21 +43,20 @@ function UploadRecordModal ({ visible, setVisible, campaign }: UploadRecordModal
   async function handleUpload () {
     try {
       setIsUploading(true);
-      if(!selectedCampaign) throw new Error("Please complete the form");
-      if(!selectedTemplate) throw new Error("Please complete the form");
-      if(!file) throw new Error("Please complete the form");
+      if (!foundTemplate) return;
+      if (!foundCampaign) return;
+      if (!file) throw new Error("Please complete the form");
 
-      const foundTemplate = await mTemplate.retrieve(selectedTemplate);
-      await mRecord.createMetadata(selectedCampaign, foundTemplate);
-      await mRecord.uploadCSV(selectedCampaign, selectedTemplate, file);
+      await createMetadata(foundCampaign, foundTemplate);
+      await uploadCSV(foundCampaign, foundTemplate, file);
       throwSuccess(new SuccessMessage("File uploaded!"));
-      if(onUploaded) onUploaded(selectedCampaign, selectedTemplate);
+      if (onUploaded) onUploaded(foundCampaign, foundTemplate);
     } catch (err) {
       throwError(err);
     } finally {
       setVisible(false);
       setIsUploading(false);
-      setFile(null);
+      setFile(undefined);
     }
   }
 
@@ -75,10 +76,10 @@ function UploadRecordModal ({ visible, setVisible, campaign }: UploadRecordModal
       visible={visible}
       size="small"
     >
-      <ModalHeader setVisible={setVisible}>
+      <Modal.Header setVisible={setVisible}>
         <h4>Upload Records</h4>
-      </ModalHeader>
-      <ModalContent>
+      </Modal.Header>
+      <Modal.Content>
         <CampaignDropdown 
           label="Campaign"
           value={selectedCampaign}
@@ -93,13 +94,13 @@ function UploadRecordModal ({ visible, setVisible, campaign }: UploadRecordModal
         {
           file && (
             <>
-              <p className="Vlt-truncate">File Name: {file?.name}</p>
-              <p>Date: {new moment(file?.lastModifiedDate).format("DD MMMM YYYY HH:mm")}</p>
+              <p className="Vlt-truncate">File Name: {file.name}</p>
+              <p>Date: {DateTime.fromMillis(file.lastModified).toLocaleString(DateTime.DATETIME_FULL)}</p>
             </>
           )
         }
-      </ModalContent>
-      <ModalFooter>
+      </Modal.Content>
+      <Modal.Footer>
         <Button 
           type="tertiary" 
           onClick={handleCancel}
@@ -114,7 +115,7 @@ function UploadRecordModal ({ visible, setVisible, campaign }: UploadRecordModal
         >
           Upload
         </LoadingButton>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   )
 }

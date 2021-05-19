@@ -1,3 +1,5 @@
+import Template from "entities/template";
+
 import Form from "../Form";
 import FormContent from "../FormContent";
 

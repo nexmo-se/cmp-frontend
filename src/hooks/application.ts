@@ -1,6 +1,8 @@
 import Config from "config";
 import lodash from "lodash";
 import FetchAPI from "api/fetch";
+
+import ApiKey from "entities/apiKey";
 import Application from "entities/application";
 
 import useSWR from "swr";
@@ -11,7 +13,7 @@ interface CreateOptions {
   name: string;
   privateKey: string;
   applicationId: string;
-  privateKey: string;
+  apiKey: ApiKey;
 }
 
 interface RemoveOptions {
@@ -25,17 +27,19 @@ function useApplication () {
 
   async function create ({ name, applicationId, apiKey, privateKey }: CreateOptions) {
     const url = `${Config.apiDomain}/applications`;
-    const payload = {
+    const body = JSON.stringify({
       name,
       applicationId,
       privateKey,
       cmpApiKeyId: apiKey.id
-    };
-    await FetchAPI.post(url, token, JSON.stringify(payload));
+    });
+    await FetchAPI.post({ url, token, body });
     await mutate();
   }
 
   async function remove ({ id }: RemoveOptions) {
+    if (!token) return;
+
     const url = `${Config.apiDomain}/applications/${id}`;
     await FetchAPI.remove(url, token);
     await mutate();
@@ -45,7 +49,7 @@ function useApplication () {
     () => {
       if (!data) return;
 
-      const applications = lodash(data).map(Application.fromResponse).value();
+      const applications = lodash.map(data, Application.fromResponse)
       setApplications(applications);
     },
     [data]
@@ -57,33 +61,5 @@ function useApplication () {
     applications,
     isLoading: !data && !error
   }
-  // const [ data, setData ] = React.useState([]);
-
-  // const list = React.useCallback(
-  //   async () => {
-  //     const url = `${Config.apiDomain}/applications`;
-  //     const responseData = await FetchAPI.get(url, token);
-  //     const newData = responseData.map(
-  //       (data) => {
-  //         const application = Application.fromResponse(data);
-  //         return application;
-  //       }
-  //     );
-  //     setData(newData);
-  //   },
-  //   [token]
-  // )
-
-  // async function create(application){
-  //   const url = `${Config.apiDomain}/applications`;
-  //   await FetchAPI.post(url, token, JSON.stringify(application.toJSON()));
-  // }
-
-  // async function remove(application){
-  //   const url = `${Config.apiDomain}/applications/${application.id}`;
-  //   await FetchAPI.remove(url, token);
-  // }
-
-  // return { data, list, create, remove }
 }
 export default useApplication;

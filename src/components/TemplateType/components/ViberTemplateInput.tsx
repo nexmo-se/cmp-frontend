@@ -1,23 +1,18 @@
-// @flow
-import React from "react";
 import TextArea from "components/TextArea";
-
-interface Content {
-  body:string
-}
+import { TemplateContent } from "types/template";
 
 interface ViberTemplateInputProps {
-  onChange: (value: Content) => void;
-  content: Content
+  onChange: (value: TemplateContent) => void;
+  content: TemplateContent
 }
 
 function ViberTemplateInput ({ onChange, content }: ViberTemplateInputProps) {
-  function handleBodyChange(value){
+  function handleBodyChange (value: string) {
     onChange({ body: value });
   }
 
   return (
-    <React.Fragment>
+    <>
       <p>
         Viber Template consists of <code>text, image, caption and actionUrl</code> parameters.&nbsp;
         In this template, you just need to specify <code>text</code>,&nbsp;
@@ -29,7 +24,7 @@ function ViberTemplateInput ({ onChange, content }: ViberTemplateInputProps) {
         value={content.body ?? ""}
         setValue={handleBodyChange}
       />
-    </React.Fragment>
+    </>
   )
 }
 export default ViberTemplateInput;

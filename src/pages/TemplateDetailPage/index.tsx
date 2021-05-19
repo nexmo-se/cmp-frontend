@@ -6,15 +6,15 @@ import TemplateInformationCard from "components/TemplateInformationCard";
 import FullPageSpinner from "components/FullPageSpinner";
 import PageHeader from "components/PageHeader";
 
-interface Params {
+interface URLParameters {
   templateId: string;
 }
 
 function TemplateDetailPage () {
-  const { templateId } = useParams<Params>();
+  const { templateId } = useParams<URLParameters>();
   const { template, isLoading } = useSingleTemplate({ id: templateId })
 
-  if (isLoading) return <FullPageSpinner />
+  if (isLoading || !template) return <FullPageSpinner />
   else {
     return (
       <>

@@ -10,8 +10,7 @@ function Header () {
   const [modalVisible, setModalVisible] = useState(false);
   const mStyles = useStyles();
 
-  function handleToggleModal (e) {
-    e.preventDefault();
+  function handleToggleModal () {
     setModalVisible((prevVisible) => !prevVisible);
   }
   
@@ -27,7 +26,9 @@ function Header () {
         <h1 className={mStyles.title}>API Key</h1>
       </div>
       <div className="Vlt-col Vlt-right">
-        <AddButton onClick={handleToggleModal}>Add New API Key</AddButton>
+        <AddButton onClick={handleToggleModal}>
+          Add New API Key
+        </AddButton>
       </div>
     </div>
       <AddAPIKeyModal 

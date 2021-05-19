@@ -16,8 +16,8 @@ function CompletedCard () {
         label="COMPLETED"
         value={(
           <StatsNumber
-            left={report.completed}
-            right={report.total}
+            left={report.completed ?? 0}
+            right={report.total ?? 0}
           />
         )}
       />

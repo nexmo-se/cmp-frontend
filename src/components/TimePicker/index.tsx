@@ -9,9 +9,9 @@ import { TimePicker as MuiTimePicker } from "@material-ui/pickers";
 
 interface TimePickerProps {
   label: string;
-  hint: string;
-  value: DateTime;
-  setValue: Dispatch<SetStateAction<DateTime>>;
+  hint?: string;
+  value: DateTime | null;
+  setValue: Dispatch<SetStateAction<DateTime | null>>;
 }
 
 function TimePicker ({ label, hint, value, setValue }: TimePickerProps) {
@@ -22,7 +22,7 @@ function TimePicker ({ label, hint, value, setValue }: TimePickerProps) {
     setOpen(true);
   }
 
-  function handleChange (value: DateTime) {
+  function handleChange (value: DateTime | null) {
     setOpen(false);
     if(setValue) setValue(value)
   }
@@ -40,8 +40,7 @@ function TimePicker ({ label, hint, value, setValue }: TimePickerProps) {
       <TextInput 
         label={label}
         hint={hint}
-        value={value.toLocaleString(DateTime.TIME_SIMPLE)}
-        setValue={setValue}
+        value={value?.toLocaleString(DateTime.TIME_SIMPLE) ?? ""}
         onClick={handleClick}
       />
     </>

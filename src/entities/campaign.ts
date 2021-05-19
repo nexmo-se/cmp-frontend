@@ -66,11 +66,11 @@ class Campaign{
   static fromResponse (response: Record<string, any>) {
     const generateStatusAudits = (data: Record<string, any>): StatusAudit => {
       return data.map(
-        (audiInformation) => ({
-          id: audiInformation.id,
-          campaignId: audiInformation.cmpCampaignId,
-          status: audiInformation.status,
-          statusTime: DateTime.fromISO(audiInformation.statusTime)
+        (auditInformation: Record<string, any>) => ({
+          id: auditInformation.id,
+          campaignId: auditInformation.cmpCampaignId,
+          status: auditInformation.status,
+          statusTime: DateTime.fromISO(auditInformation.statusTime)
         })
       );
     }

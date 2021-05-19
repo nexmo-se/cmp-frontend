@@ -15,13 +15,10 @@ import SectionContainer from "components/SectionContainer";
 import PrivateRoute from "components/PrivateRoute";
 
 import LoginPage from "pages/LoginPage";
-import DashboardPage from "pages/DashboardPage";
 import ApplicationPage from "pages/ApplicationPage";
 import ChannelPage from "pages/ChannelPage";
 import QuickWizardPage from "pages/QuickWizardPage";
-
 import APIKeyPage from "pages/APIKeyPage";
-import APIKeyDetailPage from "pages/APIKeyDetailPage";
 
 import TemplatePage from "pages/TemplatePage";
 import TemplateDetailPage from "pages/TemplateDetailPage";
@@ -46,9 +43,7 @@ function App(){
                   <SectionContainer>
                     <Switch>
                       <Route path="/" component={LoginPage} exact />
-                      <PrivateRoute path="/dashboard" component={DashboardPage} exact />
                       <PrivateRoute path="/apikeys" component={APIKeyPage} exact />
-                      <PrivateRoute path="/apiKeys/:apiKeyId" component={APIKeyDetailPage} />
                       <PrivateRoute path="/applications" component={ApplicationPage} exact />
                       <PrivateRoute path="/campaigns" component={CampaignPage} exact />
                       <PrivateRoute path="/campaigns/:campaignId" component={CampaignDetailPage} exact />

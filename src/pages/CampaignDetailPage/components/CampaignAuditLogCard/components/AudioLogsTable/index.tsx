@@ -24,7 +24,7 @@ function AuditLogsTable () {
   function generateStatusColor ({ status }: GenerateStatusColorOptions) {
     if (status === "completed") return "Vlt-green";
     else if (status === "started") return "Vlt-grey-darker";
-    else return null;
+    else return undefined;
   }
 
   // Sort the logs based on its status time

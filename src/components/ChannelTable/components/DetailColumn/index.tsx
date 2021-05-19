@@ -1,3 +1,5 @@
+import Channel from "entities/channel";
+
 import Table from "components/Table";
 import DeleteButton from "../DeleteButton";
 

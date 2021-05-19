@@ -16,8 +16,8 @@ function DeliveryCard () {
         label="DELIVERED"
         value={(
           <StatsNumber
-            left={report.delivered}
-            right={report.total}
+            left={report.delivered ?? 0}
+            right={report.total ?? 0}
           />
         )}
       />

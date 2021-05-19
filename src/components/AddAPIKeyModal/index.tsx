@@ -1,44 +1,43 @@
-import APIKey from "entities/apiKey";
 import { Dispatch, SetStateAction } from "react";
-
-import useAPIKey from "hooks/apiKey";
-import { useState, useEffect } from "react";
 
 import Form from "./components/Form";
 import FormContent from "./components/FormContent";
 import SubmitButton from "./components/SubmitButton";
 import CancelButton from "./components/CancelButton";
-
 import Modal from "components/Modal";
-import ModalHeader from "components/Modal/ModalHeader";
-import ModalContent from "components/Modal/ModalContent";
-import ModalFooter from "components/Modal/ModalFooter";
 
-interface AddAPIKeyModal {
+interface AddAPIKeyModalProps {
   visible: boolean,
   setVisible: Dispatch<SetStateAction<boolean>>;
+  onAdded?: () => void;
 }
 
-function AddAPIKeyModal({ visible, setVisible, onAdded }:Props){
-  const [isAdding, setIsAdding] = useState(false);
+function AddAPIKeyModal ({ visible, setVisible, onAdded }: AddAPIKeyModalProps) {
+
+  function toggleModal () {
+    setVisible(
+      (visible) => !visible
+    );
+  }
 
   function handleSubmitted () {
-    setVisible(false);
+    toggleModal();
+    if (onAdded) onAdded();
   }
 
   return (
     <Form onSubmitted={handleSubmitted}>
       <Modal visible={visible} size="small">
-        <ModalHeader setVisible={setVisible}>
+        <Modal.Header setVisible={setVisible}>
           <h4>Add New API Key</h4>
-        </ModalHeader>
-        <ModalContent>
+        </Modal.Header>
+        <Modal.Content>
           <FormContent />
-        </ModalContent>
-        <ModalFooter>
-          <CancelButton />
+        </Modal.Content>
+        <Modal.Footer>
+          <CancelButton onClick={toggleModal} />
           <SubmitButton />
-        </ModalFooter>
+        </Modal.Footer>
       </Modal>
     </Form>
   )

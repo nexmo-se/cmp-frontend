@@ -17,6 +17,7 @@ function DeleteButton ({ apiKey }: DeleteButtonProps) {
   const { throwError } = useError();
 
   async function handleClick () {
+    if (!apiKey.id) return;
     try {
       setIsDeleting(true);
       await remove(apiKey.id);

@@ -16,8 +16,8 @@ function UnansweredCard () {
         label="UNANSWERED"
         value={(
           <StatsNumber
-            left={report.unanswered}
-            right={report.total}
+            left={report.unanswered ?? 0}
+            right={report.total ?? 0}
           />
         )}
       />

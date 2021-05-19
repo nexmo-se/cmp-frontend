@@ -1,20 +1,15 @@
-import Channel from "entities/channel";
-
 import useChannel from "hooks/channel";
-import useError from "hooks/error";
-import { useEffect, useState } from "react";
 
 import Empty from "components/Empty";
 import FullPageSpinner from "components/FullPageSpinner";
 import NormalTable from "./components/NormalTable";
-import CompactTable from "./components/ComtactTable";
+import CompactTable from "./components/CompactTable";
 
 interface ChannelTableProps {
-  compact: boolean;
+  compact?: boolean;
 }
 
 function ChannelTable ({ compact }: ChannelTableProps) {
-  const [isFetching, setIsFetching] = useState(true);
   const { channels, isLoading } = useChannel();
 
   if (isLoading) {
@@ -25,6 +20,6 @@ function ChannelTable ({ compact }: ChannelTableProps) {
     return <CompactTable channels={channels} />;
   } else if (!compact) {
     return <NormalTable channels={channels} />
-  }
+  } else return null;
 }
 export default ChannelTable;

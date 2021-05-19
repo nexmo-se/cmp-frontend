@@ -16,8 +16,8 @@ function RejectedCard () {
         label="REJECTED"
         value={(
           <StatsNumber
-            left={report.rejected}
-            right={report.total}
+            left={report.rejected ?? 0}
+            right={report.total ?? 0}
           />
         )}
       />

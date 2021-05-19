@@ -11,13 +11,13 @@ function Number ({ number, onClick, selected }: NumberProps) {
     <li
       className={
         clsx({
-          ["Vlt-table__pagination__current"]: selected
+          "Vlt-table__pagination__current": selected
         })
       }
     >
-      <a onClick={onClick}>
+      <span onClick={onClick}>
         {number}
-      </a>
+      </span>
     </li>
   )
 }

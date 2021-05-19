@@ -4,19 +4,19 @@ import clsx from "clsx";
 import lodash from "lodash";
 import Channel from "entities/channel";
 import { useState, useEffect } from "react";
+
 import { TemplateContent } from "types/template";
+import { ChannelType } from "types/channel";
 
 import TemplateInput from "./components/TemplateInput";
 import Button from "components/Button";
 import ButtonGroup from "components/Button/ButtonGroup";
 
-const notSupportedType = []
-
 interface InputProps { 
   mediaType: string;
   content: TemplateContent;
   channel: Channel;
-  onChange?: (value: any) => void;
+  onChange: (value: TemplateContent) => void;
 };
 
 interface TemplateTypeProps {
@@ -24,15 +24,25 @@ interface TemplateTypeProps {
   mediaType?: string,
   content: TemplateContent,
   onMediaTypeChange?: (value: string) => void;
-  onContentChange?: (value: any) => void;
+  onContentChange: (value: TemplateContent) => void;
 }
+
+interface GetChannelTypeOptions {
+  channel: ChannelType
+}
+
+interface ChannelTypeObject {
+  id: string;
+  text: string;
+}
+
+type Type = string & ChannelTypeObject;
 
 function Input ({ channel, mediaType, ...props }: InputProps) {
   if(!mediaType) return null;
 
   const textInput = ["none", "voice"];
   const viberInput = ["viber_template"];
-  const whatsappInput = ["whatsapp"];
   
   if (channel.channel !== "whatsapp" && textInput.includes(mediaType)) {
     return <TemplateInput.Text {...props} />
@@ -46,11 +56,16 @@ function Input ({ channel, mediaType, ...props }: InputProps) {
 function TemplateType( { mediaType, content, channel, onMediaTypeChange, onContentChange }: TemplateTypeProps) {
   const [selectedType, setSelectedType] = useState<string>("");
 
+  function getChannelType ({ channel }: GetChannelTypeOptions) {
+    const types = lodash(channelMapping).get(channel);
+    return types;
+  }
+
   useEffect(
     () => {
       if (onMediaTypeChange) onMediaTypeChange(selectedType);
     },
-    [selectedType]
+    [selectedType, onMediaTypeChange]
   );
 
   useEffect(
@@ -74,7 +89,7 @@ function TemplateType( { mediaType, content, channel, onMediaTypeChange, onConte
         }
       }
     },
-    [channel]
+    [channel, mediaType]
   )
 
   return (
@@ -84,31 +99,34 @@ function TemplateType( { mediaType, content, channel, onMediaTypeChange, onConte
           Template Type
         </div>
         <ButtonGroup>
-          {channelMapping[channel.channel].map(
-            (type) => {
-              const typeData = {
-                id: type.id ?? type,
-                text: type.text ?? type
-              }
-
-              return (
-                <Button 
-                  key={typeData.id}
-                  className={
-                    clsx({
-                      "Vlt-grey": true,
-                      "Vlt-btn_active": selectedType === typeData.id,
-                      "Vlt-grey-darker": selectedType === typeData.id
-                    })
+          {
+            channel.channel && (
+              getChannelType({ channel: channel.channel }).map(
+                (type: Type) => {
+                  const typeData = {
+                    id: type.id ?? type,
+                    text: type.text ?? type
                   }
-                  disabled={notSupportedType.includes(typeData.id)}
-                  onClick={() => setSelectedType(typeData.id)}
-                >
-                  {lodash.startCase(typeData.text)}
-                </Button>
+
+                  return (
+                    <Button 
+                      key={typeData.id}
+                      className={
+                        clsx({
+                          "Vlt-grey": true,
+                          "Vlt-btn_active": selectedType === typeData.id,
+                          "Vlt-grey-darker": selectedType === typeData.id
+                        })
+                      }
+                      onClick={() => setSelectedType(typeData.id)}
+                    >
+                      {lodash.startCase(typeData.text)}
+                    </Button>
+                  )
+                }
               )
-            }
-          )}
+            )
+          }
         </ButtonGroup>
       </div>
       <Input 

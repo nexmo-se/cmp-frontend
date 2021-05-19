@@ -1,4 +1,3 @@
-import ChannelService from "services/channel";
 import validator from "validator";
 import { createContext, SetStateAction, Dispatch, FormEvent } from "react";
 
@@ -8,7 +7,6 @@ import { useContext, useState, useEffect } from "react";
 
 import ApiKey from "entities/apiKey";
 import Application from "entities/application";
-import { NotImplementedError } from "entities/error";
 
 interface FormContextProps {
   name: string;
@@ -23,14 +21,14 @@ interface FormContextProps {
   setChannel: Dispatch<SetStateAction<string>>;
   setSenderId: Dispatch<SetStateAction<string>>;
   setTps: Dispatch<SetStateAction<number>>;
-  setApikey: Dispatch<SetStateAction<ApiKey>>;
-  setApplication: Dispatch<SetStateAction<Application>>;
+  setApiKey: Dispatch<SetStateAction<ApiKey | undefined>>;
+  setApplication: Dispatch<SetStateAction<Application | undefined>>;
 }
 
 interface FormProviderProps {
   children: any;
   onSubmitted: () => void;
-  onError: () => void;
+  onError: (err: Error) => void;
 }
 
 const FormContext = createContext<FormContextProps>({} as FormContextProps);

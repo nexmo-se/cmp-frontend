@@ -4,15 +4,11 @@ import { Dispatch, SetStateAction } from "react";
 import Template from "entities/template";
 import Campaign from "entities/campaign";
 
-import useTemplate from "hooks/template";
 import useError from "hooks/error";
 import { useSingleTemplate } from "hooks/single-template";
 import { useState, useEffect } from "react";
 
 import Modal from "components/Modal";
-import ModalHeader from "components/Modal/ModalHeader";
-import ModalContent from "components/Modal/ModalContent";
-import ModalFooter from "components/Modal/ModalFooter";
 import CampaignDropdown from "components/CampaignDropdown";
 import TemplateDropdown from "components/TemplateDropdown";
 import Button from "components/Button";
@@ -30,7 +26,7 @@ function GenerateCSVModal ({ visible, setVisible, campaign }: GenerateCSVModalPr
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [isClean, setIsClean] = useState<boolean>(true);
   const { throwError } = useError();
-  const { retrieve } = useSingleTemplate({ id: selectedTemplate?.id ?? undefined })
+  const { template: foundTemplate } = useSingleTemplate({ id: selectedTemplate?.id ?? undefined })
 
   function handleCancel () {
     setVisible(false);
@@ -39,16 +35,13 @@ function GenerateCSVModal ({ visible, setVisible, campaign }: GenerateCSVModalPr
   async function handleGenerateDownload () {
     try {
       if (!isClean) throw new Error("You need to complete the form");
-      if (!selectedTemplate) throw new Error("Please select one template");
+      if (!foundTemplate) return;
 
       setIsGenerating(true);
-      const foundTemplate = await retrieve(selectedTemplate);
       const csvContent = CSVAPI.generateBlaster(foundTemplate);
       const link = document.createElement("a");
       link.setAttribute("href", encodeURI(csvContent));
-      
-      if (!selectedTemplate?.id) throw new Error("You need to complete the form ");
-      link.setAttribute("download", `${selectedCampaign.id}#${selectedTemplate.id}.csv`)
+      link.setAttribute("download", `${selectedCampaign.id}#${foundTemplate.id}.csv`)
       link.click();
     } catch (err) {
       throwError(err);
@@ -80,10 +73,10 @@ function GenerateCSVModal ({ visible, setVisible, campaign }: GenerateCSVModalPr
       visible={visible}
       size="small"
     >
-      <ModalHeader setVisible={setVisible}>
+      <Modal.Header setVisible={setVisible}>
         <h4>Generate CSV</h4>
-      </ModalHeader>
-      <ModalContent>
+      </Modal.Header>
+      <Modal.Content>
         <CampaignDropdown 
           value={selectedCampaign} 
           onChange={setSelectedCampaign}
@@ -95,8 +88,8 @@ function GenerateCSVModal ({ visible, setVisible, campaign }: GenerateCSVModalPr
           onChange={setSelectedTemplate} 
           label="Select Template"
         />
-      </ModalContent>
-      <ModalFooter>
+      </Modal.Content>
+      <Modal.Footer>
         <Button 
           type="tertiary" 
           onClick={handleCancel}
@@ -111,7 +104,7 @@ function GenerateCSVModal ({ visible, setVisible, campaign }: GenerateCSVModalPr
         >
           Generate &amp; Download
         </LoadingButton>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   )
 }

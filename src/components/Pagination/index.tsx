@@ -11,7 +11,7 @@ interface PaginationProps {
 }
 
 function Pagination ({ totalData, limit, currentPage, setCurrentPage }: PaginationProps) {
-  const [totalPage, setTotalPage] = useState(null);
+  const [totalPage, setTotalPage] = useState(1);
 
   function handleGoTo (number: number) {
     setCurrentPage(number);
@@ -42,14 +42,16 @@ function Pagination ({ totalData, limit, currentPage, setCurrentPage }: Paginati
       if (!totalData) setTotalPage(0)
       else setTotalPage(Math.ceil(totalData / limit));
     },
-    [totalData]
+    [totalData, limit]
   );
 
   return (
     <div className="Vlt-table__pagination">
       <ul>
         <li className="Vlt-table__pagination__prev">
-          <a onClick={handlePrevClick}>Previous</a>
+          <span onClick={handlePrevClick}>
+            Previous
+          </span>
         </li>
         {
           [...Array(totalPage)].map(
@@ -67,7 +69,7 @@ function Pagination ({ totalData, limit, currentPage, setCurrentPage }: Paginati
           )
         }
         <li className="Vlt-table__pagination__next">
-          <a onClick={handleNextClick}>Next</a>
+          <span onClick={handleNextClick}>Next</span>
         </li>
       </ul>
     </div>

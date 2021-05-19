@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import ChannelTable from "components/ChannelTable";
 import Header from "./components/Header";
 

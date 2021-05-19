@@ -1,5 +1,4 @@
 import ApiKey from "entities/apiKey";
-import clsx from "clsx";
 
 import useStyles from "./styles";
 import { useState } from "react";
@@ -51,10 +50,10 @@ function NormalTable ({ apiKeys, limit = 10 }: NormalTableProps) {
                       <p className="Vlt-grey Vlt-truncate">{apiKey.id}</p>
                     </Table.Column>
                     <Table.Column className="Vlt-right">
-                      {apiKey.applications.length}
+                      {apiKey.applications?.length ?? "-"}
                     </Table.Column>
                     <Table.Column className="Vlt-right">
-                      {apiKey.channels.length}
+                      {apiKey.channels?.length ?? "-"}
                     </Table.Column>
                     <DetailColumn apiKey={apiKey} />
                   </Table.BodyRow>

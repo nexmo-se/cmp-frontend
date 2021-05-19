@@ -28,6 +28,6 @@ function StatsNumber ({ left, right }: StatsNumberProps) {
     [right]
   )
 
-  return `${leftString} / ${rightString}`
+  return <>`${leftString} / ${rightString}`</>
 }
 export default StatsNumber;

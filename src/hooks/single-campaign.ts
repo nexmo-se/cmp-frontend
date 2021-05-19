@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import FetchAPI from "api/fetch";
 
 interface UseSingleCampaignOptions {
-  id: string;
+  id?: string;
 }
 
 interface UpdateStatusOptions {
@@ -19,14 +19,24 @@ export function useSingleCampaign ({ id }: UseSingleCampaignOptions) {
   const { token } = useUser();
   const { data, error, mutate } = useSWR(
     () => {
-      if (!id) return undefined;
+      if (!id) return null;
       return [`${Config.apiDomain}/campaigns/${id}`, token];
     }
   );
 
   async function updateStatus ({ status }: UpdateStatusOptions) {
+    if (!token) return;
+    
     const url = `${Config.apiDomain}/campaigns/${id}/status`;
     await FetchAPI.put(url, token, JSON.stringify({ status }));
+    await mutate();
+  }
+
+  async function remove () {
+    if (!token) return;
+
+    const url = `${Config.apiDomain}/campaigns/${id}`;
+    await FetchAPI.remove(url, token);
     await mutate();
   }
 
@@ -42,6 +52,7 @@ export function useSingleCampaign ({ id }: UseSingleCampaignOptions) {
 
   return {
     campaign,
+    remove,
     updateStatus,
     mutate,
     isLoading: !campaign && !error

@@ -1,16 +1,13 @@
-import { DateTime } from "luxon"
+import lodash from "lodash";
 
 interface Constructor {
   id: string;
-  downloadUrl?: string;
   name: string;
-  status?: string;
   price: number;
 
   requested?: number;
   submitted?: number;
   delivered?: number;
-  rejected?: number;
   read?: number;
 
   // This status is for voice
@@ -28,35 +25,31 @@ interface Constructor {
 
 class Report {
   id: string;
-  downloadUrl: string;
   name: string;
-  status: string;
   price: number;
 
-  requested: number;
-  submitted: number;
-  delivered: number;
-  rejected: number;
-  read: number;
+  requested?: number;
+  submitted?: number;
+  delivered?: number;
+  read?: number;
 
   // This status is for voice
-  busy: number;
-  cancelled: number;
-  unanswered: number;
-  disconnected: number;
-  rejected: number;
-  failed: number;
-  timeout: number;
-  completed: number;
+  busy?: number;
+  cancelled?: number;
+  unanswered?: number;
+  disconnected?: number;
+  rejected?: number;
+  failed?: number;
+  timeout?: number;
+  completed?: number;
 
-  total: number;
+  total?: number;
 
   constructor (args: Constructor) {
     this.id = args.id;
-    this.downloadUrl = args.downloadUrl;
     this.name = args.name;
-    this.status = args.status;
     this.price = args.price;
+    this.requested = args.requested;
     this.submitted = args.submitted;
     this.delivered = args.delivered;
     this.rejected = args.rejected;
@@ -64,6 +57,7 @@ class Report {
     this.busy = args.busy;
     this.cancelled = args.cancelled;
     this.unanswered = args.unanswered;
+    this.completed = args.completed;
     this.disconnected = args.disconnected;
     this.rejected = args.rejected;
     this.failed = args.failed;
@@ -93,8 +87,7 @@ class Report {
     givenSummaries.forEach(
       (key) => {
         if (acceptedSummary.includes(key)) {
-          // $FlowFixMe
-          this[key] = summaries[key];
+          lodash(this).set(key, summaries[key]); 
         } else {
           // The summary is not accepted
           // The backend might give more data to the accepted summary

@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { v4 as uuid } from "uuid";
 
 import useStyles from "./style";
 import { useState } from "react";
@@ -11,8 +10,7 @@ function Header(){
   const [modalVisible, setModalVisible] = useState(false);
   const mStyles = useStyles();
 
-  function handleToggleModal(e){
-    e.preventDefault();
+  function handleToggleModal () {
     setModalVisible((prevVisible) => !prevVisible);
   }
 

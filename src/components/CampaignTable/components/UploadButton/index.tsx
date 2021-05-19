@@ -11,7 +11,7 @@ function UploadButton ({ campaign }: UploadButtonProps) {
   const { showUploadModal } = useModals();
   
   function handleClick () {
-    showUploadModal();  
+    showUploadModal({ campaign });  
   }
 
   return (

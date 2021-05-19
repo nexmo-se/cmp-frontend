@@ -1,15 +1,11 @@
-import APIKey from "entities/apiKey";
-import { SetStateAction } from "react";
+import ApiKey from "entities/apiKey";
+import { Dispatch, SetStateAction } from "react";
 
 import Form from "./components/Form";
 import FormContent from "./components/FormContent";
 import SubmitButton from "./components/SubmitButton";
 import CancelButton from "./components/CancelButton";
-
 import Modal from "components/Modal";
-import ModalHeader from "components/Modal/ModalHeader";
-import ModalContent from "components/Modal/ModalContent";
-import ModalFooter from "components/Modal/ModalFooter";
 
 interface EditApiKeyModalProps {
   apiKey: ApiKey;
@@ -17,7 +13,7 @@ interface EditApiKeyModalProps {
   setVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-function EditAPIKeyModal ({ apiKey, visible, setVisible, onEdited }:Props) {
+function EditAPIKeyModal ({ apiKey, visible, setVisible }: EditApiKeyModalProps) {
   function toggleModal () {
     setVisible((visible) => !visible)
   }
@@ -28,16 +24,16 @@ function EditAPIKeyModal ({ apiKey, visible, setVisible, onEdited }:Props) {
         defaultValue={apiKey}
         onSubmitted={toggleModal}
       >
-        <ModalHeader setVisible={setVisible}>
+        <Modal.Header setVisible={setVisible}>
           <h4>Edit API Key</h4>
-        </ModalHeader>
-        <ModalContent>
+        </Modal.Header>
+        <Modal.Content>
           <FormContent />
-        </ModalContent>
-        <ModalFooter>
+        </Modal.Content>
+        <Modal.Footer>
           <CancelButton onClick={toggleModal} />
           <SubmitButton />
-        </ModalFooter>
+        </Modal.Footer>
       </Form>
     </Modal>
   )

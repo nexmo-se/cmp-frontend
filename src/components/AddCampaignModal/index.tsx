@@ -1,25 +1,30 @@
+import Campaign from "entities/campaign";
 import { Dispatch, SetStateAction } from "react";
-
-import Modal from "components/Modal";
-import ModalHeader from "components/Modal/ModalHeader";
-import ModalContent from "components/Modal/ModalContent";
-import ModalFooter from "components/Modal/ModalFooter";
 
 import Form from "./components/Form";
 import FormContent from "./components/FormContent";
 import CancelButton from "./components/CancelButton";
 import SubmitButton from "./components/SubmitButton";
+import Modal from "components/Modal";
 
-interface AddCampaignmodalProps {
-  campaign: Campaign;
+interface AddCampaignModalProps {
+  campaign?: Campaign;
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
+  onAdded?: () => void;
 }
 
-function AddCampaignModal ({ campaign, visible, setVisible }: AddCampaignmodalProps){
+function AddCampaignModal ({ campaign, visible, setVisible, onAdded }: AddCampaignModalProps){
+
+  function toggleModal () {
+    setVisible(
+      (visible) => !visible
+    )
+  }
 
   function handleSubmitted () {
-    setVisible(false);
+    toggleModal();
+    if (onAdded) onAdded();
   }
 
   return (
@@ -28,16 +33,16 @@ function AddCampaignModal ({ campaign, visible, setVisible }: AddCampaignmodalPr
         initialValue={campaign}
         onSubmitted={handleSubmitted}
       >
-        <ModalHeader setVisible={setVisible}>
+        <Modal.Header setVisible={setVisible}>
           <h4>Add New Campaign</h4>
-        </ModalHeader>
-        <ModalContent>
+        </Modal.Header>
+        <Modal.Content>
           <FormContent />
-        </ModalContent>
-        <ModalFooter>
-          <CancelButton />
+        </Modal.Content>
+        <Modal.Footer>
+          <CancelButton onClick={toggleModal} />
           <SubmitButton />
-        </ModalFooter>
+        </Modal.Footer>
       </Form>
     </Modal>
   )

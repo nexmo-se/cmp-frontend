@@ -8,19 +8,19 @@ import Dropdown from "components/Dropdown";
 interface TemplateDropdownProps {
   label: string;
   value?: Template;
-  onChange?: Dispatch<SetStateAction<Template>>;
+  onChange?: Dispatch<SetStateAction<Template | undefined>>;
   disabled?: boolean;
 }
 
 function TemplateDropdown ({ label, value, onChange, ...props }: TemplateDropdownProps) {
   const { templates } = useTemplate();
 
-  function handleChange (templateId) {
+  function handleChange (templateId: string) {
     if (!templates) return;
 
     const foundTemplate = lodash(templates).find({ id: templateId });
     if (!foundTemplate) return;
-    if (onChange) onChange(template);
+    if (onChange) onChange(foundTemplate);
   }
 
   return (

@@ -1,21 +1,21 @@
 import SuccessMessage from "entities/success";
-import { ErrorContext } from "contexts/error";
 
-import { useState, useContext } from "react";
+import useError from "hooks/error";
+import { useState } from "react";
 import { useStep } from "../StepProvider";
 
 import AddChannelModal from "components/AddChannelModal";
 import Step from "../Step";
 
 interface CreateChannelStepProps {
-  refreshToken: string;
   number?: number;
-  onCreated: () => void;
+  onCreated?: () => void;
+  acceptedFunnels: string[];
 }
 
-function CreateChannelStep ({ number, refreshToken, onCreated }: CreateChannelStepProps) {
+function CreateChannelStep ({ number = 0, onCreated }: CreateChannelStepProps) {
   const [visible, setVisible] = useState(false);
-  const { throwSuccess } = useContext(ErrorContext);
+  const { throwSuccess } = useError();
   const { funnel } = useStep();
 
   function handleClick () {
@@ -48,7 +48,6 @@ function CreateChannelStep ({ number, refreshToken, onCreated }: CreateChannelSt
           ? ["sms", "number_insight", "voice"] // If the funnel is social-channel
           : ["number_insight", "voice", "whatsapp", "viber"] // If the funnel is sms
         }
-        refreshToken={refreshToken}
       />
     </>
   )

@@ -7,7 +7,7 @@ import NormalTable from "./components/NormalTable";
 function TemplateTable () {
   const { templates, isLoading } = useTemplate();
 
-  if (isLoading) return <FullPageSpinner />
+  if (isLoading || !templates) return <FullPageSpinner />
   else if(templates.length <= 0) return <Empty />;
   else return <NormalTable templates={templates} />
 }

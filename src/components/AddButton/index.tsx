@@ -5,7 +5,7 @@ interface AddButtonprops {
   children: any;
   onClick: () => void;
   disabled?: boolean;
-  isAdding: boolean;
+  isAdding?: boolean;
 }
 
 function AddButton ({ children, onClick, disabled, isAdding }: AddButtonprops) {

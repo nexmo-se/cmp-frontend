@@ -1,6 +1,6 @@
+import ApiKey from "entities/apiKey";
 import useStyles from "./styles";
 
-import DetailButton from "../DetailButton";
 import DeleteButton from "../DeleteButton";
 import EditButton from "../EditButton";
 import Table from "components/Table";

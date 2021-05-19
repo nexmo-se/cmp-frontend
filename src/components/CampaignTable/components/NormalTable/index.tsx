@@ -4,19 +4,15 @@ import { useState, useEffect } from "react";
 
 import NumberIndicator from "components/NumberIndicator";
 import Pagination from "components/Pagination";
-import Button from "components/Button";
 
 import DetailColumn from "../DetailColumn";
 import Filter from "../Filter";
 import Modals from "../Modals";
-
-import GenerateCSVModal from "components/GenerateCSVModal";
-import UploadRecordModal from "components/UploadRecordModal";
 import Table from "components/Table";
 
 interface NormalTableProps {
   campaigns: Campaign[];
-  limit: number;
+  limit?: number;
 }
 
 interface GenerateBadgeBackgroundOptions {
@@ -26,9 +22,6 @@ interface GenerateBadgeBackgroundOptions {
 function NormalTable ({ campaigns, limit = 10 }: NormalTableProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedFilter, setSelectedFilter] = useState<string>("draft");
-  const [donwloadModalOpen, setDownloadModalOpen] = useState<boolean>(false);
-  const [uploadModalOpen, setUploadModalOpen] = useState<boolean>(false);
-  const [selectedCampaign, setSelectedCampaign] = useState<Campaign>();
 
   function generateBadgeBackground ({ status }: GenerateBadgeBackgroundOptions) {
     const yellowBadge = [ "pending", "paused", "reporting" ];

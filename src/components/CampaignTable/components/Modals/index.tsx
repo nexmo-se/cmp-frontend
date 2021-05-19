@@ -87,17 +87,25 @@ function Modals ({ children }: ModalsProps) {
         label={loadingModalLabel}
       />
 
-      <GenerateCSVModal 
-        visible={generateModalVisible} 
-        setVisible={setGenerateModalVisible} 
-        campaign={generateModalCampaign}
-      />
+      {
+        generateModalCampaign && (
+          <GenerateCSVModal 
+            visible={generateModalVisible} 
+            setVisible={setGenerateModalVisible} 
+            campaign={generateModalCampaign}
+          />
+        )
+      }
 
-      <UploadRecordModal 
-        campaign={uploadModalCampaign}
-        visible={uploadModalVisible} 
-        setVisible={setUploadModalVisible} 
-      />
+      {
+        uploadModalCampaign && (
+          <UploadRecordModal 
+            campaign={uploadModalCampaign}
+            visible={uploadModalVisible} 
+            setVisible={setUploadModalVisible} 
+          />
+        )
+      }
       {children}
     </ModalsContext.Provider>
   );

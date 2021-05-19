@@ -1,6 +1,6 @@
 import ApiKey from "entities/apiKey";
 import validator from "validator";
-import { createContext, Dispatch, FormEvent, setStateAction } from "react";
+import { createContext, Dispatch, FormEvent, SetStateAction } from "react";
 
 import useError from "hooks/error";
 import useApplication from "hooks/application";
@@ -9,10 +9,14 @@ import { useState, useEffect, useContext } from "react";
 interface FormContextProps {
   name: string;
   applicationId: string;
-  privateKey: string;
-  apiKey: ApiKey;
+  privateKey?: File;
+  apiKey?: ApiKey;
   isSubmitting: boolean;
   isClean: boolean;
+  setName: Dispatch<SetStateAction<string>>;
+  setApplicationId: Dispatch<SetStateAction<string>>;
+  setPrivateKey: (privateKey?: File) => void;
+  setApiKey: (apiKey: ApiKey) => void;
 }
 
 interface FormProps {
@@ -25,7 +29,7 @@ const FormContext = createContext<FormContextProps>({} as FormContextProps);
 function Form ({ children, onSubmitted }: FormProps) {
   const [name, setName] = useState<string>("");
   const [applicationId, setApplicationId] = useState<string>("");
-  const [privateKey, setPrivateKey] = useState<Blob>();
+  const [privateKey, setPrivateKey] = useState<File>();
   const [apiKey, setApiKey] = useState<ApiKey>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isClean, setIsClean] = useState<boolean>(false);
@@ -50,6 +54,7 @@ function Form ({ children, onSubmitted }: FormProps) {
   async function handleSubmit (e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!isClean) return;
+    if (!apiKey) return;
     
     try {
       setIsSubmitting(true);

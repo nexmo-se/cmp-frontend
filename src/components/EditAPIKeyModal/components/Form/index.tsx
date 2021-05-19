@@ -7,11 +7,11 @@ import useApiKey from "hooks/apiKey";
 import { useState, useEffect } from "react";
 
 interface FormContextProps {
-  name,
-  apiKey,
-  setName,
-  isSubmitting,
-  isClean
+  name: string;
+  apiKey: string;
+  setName: Dispatch<SetStateAction<string>>;
+  isSubmitting: boolean;
+  isClean: boolean;
 }
 
 interface FormProps {
@@ -51,17 +51,20 @@ function Form ({ onSubmitted, children, defaultValue }: FormProps) {
 
   useEffect(
     () => {
-      console.log(!validator.isEmpty(name), name !== defaultValue);
       setIsClean(
         !validator.isEmpty(name) &&
         name !== defaultValue.name
       );
     },
-    [name]
+    [name, defaultValue.name]
   )
   
-  useState(
+  useEffect(
     () => {
+      if (!defaultValue) return;
+      if (!defaultValue.name) return;
+      if (!defaultValue.apiKey) return;
+
       setName(defaultValue.name);
       setApiKey(defaultValue.apiKey);
     },

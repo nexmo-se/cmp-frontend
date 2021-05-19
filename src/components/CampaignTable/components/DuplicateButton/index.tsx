@@ -4,8 +4,6 @@ import { useModals } from "../Modals";
 import { useSingleCampaign } from "hooks/single-campaign";
 
 import ButtonIcon from "components/ButtonIcon";
-import AddCampaignModal from "components/AddCampaignModal";
-import LoadingModal from "components/LoadingModal";
 
 interface DuplicateButtonProps {
   campaign: Campaign;

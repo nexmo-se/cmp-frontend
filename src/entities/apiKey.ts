@@ -4,19 +4,19 @@ import Channel from "entities/channel";
 import Application from "entities/application";
 
 interface Constructor {
-  id?: string;
-  name?: string;
-  apiKey?: string;
-  apiSecret?: string;
+  id: string;
+  name: string;
+  apiKey: string;
+  apiSecret: string;
   applications?: Application[];
-  channels?: Channel[];
+  channels?: Channel[]
 }
 
 class ApiKey {
-  id?: string;
-  name?: string;
-  apiKey?: string;
-  apiSecret?: string;
+  id: string;
+  name: string;
+  apiKey: string;
+  apiSecret: string;
   applications?: Application[];
   channels?: Channel[];
 
@@ -31,15 +31,6 @@ class ApiKey {
 
   get key() {
     return this.apiKey
-  }
-
-  toRequest () {
-    const jsonData = {
-      name: this.name,
-      apiKey: this.apiKey,
-      apiSecret: this.apiSecret
-    }
-    return JSON.parse(JSON.stringify(jsonData));
   }
 
   toJSON () {
@@ -65,4 +56,5 @@ class ApiKey {
   }
 
 }
+
 export default ApiKey;

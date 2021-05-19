@@ -1,4 +1,3 @@
-import { useSingleCampaign } from "hooks/single-campaign";
 import { useParams } from "react-router-dom";
 
 import Header from "./components/Header";
@@ -13,8 +12,12 @@ import ReadCard from "./components/ReadCard";
 import UnansweredCard from "./components/UnansweredCard";
 import CompletedCard from "./components/CompletedCard";
 
+interface URLParameters {
+  campaignId: string;
+}
+
 function CampaignDetailPage () {
-  const { campaignId } = useParams();
+  const { campaignId } = useParams<URLParameters>();
 
   return (
     <SummaryReportProvider campaignId={campaignId}>

@@ -1,7 +1,6 @@
 import Config from "config";
 import FetchAPI from "api/fetch";
 import ApiKey from "entities/apiKey";
-import lodash from "lodash";
 
 import useSWR from "swr";
 import useUser from "./user";
@@ -18,20 +17,22 @@ interface UpdateValueOptions {
 }
 
 function useApiKey () {
-  const [apiKeys, setApiKeys] = useState<ApiKey>([]);
+  const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
   const { token } = useUser();
   const { data, error, mutate } = useSWR([`${Config.apiDomain}/apiKeys`, token]);
 
   async function create ({ name, apiKey, apiSecret }: CreateOptions) {
+    if (!token) return;
     const url = `${Config.apiDomain}/apikeys`;
-    const payload = { name, apiKey, apiSecret }
-    await FetchAPI.post(url, token, JSON.stringify(payload));
+    const body = JSON.stringify({ name, apiKey, apiSecret })
+    await FetchAPI.post({ url, token, body });
     await mutate();
   }
 
   async function update (id: string, updateValue: UpdateValueOptions) {
     // I don't care if the id exists in database, backend will do the checking
     if (!id) return;
+    if (!token) return;
 
     const url = `${Config.apiDomain}/apikeys/${id}`;
     await FetchAPI.put(url, token, JSON.stringify(updateValue));
@@ -40,6 +41,7 @@ function useApiKey () {
 
   async function remove (id: string) {
     if (!id) return;
+    if (!token) return;
 
     const url = `${Config.apiDomain}/apikeys/${id}`;
     await FetchAPI.remove(url, token);
@@ -49,7 +51,9 @@ function useApiKey () {
   useEffect(
     () => {
       if (!data) return;
-      const apiKeys = lodash(data).map(ApiKey.fromResponse).value();
+      const apiKeys = data.map(
+        (response: Record<string, any>) => ApiKey.fromResponse(response)
+      )
       setApiKeys(apiKeys);
     },
     [data]
