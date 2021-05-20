@@ -1,4 +1,3 @@
-import useError from "hooks/error";
 import { Dispatch, SetStateAction } from "react";
 
 import Modal from "components/Modal";
@@ -20,11 +19,6 @@ interface AddChannelModalProps {
 
 function AddChannelModal (props: AddChannelModalProps) {
   const { disabledChannels, visible, setVisible, onAdded } = props;
-  const { throwError } = useError();
-
-  function handleError (err: Error) {
-    throwError(err);
-  }
 
   function handleSubmitted () {
     toggleModal();
@@ -38,10 +32,7 @@ function AddChannelModal (props: AddChannelModalProps) {
   }
 
   return (
-    <FormProvider
-      onSubmitted={handleSubmitted}
-      onError={handleError}
-    >
+    <FormProvider onSubmitted={handleSubmitted}>
       <Modal visible={visible}>
         <Modal.Header setVisible={setVisible}>
           <h4>Add New Channel</h4>

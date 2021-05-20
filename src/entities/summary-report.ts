@@ -87,7 +87,7 @@ class Report {
     givenSummaries.forEach(
       (key) => {
         if (acceptedSummary.includes(key)) {
-          lodash(this).set(key, summaries[key]); 
+          Object.assign(this, { [key]: summaries[key] });
         } else {
           // The summary is not accepted
           // The backend might give more data to the accepted summary

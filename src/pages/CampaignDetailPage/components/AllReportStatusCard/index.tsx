@@ -4,7 +4,6 @@ import Row from "./components/Row";
 
 function AllReportStatusCard () {
   const { report } = useReportData();
-  console.log(report);
 
   if (!report) return null;
   else {
