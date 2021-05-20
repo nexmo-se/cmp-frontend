@@ -29,12 +29,11 @@ interface FormContextProps {
 interface FormProviderProps {
   children: any;
   onSubmitted: () => void;
-  onError: (err: Error) => void;
 }
 
 const FormContext = createContext<FormContextProps>({} as FormContextProps);
 
-function FormProvider ({ onSubmitted, onError, children }: FormProviderProps) {
+function FormProvider ({ onSubmitted, children }: FormProviderProps) {
   const [name, setName] = useState<string>("");
   const [channel, setChannel] = useState<string>("");
   const [senderId, setSenderId] = useState<string>("");
