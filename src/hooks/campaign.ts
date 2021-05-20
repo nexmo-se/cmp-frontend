@@ -17,6 +17,7 @@ interface CreateOptions {
   activeStartMinute: number;
   activeEndMinute: number;
   activeOnWeekends: boolean;
+  cnam: boolean;
   timezone: string;
 }
 
@@ -36,11 +37,11 @@ function useCampaign () {
       activeEndHour: options.activeEndHour,
       activeEndMinute: options.activeEndMinute,
       activeOnWeekends: options.activeOnWeekends,
+      cnam: options.cnam,
       timezone: options.timezone
     });
 
     await FetchAPI.post({ url, token, body });
-  
     await mutate();
   }
   

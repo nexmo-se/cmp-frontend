@@ -22,6 +22,7 @@ interface Constructor {
   activeEndHour: number;
   activeEndMinute: number;
   activeOnWeekends: boolean;
+  cnam: boolean;
   timezone: string;
   statusAudits?: StatusAudit[];
 }
@@ -41,6 +42,7 @@ class Campaign{
   activeEndHour: number;
   activeEndMinute: number;
   activeOnWeekends: boolean;
+  cnam: boolean;
   timezone: string;
   statusAudits?: StatusAudit[];
 
@@ -59,6 +61,7 @@ class Campaign{
     this.activeEndHour = args.activeEndHour;
     this.activeEndMinute = args.activeEndMinute;
     this.activeOnWeekends = args.activeOnWeekends;
+    this.cnam = args.cnam;
     this.timezone = args.timezone;
     this.statusAudits = args.statusAudits;
   }
@@ -90,6 +93,7 @@ class Campaign{
       activeEndHour: parseInt(response.activeEndHour),
       activeEndMinute: parseInt(response.activeEndMinute),
       activeOnWeekends: response.activeOnWeekends,
+      cnam: response.cnam,
       timezone: response.timezone,
       statusAudits: response.cmpCampaignStatusAudits && generateStatusAudits(response.cmpCampaignStatusAudits)
     });

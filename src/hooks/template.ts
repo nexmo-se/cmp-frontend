@@ -42,7 +42,7 @@ function useTemplate () {
       whatsappTemplateName: options.whatsappTemplateName,
       mediaType: options.mediaType,
       body: options.body
-    })
+    });
 
     await FetchAPI.post({ url, token, body });
     await mutate();

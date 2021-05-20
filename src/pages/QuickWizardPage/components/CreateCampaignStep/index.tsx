@@ -52,6 +52,7 @@ function CreateCampaignStep ({ number = 0, onCreated }: CreateCampaignStepProps)
           activeEndHour: parseInt(endDate.toFormat("HH")),
           activeEndMinute: parseInt(endDate.toFormat("mm")),
           activeOnWeekends: true,
+          cnam: false,
           timezone: DateTime.utc().zoneName
         });
         setPrefilledCampaign(campaign);

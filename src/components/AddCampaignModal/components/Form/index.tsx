@@ -19,6 +19,7 @@ interface FormContextProps {
   activeOnWeekends: boolean;
   timezone: string;
   isSubmitting: boolean;
+  cnam: boolean;
   isClean: boolean;
   setName: Dispatch<SetStateAction<string>>;
   setFromDate: Dispatch<SetStateAction<DateTime | null>>;
@@ -29,6 +30,7 @@ interface FormContextProps {
   setActiveEndTime: Dispatch<SetStateAction<DateTime | null>>;
   setActiveOnWeekends: Dispatch<SetStateAction<boolean>>;
   setTimezone: Dispatch<SetStateAction<string>>;
+  setCnam: Dispatch<SetStateAction<boolean>>;
 }
 
 interface FormProps {
@@ -48,6 +50,7 @@ function Form ({ initialValue, children, onSubmitted }: FormProps) {
   const [activeStartTime, setActiveStartTime] = useState<DateTime | null>(DateTime.local().startOf("day").plus({ hours: 9 }));
   const [activeEndTime, setActiveEndTime] = useState<DateTime | null>(DateTime.local().startOf("day").plus({ hours: 18 }));
   const [activeOnWeekends, setActiveOnWeekends] = useState<boolean>(false);
+  const [cnam, setCnam] = useState<boolean>(false);
   const [timezone, setTimezone] = useState<string>(momentTimezone.tz.guess());
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isClean, setIsClean] = useState<boolean>(false);
@@ -91,6 +94,7 @@ function Form ({ initialValue, children, onSubmitted }: FormProps) {
         activeEndHour: parseInt(activeEndTime.toFormat("HH")),
         activeEndMinute: parseInt(activeEndTime.toFormat("mm")),
         activeOnWeekends,
+        cnam,
         timezone
       });
 
@@ -164,6 +168,7 @@ function Form ({ initialValue, children, onSubmitted }: FormProps) {
         activeEndTime,
         activeOnWeekends,
         timezone,
+        cnam,
         setName,
         setFromDate,
         setFromTime,
@@ -173,6 +178,7 @@ function Form ({ initialValue, children, onSubmitted }: FormProps) {
         setActiveEndTime,
         setActiveOnWeekends,
         setTimezone,
+        setCnam,
         isSubmitting,
         isClean
       }}

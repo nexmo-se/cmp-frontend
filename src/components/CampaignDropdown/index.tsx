@@ -12,9 +12,10 @@ interface CampaignDropdownProps {
   value?: Campaign;
   onChange?: OnChange;
   disabled?: boolean;
+  status?: string;
 }
 
-function CampaignDropdown ({ label, value, onChange, ...props }: CampaignDropdownProps) {
+function CampaignDropdown ({ status = "all", label, value, onChange, ...props }: CampaignDropdownProps) {
   const { campaigns } = useCampaign();
 
   function handleChange (campaignId: string) {
@@ -22,6 +23,15 @@ function CampaignDropdown ({ label, value, onChange, ...props }: CampaignDropdow
     const foundCampaign = lodash(campaigns).find({ id: campaignId });
     if (!foundCampaign) return;
     if (onChange) onChange(foundCampaign);
+  }
+
+  function filterCampaign (campaigns: Campaign[]) {
+    if (!campaigns) return [];
+    if (status === "all" ) return campaigns;
+
+    const filteredCampaigns = lodash(campaigns).filter({ status }).value();
+    if (filteredCampaigns) return filteredCampaigns;
+    else return [];
   }
 
   return (
@@ -33,7 +43,7 @@ function CampaignDropdown ({ label, value, onChange, ...props }: CampaignDropdow
     >
       <option>--- Please Select ---</option>
       {
-        campaigns?.map(
+        filterCampaign(campaigns ?? []).map(
           (campaign) => {
             return (
               <option

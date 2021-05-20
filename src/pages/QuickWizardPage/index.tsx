@@ -40,6 +40,7 @@ function QuickWizardPage () {
             label="Select your campaign"
             value={selectedCampaign}
             onChange={setSelectedCampaign}
+            status="draft"
           />
           <div className="Vlt-grid Vlr-grid--narrow">
             <div className="Vlt-col Vlt-col--A">

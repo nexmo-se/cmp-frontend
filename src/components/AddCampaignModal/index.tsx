@@ -9,7 +9,7 @@ import Modal from "components/Modal";
 
 interface AddCampaignModalProps {
   campaign?: Campaign;
-  type?: "default" | "number_insight";
+  type?: ModalType;
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
   onAdded?: () => void;
