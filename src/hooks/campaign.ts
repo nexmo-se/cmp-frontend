@@ -37,7 +37,7 @@ function useCampaign () {
       activeEndHour: options.activeEndHour,
       activeEndMinute: options.activeEndMinute,
       activeOnWeekends: options.activeOnWeekends,
-      cnam: options.cnam,
+      niCnam: options.cnam,
       timezone: options.timezone
     });
 

@@ -1,3 +1,5 @@
+import lodash from "lodash";
+
 interface Constructor {
   id: string;
   name: string;
@@ -7,6 +9,8 @@ interface Constructor {
   submitted?: number;
   delivered?: number;
   read?: number;
+  success?: number;
+  error?: number;
 
   // This status is for voice
   busy?: number;
@@ -30,6 +34,8 @@ class Report {
   submitted?: number;
   delivered?: number;
   read?: number;
+  success?: number;
+  error?: number;
 
   // This status is for voice
   busy?: number;
@@ -52,6 +58,8 @@ class Report {
     this.delivered = args.delivered;
     this.rejected = args.rejected;
     this.read = args.read;
+    this.success = args.success;
+    this.error = args.error;
     this.busy = args.busy;
     this.cancelled = args.cancelled;
     this.unanswered = args.unanswered;
@@ -78,7 +86,9 @@ class Report {
       "timeout",
       "total",
       "completed",
-      "requested"
+      "requested",
+      "success",
+      "error"
     ];
 
     const givenSummaries = Object.keys(summaries);
@@ -103,7 +113,8 @@ class Report {
       price: parseFloat(data.price)
     });
 
-    report.setSummaries(data.summary);
+    const lowerCaseSummary = lodash(data.summary).mapKeys((value: number, key: string) => key.toLowerCase()).value();
+    report.setSummaries(lowerCaseSummary);
     return report;
   }
 }

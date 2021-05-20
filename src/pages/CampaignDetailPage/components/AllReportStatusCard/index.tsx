@@ -4,6 +4,7 @@ import Row from "./components/Row";
 
 function AllReportStatusCard () {
   const { report } = useReportData();
+  console.log(report);
 
   if (!report) return null;
   else {
@@ -16,9 +17,9 @@ function AllReportStatusCard () {
           <Row label="Submitted" value={report.submitted} />
           <Row label="Read" value={report.read} />
           <Row label="Delivered" value={report.delivered} />
-          <Row label="Rejected" value={report.rejected} />
+          <Row label="Rejected" value={report.rejected ?? report.error} />
           <Row label="Requested" value={report.requested} />
-          <Row label="Completed" value={report.completed} />
+          <Row label="Completed" value={report.completed ?? report.success} />
           <Row label="Unanswered" value={report.unanswered} />
           <Row label="Busy" value={report.busy} />
           <Row label="Cancelled" value={report.cancelled} />

@@ -10,13 +10,13 @@ function CompletedCard () {
   else {
     return (
       <StatsCard
-        visible={report.completed !== undefined}
+        visible={(report.completed !== undefined || report.success !== undefined)}
         iconName="Vlt-icon-check-bold"
         backgroundColor="Vlt-gradient--blue-to-purple"
         label="COMPLETED"
         value={(
           <StatsNumber
-            left={report.completed ?? 0}
+            left={report.completed ?? report.success ?? 0}
             right={report.total ?? 0}
           />
         )}

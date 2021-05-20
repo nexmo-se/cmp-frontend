@@ -93,7 +93,7 @@ class Campaign{
       activeEndHour: parseInt(response.activeEndHour),
       activeEndMinute: parseInt(response.activeEndMinute),
       activeOnWeekends: response.activeOnWeekends,
-      cnam: response.cnam,
+      cnam: response.niCnam,
       timezone: response.timezone,
       statusAudits: response.cmpCampaignStatusAudits && generateStatusAudits(response.cmpCampaignStatusAudits)
     });

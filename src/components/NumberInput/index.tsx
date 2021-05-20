@@ -13,6 +13,7 @@ interface NumberInputProps {
 function NumberInput ({ label, value, setValue, disabled }: NumberInputProps) {
   function handleSetValue (value: string) {
     if (!setValue) return;
+    if (value === "") setValue(0);
     if (!validator.isNumeric(value)) return;
 
     setValue(parseInt(value));
