@@ -2,6 +2,7 @@ import validator from "validator";
 import { createContext, SetStateAction, Dispatch, FormEvent } from "react";
 
 import useChannel from "hooks/channel";
+import useTemplate from "hooks/template";
 import useError from "hooks/error";
 import { useContext, useState, useEffect } from "react";
 
@@ -43,6 +44,7 @@ function FormProvider ({ onSubmitted, onError, children }: FormProviderProps) {
   const [isClean, setIsClean] = useState<boolean>(false);
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const { create: createChannel } = useChannel();
+  const { create: createTemplate } = useTemplate();
   const { throwError } = useError();
 
   function clearInput () {
@@ -58,7 +60,7 @@ function FormProvider ({ onSubmitted, onError, children }: FormProviderProps) {
     e.preventDefault();
     setIsAdding(true);
     try {
-      await createChannel({
+      const newChannel = await createChannel({
         name,
         channel,
         smsUseSignature: false,
@@ -66,7 +68,19 @@ function FormProvider ({ onSubmitted, onError, children }: FormProviderProps) {
         tps,
         apiKey,
         application 
-      })
+      });
+
+      // If the selected channel is number_insight
+      // do something special
+      if (channel === "number_insight") {
+        await createTemplate({
+          body: "",
+          channel: newChannel,
+          name: `[AUTO_GENERATED] NI_${newChannel.name}`,
+          mediaType: "none"
+        });
+      }
+      
       clearInput();
       if (onSubmitted) onSubmitted();
     } catch (err) {

@@ -1,10 +1,10 @@
 import lodash from "lodash";
-import { cloneElement, createContext, Dispatch, SetStateAction, useContext } from "react";
-import { useState } from "react";
+import { cloneElement, createContext, Dispatch, SetStateAction } from "react";
+import { useState, useContext } from "react";
 
 interface StepContextProps {
-  funnel: string;
-  setFunnel: Dispatch<SetStateAction<string>>;
+  funnel: FunnelType;
+  setFunnel: Dispatch<SetStateAction<FunnelType>>;
 }
 
 interface StepProviderProps {
@@ -14,7 +14,7 @@ interface StepProviderProps {
 export const StepContext = createContext<StepContextProps>({} as StepContextProps);
 
 function StepProvider ({ children }: StepProviderProps) {
-  const [funnel, setFunnel] = useState<string>("sms");
+  const [funnel, setFunnel] = useState<FunnelType>("sms");
 
   function renderChildren (children: any) {
     // children might have acceptedFunnel props

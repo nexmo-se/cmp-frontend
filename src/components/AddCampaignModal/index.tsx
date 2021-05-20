@@ -9,12 +9,13 @@ import Modal from "components/Modal";
 
 interface AddCampaignModalProps {
   campaign?: Campaign;
+  type?: "default" | "number_insight";
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
   onAdded?: () => void;
 }
 
-function AddCampaignModal ({ campaign, visible, setVisible, onAdded }: AddCampaignModalProps){
+function AddCampaignModal ({ type = "default", campaign, visible, setVisible, onAdded }: AddCampaignModalProps){
 
   function toggleModal () {
     setVisible(
@@ -37,7 +38,7 @@ function AddCampaignModal ({ campaign, visible, setVisible, onAdded }: AddCampai
           <h4>Add New Campaign</h4>
         </Modal.Header>
         <Modal.Content>
-          <FormContent />
+          <FormContent type={type} />
         </Modal.Content>
         <Modal.Footer>
           <CancelButton onClick={toggleModal} />

@@ -1,0 +1,1 @@
+type FunnelType = "sms" | "social-channel" | "voice" | "number-insight";

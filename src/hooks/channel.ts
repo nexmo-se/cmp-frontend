@@ -41,8 +41,11 @@ function useChannel () {
       cmpApplicationId: args.application?.id
     })));
     
-    await FetchAPI.post({ url, token, body });
+    const response = await FetchAPI.post({ url, token, body });
     await mutate();
+    
+    const newChannel = Channel.fromResponse(response);
+    return newChannel;
   }
 
   async function remove ({ id }: RemoveOptions) {

@@ -10,7 +10,7 @@ interface ChannelSelectionStepProps {
 }
 
 interface OptionItem {
-  value: string;
+  value: FunnelType;
   label: string;
 }
 
@@ -23,6 +23,10 @@ function ChannelSelectionStep ({ number }: ChannelSelectionStepProps) {
     { value: "number-insight", label: "Number Insight" }
   ]);
 
+  function handleOnChange (value: string) {
+    setFunnel(value as FunnelType);
+  }
+
   return (
     <div className={styles.container}>
       <div>
@@ -32,7 +36,7 @@ function ChannelSelectionStep ({ number }: ChannelSelectionStepProps) {
       <Dropdown 
         className={styles.dropdown}
         value={funnel} 
-        setValue={setFunnel}
+        setValue={handleOnChange}
       >
         {
           items.map(
