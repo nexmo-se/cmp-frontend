@@ -8,7 +8,6 @@ interface EditProps {
 }
 
 function EditCard ({ template }: EditProps) {
-  console.log(template);
   return (
     <div className="Vlt-card Vlt-card--border">
       <Form

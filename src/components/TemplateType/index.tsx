@@ -111,11 +111,11 @@ function TemplateType( { mediaType, content, channel, onMediaTypeChange, onConte
                   return (
                     <Button 
                       key={typeData.id}
+                      type="primary"
                       className={
                         clsx({
-                          "Vlt-grey": true,
+                          "Vlt-grey": selectedType !== typeData.id,
                           "Vlt-btn_active": selectedType === typeData.id,
-                          "Vlt-grey-darker": selectedType === typeData.id
                         })
                       }
                       onClick={() => setSelectedType(typeData.id)}

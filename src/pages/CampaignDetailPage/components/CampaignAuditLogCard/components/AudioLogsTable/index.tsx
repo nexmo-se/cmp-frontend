@@ -62,11 +62,14 @@ function AuditLogsTable () {
       </div>
       {
         logs.slice(0, 5).map((log) => {
-          const time = log.statusTime.toLocaleString(DateTime.DATETIME_FULL);
+          const time = log.statusTime.toLocaleString(DateTime.DATETIME_MED);
           const statusColor = generateStatusColor({ status: log.status });
 
           return (
-            <Row label={time}>
+            <Row
+              key={log.id}
+              label={time}
+            >
               <p className={statusColor}>
                 <b>{lodash(log.status).startCase()}</b>
               </p>

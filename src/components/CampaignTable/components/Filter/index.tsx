@@ -8,8 +8,8 @@ interface FilterProps {
 }
 
 function Filter ({ onChange }: FilterProps) {
-  const [filter, setFilter] = useState("draft");
   const [cookies, setCookies] = useCookies([ "campaign_filter" ]);
+  const [filter, setFilter] = useState<string>(cookies.campaign_filter ?? "draft");
   const filters = [
     { id: "all", label: "All" },
     { id: "draft", label: "Draft" },
@@ -21,20 +21,14 @@ function Filter ({ onChange }: FilterProps) {
 
   useEffect(
     () => {
-      if (!onChange) return;
-
       setCookies("campaign_filter", filter, { path: "/" })
+
+      if (!onChange) return;
       onChange(filter);
     },
     [filter, onChange, setCookies]
   );
 
-  useEffect(
-    () => {
-      setFilter(cookies.campaign_filter ?? "draft");
-    },
-    [cookies.campaign_filter]
-  )
 
   return (
     <div className="Vlt-btn-group Vlt-btn-group--app">
@@ -42,6 +36,7 @@ function Filter ({ onChange }: FilterProps) {
         filters.map(
           (filterData) => (
             <FilterButton
+              key={filterData.id}
               id={filterData.id}
               currentFilter={filter}
               label={filterData.label}

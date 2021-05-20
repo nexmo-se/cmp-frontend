@@ -41,6 +41,17 @@ function Form ({ children, onSubmitted }: FormProps) {
   const { throwError } = useError();
   const { create } = useTemplate();
 
+  function cleanInput () {
+    setName("");
+    setMediaType("");
+    setChannel(undefined);
+    setContent({
+      body: "",
+      whatsappTemplateName: "",
+      whatsappTemplateNamespace: ""
+    });
+  }
+
   async function handleSubmit (e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!isClean) return;
@@ -58,6 +69,7 @@ function Form ({ children, onSubmitted }: FormProps) {
         whatsappTemplateNamespace: content.whatsappTemplateNamespace,
         channel
       });
+      cleanInput();
       if (onSubmitted) onSubmitted();
     } catch (err) {
       throwError(err);

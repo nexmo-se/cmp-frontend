@@ -31,6 +31,7 @@ function StepProvider ({ children }: StepProviderProps) {
         renderedIndex += 1;
         return cloneElement(child, {
           ...child.props,
+          key: `StepProvider-${index}`,
           number: renderedIndex
         })
       }

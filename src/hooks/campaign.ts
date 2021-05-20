@@ -57,6 +57,7 @@ function useCampaign () {
   return {
     campaigns,
     create,
+    mutate,
     isLoading: !campaigns && !error
   }
 }

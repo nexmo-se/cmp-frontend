@@ -36,6 +36,13 @@ function Form ({ children, onSubmitted }: FormProps) {
   const { throwError } = useError();
   const { create } = useApplication();
 
+  function cleanInput () {
+    setName("");
+    setApplicationId("");
+    setPrivateKey(undefined);
+    setApiKey(undefined);
+  }
+
   function extractPrivateKey (): Promise<any> {
     return new Promise(
       (resolve, reject) => {
@@ -66,6 +73,7 @@ function Form ({ children, onSubmitted }: FormProps) {
         apiKey,
         privateKey
       });
+      cleanInput();
       if (onSubmitted) onSubmitted();
     } catch (err) {
       throwError(err);

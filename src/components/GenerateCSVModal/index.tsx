@@ -25,8 +25,8 @@ function GenerateCSVModal ({ visible, setVisible, campaign }: GenerateCSVModalPr
   const [selectedCampaign, setSelectedCampaign] = useState<Campaign>(campaign);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [isClean, setIsClean] = useState<boolean>(true);
-  const { throwError } = useError();
   const { template: foundTemplate } = useSingleTemplate({ id: selectedTemplate?.id ?? undefined })
+  const { throwError } = useError();
 
   function handleCancel () {
     setVisible(false);
@@ -62,10 +62,10 @@ function GenerateCSVModal ({ visible, setVisible, campaign }: GenerateCSVModalPr
     () => {
       setIsClean(
         selectedCampaign !== undefined &&
-        selectedTemplate !== undefined
+        foundTemplate !== undefined
       )
     },
-    [selectedCampaign, selectedTemplate]
+    [selectedCampaign, foundTemplate]
   )
 
   return (
@@ -93,7 +93,7 @@ function GenerateCSVModal ({ visible, setVisible, campaign }: GenerateCSVModalPr
         <Button 
           type="tertiary" 
           onClick={handleCancel}
-          disabled={isGenerating || !isClean}
+          disabled={isGenerating}
         >
           Cancel
         </Button>

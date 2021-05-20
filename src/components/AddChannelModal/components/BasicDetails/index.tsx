@@ -44,6 +44,7 @@ function BasicDetails ({ disabledChannels }: BasicDetailsProps) {
               Channel.acceptedChannel.map(
                 (channel) => (
                   <option
+                    key={channel}
                     value={channel}
                     disabled={
                       (disabledChannels)

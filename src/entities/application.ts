@@ -35,7 +35,7 @@ class Application {
       applicationId: response.applicationId,
       privateKey: response.privateKey,
       channels: response.cmpChannels && lodash(response.cmpChannels).map(Channel.fromResponse).value(),
-      apiKey: ApiKey.fromResponse(response.cmpApiKey)
+      apiKey: response.cmpApiKey && ApiKey.fromResponse(response.cmpApiKey)
     });
   }
 }

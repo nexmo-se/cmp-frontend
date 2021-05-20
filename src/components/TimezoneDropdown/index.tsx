@@ -19,7 +19,14 @@ function TimezoneDropdown ({ label, value, setValue }: TimezoneDropdownProps) {
       {
         data.map(
           (tz) => {
-            return <option value={tz}>{tz}</option>
+            return (
+              <option
+                value={tz}
+                key={tz}
+              >
+                {tz}
+              </option>
+            )
           }
         )
       }

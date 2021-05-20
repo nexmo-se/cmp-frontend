@@ -61,8 +61,8 @@ function Form ({ children, onSubmitted }: FormProps) {
     () => {
       setIsClean(
         !validator.isEmpty(name) &&
-        !validator.isEmail(apiKey) &&
-        !validator.isEmail(apiSecret)
+        !validator.isEmpty(apiKey) &&
+        !validator.isEmpty(apiSecret)
       )
     },
     [name, apiKey, apiSecret]

@@ -1,6 +1,8 @@
 import Campaign from "entities/campaign";
 
 import useError from "hooks/error";
+import useCampaign from "hooks/campaign";
+import { useModals } from "../Modals";
 import { useSingleCampaign } from "hooks/single-campaign";
 
 import ButtonIcon from "components/ButtonIcon";
@@ -14,13 +16,19 @@ interface StartButtonProps {
 
 function StartButton ({ campaign }: StartButtonProps) {
   const { updateStatus } = useSingleCampaign({ id: campaign?.id ?? undefined });
+  const { mutate } = useCampaign();
+  const { showLoading, hideLoading } = useModals();
   const { throwError } = useError();
 
   async function handleClick(){
     try {
+      showLoading({ label: "Starting campaign" });
       await updateStatus({ status: "pending" });
+      await mutate();
     } catch (err) {
       throwError(err);
+    } finally {
+      hideLoading()
     }
   }
 

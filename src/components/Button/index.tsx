@@ -13,9 +13,9 @@ export interface ButtonProps {
 
 function Button (props: ButtonProps) {
   const { 
-    children, 
-    type, 
-    onClick, 
+    children,
+    type = "tertiary",
+    onClick,
     disabled,
     className,
     buttonStyle = "app",

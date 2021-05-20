@@ -63,12 +63,12 @@ function UploadRecordModal ({ visible, setVisible, campaign, onUploaded }: Uploa
   useEffect(
     () => {
       setIsClean(
-        selectedCampaign !== undefined &&
-        selectedTemplate !== undefined &&
+        foundCampaign !== undefined &&
+        foundTemplate !== undefined &&
         file !== undefined
       );
     },
-    [selectedCampaign, selectedTemplate, file]
+    [foundTemplate, foundCampaign, file]
   )
   
   return (
@@ -84,6 +84,7 @@ function UploadRecordModal ({ visible, setVisible, campaign, onUploaded }: Uploa
           label="Campaign"
           value={selectedCampaign}
           onChange={setSelectedCampaign}
+          disabled
         />
         <TemplateDropdown 
           label="Template"
