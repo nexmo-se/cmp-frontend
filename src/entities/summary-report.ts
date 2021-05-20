@@ -1,5 +1,3 @@
-import lodash from "lodash";
-
 interface Constructor {
   id: string;
   name: string;
