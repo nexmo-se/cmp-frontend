@@ -1,0 +1,1 @@
+export type ChannelType = "sms" | "whatsapp" | "viber" | "voice" | "number_insight";

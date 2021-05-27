@@ -1,0 +1,8 @@
+.container {
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.medium_width {
+  width: 60%
+}
