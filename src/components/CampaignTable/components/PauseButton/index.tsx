@@ -21,8 +21,8 @@ function PauseButton ({ campaign }: PauseButtonProps) {
     try {
       await updateStatus({ status: "paused" });
       await mutate();
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     }
   }
 

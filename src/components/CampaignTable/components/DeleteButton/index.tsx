@@ -23,7 +23,7 @@ function DeleteButton ({ campaign }: DeleteButtonProps) {
       await remove();
       await mutate();
     } catch(err) {
-      throwError(err);
+      throwError(err as Error);
     } finally {
       hideLoading();
     }

@@ -22,8 +22,8 @@ function DeleteButton ({ channel }: DeleteButtonProps) {
     try {
       setIsDeleting(true);
       await remove({ id: channel.id })
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       setIsDeleting(false);
     }

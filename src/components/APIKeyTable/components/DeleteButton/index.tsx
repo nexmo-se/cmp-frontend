@@ -22,7 +22,7 @@ function DeleteButton ({ apiKey }: DeleteButtonProps) {
       setIsDeleting(true);
       await remove(apiKey.id);
     } catch(err) {
-      throwError(err);
+      throwError(err as Error);
     } finally {
       setIsDeleting(false);
     }

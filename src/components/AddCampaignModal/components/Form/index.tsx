@@ -100,8 +100,8 @@ function Form ({ initialValue, children, onSubmitted }: FormProps) {
 
       cleanInput();
       if (onSubmitted) onSubmitted();
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       setIsSubmitting(false);
     }

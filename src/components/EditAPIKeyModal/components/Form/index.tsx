@@ -42,8 +42,8 @@ function Form ({ onSubmitted, children, defaultValue }: FormProps) {
         { name }
       )
       if (onSubmitted) onSubmitted();
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       setIsSubmitting(false);
     }

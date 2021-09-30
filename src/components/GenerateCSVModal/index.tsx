@@ -43,8 +43,8 @@ function GenerateCSVModal ({ visible, setVisible, campaign }: GenerateCSVModalPr
       link.setAttribute("href", encodeURI(csvContent));
       link.setAttribute("download", `${selectedCampaign.id}#${foundTemplate.id}.csv`)
       link.click();
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       setIsGenerating(false);
       setVisible(false);

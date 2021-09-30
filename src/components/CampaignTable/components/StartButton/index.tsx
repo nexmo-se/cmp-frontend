@@ -25,8 +25,8 @@ function StartButton ({ campaign }: StartButtonProps) {
       showLoading({ label: "Starting campaign" });
       await updateStatus({ status: "pending" });
       await mutate();
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       hideLoading()
     }

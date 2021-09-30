@@ -24,8 +24,8 @@ function LoginForm () {
     try {
       setIsSubmitting(true);
       await login({ username, password });
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
       setIsSubmitting(false);
     }
   }

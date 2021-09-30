@@ -51,8 +51,8 @@ function UploadRecordModal ({ visible, setVisible, campaign, onUploaded }: Uploa
       await uploadCSV(foundCampaign, foundTemplate, file);
       throwSuccess(new SuccessMessage("File uploaded!"));
       if (onUploaded) onUploaded(foundCampaign, foundTemplate);
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       setVisible(false);
       setIsUploading(false);

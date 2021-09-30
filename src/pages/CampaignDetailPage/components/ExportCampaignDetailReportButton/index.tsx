@@ -35,8 +35,8 @@ function ExportCampaignDetailReportButton () {
       link.click();
       link.parentNode?.removeChild(link);
       throwSuccess(new SuccessMessage("Your download is starting"));
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       setExporting(false);
     }

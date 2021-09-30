@@ -82,8 +82,8 @@ function FormProvider ({ onSubmitted, children }: FormProviderProps) {
       
       clearInput();
       if (onSubmitted) onSubmitted();
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       setIsAdding(false);
     }

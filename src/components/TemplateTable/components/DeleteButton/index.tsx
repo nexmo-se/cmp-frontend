@@ -20,8 +20,8 @@ function DeleteButton ({ template }: DeleteButtonProps) {
     try{ 
       setIsDeleting(true);
       await remove({ id: template.id });
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       setIsDeleting(false);
     }

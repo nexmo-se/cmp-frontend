@@ -62,8 +62,8 @@ function Form ({ templateId, children, onSubmitted, initialValue }: FormProps) {
       throwSuccess(message);
 
       if (onSubmitted) onSubmitted();
-    } catch (err) {
-      throwError(err);
+    } catch (err: unknown) {
+      throwError(err as Error);
     } finally {
       setIsSubmitting(false);
     }
